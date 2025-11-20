@@ -1,0 +1,7 @@
+#Thu Nov 20 12:14:37 CET 2025
+org.modelio.app.diagram.editor.OpenedDiagrams0='DIAGRAMME DE CAS D\u2019UTILISATION \u2014 VUE G\u00C9N\u00C9RALE' {2c7d86f7-3248-468a-a93b-20431c013258} Standard.UseCaseDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams3='DIAGRAMME DE CAS D'UTILISATION - Participation aux \u00E9v\u00E9nements' {b1ff5452-332a-471c-847a-d74418d007e6} Standard.UseCaseDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams4='DIAGRAMME DE CAS D'UTILISATION - Newsletter' {781b0336-4349-4503-a6bd-a2f67f3cdf79} Standard.UseCaseDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams1='DIAGRAMME DE CAS D'UTILISATION - Gestion des comptes & authentification' {4a9c91be-1909-4304-904c-0cc9364d02e5} Standard.UseCaseDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams2='DIAGRAMME DE CAS D'UTILISATION - Consultation du site' {93b18637-8465-47ca-9589-860d5886ce36} Standard.UseCaseDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams5='DIAGRAMME DE CAS D'UTILISATION - Export & gestion des donn\u00E9es' {0edd1943-ac88-4fbe-b728-148b375a5499} Standard.UseCaseDiagram
