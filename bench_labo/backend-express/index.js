@@ -10,5 +10,11 @@ app.get('/api/products', (req, res) => {
   res.json([{ id: 1, name: 'Product 1', price: 10 }]);
 });
 
+
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('Express running on port ' + port));

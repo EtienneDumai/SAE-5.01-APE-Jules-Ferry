@@ -1,0 +1,17 @@
+{
+  "name": "db-bench-app",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.0",
+    "mongodb": "^6.9.0",
+    "mysql2": "^3.10.0",
+    "pg": "^8.12.0"
+  }
+}
