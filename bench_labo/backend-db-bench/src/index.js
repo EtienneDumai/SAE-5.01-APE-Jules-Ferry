@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ====== ENV / CONFIG (adapté à ton docker-compose) ======
+// ====== ENV / CONFIG ======
 const MYSQL_HOST = process.env.MYSQL_HOST || 'mysql';
 const MYSQL_USER = process.env.MYSQL_USER || 'app';
 const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || 'app';
@@ -49,7 +49,7 @@ async function initMongo() {
   mongoDb = mongoClient.db(MONGO_DB_NAME);
   console.log('Mongo connected');
 }
-initMongo().catch(console.error);
+initMongo().catch((err) => console.error('Mongo init error:', err));
 
 // ====== UTIL ======
 function parseLimitOffset(req) {
@@ -115,3 +115,4 @@ app.get('/health', (req, res) => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('DB bench app listening on port ' + port);
+});

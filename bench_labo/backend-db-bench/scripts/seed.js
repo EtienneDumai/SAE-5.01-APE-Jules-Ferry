@@ -41,6 +41,7 @@ async function seedMysql() {
     user: MYSQL_USER,
     password: MYSQL_PASSWORD,
     database: MYSQL_DB,
+     multipleStatements: true,   // <--- AJOUT IMPORTANT
   });
 
   const schemaPath = path.join(__dirname, '../sql/mysql_schema.sql');
