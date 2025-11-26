@@ -1,5 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+const API_URL = 'http://localhost:3003/api/products';
+
 </script>
 
 <template>

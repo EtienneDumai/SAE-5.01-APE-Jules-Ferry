@@ -1,6 +1,9 @@
 version: "3.9"
 
 services:
+  # ==========================
+  # =        OUTILS          =
+  # ==========================
   db-bench-app:
     build: ./backend-db-bench
     container_name: bench-db-bench-app
@@ -24,12 +27,6 @@ services:
       - "4003:3000"
     networks:
       - bench-net
-
-  # ==========================
-  # =       DATABASES        =
-  # ==========================
-  # =       DATABASES        =
-  # ==========================
   k6:
     image: grafana/k6
     container_name: bench-k6
@@ -39,6 +36,9 @@ services:
     networks:
       - bench-net
 
+  # ==========================
+  # =       DATABASES        =
+  # ==========================
   mysql:
     image: mysql:8
     container_name: bench-mysql
@@ -84,6 +84,15 @@ services:
   # ==========================
   # =        BACKENDS        =
   # ==========================
+
+  backend-express-front:
+    build: ./backend-express-front
+    container_name: bench-backend-express-front
+    restart: unless-stopped
+    ports:
+      - "3003:3000"   # <--- nouveau port host
+    networks:
+      - bench-net
 
   backend-laravel:
     build: ./backend-laravel
