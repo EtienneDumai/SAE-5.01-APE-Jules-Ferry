@@ -1,10 +1,11 @@
 # Preparer son environnement de benchmarking
 - Build les applications frontend en mode production (React, Vue et Angular) :
 ```bash
-    cd frontend-react && npm i && npm run build && cd .. 
-    && cd frontend-vue && npm i && npm run build && cd ..
-    && cd frontend-angular && npm i && ng build --prod && cd ..
-    && npm i 
+    cd frontend-react && npm i && npm run build && cd .. && \
+    cd frontend-vue && npm i && npm run build && cd .. && \
+    cd frontend-angular && npm i && ng build --prod && cd .. && \
+    npm i
+
 ```
 - Lancer le docker compose : 
 ```bash
