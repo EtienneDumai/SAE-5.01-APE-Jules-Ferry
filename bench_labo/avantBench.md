@@ -3,7 +3,7 @@
 ```bash
     cd frontend-react && npm i && npm run build && cd .. && \
     cd frontend-vue && npm i && npm run build && cd .. && \
-    cd frontend-angular && npm i && ng build --prod && cd .. && \
+    cd frontend-angular && npm i && ng build --configuration production && cd .. && \
     npm i
 
 ```

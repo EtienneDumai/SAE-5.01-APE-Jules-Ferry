@@ -30,6 +30,10 @@ show_menu() {
   echo "------------------------------"
   echo " 7) Benchmark Front (React + Vue + Angular)"
   echo "------------------------------"
+  echo " 8) Lancer le docker compose si ce n'est pas déjà fait"
+  echo "------------------------------"
+  echo " 9) Arrêter le docker compose"
+  echo "------------------------------"
   echo " 0) Quitter"
   echo "=============================="
   echo -n "Votre choix : "
@@ -114,6 +118,26 @@ while true; do
     7)
       # Frontend (Playwright)
       run_front_bench
+      ;;
+    8)
+      echo ""
+      echo ">>> Lancement du docker compose..."
+      echo ""
+      docker-compose up --build -d
+      echo ""
+      echo ">>> Docker compose lancé."
+      echo ""
+      read -p "Appuyez sur [Entrée] pour revenir au menu..."
+      ;;
+    9)
+      echo ""
+      echo ">>> Arrêt du docker compose..."
+      echo ""
+      docker-compose down
+      echo ""
+      echo ">>> Docker compose arrêté."
+      echo ""
+      read -p "Appuyez sur [Entrée] pour revenir au menu..."
       ;;
     0)
       echo "Au revoir 👋"
