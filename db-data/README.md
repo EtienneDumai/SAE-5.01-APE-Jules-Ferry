@@ -1,0 +1,1 @@
+Ajout du dossier db-data/ qui contiendra les données persistantes de la base de données dans un environnement Docker.
