@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('formulaires', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id_formulaire')->autoIncrement();
+            $table->string('nom_formulaire', 100);
+            $table->string('description', 300);
+            $table->dateTime('date_creation')->nullable();
+            
             $table->timestamps();
         });
     }

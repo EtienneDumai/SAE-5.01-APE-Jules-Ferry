@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('creneaux', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id_creneau')->autoIncrement();
+            $table->dateTime('heure_debut');
+            $table->dateTime('heure_fin');
+            $table->integer('quota');
             $table->timestamps();
         });
     }

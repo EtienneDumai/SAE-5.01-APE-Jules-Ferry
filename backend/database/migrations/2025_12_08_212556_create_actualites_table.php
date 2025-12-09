@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('image_url');
             $table->dateTime('date_publication');
             $table->dateTime('date_creation');
-            $table->string('statut')->default('brouillon');
+            $table->enum('statut', ['brouillon', 'publie', 'archive'])->default('brouillon');
             $table->foreign('id_utilisateur')->references('id_utilisateur')->on('utilisateurs')->onDelete('cascade');
             $table->timestamps();
         });

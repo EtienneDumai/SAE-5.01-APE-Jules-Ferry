@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('inscriptions', function (Blueprint $table) {
-            $table->id();
+            $table->dateTime('date_inscription');
+            $table->string('commentaire');
             $table->timestamps();
         });
     }

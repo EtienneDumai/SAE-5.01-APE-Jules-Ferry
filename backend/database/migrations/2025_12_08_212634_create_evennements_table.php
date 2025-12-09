@@ -12,7 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('evennements', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id_evenement')->autoIncrement();
+            $table->string('titre');
+            $table->string('description');
+            $table->dateTime('date_evennement');
+            $table->dateTime('heure_debut');
+            $table->dateTime('heure_fin');
+            $table->string('lieu');
+            $table->string('image_url');
+            $table->dateTime('date_creation');
+            $table->enum('statut', ['brouillon', 'publie', 'termine','annule'])->default('brouillon');
+            //relation à faire avec utilisateurs et formulaires plus tard
             $table->timestamps();
         });
     }
