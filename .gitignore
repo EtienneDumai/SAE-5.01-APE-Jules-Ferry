@@ -1,2 +1,4 @@
 db-data/*
 !db-data/README.md
+.vscode/*
+.vscode/
