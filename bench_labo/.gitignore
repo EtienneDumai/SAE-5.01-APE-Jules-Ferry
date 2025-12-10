@@ -1,0 +1,19 @@
+# Ignorer tous les node_modules de tous les projets
+**/node_modules/
+
+# Ignorer les lock files JS si tu veux alléger
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+
+# Ignorer vendor Laravel
+backend-laravel/vendor/
+backend-laravel/storage/
+
+# Ignorer les environnements
+**/.env
+
+# Ignorer les fichiers build
+**/dist/
+**/build/
+

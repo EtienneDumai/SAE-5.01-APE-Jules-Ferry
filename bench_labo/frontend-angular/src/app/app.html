@@ -1,0 +1,40 @@
+<div style="font-family: sans-serif; padding: 1rem;">
+  <h1>{{ title }}</h1>
+
+  <input
+    type="text"
+    placeholder="Rechercher un produit..."
+    [value]="query"
+    (input)="onQueryChange($event.target.value)"
+    style="padding: 0.5rem; width: 100%; max-width: 400px; margin-bottom: 1rem;"
+  />
+
+  <p *ngIf="loading">Chargement...</p>
+  <p *ngIf="error" style="color: red;">{{ error }}</p>
+
+  <div style="display: flex; gap: 1rem;">
+    <div style="flex: 1;">
+      <div
+        *ngFor="let p of filtered"
+        (click)="selectProduct(p)"
+        style="border: 1px solid #ccc; padding: 0.5rem; margin-bottom: 0.5rem; cursor: pointer;"
+      >
+        <strong>{{ p.name }}</strong>
+        <div>Prix : {{ p.price }} €</div>
+        <div>Stock : {{ p.stock }}</div>
+      </div>
+    </div>
+
+    <div style="flex: 1;">
+      <h2>Détail</h2>
+      <ng-container *ngIf="selected; else noSelection">
+        <h3>{{ selected?.name }}</h3>
+        <p>Prix : {{ selected?.price }} €</p>
+        <p>Stock : {{ selected?.stock }}</p>
+      </ng-container>
+      <ng-template #noSelection>
+        <p>Cliquer sur un produit...</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

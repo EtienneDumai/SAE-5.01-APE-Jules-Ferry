@@ -1,0 +1,196 @@
+version: "3.9"
+
+services:
+  # ==========================
+  # =        OUTILS          =
+  # ==========================
+  db-bench-app:
+    build: ./backend-db-bench
+    container_name: bench-db-bench-app
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      MYSQL_DB: appdb
+      PG_HOST: postgres
+      PG_USER: app
+      PG_PASSWORD: app
+      PG_DB: appdb
+      MONGO_URL: mongodb://mongodb:27017
+      MONGO_DB: appdb
+    depends_on:
+      - mysql
+      - postgres
+      - mongodb
+    ports:
+      - "4003:3000"
+    networks:
+      - bench-net
+  k6:
+    image: grafana/k6
+    container_name: bench-k6
+    working_dir: /scripts
+    volumes:
+      - ./benchmarks:/scripts
+    networks:
+      - bench-net
+
+  # ==========================
+  # =       DATABASES        =
+  # ==========================
+  mysql:
+    image: mysql:8
+    container_name: bench-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - bench-net
+
+  postgres:
+    image: postgres:16
+    container_name: bench-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - bench-net
+
+  mongodb:
+    image: mongo:7
+    container_name: bench-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - bench-net
+
+  # ==========================
+  # =        BACKENDS        =
+  # ==========================
+
+  backend-express-front:
+    build: ./backend-express-front
+    container_name: bench-backend-express-front
+    restart: unless-stopped
+    ports:
+      - "3003:3000"   # <--- nouveau port host
+    networks:
+      - bench-net
+
+  backend-laravel:
+    build: ./backend-laravel
+    container_name: bench-backend-laravel
+    restart: unless-stopped
+    env_file:
+      - ./backend-laravel/.env.docker
+    # Ex: APP_ENV, DB_HOST=mysql, DB_DATABASE=appdb, DB_USERNAME=app, DB_PASSWORD=app
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000" # artisan serve --host=0.0.0.0 --port=8000 dans le Dockerfile
+    command: >
+      sh -c "php artisan migrate --force &&
+              php artisan serve --host=0.0.0.0 --port=8000"
+    networks:
+      - bench-net
+
+  backend-express:
+    build: ./backend-express
+    container_name: bench-backend-express
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: app
+      DB_PASSWORD: app
+      DB_NAME: appdb
+    depends_on:
+      - postgres
+    ports:
+      - "3001:3000" # app.listen(3000) dans le Dockerfile
+    networks:
+      - bench-net
+
+  backend-nest:
+    build: ./backend-nest
+    container_name: bench-backend-nest
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      MONGO_URI: mongodb://mongodb:27017/appdb
+    depends_on:
+      - mongodb
+    ports:
+      - "3002:3000" # Nest écoute sur 3000 dans le conteneur
+    networks:
+      - bench-net
+
+  # ==========================
+  # =       FRONTENDS        =
+  # ==========================
+
+  frontend-react:
+    build: ./frontend-react
+    container_name: bench-frontend-react
+    restart: unless-stopped
+    environment:
+      # à utiliser dans ton code (ex: import.meta.env.VITE_API_URL)
+      VITE_API_URL: http://backend-express:3000
+    depends_on:
+      - backend-express
+    ports:
+      - "4000:4173" # ex: npm run preview -- --port=4173
+    networks:
+      - bench-net
+
+  frontend-vue:
+    build: ./frontend-vue
+    container_name: bench-frontend-vue
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://backend-laravel:8000
+    depends_on:
+      - backend-laravel
+    ports:
+      - "4001:4173" # pareil, vue en mode preview 4173
+    networks:
+      - bench-net
+
+  frontend-angular:
+    build: ./frontend-angular
+    container_name: bench-frontend-angular
+    restart: unless-stopped
+    environment:
+      API_URL: http://backend-nest:3000
+    depends_on:
+      - backend-nest
+    ports:
+      - "4002:4200" # ng serve --host=0.0.0.0 --port=4200
+    networks:
+      - bench-net
+
+networks:
+  bench-net:
+
+volumes:
+  mysql_data:
+  pg_data:
+  mongo_data:
