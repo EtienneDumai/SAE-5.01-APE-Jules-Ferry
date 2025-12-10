@@ -12,6 +12,7 @@ show_menu() {
     echo " 3) Generer un composant Angular"
     echo " 4) Generer un service Angular"
     echo " 5) Generer un modele Angular"
+    echo " 6) Generer une page Angular"
     echo "------------------------------"
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "       Backend Laravel        "
@@ -32,6 +33,14 @@ generate_component_angular() {
     read component_name
     cd frontend && ng generate component components/"$component_name" && cd ..
     echo "Composant '$component_name' généré avec succès."
+    echo "Appuyez sur une touche pour continuer..."
+    read -n 1
+}
+generate_page_angular() {
+    echo -n "Entrez le nom de la page Angular à générer : "
+    read page_name
+    cd frontend && ng generate component pages/"$page_name" && cd ..
+    echo "Page '$page_name' générée avec succès."
     echo "Appuyez sur une touche pour continuer..."
     read -n 1
 }
@@ -86,6 +95,9 @@ while true; do
             ;;
         5)
             generate_model_angular
+            ;;
+        6)
+            generate_page_angular
             ;;
         11)
             cd backend && php artisan serve && cd ..
