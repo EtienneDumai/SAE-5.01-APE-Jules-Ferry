@@ -6,23 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('creneaux', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_creneau')->autoIncrement();
-            $table->dateTime('heure_debut');
-            $table->dateTime('heure_fin');
-            $table->integer('quota');
+            $table->id('id_creneau'); // Clé primaire
+            $table->time('heure_debut'); 
+            $table->time('heure_fin');
+            $table->integer('quota')->unsigned(); // nb places > 0
+            // FK
+            $table->foreignId('id_tache')
+                  ->constrained('taches', 'id_tache')
+                  ->onDelete('cascade'); // si tache suppr alors creneaux suppr aussi
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('creneaux');

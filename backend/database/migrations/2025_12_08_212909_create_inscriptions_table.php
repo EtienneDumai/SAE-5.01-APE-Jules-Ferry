@@ -6,21 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('inscriptions', function (Blueprint $table) {
-            $table->dateTime('date_inscription');
-            $table->string('commentaire');
-            $table->timestamps();
+            // clés étrangères (pour faire la clé primaire composite)
+            $table->foreignId('id_utilisateur')
+                  ->constrained('utilisateurs', 'id_utilisateur')
+                  ->onDelete('cascade'); // si utilisateur suppr, supprimer ses inscriptions  
+            $table->foreignId('id_creneau')
+                  ->constrained('creneaux', 'id_creneau')
+                  ->onDelete('cascade'); // si creneau supprimé, supprimer les inscriptions associées
+            // Clé primaire composite
+            $table->primary(['id_utilisateur', 'id_creneau']);
+            // Attributs
+            $table->text('commentaire')->nullable();
+            $table->timestamps(); // created_at = date_inscription
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('inscriptions');

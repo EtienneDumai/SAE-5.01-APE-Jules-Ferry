@@ -6,24 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('taches', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_tache')->autoIncrement();
-            $table->string('nom_tache');
+            $table->id('id_tache'); // Clé primaire
+            $table->string('nom_tache', 100);
             $table->text('description')->nullable();
-            $table->dateTime('heure_debut_globale')->nullable();
-            $table->dateTime('heure_fin_globale')->nullable();
+            $table->time('heure_debut_global');
+            $table->time('heure_fin_globale');
+            $table->foreignId('id_formulaire')
+                  ->constrained('formulaires', 'id_formulaire')
+                  ->onDelete('cascade'); // si formulaire supprimé, supprimer toutes ses taches
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('taches');
