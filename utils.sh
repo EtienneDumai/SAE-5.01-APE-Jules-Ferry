@@ -22,6 +22,9 @@ show_menu() {
     echo " 12) Lancer le back en mode production"
     echo " 13) Generer un modele Laravel"
     echo " 14) Generer un modele Laravel avec migration"
+    echo " 15) Generer un controleur Laravel"
+    echo " 16) Generer un middleware Laravel"
+    echo "------------------------------"
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "        Base de données       "
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -81,6 +84,22 @@ generate_model_laravel_with_migration() {
     echo "Appuyez sur une touche pour continuer..."
     read -n 1
 }
+generate_controller_laravel() {
+    echo -n "Entrez le nom du contrôleur Laravel à générer : "
+    read controller_name
+    cd backend && php artisan make:controller "$controller_name" && cd ..
+    echo "Contrôleur '$controller_name' généré avec succès."
+    echo "Appuyez sur une touche pour continuer..."
+    read -n 1
+}
+generate_middleware_laravel() {
+    echo -n "Entrez le nom du middleware Laravel à générer : "
+    read middleware_name
+    cd backend && php artisan make:middleware "$middleware_name" && cd ..
+    echo "Middleware '$middleware_name' généré avec succès."
+    echo "Appuyez sur une touche pour continuer..."
+    read -n 1
+}
 while true; do
     show_menu
     read choice
@@ -115,6 +134,12 @@ while true; do
             ;;
         14)
             generate_model_laravel_with_migration
+            ;;
+        15)
+            generate_controller_laravel
+            ;;
+        16)
+            generate_middleware_laravel
             ;;
         21)
             docker run --name ape-postgres -d \
