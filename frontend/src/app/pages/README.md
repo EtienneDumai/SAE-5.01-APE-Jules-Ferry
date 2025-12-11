@@ -1,0 +1,2 @@
+# Dossier pages
+Ce dossier contient les différentes pages de l'application frontend. Chaque page correspond à une vue spécifique que l'utilisateur peut naviguer, telle que la page d'accueil, la page de profil, ou toute autre section importante de l'application. Les pages sont généralement composées de plusieurs composants réutilisables pour construire l'interface utilisateur.

@@ -35,6 +35,6 @@
     -e POSTGRES_USER=ape_user \
     -e POSTGRES_PASSWORD=ape_password \
     -p 5432:5432 \
-    -v ./db-data:/var/lib/postgresql/data \
+    -v ./db-data/:/var/lib/postgresql/data \
     postgres:16
     ```
