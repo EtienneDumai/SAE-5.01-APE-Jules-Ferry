@@ -14,7 +14,7 @@ return new class extends Migration
             $table->text('contenu');
             $table->string('image_url', 255)->nullable();
             $table->date('date_publication');
-            $table->string('statut', 20)->default('brouillon'); // brouillon, publié, archivé
+            $table->enum('statut', ['brouillon', 'publie', 'archive'])->default('brouillon');
             $table->foreignId('id_auteur') // Clé étrangère vers utilisateurs
                   ->constrained('utilisateurs', 'id_utilisateur')
                   ->onDelete('restrict');

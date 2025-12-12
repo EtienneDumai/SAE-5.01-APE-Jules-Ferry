@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('prenom', 50);
             $table->string('email', 100)->unique();
             $table->string('mot_de_passe', 255);
-            $table->string('role', 20)->default('parent'); // parent, membre_bureau, administrateur
-            $table->string('statut_compte', 20)->default('actif'); // actif, désactivé, suspendu
+            $table->enum('role', ['parent', 'membre_bureau', 'administrateur'])->default('parent');
+            $table->enum('statut_compte', ['actif', 'desactive', 'suspendu'])->default('actif');
             $table->timestamps();
         });
     }

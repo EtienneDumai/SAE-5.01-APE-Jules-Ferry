@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id('id_abonne'); // Clé primaire
             // Attributs
             $table->string('email', 100)->unique();
-            $table->string('statut', 20)->default('actif'); // actif, désinscrit
+            $table->enum('statut', ['actif', 'desinscrit'])->default('actif');
             $table->timestamps(); // created_at = date_inscription
         });
     }

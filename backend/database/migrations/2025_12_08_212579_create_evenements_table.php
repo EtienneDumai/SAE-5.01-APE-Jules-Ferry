@@ -17,7 +17,8 @@ return new class extends Migration
             $table->time('heure_fin');
             $table->string('lieu', 100);
             $table->string('image_url', 255)->nullable();
-            $table->string('statut', 20)->default('brouillon'); // brouillon, publié, terminé, annulé
+            $table->enum('statut', ['brouillon', 'publie', 'termine', 'annule'])->default('brouillon');
+
             // FK
             $table->foreignId('id_auteur')
                   ->constrained('utilisateurs', 'id_utilisateur')

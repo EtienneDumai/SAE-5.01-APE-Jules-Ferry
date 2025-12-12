@@ -13,7 +13,7 @@ return new class extends Migration
             // Attributs
             $table->string('nom_formulaire', 100);
             $table->string('description', 255)->nullable();
-            $table->string('statut', 20)->default('actif'); // actif, archivé, cloturé
+            $table->enum('statut', ['actif', 'archive', 'cloture'])->default('actif');
             $table->foreignId('id_createur') //Clé étrangere vers utilisateurs
                   ->constrained('utilisateurs', 'id_utilisateur')
                   ->onDelete('restrict'); // empeche de supprimer un utilisateur qui a crée des formulaires
