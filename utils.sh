@@ -119,8 +119,6 @@ generate_middleware_laravel() {
 git_pull() {
     git pull origin $(git branch --show-current)
     echo "Mises à jour tirées avec succès."
-    echo "Appuyez sur une touche pour continuer..."
-    read -n 1
 }
 git_push() {
     echo -n "Entrez le message de commit : "
@@ -129,8 +127,6 @@ git_push() {
     git commit -m "$commit_message"
     git push origin $(git branch --show-current)
     echo "Modifications poussées avec succès."
-    echo "Appuyez sur une touche pour continuer..."
-    read -n 1
 }
 while true; do
     show_menu
