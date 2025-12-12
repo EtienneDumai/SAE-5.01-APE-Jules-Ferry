@@ -13,6 +13,7 @@ show_menu() {
     echo " 4) Generer un service Angular"
     echo " 5) Generer un modele Angular"
     echo " 6) Generer une page Angular"
+    echo " 7) Generer un enum Angular"
     echo "------------------------------"
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "       Backend Laravel        "
@@ -65,6 +66,14 @@ generate_model_angular() {
     read model_name
     cd frontend && ng generate interface models/"$model_name"/"$model_name" && cd ..
     echo "Modèle '$model_name' généré avec succès."
+    echo "Appuyez sur une touche pour continuer..."
+    read -n 1
+}
+generate_enum_angular() {
+    echo -n "Entrez le nom de l'énum Angular à générer : "
+    read enum_name
+    cd frontend && ng generate enum enums/"$enum_name"/"$enum_name" && cd ..
+    echo "Énumération '$enum_name' générée avec succès."
     echo "Appuyez sur une touche pour continuer..."
     read -n 1
 }
@@ -122,6 +131,9 @@ while true; do
             ;;
         6)
             generate_page_angular
+            ;;
+        7)
+            generate_enum_angular
             ;;
         11)
             cd backend && php artisan serve && cd ..
