@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Actualite extends Model
 {
+    use HasFactory;
+
     protected $table = "actualites";
 
     protected $primaryKey = 'id_actualite';
@@ -17,11 +20,17 @@ class Actualite extends Model
         'image_url',
         'date_publication',
         'date_creation',
-        'statut'
+        'statut',
+        'id_auteur'
     ];
-    public function utilisateur()
+    
+    protected $casts = [
+        'date_publication' => 'date',
+    ];
+
+    public function auteur()
     {
-        return $this->belongsTo(Utilisateur::class, 'id_utilisateur');
+        return $this->belongsTo(Utilisateur::class, 'id_auteur', 'id_utilisateur');
     }
 
 
