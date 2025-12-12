@@ -33,6 +33,13 @@ show_menu() {
     echo " 21) Lancer la base de données"
     echo " 22) Arrêter la base de données"
     echo "------------------------------"
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    echo "          GIT Commands        "
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    echo "------------------------------"
+    echo " 31) Tirer les dernières modifications"
+    echo " 32) Pousser les modifications locales"
+    echo "------------------------------"
     echo " 0) Quitter"
     echo "=============================="
     echo -n "Votre choix : "
@@ -109,6 +116,22 @@ generate_middleware_laravel() {
     echo "Appuyez sur une touche pour continuer..."
     read -n 1
 }
+git_pull() {
+    git pull origin $(git branch --show-current)
+    echo "Mises à jour tirées avec succès."
+    echo "Appuyez sur une touche pour continuer..."
+    read -n 1
+}
+git_push() {
+    echo -n "Entrez le message de commit : "
+    read commit_message
+    git add .
+    git commit -m "$commit_message"
+    git push origin $(git branch --show-current)
+    echo "Modifications poussées avec succès."
+    echo "Appuyez sur une touche pour continuer..."
+    read -n 1
+}
 while true; do
     show_menu
     read choice
@@ -165,6 +188,12 @@ while true; do
         22)
             docker stop ape-postgres
             docker rm ape-postgres
+            ;;
+        31)
+            git_pull
+            ;;
+        32)
+            git_push
             ;;
         0)
             echo "Au revoir!"
