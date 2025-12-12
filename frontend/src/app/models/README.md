@@ -1,0 +1,2 @@
+# Dossier des modèles
+Ce dossier contient les définitions des modèles de données utilisés dans l'application frontend. Chaque modèle représente une entité spécifique et définit ses propriétés et types de données associés.
