@@ -13,8 +13,8 @@ import { Actualite } from '../../models/Actualite/actualite';
   styleUrl: './accueil.component.css'
 })
 export class AccueilComponent {
-  private listeActualites: Actualite[] = [];
-  private listeEvennements: Evennement[] = [];
+  public listeActualites: Actualite[] = [];
+  public listeEvennements: Evennement[] = [];
   private readonly actualiteService = inject(ActualiteService);
   private readonly evennementService = inject(EvennementService);
   ngOnInit() {
