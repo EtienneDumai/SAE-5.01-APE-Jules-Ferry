@@ -1,0 +1,59 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Connexion</h1>
+    <p class="subtitle">Connectez-vous à votre compte APE Jules Ferry</p>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          class="form-control"
+          [class.invalid]="email?.invalid && email?.touched"
+          placeholder="votre.email@exemple.fr"
+        />
+        <div class="error" *ngIf="email?.invalid && email?.touched">
+          <small *ngIf="email?.errors?.['required']">L'email est obligatoire</small>
+          <small *ngIf="email?.errors?.['email']">L'email doit être valide</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="mot_de_passe">Mot de passe</label>
+        <input 
+          type="password" 
+          id="mot_de_passe" 
+          formControlName="mot_de_passe"
+          class="form-control"
+          [class.invalid]="mot_de_passe?.invalid && mot_de_passe?.touched"
+          placeholder="••••••••"
+        />
+        <div class="error" *ngIf="mot_de_passe?.invalid && mot_de_passe?.touched">
+          <small *ngIf="mot_de_passe?.errors?.['required']">Le mot de passe est obligatoire</small>
+          <small *ngIf="mot_de_passe?.errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères</small>
+        </div>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="loginForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">Se connecter</span>
+        <span *ngIf="isLoading">Connexion en cours...</span>
+      </button>
+    </form>
+
+    <!-- lien vers inscription -->
+    <div class="footer-links">
+      <p>Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+    </div>
+  </div>
+</div>
