@@ -90,7 +90,7 @@ class ImageConverterTest extends TestCase
     }
 
     /**
-     * Cas d'erreur : le fichier source n'est pas une image supportée ou n'existe pas.
+     * Cas d'erreur : le fichier source n'est pas une image supportée
      */
     public function test_devrait_retourner_false_pour_un_fichier_non_image(): void
     {
@@ -104,5 +104,21 @@ class ImageConverterTest extends TestCase
         //Then
         $this->assertFalse($result); //Fonction retourne false
         $this->assertFileDoesNotExist($this->tempsPath); //Le fichier WebP n'existe pas
+    }
+
+    /**
+     * Cas d'erreur : le fichier source n'existe pas
+     */
+    public function test_devrait_retourner_false_pour_un_fichier_inexistant(): void
+    {
+        //Given
+        $nonExistentPath = sys_get_temp_dir() . '/non_existent_image.jpg';  
+        
+        //When
+        $result = $this->imageService->convertImageToWebp($nonExistentPath, $this->tempsPath);
+
+        //Then
+        $this->assertFalse($result); //Fonction retourne false
+
     }
 }
