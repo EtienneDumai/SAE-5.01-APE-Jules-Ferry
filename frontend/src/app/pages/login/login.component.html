@@ -1,59 +1,79 @@
-<div class="login-container">
-  <div class="login-card">
-    <h1>Connexion</h1>
-    <p class="subtitle">Connectez-vous à votre compte APE Jules Ferry</p>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--primary-blue)] to-[var(--primary-dark-blue)] px-4">
+  <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
 
-    <div class="error-message" *ngIf="errorMessage">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">Connexion</h1>
+      <p class="text-gray-600 text-sm">Connectez-vous à votre compte APE Jules Ferry</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
       {{ errorMessage }}
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
       
-      <div class="form-group">
-        <label for="email">Email</label>
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+          Email
+        </label>
         <input 
           type="email" 
           id="email" 
           formControlName="email"
-          class="form-control"
-          [class.invalid]="email?.invalid && email?.touched"
           placeholder="votre.email@exemple.fr"
+          class="w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-[var(--primary-blue)] focus:border-transparent outline-none transition"
+          [class.border-red-500]="email?.invalid && email?.touched"
+          [class.border-gray-300]="!email?.invalid || !email?.touched"
         />
-        <div class="error" *ngIf="email?.invalid && email?.touched">
-          <small *ngIf="email?.errors?.['required']">L'email est obligatoire</small>
-          <small *ngIf="email?.errors?.['email']">L'email doit être valide</small>
+        <div *ngIf="email?.invalid && email?.touched" class="mt-1">
+          <p *ngIf="email?.errors?.['required']" class="text-red-600 text-xs">L'email est obligatoire</p>
+          <p *ngIf="email?.errors?.['email']" class="text-red-600 text-xs">L'email doit être valide</p>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="mot_de_passe">Mot de passe</label>
+      <div>
+        <label for="mot_de_passe" class="block text-sm font-medium text-gray-700 mb-2">
+          Mot de passe
+        </label>
         <input 
           type="password" 
           id="mot_de_passe" 
           formControlName="mot_de_passe"
-          class="form-control"
-          [class.invalid]="mot_de_passe?.invalid && mot_de_passe?.touched"
           placeholder="••••••••"
+          class="w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-[var(--primary-blue)] focus:border-transparent outline-none transition"
+          [class.border-red-500]="mot_de_passe?.invalid && mot_de_passe?.touched"
+          [class.border-gray-300]="!mot_de_passe?.invalid || !mot_de_passe?.touched"
         />
-        <div class="error" *ngIf="mot_de_passe?.invalid && mot_de_passe?.touched">
-          <small *ngIf="mot_de_passe?.errors?.['required']">Le mot de passe est obligatoire</small>
-          <small *ngIf="mot_de_passe?.errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères</small>
+        <div *ngIf="mot_de_passe?.invalid && mot_de_passe?.touched" class="mt-1">
+          <p *ngIf="mot_de_passe?.errors?.['required']" class="text-red-600 text-xs">Le mot de passe est obligatoire</p>
+          <p *ngIf="mot_de_passe?.errors?.['minlength']" class="text-red-600 text-xs">Le mot de passe doit contenir au moins 8 caractères</p>
         </div>
       </div>
 
       <button 
         type="submit" 
-        class="btn-primary"
         [disabled]="loginForm.invalid || isLoading"
+        class="w-full bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-dark-blue)] text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
       >
         <span *ngIf="!isLoading">Se connecter</span>
-        <span *ngIf="isLoading">Connexion en cours...</span>
+        <span *ngIf="isLoading" class="flex items-center justify-center">
+          <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Connexion en cours...
+        </span>
       </button>
     </form>
 
-    <!-- lien vers inscription -->
-    <div class="footer-links">
-      <p>Pas encore de compte ? <a routerLink="/register">S'inscrire</a></p>
+    <div class="mt-6 text-center">
+      <p class="text-sm text-gray-600">
+        Pas encore de compte ? 
+        <a routerLink="/register" class="text-[var(--primary-blue)] font-semibold hover:underline">
+          S'inscrire
+        </a>
+      </p>
     </div>
+
   </div>
 </div>

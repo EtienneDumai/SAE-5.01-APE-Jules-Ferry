@@ -14,7 +14,7 @@ import { environment } from '../../environments/environment.dev';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl + '/api';
+  private apiUrl = environment.apiUrl;
     private currentUserSubject = new BehaviorSubject<Utilisateur | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
