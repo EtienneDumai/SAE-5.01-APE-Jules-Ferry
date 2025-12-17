@@ -1,0 +1,11 @@
+<header>
+	<nav>
+		<ng-container *ngIf="utilisateurCourant$ | async as utilisateur; else nonConnecte">
+			<button *ngIf="utilisateur.role === RoleUtilisateur.administrateur">Admin</button>
+			<button *ngIf="utilisateur.role === RoleUtilisateur.membre_bureau">Bureau</button>
+			<button *ngIf="utilisateur.role === RoleUtilisateur.parent">Parent</button>
+			<button (click)="setUtilisateur(null)">Déconnexion</button>
+		</ng-container>
+		<ng-template #nonConnecte></ng-template>
+	</nav>
+</header>

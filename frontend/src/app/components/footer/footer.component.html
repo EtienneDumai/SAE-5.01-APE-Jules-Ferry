@@ -1,1 +1,7 @@
-<p>footer works!</p>
+<footer>
+	<p>footer works!</p>
+	<ng-container *ngIf="utilisateurCourant$ | async as utilisateur; else nonConnecte">
+		<button (click)="setUtilisateur(null)">Déconnexion</button>
+	</ng-container>
+	<ng-template #nonConnecte></ng-template>
+</footer>

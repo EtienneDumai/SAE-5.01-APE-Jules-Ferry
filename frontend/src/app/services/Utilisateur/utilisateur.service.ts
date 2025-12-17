@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment.dev';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 @Injectable({
@@ -8,7 +8,18 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 })
 export class UtilisateurService {
   private readonly http = inject(HttpClient);
+  private utilisateurCourantSubject = new BehaviorSubject<Utilisateur | null>(null);
+  utilisateurCourant = this.utilisateurCourantSubject.asObservable();
+
   constructor() { }
+
+  setUtilisateurCourant(utilisateur: Utilisateur | null) {
+    this.utilisateurCourantSubject.next(utilisateur);
+  }
+
+  getUtilisateurCourant(): Utilisateur | null {
+    return this.utilisateurCourantSubject.value;
+  }
   getAllUtilisateurs(): Observable<Utilisateur[]> {
     return this.http.get<Utilisateur[]>(`${environment.apiUrl}/utilisateurs`);
   }
