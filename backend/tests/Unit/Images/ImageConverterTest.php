@@ -3,18 +3,17 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\ImageConverterService;
+use App\Services\Image\ImageConverterService;
 use Illuminate\Http\UploadedFile;
+use RuntimeException;
 
 
 class ImageConverterTest extends TestCase
 {
-    //Variables des chemins d'images pour les tests
     protected $imageService;
     protected $tempsPath;
 
 
-    //Setup avant chaque test
     protected function setUp(): void
     {
         parent::setUp();
@@ -92,33 +91,44 @@ class ImageConverterTest extends TestCase
     /**
      * Cas d'erreur : le fichier source n'est pas une image supportée
      */
-    public function test_devrait_retourner_false_pour_un_fichier_non_image(): void
+    public function test_devrait_lever_une_exception_pour_un_fichier_non_image(): void
     {
         //Given
         $fakeFilePath = sys_get_temp_dir() . '/test.txt';
         file_put_contents($fakeFilePath, 'Ceci est un test.'); //Créer un faux fichier texte
 
-        //When
-        $result = $this->imageService->convertImageToWebp($fakeFilePath, $this->tempsPath);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Impossible de lire les informations');
 
-        //Then
-        $this->assertFalse($result); //Fonction retourne false
-        $this->assertFileDoesNotExist($this->tempsPath); //Le fichier WebP n'existe pas
+        $this->imageService->convertImageToWebp($fakeFilePath, $this->tempsPath);
     }
 
     /**
      * Cas d'erreur : le fichier source n'existe pas
      */
-    public function test_devrait_retourner_false_pour_un_fichier_inexistant(): void
+    public function test_devrait_lever_une_exception_pour_un_fichier_inexistant(): void
     {
-        //Given
-        $nonExistentPath = sys_get_temp_dir() . '/non_existent_image.jpg';  
-        
-        //When
-        $result = $this->imageService->convertImageToWebp($nonExistentPath, $this->tempsPath);
+        $nonExistentPath = $this->tempsPath . '/non_existent_image.jpg'; //Chemin vers un fichier qui n'existe pas
 
-        //Then
-        $this->assertFalse($result); //Fonction retourne false
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("Le fichier source n'existe pas");
 
+        $this->imageService->convertImageToWebp($nonExistentPath, $this->tempsPath);
     }
+
+    /**
+     * Teste la conversion avec une qualité personnalisée
+     */
+    public function test_devrait_convertir_avec_qualite_personnalisee(): void
+    {
+        $fakeImage = UploadedFile::fake()->image('test.jpg', 100, 100);
+        $sourcePath = $fakeImage->getPathname();
+
+        $result = $this->imageService->convertImageToWebp($sourcePath, $this->tempsPath, 50);
+
+        $this->assertTrue($result);
+        $this->assertFileExists($this->tempsPath);
+        $this->assertEquals('image/webp', mime_content_type($this->tempsPath));
+    }
+
 }
