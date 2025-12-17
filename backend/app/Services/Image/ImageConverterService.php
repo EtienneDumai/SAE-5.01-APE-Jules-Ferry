@@ -11,17 +11,17 @@ class ImageConverterService
      * @param string|null $destination Chemin de l'image de destination 
      * @param int $quality 0-100 Qualité de l'image WebP, par défaut 80
      * @return bool Vrai si la conversion a réussi, faux sinon
-     * @throws Exception
+     * @throws RuntimeException Si le fichier source n'existe pas ou si le format n'est pas supporté
      */
     function convertImageToWebp(string $source, string $destination, int $quality = 80): bool
 {
     if (!file_exists($source)) {
-        return false;
+        throw new RuntimeException("Le fichier source n'existe pas : $source");
     }
     
     $info = @getimagesize($source);
     if ($info === false) {
-        return false; 
+        throw new RuntimeException("Impossible de lire les informations de l'image : $source"); 
     }
 
     $mime = $info['mime'];
@@ -45,10 +45,10 @@ class ImageConverterService
             }
             break;
         default:
-            return false; // Format non supporté
+            throw new RuntimeException("Format non supporté : $mime");
     }
     if (!$image) {
-        return false;
+        throw new RuntimeException("Impossible de créer l'image source : $source");
     }
     $result = imagewebp($image, $destination, $quality);
 
