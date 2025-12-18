@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { inject } from '@angular/core';
 import { AuthService } from '../../services/Auth/auth.service';
 import { RegisterData } from '../../models/Auth/register-data';
 
@@ -13,15 +14,15 @@ import { RegisterData } from '../../models/Auth/register-data';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  
   registerForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor() {
     this.registerForm = this.fb.group({
       nom: ['', [Validators.required, Validators.maxLength(50)]],
       prenom: ['', [Validators.required, Validators.maxLength(50)]],
@@ -62,7 +63,6 @@ export class RegisterComponent {
       error: (error) => {
         this.isLoading = false;
         
-        // Gestion erreurs de validation Laravel
         if (error.error?.errors) {
           const errors = error.error.errors;
           const firstError = Object.values(errors)[0];
@@ -79,7 +79,6 @@ export class RegisterComponent {
     });
   }
 
-  //getters pour faciliter l'accès aux champs dans le template
   get nom() {
     return this.registerForm.get('nom');
   }

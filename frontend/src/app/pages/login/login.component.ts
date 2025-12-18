@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { inject } from '@angular/core';
 import { AuthService } from '../../services/Auth/auth.service';
 import { LoginCredentials } from '../../models/Auth/login-credentials';
 
@@ -13,15 +14,15 @@ import { LoginCredentials } from '../../models/Auth/login-credentials';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  
   loginForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       mot_de_passe: ['', [Validators.required, Validators.minLength(8)]]
@@ -41,7 +42,7 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: (response) => {
         console.log('Connexion réussie', response);
-        this.router.navigate(['/']); // Redirection vers l'accueil
+        this.router.navigate(['/']);
       },
       error: (error) => {
         this.isLoading = false;
@@ -54,7 +55,6 @@ export class LoginComponent {
     });
   }
 
-  // Getters pour faciliter l'accès aux champs dans le template
   get email() {
     return this.loginForm.get('email');
   }

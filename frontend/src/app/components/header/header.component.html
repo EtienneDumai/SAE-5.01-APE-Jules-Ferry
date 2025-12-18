@@ -1,0 +1,46 @@
+<header class="bg-white shadow-md">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      
+      <div class="flex items-center space-x-4">
+        <a routerLink="/" class="text-2xl font-bold text-[var(--primary-blue)]">
+          APE Jules Ferry
+        </a>
+      </div>
+
+      <div class="flex items-center space-x-6">
+        
+        <a routerLink="/" 
+           routerLinkActive="text-[var(--primary-blue)]"
+           [routerLinkActiveOptions]="{exact: true}"
+           class="text-gray-700 hover:text-[var(--primary-blue)] transition">
+          Accueil
+        </a>
+        
+        @if (!isAuthenticated) {
+          <a routerLink="/login" 
+             routerLinkActive="text-[var(--primary-blue)]"
+             class="text-gray-700 hover:text-[var(--primary-blue)] transition">
+            Connexion
+          </a>
+          <a routerLink="/register" 
+             class="bg-gradient-to-r from-[var(--secondary-green)] to-green-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition">
+            Inscription
+          </a>
+        }
+
+        @if (isAuthenticated && currentUser) {
+          <span class="text-gray-700">
+            Bonjour, <span class="font-semibold text-[var(--primary-blue)]">{{ currentUser.prenom }}</span>
+          </span>
+          <button 
+            (click)="logout()"
+            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+            Déconnexion
+          </button>
+        }
+
+      </div>
+    </div>
+  </nav>
+</header>
