@@ -1,18 +1,21 @@
 <app-header></app-header>
-<div class="row justify-content-center">
+<div class="row justify-center">
     <h2>Les actualités</h2>
     <button class="btn btn-primary" routerLink="/actualites">Voir toutes les actualités</button>
 </div>
 @if(this.listeActualites){
 
     @for(actualite of this.listeActualites; track actualite.id_actualite){
-        
+        <app-actualite-card 
+            [titre]="actualite.titre"
+            [image_url]="actualite.image_url">
+        </app-actualite-card>
     }
 }
 @else {
     <p>Aucune actualité disponible pour le moment.</p>
 }
-<div class="row justify-content-center">
+<div class="row justify-center">
     <h2>Les évènements</h2>
     <button class="btn btn-primary" routerLink="/evennements">Voir tous les évènements</button>
 </div>

@@ -11,8 +11,7 @@ import { StatutActualite } from '../../enums/StatutActualite/statut-actualite';
 export class ActualiteCardComponent {
   @Input() titre!: string;
   @Input() contenu!: string;
-  @Input() imageUrl!: string;
+  @Input() image_url!: string;
   @Input() datePublication!: Date;
   @Input() statut!: StatutActualite;
-
 }

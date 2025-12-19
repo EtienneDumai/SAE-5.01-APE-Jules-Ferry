@@ -5,10 +5,11 @@ import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { EvennementService } from '../../services/Evennement/evennement.service';
 import { Evennement } from '../../models/Evennement/evennement';
 import { Actualite } from '../../models/Actualite/actualite';
+import { ActualiteCardComponent } from '../../components/actualite-card/actualite-card.component';
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent],
+  imports: [HeaderComponent, FooterComponent, ActualiteCardComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css'
 })
