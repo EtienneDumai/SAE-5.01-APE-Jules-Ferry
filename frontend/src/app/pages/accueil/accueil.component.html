@@ -1,7 +1,7 @@
 <app-header></app-header>
-<div class="row justify-center">
-    <h2>Les actualités</h2>
-    <button class="btn btn-primary" routerLink="/actualites">Voir toutes les actualités</button>
+<div class="flex justify-between items-center my-6">
+    <h1>Les actualités</h1>
+    <button class="bg-gray-200 rounded hover:shadow" routerLink="/actualites">Voir toutes les actualités</button>
 </div>
 <div class="flex text-center">
     <app-actualite-card
@@ -12,12 +12,12 @@
 
 @if(this.listeActualites){
 
-    @for(actualite of this.listeActualites; track actualite.id_actualite){
+    @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
         <app-actualite-card 
             [titre]="actualite.titre"
             [image_url]="actualite.image_url">
         </app-actualite-card>
-    }
+    } 
 }
 @else {
     <p>Aucune actualité disponible pour le moment.</p>
@@ -27,7 +27,7 @@
     <button class="btn btn-primary" routerLink="/evennements">Voir tous les évènements</button>
 </div>
 @if(this.listeEvennements){
-    @for(evennement of this.listeEvennements; track evennement.id_evennement){
+    @for(evennement of this.listeEvennements.slice(0,3); track evennement.id_evennement){
         
     }
 }

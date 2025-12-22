@@ -18,13 +18,20 @@ export class AccueilComponent {
   public listeEvennements: Evennement[] = [];
   private readonly actualiteService = inject(ActualiteService);
   private readonly evennementService = inject(EvennementService);
-Date: string = new Date().toLocaleDateString('fr-FR');
+  Date: Date = new Date();
   ngOnInit() {
     this.actualiteService.getAllActualites().subscribe((data) => {
       this.listeActualites = data;
     });
+    this.sortActualiteByDate(this.listeActualites);
     this.evennementService.getAllEvennements().subscribe((data) => {
       this.listeEvennements = data;
     });
+  }
+  public sortEvennementByDate(a: Evennement[]): Evennement[] {
+    return a.sort((a, b) => a.date_evennement.getTime() - b.date_evennement.getTime());
+  }
+  public sortActualiteByDate(a: Actualite[]): Actualite[] {
+    return a.sort((a, b) => a.date_publication.getTime() - b.date_publication.getTime());
   }
 }
