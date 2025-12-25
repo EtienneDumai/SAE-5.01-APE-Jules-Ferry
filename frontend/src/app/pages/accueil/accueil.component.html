@@ -1,43 +1,41 @@
 <app-header></app-header>
 <div class="flex justify-between items-center my-6">
-    <h1>Les actualités</h1>
+    <h2 class="text-2xl font-semibold">Les actualités</h2>
     <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" routerLink="/actualites">Voir toutes les actualités</button>
 </div>
-<div class="flex text-center">
-    <app-actualite-card
-[titre]='"test"'
-[contenu]='"Loreum ipsum dolor sit amet, consectetur adipiscing elit. balalalalalalalalalalllllllllllllllaaaa"'
-[datePublication]="Date"></app-actualite-card>
-</div>
-
-@if(this.listeActualites){
-
+@if(this.listeActualites.length > 0){
     @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
-        <app-actualite-card 
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <app-actualite-card 
             [titre]="actualite.titre"
-            [image_url]="actualite.image_url">
-        </app-actualite-card>
+            [image_url]="actualite.image_url"
+            [contenu]="actualite.contenu"
+            [datePublication]="actualite.date_publication">
+            </app-actualite-card>
+        </div>
+        
     } 
 }
 @else {
     <p>Aucune actualité disponible pour le moment.</p>
 }
-<div class="row justify-center">
-    <h2>Les évènements</h2>
-    <button class="btn btn-primary" routerLink="/evennements">Voir tous les évènements</button>
+<div class="flex justify-between items-center my-6">
+    <h2 class="text-2xl font-semibold">Les évènements</h2>
+    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" routerLink="/evennements">Voir tous les évènements</button>
 </div>
-<app-evennement-card
-            [titre]="'test'"
-            [image_url]="'evennement.image_url'"
-            [description]="'Loreum ipsum dolor sit amet, consectetur adipiscing elit. balalalalalalalalalalllllllllllllllaaaa'"
-            [date_evennement]="Date"
-            [heure_debut]="'11h30'"
-            [heure_fin]="'13h30'"
-            [lieu]="'Lycée Jules Ferry'"
-        ></app-evennement-card>
-@if(this.listeEvennements){
+@if(this.listeEvennements.length > 0){
     @for(evennement of this.listeEvennements.slice(0,3); track evennement.id_evennement){
-        
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <app-evennement-card
+            [titre]="evennement.titre"
+            [image_url]="evennement.image_url"
+            [description]="evennement.description"
+            [date_evennement]="evennement.date_evennement"
+            [heure_debut]="evennement.heure_debut"
+            [heure_fin]="evennement.heure_fin"
+            [lieu]="evennement.lieu"
+            ></app-evennement-card>
+        </div>
     }
 }
 @else {

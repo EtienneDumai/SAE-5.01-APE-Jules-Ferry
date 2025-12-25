@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Evennement } from '../../models/Evennement/evennement';
 import { EvennementService } from '../../services/Evennement/evennement.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './evennement-detail.component.html',
   styleUrl: './evennement-detail.component.css'
 })
-export class EvennementDetailComponent {
+export class EvennementDetailComponent implements OnInit {
   evennement !: Evennement;
     private readonly evennementService : EvennementService = inject(EvennementService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
