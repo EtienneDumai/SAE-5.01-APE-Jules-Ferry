@@ -1,1 +1,16 @@
-<p>evennement-detail works!</p>
+@if(this.evennement){
+<div class="flex justify-between items-center my-6">
+    <app-evennement-card
+            [titre]="'test'"
+            [image_url]="'evennement.image_url'"
+            [description]="'Loreum ipsum dolor sit amet, consectetur adipiscing elit. balalalalalalalalalalllllllllllllllaaaa'"
+            [date_evennement]="Date"
+            [heure_debut]="'11h30'"
+            [heure_fin]="'13h30'"
+            [lieu]="'Lycée Jules Ferry'"
+        ></app-evennement-card>
+</div>
+}
+@else {
+    <p>Loading...</p>
+}

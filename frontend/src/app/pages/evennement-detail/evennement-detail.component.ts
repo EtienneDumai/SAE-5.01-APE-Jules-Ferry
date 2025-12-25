@@ -2,15 +2,17 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Evennement } from '../../models/Evennement/evennement';
 import { EvennementService } from '../../services/Evennement/evennement.service';
 import { ActivatedRoute } from '@angular/router';
+import { EvennementCardComponent } from "../../components/card/evennement-card/evennement-card.component";
 
 @Component({
   selector: 'app-evennement-detail',
   standalone: true,
-  imports: [],
+  imports: [EvennementCardComponent],
   templateUrl: './evennement-detail.component.html',
   styleUrl: './evennement-detail.component.css'
 })
 export class EvennementDetailComponent implements OnInit {
+  Date: Date = new Date();
   evennement !: Evennement;
     private readonly evennementService : EvennementService = inject(EvennementService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
