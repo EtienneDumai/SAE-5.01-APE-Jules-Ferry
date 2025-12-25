@@ -6,10 +6,11 @@ import { EvennementService } from '../../services/Evennement/evennement.service'
 import { Evennement } from '../../models/Evennement/evennement';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteCardComponent } from '../../components/actualite-card/actualite-card.component';
+import { EvennementCardComponent } from "../../components/evennement-card/evennement-card.component";
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, ActualiteCardComponent],
+  imports: [HeaderComponent, FooterComponent, ActualiteCardComponent, EvennementCardComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css'
 })

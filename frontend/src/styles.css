@@ -14,4 +14,11 @@
     --success-color:#4CAF50;
     --warning-color:#FFC107;
     --error-color:#D32F2F;
+    --black-text-color:#1F2937;
+    --gray-text-color: #6B7280;
+}
+@layer base {
+  app-root {
+    background-color: var(--background-color);
+  }
 }

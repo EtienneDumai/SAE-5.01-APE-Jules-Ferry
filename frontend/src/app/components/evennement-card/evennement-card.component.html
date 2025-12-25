@@ -1,1 +1,26 @@
-<p>evennement-card works!</p>
+<div class="bg-gray-200 rounded-lg shadow overflow-hidden w-64 mx-4">
+  <h3 class="text-lg font-semibold text-gray-800 p-4 text-center">
+    {{ titre }}
+  </h3>
+
+  <img
+    src="{{ image_url }}"
+    alt="{{ titre }}"
+    class="w-full h-48 object-cover"
+    loading="lazy"
+  />
+
+  <div class="p-4">
+    <p class="mt-2 text-sm text-gray-600">{{ description }}</p>
+    <div class="flex justify-between items-center mt-4">
+      <span class="text-sm">{{ convertDateToString(date_evennement) }}</span>
+
+      <button
+        [routerLink]="['/evennement', id_evennement]"
+        class="bg-white px-4 py-2 rounded hover:bg-gray-100"
+      >
+        Voir plus
+      </button>
+    </div>
+  </div>
+</div>

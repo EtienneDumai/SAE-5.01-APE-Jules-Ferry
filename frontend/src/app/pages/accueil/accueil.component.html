@@ -28,7 +28,13 @@
 </div>
 @if(this.listeEvennements){
     @for(evennement of this.listeEvennements.slice(0,3); track evennement.id_evennement){
-        
+        <app-evennement-card
+            [titre]="evennement.titre"
+            [image_url]="evennement.image_url"
+            [description]="evennement.description"
+            [date_evennement]="evennement.date_evennement"
+            [id_evennement]="evennement.id_evennement"
+        ></app-evennement-card>
     }
 }
 @else {

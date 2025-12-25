@@ -1,0 +1,23 @@
+<div class="flex justify-between items-center my-6">
+    <h1>Les evennements</h1>
+    <button class="bg-gray-200 rounded hover:shadow" routerLink="/evennements">Voir tous les evennements</button>
+</div>
+<div class="flex text-center">
+    <app-evennement-card
+[titre]='"test"'
+[description]='"Loreum ipsum dolor sit amet, consectetur adipiscing elit. balalalalalalalalalalllllllllllllllaaaa"'
+[date_evennement]="Date"></app-evennement-card>
+</div>
+
+@if(this.listeEvennements){
+
+    @for(evennement of this.listeEvennements; track evennement.id_evennement){
+        <app-evennement-card 
+            [titre]="evennement.titre"
+            [image_url]="evennement.image_url">
+        </app-evennement-card>
+    } 
+}
+@else {
+    <p>Aucun événement disponible pour le moment.</p>
+}
