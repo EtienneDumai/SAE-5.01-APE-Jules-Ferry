@@ -4,11 +4,12 @@ import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { Observable } from 'rxjs';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
