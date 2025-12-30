@@ -9,9 +9,10 @@ use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\TacheController;
 use App\Http\Controllers\UtilisateurController;
 
+Route::get('/evenements/{eventId}/creneaux', [CreneauController::class, 'getCreneauxByEventId']);
 Route::apiResource('actualites', ActualiteController::class);
 Route::apiResource('creneaux', CreneauController::class);
-Route::apiResource('evennements', EvennementController::class);
+Route::apiResource('evenements', EvennementController::class);
 Route::apiResource('formulaires', FormulaireController::class);
 Route::apiResource('inscriptions', InscriptionController::class);
 Route::apiResource('taches', TacheController::class);

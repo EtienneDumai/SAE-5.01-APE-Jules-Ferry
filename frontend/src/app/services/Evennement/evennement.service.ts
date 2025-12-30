@@ -10,18 +10,18 @@ export class EvennementService {
   private readonly http = inject(HttpClient);
   constructor() { }
   getAllEvennements(): Observable<Evennement[]> {
-    return this.http.get<Evennement[]>(`${environment.apiUrl}/evennements`);
+    return this.http.get<Evennement[]>(`${environment.apiUrl}/evenements`);
   }
   getEvennementById(id: number): Observable<Evennement> {
-    return this.http.get<Evennement>(`${environment.apiUrl}/evennements/${id}`);
+    return this.http.get<Evennement>(`${environment.apiUrl}/evenements/${id}`);
   }
   createEvennement(evennement: Evennement): Observable<Evennement> {
-    return this.http.post<Evennement>(`${environment.apiUrl}/evennements`, evennement);
+    return this.http.post<Evennement>(`${environment.apiUrl}/evenements`, evennement);
   }
   updateEvennement(evennement: Evennement, id: number): Observable<Evennement> {
-    return this.http.put<Evennement>(`${environment.apiUrl}/evennements/${id}`, evennement);
+    return this.http.put<Evennement>(`${environment.apiUrl}/evenements/${id}`, evennement);
   }
   deleteEvennement(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/evennements/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/evenements/${id}`);
   }
 }

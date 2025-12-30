@@ -24,4 +24,7 @@ export class CreneauService {
   deleteCreneau(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/creneaux/${id}`);
   }
+  getCreneauxByEventId(eventId: number): Observable<Creneau[]> {
+    return this.http.get<Creneau[]>(`${environment.apiUrl}/evenements/${eventId}/creneaux`);
+  }
 }
