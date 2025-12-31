@@ -14,12 +14,22 @@
     --success-color:#4CAF50;
     --warning-color:#FFC107;
     --error-color:#D32F2F;
+    --black-text-color:#1F2937;
+    --gray-text-color: #6B7280;
 }
 @layer base {
-    footer{
+  app-root {
+    background-color: var(--background-color);
+  }
+  h1 { @apply text-3xl font-bold; }
+  h2 { @apply text-2xl font-semibold; }
+  h3 { @apply text-xl font-semibold; }
+  footer{
         background-color: var(--primary-light-blue);
     }
     a{
         cursor: pointer;
     }
 }
+
+

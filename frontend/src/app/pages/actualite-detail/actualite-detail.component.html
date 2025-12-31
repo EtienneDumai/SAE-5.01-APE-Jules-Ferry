@@ -1,0 +1,17 @@
+@if(this.loadingActualite){
+    <div class="flex items-center gap-3">
+        <app-spinner></app-spinner>
+    </div>
+
+}@else if (this.errorActualite) {
+    <p class="text-red-500">Erreur lors du chargement de l'actualité</p> <!-- Petite modale en bas a doite a mettre -->
+} 
+@else {
+<div class="flex justify-between items-center my-6">
+    <app-actualite-card
+            [titre]="actualite.titre"
+            [image_url]="actualite.image_url"
+            >
+    </app-actualite-card>
+</div>
+}
