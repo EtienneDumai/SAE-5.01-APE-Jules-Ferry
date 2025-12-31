@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use App\Models\Evennement;
+use Illuminate\Http\Request;
+
 class EvennementController extends Controller
 {
     public function index()
