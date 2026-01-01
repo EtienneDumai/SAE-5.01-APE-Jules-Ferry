@@ -1,0 +1,19 @@
+<div class="flex justify-between items-center my-6">
+    <h1>Les actualités</h1>
+</div>
+@if(this.loadingActualites){
+    <app-spinner></app-spinner>
+}
+@else if (this.errorActualites) {
+    <p class="text-red-500">Erreur lors du chargement des actualités</p> <!-- Petite modale en bas a doite a mettre -->
+}
+@else {
+    @for(actualite of this.listeActualites; track actualite.id_actualite){
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <app-actualite-card 
+            [titre]="actualite.titre"
+            [image_url]="actualite.image_url">
+            </app-actualite-card>
+        </div>
+    } 
+}

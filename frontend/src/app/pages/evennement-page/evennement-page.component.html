@@ -1,0 +1,25 @@
+<div class="flex justify-between items-center my-6">
+    <h1>Les evennements</h1>
+</div>
+@if(this.loadingEvennements){
+    <app-spinner></app-spinner>
+}
+@else if (this.errorEvennements) {
+    <p class="text-red-500">Erreur lors du chargement des événements</p> <!-- Petite modale en bas a doite a mettre -->
+}
+@else {
+    @for(evennement of this.listeEvennements; track evennement.id_evennement){
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <app-evennement-card
+            [titre]="evennement.titre"
+            [image_url]="evennement.image_url"
+            [description]="evennement.description"
+            [date_evennement]="evennement.date_evennement"
+            [heure_debut]="evennement.heure_debut"
+            [heure_fin]="evennement.heure_fin"
+            [lieu]="evennement.lieu"
+            >
+            </app-evennement-card>
+        </div>
+    } 
+}

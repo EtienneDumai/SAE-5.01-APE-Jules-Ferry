@@ -1,5 +1,5 @@
 <header class="sticky top-0 z-50 bg-[var(--primary-light-blue)]">
-  <div class="mx-auto w-full px-2 py-3 flex items-center justify-between">
+  <div class="relative mx-auto w-full px-2 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <button
         type="button"
@@ -24,7 +24,9 @@
         </svg>
       </button>
     </div>
-    <h1>APE Jules Ferry</h1>
+    <h1 class="absolute left-1/2 -translate-x-1/2">
+      APE Jules Ferry
+    </h1>
       <div class="flex items-center gap-4">
 		@if (utilisateurCourant != null) {
 			<button class="bg-white border-[var(--primary-blue)] text-[var(--primary-blue)] px-3 py-1 rounded border-2 hover:shadow-lg transition-shadow h-10" routerLink="/compte">Mon compte</button>
