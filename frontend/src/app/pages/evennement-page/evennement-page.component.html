@@ -1,6 +1,10 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
     <div class="mb-6">
+        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="['/']">
+            ← Retour à l'accueil
+        </button>
+
     @if(this.loadingEvennements){
         <div class="flex justify-center items-center h-64">
             <app-spinner></app-spinner>
@@ -48,4 +52,5 @@
     } 
 </div>
     }
+</div>
 </div>

@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HeaderComponent } from "../../components/header/header.component";
-import { FooterComponent } from "../../components/footer/footer.component";
+import { RouterLink } from '@angular/router';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { EvennementService } from '../../services/Evennement/evennement.service';
 import { Evennement } from '../../models/Evennement/evennement';
@@ -12,7 +11,7 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [ActualiteCardComponent, EvennementCardComponent, SpinnerComponent],
+  imports: [ActualiteCardComponent, EvennementCardComponent, SpinnerComponent, RouterLink],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css'
 })

@@ -1,6 +1,6 @@
 <div class="flex justify-between items-center my-6 ml-3 mr-3">
     <h2>Les actualités</h2>
-    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" routerLink="/actualites">Voir toutes les actualités</button>
+    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/actualites']">Voir toutes les actualités</button>
 </div>
 
 @if(this.loadingActualites){
@@ -27,7 +27,7 @@
 
 <div class="flex justify-between items-center my-6 ml-3 mr-3">
     <h2>Les évènements</h2>
-    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" routerLink="/evenements">Voir tous les évènements</button>
+    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/evenements']">Voir tous les évènements</button>
 </div>
 
 @if(this.loadingEvents){

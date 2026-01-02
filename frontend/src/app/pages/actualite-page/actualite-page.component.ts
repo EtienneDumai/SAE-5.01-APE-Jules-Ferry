@@ -3,11 +3,11 @@ import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { ActualiteCardComponent } from "../../components/card/actualite-card/actualite-card.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-actualite-page',
   standalone: true,
-  imports: [ActualiteCardComponent, SpinnerComponent],
+  imports: [ActualiteCardComponent, SpinnerComponent, RouterLink],
   templateUrl: './actualite-page.component.html',
   styleUrl: './actualite-page.component.css'
 })

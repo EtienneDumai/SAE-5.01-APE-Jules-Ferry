@@ -3,11 +3,11 @@ import { EvennementService } from '../../services/Evennement/evennement.service'
 import { Evennement } from '../../models/Evennement/evennement';
 import { EvennementCardComponent } from "../../components/card/evennement-card/evennement-card.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
-
+import { RouterLink } from '@angular/router'; 
 @Component({
   selector: 'app-evennement-page',
   standalone: true,
-  imports: [EvennementCardComponent, SpinnerComponent],
+  imports: [EvennementCardComponent, SpinnerComponent, RouterLink],
   templateUrl: './evennement-page.component.html',
   styleUrl: './evennement-page.component.css'
 })
@@ -21,6 +21,7 @@ export class EvennementPageComponent implements OnInit {
     this.evennementService.getAllEvennements().subscribe({
       next: (data) => {
         this.listeEvennements = data;
+        this.sortEvennementByDate();
         this.loadingEvennements = false;
       },
       error: (err) => {
@@ -29,9 +30,12 @@ export class EvennementPageComponent implements OnInit {
         this.errorEvennements = true;
       }
     });
-    this.sortEvennementByDate(this.listeEvennements);
   }
-  public sortEvennementByDate(a: Evennement[]): Evennement[] {
-    return a.sort((a, b) => a.date_evenement.getTime() - b.date_evenement.getTime());
+public sortEvennementByDate(): void {
+    this.listeEvennements.sort((a, b) => {
+      const dateA = new Date(a.date_evenement).getTime();
+      const dateB = new Date(b.date_evenement).getTime();
+      return dateB - dateA; 
+    });
   }
 }
