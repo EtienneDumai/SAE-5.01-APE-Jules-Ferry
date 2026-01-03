@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Tache;
 use Illuminate\Http\Request;
 use App\Models\Creneau;
 class CreneauController extends Controller
@@ -57,12 +57,13 @@ class CreneauController extends Controller
         }
     }
     public function getCreneauxByTacheId($tacheId)
-    {
-        $creneaux = Creneau::where('id_tache', $tacheId)->get();
-        if ($creneaux) {
-            return response()->json($creneaux);
-        } else {
-            return response()->json(['message' => 'Aucun créneau trouvé pour cet événement'], 404);
-        }
+{
+    if (!Tache::where('id_tache', $tacheId)->exists()) {
+        return response()->json([
+            'message' => 'Tâche inexistante'
+        ], 404);
     }
+    $creneaux = Creneau::where('id_tache', $tacheId)->get();
+    return response()->json($creneaux, 200);
+}
 }
