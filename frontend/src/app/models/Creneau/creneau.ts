@@ -3,4 +3,5 @@ export interface Creneau {
     heure_debut: string;
     heure_fin: string;
     quota: number;
+    id_tache: number; //clef étrangère vers une tâche
 }

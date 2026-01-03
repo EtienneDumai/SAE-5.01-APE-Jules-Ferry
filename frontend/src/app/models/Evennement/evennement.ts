@@ -11,4 +11,6 @@ export interface Evennement {
     lieu: string;
     image_url: string;
     statut: StatutEvennement;
+    id_auteur: number; //clef étrangère vers un utilisateur
+    id_formulaire: number; //clef étrangère vers un formulaire
 }

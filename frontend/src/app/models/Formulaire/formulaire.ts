@@ -5,4 +5,5 @@ export interface Formulaire {
     nom_formulaire: string;
     description: string;
     statut: StatutFormulaire;
+    id_createur: number; //clef étrangère vers un utilisateur
 }

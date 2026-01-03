@@ -4,4 +4,5 @@ export interface Tache {
     description: string;
     heure_debut_globale: string;
     heure_fin_globale: string;
+    id_formulaire: number; //Clef etrangère vers Formulaire
 }
