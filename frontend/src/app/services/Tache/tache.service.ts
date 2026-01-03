@@ -24,4 +24,7 @@ export class TacheService {
   deleteTache(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/taches/${id}`);
   }
+  getAlltachesByIdEvennement(id_evennement: number): Observable<Tache[]> {
+    return this.http.get<Tache[]>(`${environment.apiUrl}/evennements/${id_evennement}/taches`);
+  }
 }

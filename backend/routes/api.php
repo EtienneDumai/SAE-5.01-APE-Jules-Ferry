@@ -10,6 +10,7 @@ use App\Http\Controllers\TacheController;
 use App\Http\Controllers\UtilisateurController;
 
 Route::get('/evenements/{eventId}/creneaux', [CreneauController::class, 'getCreneauxByEventId']);
+Route::get('/evenements/{id_evennement}/taches', [TacheController::class, 'getTachesByEvennement']);
 Route::apiResource('actualites', ActualiteController::class);
 Route::apiResource('creneaux', CreneauController::class);
 Route::apiResource('evenements', EvennementController::class);

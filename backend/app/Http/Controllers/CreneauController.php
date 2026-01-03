@@ -56,9 +56,9 @@ class CreneauController extends Controller
             return response()->json(['message' => 'Créneau non trouvé'], 404);
         }
     }
-    public function getCreneauxByEventId($eventId)
+    public function getCreneauxByTacheId($tacheId)
     {
-        $creneaux = Creneau::where('evenement_id', $eventId)->get();
+        $creneaux = Creneau::where('id_tache', $tacheId)->get();
         if ($creneaux) {
             return response()->json($creneaux);
         } else {
