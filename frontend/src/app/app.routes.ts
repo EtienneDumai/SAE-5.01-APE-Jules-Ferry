@@ -9,8 +9,8 @@ import { InscriptionEvenementComponent } from './pages/inscription-evenement/ins
 export const routes: Routes = [
     { path: '', component: AccueilComponent },
     { path:'actualites', component: ActualitePageComponent },
-    { path: 'actualites/:id', component: ActualiteDetailComponent },
+    { path: 'actualite/:id', component: ActualiteDetailComponent },
     { path: 'evennements', component: EvennementPageComponent },
-    { path: 'evennements/:id', component: EvennementDetailComponent },
+    { path: 'evennement/:id', component: EvennementDetailComponent },
     { path: 'inscription-evenement/:id', component: InscriptionEvenementComponent }
 ];

@@ -12,6 +12,7 @@
     @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <app-actualite-card 
+            [id_actualite]="actualite.id_actualite"
             [titre]="actualite.titre"
             [image_url]="actualite.image_url"
             [contenu]="actualite.contenu"
@@ -34,6 +35,7 @@
     @for(evennement of this.listeEvennements.slice(0,3); track evennement.id_evennement){
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <app-evennement-card
+            [id_evennement]="evennement.id_evennement"
             [titre]="evennement.titre"
             [image_url]="evennement.image_url"
             [description]="evennement.description"

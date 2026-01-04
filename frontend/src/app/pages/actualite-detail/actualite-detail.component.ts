@@ -20,7 +20,7 @@ export class ActualiteDetailComponent implements OnInit {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   ngOnInit() : void{
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.actualiteService.getActualiteById(id).subscribe({
+    this.actualiteService.getActualiteById(Number(id)).subscribe({
       next: (data) => {
         this.actualite = data;
         this.loadingActualite = false;

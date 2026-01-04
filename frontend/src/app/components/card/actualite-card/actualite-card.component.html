@@ -23,9 +23,7 @@
       {{ datePublication | date:'dd/MM/yyyy' }}
       </span>
 
-      <button
-        [routerLink]="['/actualite', id_actualite]"
-        class="bg-white px-4 py-2 rounded text-[var(--primary-blue)] border border-[var(--primary-blue)]"
+      <button routerLink="/actualite/{{id_actualite}}" class="bg-white px-4 py-2 rounded text-[var(--primary-blue)] border border-[var(--primary-blue)]"
       >
         Voir plus
       </button>
