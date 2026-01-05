@@ -106,6 +106,9 @@
             @if (mot_de_passe?.errors?.['minlength']) {
               <p class="text-red-600 text-xs">Le mot de passe doit contenir au moins 8 caractères</p>
             }
+            @if(mot_de_passe?.errors?.['pattern']) {
+              <p class="text-red-600 text-xs">Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial</p>
+            }
           </div>
         }
       </div>

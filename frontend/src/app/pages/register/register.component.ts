@@ -17,7 +17,7 @@ export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  
+
   registerForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
@@ -27,7 +27,7 @@ export class RegisterComponent {
       nom: ['', [Validators.required, Validators.maxLength(50)]],
       prenom: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
-      mot_de_passe: ['', [Validators.required, Validators.minLength(8)]],
+      mot_de_passe: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)]],
       mot_de_passe_confirmation: ['', [Validators.required]]
     }, {
       validators: this.passwordMatchValidator
@@ -37,12 +37,19 @@ export class RegisterComponent {
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('mot_de_passe');
     const confirmPassword = control.get('mot_de_passe_confirmation');
-
     if (!password || !confirmPassword) {
       return null;
     }
-
-    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+    // Nettoyage de l'erreur si tout est OK
+    if (password.value === confirmPassword.value) {
+      if (confirmPassword.hasError('passwordMismatch')) {
+        confirmPassword.setErrors(null);
+      }
+      return null;
+    }
+    // Pose l'erreur UNIQUEMENT sur le champ confirmation
+    confirmPassword.setErrors({ passwordMismatch: true });
+    return { passwordMismatch: true };
   }
 
   onSubmit(): void {
@@ -62,7 +69,7 @@ export class RegisterComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        
+
         if (error.error?.errors) {
           const errors = error.error.errors;
           const firstError = Object.values(errors)[0];
@@ -70,7 +77,7 @@ export class RegisterComponent {
         } else {
           this.errorMessage = error.error?.message || 'Une erreur est survenue lors de l\'inscription';
         }
-        
+
         console.error('Erreur d\'inscription', error);
       },
       complete: () => {
@@ -100,7 +107,7 @@ export class RegisterComponent {
   }
 
   get passwordMismatch() {
-    return this.registerForm.errors?.['passwordMismatch'] && 
-           this.mot_de_passe_confirmation?.touched;
+    return this.registerForm.errors?.['passwordMismatch'] &&
+      this.mot_de_passe_confirmation?.touched;
   }
 }
