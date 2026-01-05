@@ -4,10 +4,7 @@
     </div>
 
 } @else if (this.errorActualite) {
-    <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 my-6" role="alert">
-        <p class="font-bold">Erreur</p>
-        <p>Impossible de charger l'actualité. Veuillez réessayer plus tard.</p>
-    </div>
+<app-erreur-modale [messageErreur]="'Une erreur est survenue lors de la demande d\'accès à cette actualité'"></app-erreur-modale>
 
 } @else {
     <div class="max-w-4xl mx-auto px-4 py-8">

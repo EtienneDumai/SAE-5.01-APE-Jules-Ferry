@@ -3,11 +3,12 @@ import { Evenement } from '../../models/Evenement/evenement';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-
+import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent],
+  imports: [SpinnerComponent, ErreurModaleComponent],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css'
 })
@@ -18,6 +19,7 @@ export class EvenementDetailComponent implements OnInit {
   errorEvenement : boolean = false;
   private readonly evenementService: EvenementService = inject(EvenementService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private location: Location = inject(Location);
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.evenementService.getEvenementById(id).subscribe({
@@ -36,6 +38,6 @@ export class EvenementDetailComponent implements OnInit {
     return new Date(date).toLocaleDateString('fr-FR');
   }
   goBack(): void {
-    window.history.back();
+   this.location.back();
   }
 }

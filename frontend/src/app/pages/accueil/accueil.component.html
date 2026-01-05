@@ -7,7 +7,7 @@
     <app-spinner></app-spinner>
 }
 @else if (this.errorActualites) {
-    <p class="text-red-500">Erreur lors du chargement des actualités</p>
+    <app-erreur-modale [messageErreur]="'Erreur lors du chargement des actualités'" [routeRedirection]="'/'"></app-erreur-modale>
 }
 @else {
     <div class="ml-3 mr-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
@@ -34,7 +34,7 @@
     <app-spinner></app-spinner>
 }
 @else if (this.errorEvents) {
-    <p class="text-red-500">Erreur lors du chargement des évènements</p>
+    <app-erreur-modale [messageErreur]="'Erreur lors du chargement des événements'" [routeRedirection]="'/'"></app-erreur-modale>
 }
 @else {
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ml-3 mr-3 mb-3">
