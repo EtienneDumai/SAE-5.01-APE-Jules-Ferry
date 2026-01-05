@@ -23,27 +23,38 @@
           />
         </svg>
       </button>
+      <a routerLink="/" class="w-16 h-16 ml-2">
+        <img src="/logo/logo.webp" alt="Logo APE" class="h-16 w-auto" />
+      </a>
     </div>
     <h1 class="absolute left-1/2 -translate-x-1/2">
       APE Jules Ferry
     </h1>
       <div class="flex items-center gap-4">
-		@if (utilisateurCourant != null) {
-			<button class="bg-white border-[var(--primary-blue)] text-[var(--primary-blue)] px-3 py-1 rounded border-2 hover:shadow-lg transition-shadow h-10" routerLink="/compte">Mon compte</button>
-		}
-		@else {
-			<button class="bg-white border-[var(--primary-blue)] text-[var(--primary-blue)] px-3 py-1 rounded border-2 hover:shadow-lg transition-shadow h-10" routerLink="/connexion">Se connecter</button>
-		}
-        <div class="w-16 h-16">
-          <img src="/logo/logo.webp" alt="Logo APE" class="h-16 w-auto" />
-        </div>
+        @if (!isAuthenticated) {
+              <button routerLink="/login" 
+                routerLinkActive="text-[var(--primary-blue)]"
+                class="bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-6 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
+                Connexion
+              </button>
+            }
+        @if(isAuthenticated && currentUser) {
+          <span class="text-gray-700">
+                Bonjour, <span class="font-semibold text-[var(--primary-blue)]">{{ currentUser.prenom }}</span>
+              </span>
+              <button 
+                (click)="logout()"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                Déconnexion
+              </button>
+        }
       </div>
   </div>
   @if (this.menuOpen) {
-	<div
-	  class="fixed inset-0 z-40 bg-black/40"
-	  (click)="closeMenu()"
-	></div>
+    <div
+      class="fixed inset-0 z-40 bg-black/40"
+      (click)="closeMenu()"
+    ></div>
   }
   <aside
     class="fixed top-0 left-0 z-50 h-full w-72 bg-[var(--primary-light-blue)] shadow transform transition-transform duration-200"

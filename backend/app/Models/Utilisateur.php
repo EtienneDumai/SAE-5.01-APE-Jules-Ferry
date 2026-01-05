@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Utilisateur extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'utilisateurs';
     protected $primaryKey = 'id_utilisateur';
@@ -22,13 +22,24 @@ class Utilisateur extends Authenticatable
         'mot_de_passe',
         'role',
         'statut_compte'
-        // PAS date_inscription : timestamps() gere created_at automatiquement
     ];
 
+    // Cacher le mot de passe dans les réponses JSON
     protected $hidden = [
         'mot_de_passe',
     ];
 
+    // Cast automatique
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function getAuthPassword()
+    {
+        return $this->mot_de_passe;
+    }
+
+    // Relations
     public function actualites()
     {
         return $this->hasMany(Actualite::class, 'id_auteur', 'id_utilisateur');
@@ -49,7 +60,6 @@ class Utilisateur extends Authenticatable
         return $this->hasMany(Inscription::class, 'id_utilisateur', 'id_utilisateur');
     }
 
-    // many-to-many avec Creneau via la table inscriptions
     public function creneaux()
     {
         return $this->belongsToMany(

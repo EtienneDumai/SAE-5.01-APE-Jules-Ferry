@@ -1,24 +1,11 @@
-@if(this.loadingActualite){
+@if(this.loadingEvenement){
     <div class="flex justify-center items-center h-64">
         <app-spinner></app-spinner>
     </div>
 
-<<<<<<< HEAD
-}@else if (this.errorActualite) {
-    <p class="text-red-500">Erreur lors du chargement de l'actualité</p> <!-- Petite modale en bas a doite a mettre -->
-} 
-@else {
-<div class="flex justify-between items-center my-6">
-    <app-actualite-card
-            [id_actualite]="actualite.id_actualite"
-            [titre]="actualite.titre"
-            [image_url]="actualite.image_url"
-            >
-    </app-actualite-card>
-</div>
-=======
-} @else if (this.errorActualite) {
-<app-erreur-modale [messageErreur]="'Une erreur est survenue lors de la demande d\'accès à cette actualité'"></app-erreur-modale>
+} @else if (this.errorEvenement) {
+<app-erreur-modale [messageErreur]="'Une erreur est survenue lors de la demande d\'accès à cet événement'"></app-erreur-modale>
+
 
 } @else {
     <div class="max-w-4xl mx-auto px-4 py-8">
@@ -27,14 +14,14 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
-            Retour aux actualités
+            Retour aux événements
         </button>
 
         <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
             
             <div class="h-64 md:h-96 w-full relative overflow-hidden bg-gray-100">
-                @if(actualite.image_url) {
-                    <img [src]="actualite.image_url" [alt]="actualite.titre" class="w-full h-full object-cover">
+                @if(evenement.image_url) {
+                    <img [src]="evenement.image_url" [alt]="evenement.titre" class="w-full h-full object-cover">
                 } @else {
                     <div class="flex items-center justify-center h-full text-gray-400">
                         <span class="text-lg italic">Aucune image disponible</span>
@@ -47,20 +34,26 @@
                     
                     <div class="flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        {{ convertDateToString(actualite.date_publication) }}
+                        {{ convertDateToString(evenement.date_evenement) }}
                     </div>
 
-                    <!-- @if(actualite.statut === 'brouillon') {
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Brouillon</span>
-                    } -->
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {{ evenement.heure_debut }} - {{ evenement.heure_fin }}
+                    </div>
+
+                    <div class="flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        {{ evenement.lieu }}
+                    </div>
                 </div>
 
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight">
-                    {{ actualite.titre }}
+                    {{ evenement.titre }}
                 </h1>
 
                 <div class="prose max-w-none text-gray-700 text-lg leading-relaxed whitespace-pre-line">
-                    {{ actualite.contenu }}
+                    {{ evenement.description }}
                 </div>
 
                 <div class="mt-12 pt-6 border-t border-gray-100 flex items-center">
@@ -68,13 +61,13 @@
                         <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                    </div>
                    <div>
-                       <p class="text-sm text-gray-500">Publié par</p>
-                       <!-- récup l'id auteur pour avoir l'auteur -->
+                       <p class="text-sm text-gray-500">Organisé par</p>
+                       <!-- récup l'id organisateur pour avoir l'organisateur -->
                    </div>
                 </div>
 
             </div>
         </article>
     </div>
->>>>>>> develop
 }
+

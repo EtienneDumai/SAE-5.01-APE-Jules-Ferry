@@ -11,14 +11,14 @@
                 {{ titre }}
             </h3>
             <p class="text-sm text-gray-700">
-                {{ datePublication | date:'dd/MM/yyyy' }} 
+                {{ date_evenement | date:'dd/MM/yyyy' }} · {{ heure_debut }} - {{ heure_fin }}
             </p>
         </div>
     </div>
 
     <div class="h-48 w-full bg-gray-200 relative">
         @if(image_url) {
-            <img [src]="image_url" [alt]="titre" class="w-full h-full object-cover">
+            <img [src]="image_url" [alt]="titre" class="w-full h-full object-cover" loading="lazy">
         } @else {
             <div class="w-full h-full flex items-center justify-center bg-gray-100 opacity-50">
                 <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -31,12 +31,18 @@
     <div class="p-4 flex flex-col flex-grow justify-between">
         
         <p class="text-gray-700 font-medium text-sm line-clamp-3 mb-4">
-            {{ contenu }}
+            {{ description }}
         </p>
 
-        <div class="flex justify-end mt-auto">
+        <div class="flex justify-between items-center mt-auto">
+            <div class="flex items-center gap-1 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-sm">{{ lieu }}</span>
+            </div>
             <button 
-                [routerLink]="['/actualites', id_actualite]"
+                [routerLink]="['/evenements', id_evenement]"
                 class="bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-6 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
                 Voir plus..
             </button>

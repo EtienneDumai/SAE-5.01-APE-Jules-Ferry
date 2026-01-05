@@ -1,49 +1,56 @@
-<div class="flex justify-between items-center my-6">
+<div class="flex justify-between items-center my-6 mx-3">
     <h2>Les actualités</h2>
-    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" routerLink="/actualites">Voir toutes les actualités</button>
+    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/actualites']">Voir toutes les actualités</button>
 </div>
+
 @if(this.loadingActualites){
     <app-spinner></app-spinner>
 }
 @else if (this.errorActualites) {
-    <p class="text-red-500">Erreur lors du chargement des actualités</p> <!-- Petite modale en bas a doite a mettre -->
+    <app-erreur-modale [messageErreur]="'Erreur lors du chargement des actualités'" [routeRedirection]="'/'"></app-erreur-modale>
 }
 @else {
-    @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div class="mx-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
+        
+        @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
             <app-actualite-card 
-            [id_actualite]="actualite.id_actualite"
-            [titre]="actualite.titre"
-            [image_url]="actualite.image_url"
-            [contenu]="actualite.contenu"
-            [datePublication]="actualite.date_publication">
-            </app-actualite-card>
-        </div>
-    } 
+                [id_actualite]="actualite.id_actualite"
+                [titre]="actualite.titre"
+                [image_url]="actualite.image_url"
+                [contenu]="actualite.contenu"
+                [datePublication]="actualite.date_publication"
+                [statut]="actualite.statut"> </app-actualite-card>
+        } 
+        
+    </div>
 }
-<div class="flex justify-between items-center my-6 mz-3">
-    <h2>Les évènements</h2>
-    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" routerLink="/evennements">Voir tous les évènements</button>
+
+<div class="flex justify-between items-center my-6 mx-3">
+    <h2>Les événements</h2>
+    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/evenements']">Voir tous les événements</button>
 </div>
+
 @if(this.loadingEvents){
     <app-spinner></app-spinner>
 }
 @else if (this.errorEvents) {
-    <p class="text-red-500">Erreur lors du chargement des évènements</p> <!-- Petite modale en bas a doite a mettre -->
+    <app-erreur-modale [messageErreur]="'Erreur lors du chargement des événements'" [routeRedirection]="'/'"></app-erreur-modale>
 }
 @else {
-    @for(evennement of this.listeEvennements.slice(0,3); track evennement.id_evennement){
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <app-evennement-card
-            [id_evennement]="evennement.id_evennement"
-            [titre]="evennement.titre"
-            [image_url]="evennement.image_url"
-            [description]="evennement.description"
-            [date_evennement]="evennement.date_evennement"
-            [heure_debut]="evennement.heure_debut"
-            [heure_fin]="evennement.heure_fin"
-            [lieu]="evennement.lieu"
-            ></app-evennement-card>
-        </div>
-    }
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mx-3">
+        
+        @for(evenement of this.listeEvenements.slice(0,3); track evenement.id_evenement){
+            <app-evenement-card
+                [id_evenement]="evenement.id_evenement"
+                [titre]="evenement.titre"
+                [image_url]="evenement.image_url"
+                [description]="evenement.description"
+                [date_evenement]="evenement.date_evenement"
+                [heure_debut]="evenement.heure_debut"
+                [heure_fin]="evenement.heure_fin"
+                [lieu]="evenement.lieu">
+                </app-evenement-card>
+        }
+        
+    </div>
 }

@@ -1,4 +1,4 @@
-export enum StatutEvennement {
+export enum StatutEvenement {
     brouillon = 'Brouillon',
     publie = 'Publié',
     annule = 'Annulé',
