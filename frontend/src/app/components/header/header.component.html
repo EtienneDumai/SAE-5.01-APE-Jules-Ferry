@@ -32,11 +32,11 @@
     </h1>
       <div class="flex items-center gap-4">
         @if (!isAuthenticated) {
-              <a routerLink="/login" 
+              <button routerLink="/login" 
                 routerLinkActive="text-[var(--primary-blue)]"
-                class="text-gray-700 hover:text-[var(--primary-blue)] transition">
+                class="bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-6 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
                 Connexion
-              </a>
+              </button>
             }
         @if(isAuthenticated && currentUser) {
           <span class="text-gray-700">
@@ -48,9 +48,6 @@
                 Déconnexion
               </button>
         }
-        <div class="w-16 h-16">
-          <img src="/logo/logo.webp" alt="Logo APE" class="h-16 w-auto" />
-        </div>
       </div>
   </div>
   @if (this.menuOpen) {
