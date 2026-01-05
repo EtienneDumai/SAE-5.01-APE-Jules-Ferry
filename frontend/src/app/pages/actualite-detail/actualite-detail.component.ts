@@ -4,18 +4,24 @@ import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
-import { Location } from '@angular/common';
+import { Location, DatePipe } from '@angular/common';
+import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
+import { Utilisateur } from '../../models/Utilisateur/utilisateur';
+
 @Component({
   selector: 'app-actualite-detail',
   standalone: true,
-  imports: [SpinnerComponent, ErreurModaleComponent],
+  imports: [SpinnerComponent, ErreurModaleComponent, DatePipe],
   templateUrl: './actualite-detail.component.html',
   styleUrl: './actualite-detail.component.css'
 })
 export class ActualiteDetailComponent implements OnInit {
   actualite !: Actualite;
   loadingActualite: boolean = true;
-  errorActualite : boolean = false
+  errorActualite : boolean = false;
+  errorAuteur: boolean = false;
+  auteur !: Utilisateur;
+  private readonly utilisateurService : UtilisateurService = inject(UtilisateurService);
   private readonly actualiteService : ActualiteService = inject(ActualiteService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private location: Location = inject(Location);
@@ -25,6 +31,15 @@ export class ActualiteDetailComponent implements OnInit {
       next: (data) => {
         this.actualite = data;
         this.loadingActualite = false;
+        this.utilisateurService.getUtilisateurById(this.actualite.id_auteur).subscribe({
+          next : (data) =>{
+            this.auteur = data;
+          },
+          error: (err) => {
+            console.error(err);
+            this.errorAuteur = true;
+          }
+        });
       },
       error: (err) => {
         console.error(err);
