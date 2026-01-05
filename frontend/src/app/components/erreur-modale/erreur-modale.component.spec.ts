@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EvennementCardComponent } from './evennement-card.component';
+import { ErreurModaleComponent } from './erreur-modale.component';
 
-describe('EvennementCardComponent', () => {
-  let component: EvennementCardComponent;
-  let fixture: ComponentFixture<EvennementCardComponent>;
+describe('ErreurModaleComponent', () => {
+  let component: ErreurModaleComponent;
+  let fixture: ComponentFixture<ErreurModaleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EvennementCardComponent]
+      imports: [ErreurModaleComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EvennementCardComponent);
+    fixture = TestBed.createComponent(ErreurModaleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

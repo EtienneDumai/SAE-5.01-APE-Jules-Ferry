@@ -5,13 +5,13 @@
             ← Retour à l'accueil
         </button>
 
-    @if(this.loadingActualites){
+    @if(this.loadingEvenements){
         <div class="flex justify-center items-center h-64">
             <app-spinner></app-spinner>
         </div>
     }
 
-    @else if (this.errorActualites) {
+    @else if (this.errorEvenements) {
         <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm" role="alert">
             <div class="flex">
                 <div class="flex-shrink-0">
@@ -20,31 +20,33 @@
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm text-red-700">Erreur lors du chargement des actualités. Veuillez réessayer plus tard.</p>
+                    <p class="text-sm text-red-700">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>
                 </div>
             </div>
         </div>
     }
 
-    @else if (this.listeActualites.length === 0) {
+    @else if (this.listeEvenements.length === 0) {
         <div class="text-center py-12 bg-gray-50 rounded-lg">
-            <p class="text-gray-500 text-lg">Aucune actualité pour le moment.</p>
+            <p class="text-gray-500 text-lg">Aucun événement pour le moment.</p>
         </div>
     }
 
     @else {
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             
-    @for(actualite of this.listeActualites; track actualite.id_actualite){
+    @for(evenement of this.listeEvenements; track evenement.id_evenement){
         
-        <app-actualite-card  
-            [id_actualite]="actualite.id_actualite"
-            [titre]="actualite.titre"
-            [contenu]="actualite.contenu"
-            [image_url]="actualite.image_url"
-            [datePublication]="actualite.date_publication" 
-            [statut]="actualite.statut">
-        </app-actualite-card>
+        <app-evenement-card 
+            [id_evenement]="evenement.id_evenement"
+            [titre]="evenement.titre"
+            [image_url]="evenement.image_url"
+            [description]="evenement.description"
+            [date_evenement]="evenement.date_evenement"
+            [heure_debut]="evenement.heure_debut"
+            [heure_fin]="evenement.heure_fin"
+            [lieu]="evenement.lieu">
+        </app-evenement-card>
 
     } 
 </div>
