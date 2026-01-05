@@ -1,0 +1,2 @@
+# Dossier services
+Ce dossier contient les services Angular utilisés dans l'application frontend. Les services sont des classes qui encapsulent la logique métier et les opérations de communication avec des API externes. Ils peuvent être injectés dans des composants ou d'autres services pour partager des données et des fonctionnalités à travers l'application.

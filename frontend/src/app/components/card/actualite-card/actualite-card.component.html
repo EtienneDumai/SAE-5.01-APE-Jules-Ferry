@@ -1,0 +1,46 @@
+<div class="h-full flex flex-col rounded-2xl border border-green-600 overflow-hidden bg-[var(--secondary-light-green)] shadow-sm hover:shadow-md transition-shadow">
+
+    <div class="p-4 flex items-center gap-4">
+        
+        <div class="w-12 h-12 flex-shrink-0 rounded-full bg-green-600 flex items-center justify-center text-white text-xl font-bold">
+            {{ titre.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="flex flex-col">
+            <h3 class="font-bold text-gray-900 text-lg leading-tight line-clamp-1" [title]="titre">
+                {{ titre }}
+            </h3>
+            <p class="text-sm text-gray-700">
+                {{ datePublication | date:'dd/MM/yyyy' }} 
+            </p>
+        </div>
+    </div>
+
+    <div class="h-48 w-full bg-gray-200 relative">
+        @if(image_url) {
+            <img [src]="image_url" [alt]="titre" class="w-full h-full object-cover">
+        } @else {
+            <div class="w-full h-full flex items-center justify-center bg-gray-100 opacity-50">
+                <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                   <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/>
+                </svg>
+            </div>
+        }
+    </div>
+
+    <div class="p-4 flex flex-col flex-grow justify-between">
+        
+        <p class="text-gray-700 font-medium text-sm line-clamp-3 mb-4">
+            {{ contenu }}
+        </p>
+
+        <div class="flex justify-end mt-auto">
+            <button 
+                [routerLink]="['/actualites', id_actualite]"
+                class="bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-6 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
+                Voir plus..
+            </button>
+        </div>
+    </div>
+
+</div>

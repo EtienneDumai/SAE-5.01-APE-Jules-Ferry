@@ -1,0 +1,2 @@
+# Dossier des composants
+Ce dossier contient les composants réutilisables de l'application frontend. Les composants sont des blocs de construction modulaires qui encapsulent la logique, le style et le rendu d'une partie spécifique de l'interface utilisateur. Ils permettent de structurer l'application de manière cohérente et facilitent la maintenance et l'évolution du code.

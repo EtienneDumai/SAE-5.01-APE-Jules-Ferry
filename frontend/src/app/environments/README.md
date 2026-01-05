@@ -1,0 +1,2 @@
+# Dossier environnements
+Ce dossier contient les fichiers de configuration des environnements pour l'application frontend. Chaque fichier d'environnement définit des variables spécifiques à un contexte donné (développement, production, etc.) qui influencent le comportement de l'application. Cela permet de gérer facilement les différences entre les environnements sans modifier le code source principal.

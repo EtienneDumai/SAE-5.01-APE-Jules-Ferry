@@ -1,0 +1,122 @@
+<header class="sticky top-0 z-50 bg-[var(--primary-light-blue)]">
+  <div class="relative mx-auto w-full px-2 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        class="inline-flex items-center justify-center w-10 h-10 rounded hover:bg-[var(--primary-blue)]"
+        (click)="toggleMenu()"
+        aria-label="Ouvrir le menu"
+      >
+        <span class="sr-only">Ouvrir le menu</span>
+        <!-- icône burger (SVG) -->
+        <svg
+          class="w-10 h-10"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+      <a routerLink="/" class="w-16 h-16 ml-2">
+        <img src="/logo/logo.webp" alt="Logo APE" class="h-16 w-auto" />
+      </a>
+    </div>
+    <h1 class="absolute left-1/2 -translate-x-1/2">
+      APE Jules Ferry
+    </h1>
+      <div class="flex items-center gap-4">
+        @if (!isAuthenticated) {
+              <button routerLink="/login" 
+                routerLinkActive="text-[var(--primary-blue)]"
+                class="bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-6 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
+                Connexion
+              </button>
+            }
+        @if(isAuthenticated && currentUser) {
+          <span class="text-gray-700">
+                Bonjour, <span class="font-semibold text-[var(--primary-blue)]">{{ currentUser.prenom }}</span>
+              </span>
+              <button 
+                (click)="logout()"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                Déconnexion
+              </button>
+        }
+      </div>
+  </div>
+  @if (this.menuOpen) {
+    <div
+      class="fixed inset-0 z-40 bg-black/40"
+      (click)="closeMenu()"
+    ></div>
+  }
+  <aside
+    class="fixed top-0 left-0 z-50 h-full w-72 bg-[var(--primary-light-blue)] shadow transform transition-transform duration-200"
+    [class.translate-x-0]="menuOpen"
+    [class.-translate-x-full]="!menuOpen"
+  >
+    <div class="relative p-4 ">
+      <p class="font-semibold text-center">Menu</p>
+
+      <button
+        type="button"
+        class="absolute top-2 right-2 w-10 h-10 inline-flex items-center justify-center rounded hover:bg-gray-100"
+        (click)="closeMenu()"
+        aria-label="Fermer le menu"
+      >
+        <span class="sr-only">Fermer le menu</span>
+        <!-- X -->
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="p-4">
+      <a
+        routerLink="/actualites"
+        (click)="closeMenu()"
+        class="block py-2 hover:bg-gray-100 rounded px-2 text-center w-full hover:shadow-lg transition-shadow"
+      >
+        Actualités
+      </a>
+      <a
+        routerLink="/evenements"
+        (click)="closeMenu()"
+        class="block py-2 hover:bg-gray-100 rounded px-2 text-center w-full hover:shadow-lg transition-shadow"
+      >
+        Événements
+      </a>
+      <a
+        routerLink="/contact"
+        (click)="closeMenu()"
+        class="block py-2 hover:bg-gray-100 rounded px-2 text-center w-full hover:shadow-lg transition-shadow"
+      >
+        Contact
+      </a>
+      <a
+        routerLink="/newsletter"
+        (click)="closeMenu()"
+        class="block py-2 hover:bg-gray-100 rounded px-2 text-center w-full hover:shadow-lg transition-shadow"
+      >
+        Newsletter
+      </a>
+    </nav>
+  </aside>
+</header>

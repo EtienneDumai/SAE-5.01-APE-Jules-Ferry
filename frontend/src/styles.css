@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{
+    --primary-blue: #2D7DD2;
+    --primary-light-blue: #A4D2F1;
+    --primary-dark-blue: #1C4F80;
+    --secondary-green: #4CAF50;
+    --secondary-light-green: #C8E6C9;
+    --background-color: #F3F4F6;
+    --secondary-background-color: #3B82F6;
+    --primary-text-color: #FFF8E6;
+    --success-color:#4CAF50;
+    --warning-color:#FFC107;
+    --error-color:#D32F2F;
+    --black-text-color:#1F2937;
+    --gray-text-color: #6B7280;
+}
+@layer base {
+  app-root {
+    background-color: var(--background-color);
+  }
+  h1 { @apply text-3xl font-bold; }
+  h2 { @apply text-2xl font-semibold; }
+  h3 { @apply text-xl font-semibold; }
+  footer{
+        background-color: var(--primary-light-blue);
+    }
+    a{
+        cursor: pointer;
+    }
+}
+
+

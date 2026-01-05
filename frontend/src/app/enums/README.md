@@ -1,0 +1,2 @@
+# Dossier des enumérations 
+Ce dossier contient les énumérations (enums) utilisées dans l'application frontend. Les énumérations sont des types de données spéciaux qui permettent de définir un ensemble de valeurs nommées, facilitant ainsi la gestion et la lisibilité du code lorsqu'il s'agit de représenter des états ou des catégories spécifiques.

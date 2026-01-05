@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: ape_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ape_db
+      POSTGRES_USER: ape_user
+      POSTGRES_PASSWORD: ape_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+
+  laravel:
+    build: ./backend
+    container_name: ape_laravel
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: ape_db
+      DB_USERNAME: ape_user
+      DB_PASSWORD: ape_password
+
+  angular:
+    build: ./frontend
+    container_name: ape_angular
+    restart: always
+    ports:
+      - "4200:4200"

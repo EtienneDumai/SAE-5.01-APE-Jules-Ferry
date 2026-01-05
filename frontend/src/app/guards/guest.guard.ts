@@ -1,0 +1,17 @@
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/Auth/auth.service';
+
+export const guestGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  //si utilisateur connecté, redirect vers accueil
+  if (authService.isAuthenticated()) {
+    router.navigate(['/']);
+    return false;
+  }
+
+  // sinon on authorise l'accès
+  return true;
+};

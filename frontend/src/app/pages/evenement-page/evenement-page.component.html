@@ -1,0 +1,55 @@
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <div class="mb-6">
+        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="['/']">
+            ← Retour à l'accueil
+        </button>
+
+    @if(this.loadingEvenements){
+        <div class="flex justify-center items-center h-64">
+            <app-spinner></app-spinner>
+        </div>
+    }
+
+    @else if (this.errorEvenements) {
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm" role="alert">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-red-700">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @else if (this.listeEvenements.length === 0) {
+        <div class="text-center py-12 bg-gray-50 rounded-lg">
+            <p class="text-gray-500 text-lg">Aucun événement pour le moment.</p>
+        </div>
+    }
+
+    @else {
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+            
+    @for(evenement of this.listeEvenements; track evenement.id_evenement){
+        
+        <app-evenement-card 
+            [id_evenement]="evenement.id_evenement"
+            [titre]="evenement.titre"
+            [image_url]="evenement.image_url"
+            [description]="evenement.description"
+            [date_evenement]="evenement.date_evenement"
+            [heure_debut]="evenement.heure_debut"
+            [heure_fin]="evenement.heure_fin"
+            [lieu]="evenement.lieu">
+        </app-evenement-card>
+
+    } 
+</div>
+    }
+</div>
+</div>
