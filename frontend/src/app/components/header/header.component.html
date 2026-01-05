@@ -30,14 +30,28 @@
     <h1 class="absolute left-1/2 -translate-x-1/2">
       APE Jules Ferry
     </h1>
-    <div class="flex items-center gap-4">
-      @if (utilisateurCourant != null) {
-        <button class="bg-white border-[var(--primary-blue)] text-[var(--primary-blue)] px-3 py-1 rounded border-2 hover:shadow-lg transition-shadow h-10" routerLink="/compte">Mon compte</button>
-      }
-      @else {
-        <button class="bg-white border-[var(--primary-blue)] text-[var(--primary-blue)] px-3 py-1 rounded border-2 hover:shadow-lg transition-shadow h-10" routerLink="/connexion">Se connecter</button>
-      }
-    </div>
+      <div class="flex items-center gap-4">
+        @if (!isAuthenticated) {
+              <a routerLink="/login" 
+                routerLinkActive="text-[var(--primary-blue)]"
+                class="text-gray-700 hover:text-[var(--primary-blue)] transition">
+                Connexion
+              </a>
+            }
+        @if(isAuthenticated && currentUser) {
+          <span class="text-gray-700">
+                Bonjour, <span class="font-semibold text-[var(--primary-blue)]">{{ currentUser.prenom }}</span>
+              </span>
+              <button 
+                (click)="logout()"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                Déconnexion
+              </button>
+        }
+        <div class="w-16 h-16">
+          <img src="/logo/logo.webp" alt="Logo APE" class="h-16 w-auto" />
+        </div>
+      </div>
   </div>
   @if (this.menuOpen) {
     <div

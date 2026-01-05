@@ -1,29 +1,44 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
-import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
-import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { Observable } from 'rxjs';
 import { RouterLink } from "@angular/router";
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/Auth/auth.service';
+import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  utilisateurCourant!: Observable<Utilisateur | null>;
-  RoleUtilisateur = RoleUtilisateur;
   menuOpen: boolean = false;
-  private readonly utilisateurService = inject(UtilisateurService);
-  constructor() { }
+  private readonly authService = inject(AuthService);
+  currentUser: Utilisateur | null = null;
+  isAuthenticated: boolean = false;
+
+  constructor() {}
+
   ngOnInit(): void {
-    this.utilisateurCourant = this.utilisateurService.utilisateurCourant;
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      this.isAuthenticated = user !== null;
+    });
   }
-  setUtilisateur(utilisateur: Utilisateur | null) {
-    this.utilisateurService.setUtilisateurCourant(utilisateur);
+
+  logout(): void {
+    if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+      this.authService.logout().subscribe({
+        next: () => {
+          console.log('Déconnexion réussie');
+        },
+        error: (error) => {
+          console.error('Erreur lors de la déconnexion', error);
+        }
+      });
+    }
   }
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
@@ -36,4 +51,3 @@ export class HeaderComponent implements OnInit {
     this.closeMenu();
   }
 }
-

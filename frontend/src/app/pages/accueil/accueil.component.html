@@ -1,4 +1,4 @@
-<div class="flex justify-between items-center my-6 ml-3 mr-3">
+<div class="flex justify-between items-center my-6 mz-3">
     <h2>Les actualités</h2>
     <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/actualites']">Voir toutes les actualités</button>
 </div>
@@ -10,7 +10,7 @@
     <app-erreur-modale [messageErreur]="'Erreur lors du chargement des actualités'" [routeRedirection]="'/'"></app-erreur-modale>
 }
 @else {
-    <div class="ml-3 mr-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
+    <div class="mz-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
         
         @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
             <app-actualite-card 
@@ -25,7 +25,7 @@
     </div>
 }
 
-<div class="flex justify-between items-center my-6 ml-3 mr-3">
+<div class="flex justify-between items-center my-6 mz-3">
     <h2>Les événements</h2>
     <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/evenements']">Voir tous les événements</button>
 </div>
@@ -37,7 +37,7 @@
     <app-erreur-modale [messageErreur]="'Erreur lors du chargement des événements'" [routeRedirection]="'/'"></app-erreur-modale>
 }
 @else {
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ml-3 mr-3 mb-3">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mz-3">
         
         @for(evenement of this.listeEvenements.slice(0,3); track evenement.id_evenement){
             <app-evenement-card
