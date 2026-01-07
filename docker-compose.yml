@@ -1,7 +1,5 @@
-version: "3.8"
 
 services:
-
   postgres:
     image: postgres:16
     container_name: ape_postgres
@@ -30,6 +28,17 @@ services:
       DB_DATABASE: ape_db
       DB_USERNAME: ape_user
       DB_PASSWORD: ape_password
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+      # évite d’écraser vendor par le host si tu ne l’as pas en local
+      - laravel_vendor:/var/www/vendor
+    command: >
+      sh -c "
+      composer install &&
+      php artisan migrate:fresh --seed &&
+      php artisan serve --host=0.0.0.0 --port=8000
+      "
 
   angular:
     build: ./frontend
@@ -37,3 +46,21 @@ services:
     restart: always
     ports:
       - "4200:4200"
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      # évite d’écraser node_modules par le host
+      - angular_node_modules:/app/node_modules
+    environment:
+      # Très utile sous Docker/VM/WSL/partages : watch en polling
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    command: >
+      sh -c "
+      npm install &&
+      npm run start -- --host 0.0.0.0 --port 4200 --poll 2000 --hmr
+      "
+
+volumes:
+  laravel_vendor:
+  angular_node_modules:
