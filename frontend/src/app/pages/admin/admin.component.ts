@@ -41,6 +41,10 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  handleEventDeleted(id: number): void {
+    this.listeEvenements = this.listeEvenements.filter(e => e.id_evenement !== id);
+  }
+
   deleteEvenement(id: number): void {
     if (confirm('Voulez-vous vraiment supprimer cet événement ?')) {
       this.evenementService.deleteEvenement(id).subscribe({

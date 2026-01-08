@@ -45,7 +45,8 @@
             [date_evenement]="evenement.date_evenement"
             [heure_debut]="evenement.heure_debut"
             [heure_fin]="evenement.heure_fin"
-            [lieu]="evenement.lieu">
+            [lieu]="evenement.lieu"
+            (eventDeleted)="handleEventDeleted($event)">
         </app-evenement-card>
 
     } 

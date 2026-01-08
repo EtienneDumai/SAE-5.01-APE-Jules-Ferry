@@ -51,6 +51,11 @@ export class AccueilComponent implements OnInit {
     });
     this.sortEvenementByDate(this.listeEvenements);
   }
+
+  handleEventDeleted(id: number): void {
+    this.listeEvenements = this.listeEvenements.filter(e => e.id_evenement !== id);
+  }
+
   public sortEvenementByDate(a: Evenement[]): Evenement[] {
     return a.sort((a, b) => a.date_evenement.getTime() - b.date_evenement.getTime());
   }

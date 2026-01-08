@@ -1,7 +1,9 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-semibold mb-6">Espace Administrateur</h1>
   
   <div class="flex justify-between items-center mb-8">
+        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="['/']">
+            ← Retour à l'accueil
+      </button>
     <a [routerLink]="['/evenements', 'new', 'edit']" 
        class="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition-colors font-bold shadow-md">
        + Créer un événement
@@ -37,6 +39,7 @@
             [heure_debut]="evenement.heure_debut"
             [heure_fin]="evenement.heure_fin"
             [lieu]="evenement.lieu"
+            (eventDeleted)="handleEventDeleted($event)"
           ></app-evenement-card>
         }
       </div>
