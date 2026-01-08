@@ -4,43 +4,44 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\EvenementController;
+use App\Http\Controllers\Api\ActualiteController;
+use App\Http\Controllers\Api\InscriptionController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\ActualiteController;
-use App\Http\Controllers\CreneauController;
-use App\Http\Controllers\EvenementController;
-use App\Http\Controllers\FormulaireController;
-use App\Http\Controllers\InscriptionController;
-use App\Http\Controllers\TacheController;
-use App\Http\Controllers\UtilisateurController;
+
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| API Routes - Publiques
 |--------------------------------------------------------------------------
 */
 
-// Routes publiques (pas besoin d'être connecté)
+// Auth
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 
-// Routes protégées (nécessitent un token Sanctum)
+// Événements
+Route::get('/evenements', [EvenementController::class, 'index']);
+Route::get('/evenements/{id}', [EvenementController::class, 'show']);
+
+// Actualités
+Route::get('/actualites', [ActualiteController::class, 'index']);
+Route::get('/actualites/{id}', [ActualiteController::class, 'show']);
+
+/*
+|--------------------------------------------------------------------------
+| API Routes - Protégées (auth:sanctum)
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth:sanctum')->group(function () {
+    // Auth
     Route::post('/logout', [LogoutController::class, 'logout']);
-    
-    // Route pour récupérer les infos de l'utilisateur connecté
     Route::get('/user', function(Request $request) {
-        return response()->json([
-            'user' => $request->user(),
-        ]);
+        return response()->json(['user' => $request->user()]);
     });
+
+    // Inscriptions (CRUD)
+    Route::post('/inscriptions', [InscriptionController::class, 'store']);
+    Route::get('/inscriptions/mes-inscriptions', [InscriptionController::class, 'mesInscriptions']);
+    Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
 });
-
-
-Route::get('/evenements/{eventId}/creneaux', [CreneauController::class, 'getCreneauxByEventId']);
-Route::get('/evenements/{id_evennement}/taches', [TacheController::class, 'getTachesByEvennement']);
-Route::apiResource('actualites', ActualiteController::class);
-Route::apiResource('creneaux', CreneauController::class);
-Route::apiResource('evenements', EvenementController::class);
-Route::apiResource('formulaires', FormulaireController::class);
-Route::apiResource('inscriptions', InscriptionController::class);
-Route::apiResource('taches', TacheController::class);
-Route::apiResource('utilisateurs', UtilisateurController::class);

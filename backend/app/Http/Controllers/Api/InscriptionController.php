@@ -10,24 +10,36 @@ use Illuminate\Support\Facades\DB;
 
 class InscriptionController extends Controller
 {
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             'id_creneau' => 'required|exists:creneaux,id_creneau',
-            'commentaire' => 'nullable|string|max:255',
+            'commentaire' => 'nullable|string|max:500',
         ]);
 
-        $user = $request->user(); 
+        $user = $request->user();
         $creneauId = $request->id_creneau;
 
-        return DB::transaction(function () use ($user, $creneauId, $request) { //gestion du simultané (eviter conflits)
-            
-            $creneau = Creneau::lockForUpdate()->find($creneauId);
+        return DB::transaction(function () use ($user, $creneauId, $request) {
 
+            $creneau = Creneau::with('tache.formulaire.evenements')
+                ->lockForUpdate()
+                ->find($creneauId);
+
+            // Verif date evenement pas expirée
+            $evenement = $creneau->tache->formulaire->evenements()->first();
+
+            if ($evenement && $evenement->date_evenement < now()->toDateString()) {
+                return response()->json([
+                    'message' => 'Impossible de s\'inscrire à un événement passé.'
+                ], 422);
+            }
+
+            // Verif quota, doublon et inscription
             $existe = Inscription::where('id_utilisateur', $user->id_utilisateur)
-                                 ->where('id_creneau', $creneauId)
-                                 ->exists();
-            //gestion des erreurs possibles (déja inscrit, créneau complet)
+                ->where('id_creneau', $creneauId)
+                ->exists();
+
             if ($existe) {
                 return response()->json(['message' => 'Vous êtes déjà inscrit à ce créneau.'], 409);
             }
@@ -64,8 +76,8 @@ class InscriptionController extends Controller
         $user = $request->user();
 
         $deleted = Inscription::where('id_utilisateur', $user->id_utilisateur)
-                              ->where('id_creneau', $id_creneau)
-                              ->delete();
+            ->where('id_creneau', $id_creneau)
+            ->delete();
 
         if ($deleted) {
             return response()->json(['message' => 'Inscription annulée.']);
