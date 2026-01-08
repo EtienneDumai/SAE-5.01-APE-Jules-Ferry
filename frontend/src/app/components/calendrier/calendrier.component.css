@@ -25,8 +25,8 @@
 }
 
 .main-calendar .fc-button-primary:not(:disabled).fc-button-active {
-  background-color: var(--primary-blue) !important;
-  border-color: var(--primary-blue) !important;
+  background-color: var(--primary-dark-blue) !important;
+  border-color: var(--primary-dark-blue) !important;
 }
 
 .main-calendar .fc-event {

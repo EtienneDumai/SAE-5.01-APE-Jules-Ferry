@@ -46,10 +46,13 @@ export class CalendrierComponent implements OnInit {
     },
 
     headerToolbar: {
-      left: 'prevYear,prev,next,nextYear today',
+      left: 'prev,next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
 
+    },
+    footerToolbar: {
+      left:'prevYear,nextYear'
     },
     
     weekNumbers: true,
