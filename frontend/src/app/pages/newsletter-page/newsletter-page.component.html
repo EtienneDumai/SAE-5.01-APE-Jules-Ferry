@@ -1,16 +1,17 @@
-<section class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-3xl shadow-xl border border-gray-100">
+<section class="h-[calc(100vh-200px)] flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 p-10 rounded-3xl shadow-xl border border-white/20 bg-[var(--secondary-light-green)]">
       <div class="text-center">
-        <h2 class="mt-6 text-3xl font-extrabold text-[var(--black-text-color)]">
-          Rejoignez notre communauté
+        <h2 class="mt-6 text-3xl font-extrabold text-white">
+          S’abonner à la liste de diffusion
         </h2>
-        <p class="mt-2 text-sm text-gray-600">
-          Inscrivez-vous à la newsletter pour recevoir toutes les dernières actualités directement dans votre boîte mail.
+        <p class="mt-2 text-sm text-white/90 font-medium">
+          Entrez le mail sur lequel vous souhaitez recevoir les newsletters
         </p>
       </div>
   
       <form class="mt-8 space-y-6" (ngSubmit)="onSubscribe()">
-        <div class="rounded-md shadow-sm -space-y-px">
+        <div class="rounded-md shadow-sm space-y-5">
+          
           <div>
             <label for="email-address" class="sr-only">Adresse email</label>
             <input 
@@ -19,24 +20,39 @@
               type="email" 
               [(ngModel)]="emailNewsletter"
               required 
-              class="appearance-none rounded-2xl relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[var(--primary-blue)] focus:border-[var(--primary-blue)] focus:z-10 sm:text-sm" 
+              class="appearance-none rounded-2xl relative block w-full px-4 py-3 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-blue)] focus:z-10 sm:text-sm shadow-inner" 
               placeholder="votre@email.com"
             >
+          </div>
+  
+          <div class="flex items-start gap-3 px-1">
+            <div class="flex items-center h-5">
+              <input 
+                id="rgpd" 
+                name="rgpd" 
+                type="checkbox" 
+                [(ngModel)]="rgpdAccepted"
+                required
+                class="h-4 w-4 border-gray-300 rounded text-[var(--primary-blue)] focus:ring-[var(--primary-blue)] cursor-pointer"
+              >
+            </div>
+            <div class="text-sm">
+              <label for="rgpd" class="font-medium text-white cursor-pointer select-none">
+                J’accepte le traitement de mes données (RGPD)
+              </label>
+            </div>
           </div>
         </div>
   
         <div>
           <button 
             type="submit" 
-            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-2xl text-white bg-[var(--primary-blue)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] transition-all"
+            [disabled]="!rgpdAccepted"
+            class="group relative w-full flex justify-center py-3 px-4 text-sm font-bold rounded-full text-white bg-[var(--primary-blue)] hover:opacity-90 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 shadow-sm"
           >
-            S'inscrire gratuitement
+            Valider
           </button>
         </div>
       </form>
-      
-      <p class="text-center text-xs text-gray-400 mt-4">
-        Garanti sans spam. Vous pouvez vous désabonner à tout moment.
-      </p>
     </div>
   </section>
