@@ -16,7 +16,7 @@ import { StatutCompte } from '../../enums/StatutCompte/statut-compte';
   templateUrl: './admin-utilisateurs.component.html',
   styleUrls: ['./admin-utilisateurs.component.css']
 })
-export class AdminUtilisateursComponent implements OnInit {
+export class AdminGestionUtilisateursComponent implements OnInit {
   utilisateurs: Utilisateur[] = [];
   chargementEnCours = true;
   texteRecherche: string = '';
