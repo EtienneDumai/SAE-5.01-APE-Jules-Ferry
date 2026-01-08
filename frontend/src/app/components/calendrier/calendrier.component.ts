@@ -10,11 +10,12 @@ import interactionPlugin from '@fullcalendar/interaction';
 import frLocale from '@fullcalendar/core/locales/fr';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-calendrier',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule, RouterModule],
+  imports: [CommonModule, FullCalendarModule, RouterModule, SpinnerComponent],
   templateUrl: './calendrier.component.html',
   styleUrl: './calendrier.component.css',
   encapsulation: ViewEncapsulation.None
@@ -33,6 +34,8 @@ export class CalendrierComponent implements OnInit {
   isLoading = true;
   errorMessage: string | null = null;
   
+  calendarState: 'compact' | 'expanded' | 'closed' = 'compact';
+  
   // Détection du mode mobile selon la largeur de la fenêtre
   private isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
@@ -41,7 +44,7 @@ export class CalendrierComponent implements OnInit {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
     initialView:'dayGridMonth',
     locale: frLocale,
-    height: 'auto', 
+    height: 'auto',
     allDaySlot: false,
     
     slotMinTime: '07:00:00',
@@ -143,6 +146,22 @@ export class CalendrierComponent implements OnInit {
     setTimeout(() => {
       this.calendarContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
+  }
+
+  expandCalendar(): void {
+    this.calendarState = 'expanded';
+  }
+
+  collapseCalendar(): void {
+    this.calendarState = 'compact';
+  }
+
+  closeCalendar(): void {
+    this.calendarState = 'closed';
+  }
+
+  openCalendar(): void {
+    this.calendarState = 'compact';
   }
 
   // Gestion du redimensionnement de la fenêtre
