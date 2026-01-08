@@ -24,12 +24,12 @@
       </button>
     </div>
 
-    <div *ngIf="chargementEnCours" class="flex justify-center py-20">
+    @if (chargementEnCours) {
+    <div class="flex justify-center py-20">
       <app-spinner></app-spinner>
     </div>
-
-    <div *ngIf="!chargementEnCours"
-      class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+    } @else {
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-300">
           <thead class="bg-gray-50">
@@ -44,8 +44,8 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white">
 
-            <tr *ngFor="let user of utilisateursFiltres"
-              [ngClass]="{'bg-blue-50/50': idEnEdition === user.id_utilisateur}">
+            @for (user of utilisateursFiltres; track user.id_utilisateur) {
+            <tr [ngClass]="{'bg-blue-50/50': idEnEdition === user.id_utilisateur}">
 
               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                 @if (idEnEdition === user.id_utilisateur) {
@@ -73,15 +73,17 @@
                 @if (idEnEdition === user.id_utilisateur) {
                 <select [(ngModel)]="user.role"
                   class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs">
-                  <option *ngFor="let role of listeRoles" [value]="role">{{ role }}</option>
+                  @for (role of listeRoles; track role) {
+                  <option [value]="role">{{ role }}</option>
+                  }
                 </select>
                 } @else {
                 <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
                   [ngClass]="{
-                      'bg-purple-50 text-purple-700 ring-purple-700/10': user.role === RoleUtilisateur.administrateur, 
-                      'bg-blue-50 text-blue-700 ring-blue-700/10': user.role === RoleUtilisateur.membre_bureau,
-                      'bg-gray-50 text-gray-600 ring-gray-500/10': user.role === RoleUtilisateur.parent
-                    }">
+                          'bg-purple-50 text-purple-700 ring-purple-700/10': user.role === RoleUtilisateur.administrateur, 
+                          'bg-blue-50 text-blue-700 ring-blue-700/10': user.role === RoleUtilisateur.membre_bureau,
+                          'bg-gray-50 text-gray-600 ring-gray-500/10': user.role === RoleUtilisateur.parent
+                        }">
                   {{ user.role }}
                 </span>
                 }
@@ -91,19 +93,23 @@
                 @if (idEnEdition === user.id_utilisateur) {
                 <select [(ngModel)]="user.statut_compte"
                   class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs">
-                  <option *ngFor="let statut of listeStatuts" [value]="statut">{{ statut | titlecase }}</option>
+                  @for (statut of listeStatuts; track statut) {
+                  <option [value]="statut">{{ statut | titlecase }}</option>
+                  }
                 </select>
                 } @else {
                 <span
                   class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset"
                   [ngClass]="{
-                    'bg-green-100 text-green-700 ring-green-600/20': user.statut_compte === StatutCompte.actif,
-                    'bg-orange-100 text-orange-700 ring-orange-600/20': user.statut_compte === StatutCompte.suspendu,
-                    'bg-red-100 text-red-700 ring-red-600/20': user.statut_compte === StatutCompte.desactive
-                  }">
-                  <svg class="h-1.5 w-1.5"
-                    [ngClass]="user.statut_compte === StatutCompte.actif ? 'fill-green-500' : 'fill-red-500'"
-                    viewBox="0 0 6 6" aria-hidden="true">
+                          'bg-green-100 text-green-700 ring-green-600/20': user.statut_compte === StatutCompte.actif,
+                          'bg-orange-100 text-orange-700 ring-orange-600/20': user.statut_compte === StatutCompte.suspendu,
+                          'bg-red-100 text-red-700 ring-red-600/20': user.statut_compte === StatutCompte.desactive
+                        }">
+                  <svg class="h-1.5 w-1.5" [ngClass]="{
+                              'fill-green-500': user.statut_compte === StatutCompte.actif,
+                              'fill-orange-500': user.statut_compte === StatutCompte.suspendu,
+                              'fill-red-500': user.statut_compte === StatutCompte.desactive
+                           }" viewBox="0 0 6 6" aria-hidden="true">
                     <circle cx="3" cy="3" r="3" />
                   </svg>
                   {{ user.statut_compte | titlecase }}
@@ -147,8 +153,18 @@
                 </div>
               </td>
             </tr>
+            }
 
-            <tr *ngIf="modeCreation" class="bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft">
+            @if (utilisateursFiltres.length === 0 && !modeCreation) {
+            <tr>
+              <td colspan="5" class="text-center py-10 text-gray-500">
+                Aucun utilisateur trouvé.
+              </td>
+            </tr>
+            }
+
+            @if (modeCreation) {
+            <tr class="bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft">
               <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                 <div class="flex gap-2">
                   <input [(ngModel)]="nouvelUtilisateur.prenom" placeholder="Prénom"
@@ -161,7 +177,6 @@
                 <div class="flex flex-col gap-2">
                   <input [(ngModel)]="nouvelUtilisateur.email" placeholder="Email"
                     class="w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-
                   <input [(ngModel)]="nouvelUtilisateur.mot_de_passe" type="password" placeholder="Mot de passe"
                     class="w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
                 </div>
@@ -169,13 +184,17 @@
               <td class="whitespace-nowrap px-3 py-4">
                 <select [(ngModel)]="nouvelUtilisateur.role"
                   class="block w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                  <option *ngFor="let role of listeRoles" [value]="role">{{ role }}</option>
+                  @for (role of listeRoles; track role) {
+                  <option [value]="role">{{ role }}</option>
+                  }
                 </select>
               </td>
               <td class="whitespace-nowrap px-3 py-4">
                 <select [(ngModel)]="nouvelUtilisateur.statut_compte"
                   class="block w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                  <option *ngFor="let statut of listeStatuts" [value]="statut">{{ statut | titlecase }}</option>
+                  @for (statut of listeStatuts; track statut) {
+                  <option [value]="statut">{{ statut | titlecase }}</option>
+                  }
                 </select>
               </td>
               <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right sm:pr-6">
@@ -191,14 +210,13 @@
                 </div>
               </td>
             </tr>
+            }
 
           </tbody>
         </table>
 
-        <div *ngIf="utilisateursFiltres.length === 0 && !modeCreation" class="text-center py-10 text-gray-500">
-          Aucun utilisateur trouvé.
-        </div>
       </div>
     </div>
+    }
   </div>
 </main>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
@@ -17,6 +17,8 @@ import { StatutCompte } from '../../enums/StatutCompte/statut-compte';
   styleUrls: ['./admin-utilisateurs.component.css']
 })
 export class AdminGestionUtilisateursComponent implements OnInit {
+  private readonly utilisateurService = inject(UtilisateurService);
+  private readonly toastService = inject(ToastService);
   utilisateurs: Utilisateur[] = [];
   chargementEnCours = true;
   texteRecherche: string = '';
@@ -40,10 +42,7 @@ export class AdminGestionUtilisateursComponent implements OnInit {
   listeRoles = Object.values(RoleUtilisateur);
   listeStatuts = Object.values(StatutCompte);
 
-  constructor(
-    private utilisateurService: UtilisateurService,
-    private toastService: ToastService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.chargerUtilisateurs();
