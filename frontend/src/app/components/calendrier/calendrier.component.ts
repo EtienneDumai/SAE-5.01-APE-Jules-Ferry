@@ -35,6 +35,7 @@ export class CalendrierComponent implements OnInit {
     initialView: 'dayGridMonth',
     locale: frLocale,
     height: 'auto', 
+    allDaySlot:false,
     
     slotMinTime: '07:00:00',
     slotMaxTime: '20:00:00',
