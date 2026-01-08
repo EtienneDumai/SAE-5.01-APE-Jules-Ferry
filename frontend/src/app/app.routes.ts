@@ -3,6 +3,7 @@ import { AccueilComponent } from './pages/accueil/accueil.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { guestGuard } from './guards/guest.guard';
+import { userGuard } from './guards/user.guard';
 
 
 export const routes: Routes = [
@@ -23,5 +24,5 @@ export const routes: Routes = [
     { path: 'actualites/:id', loadComponent: () => import('./pages/actualite-detail/actualite-detail.component').then(m => m.ActualiteDetailComponent) },
     { path: 'evenements', loadComponent: () => import('./pages/evenement-page/evenement-page.component').then(m => m.EvenementPageComponent) },
     { path: 'evenements/:id', loadComponent: () => import('./pages/evenement-detail/evenement-detail.component').then(m => m.EvenementDetailComponent) },
-    { path: 'compte', loadComponent: () => import('./pages/compte-utilisateur/compte-utilisateur.component').then(m => m.CompteUtilisateurComponent) },
+    { path: 'compte', loadComponent: () => import('./pages/compte-utilisateur/compte-utilisateur.component').then(m => m.CompteUtilisateurComponent), canMatch: [userGuard] },
 ];

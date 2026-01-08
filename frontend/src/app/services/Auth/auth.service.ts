@@ -60,7 +60,7 @@ export class AuthService {
       tap(() => {
         this.tokenService.removeToken();
         this.currentUserSubject.next(null);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       })
     );
   }

@@ -1,5 +1,5 @@
 @if(this.currentUser == null){
-    Erreur de chaergement des informations utilisateur.
+    Erreur de chargement des informations utilisateur.
 }
 @else {
     <div class="max-w-4xl mx-auto px-4 py-8">
@@ -9,9 +9,17 @@
                     Compte utilisateur
                 </h1>
                 <div class="prose max-w-none text-gray-700 text-lg leading-relaxed whitespace-pre-line">
-                    <p><strong>Nom :</strong> {{ utilisateurInfo.nom }}</p>
-                    <p><strong>Prénom :</strong> {{ utilisateurInfo.prenom }}</p>
-                    <p><strong>Email :</strong> {{ utilisateurInfo.email }}</p>
+                    @if(this.loadingUser){
+                        Chargement des informations utilisateur...
+                    }
+                    @else if (this.erreurLoadingUser){
+                        Erreur lors du chargement des informations utilisateur.
+                    }
+                    @else {
+                        <p><strong>Nom :</strong> {{ utilisateurInfo.nom }}</p>
+                        <p><strong>Prénom :</strong> {{ utilisateurInfo.prenom }}</p>
+                        <p><strong>Email :</strong> {{ utilisateurInfo.email }}</p>
+                    }
                 </div>
             </div>
             <div class = "flex justify-between items-center">
@@ -20,10 +28,9 @@
                         Supprimer mon compte
                     </button>
                 </div>
-                <div class = "flex-col gap-4 m-5">
-                    <button class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-shadow">Test</button>
-                    <button class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-shadow">Test</button>
-                    <button class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-shadow">Test</button>
+                <div class = "flex flex-col gap-4 m-5">
+                    <button class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-shadow">Modifier mon mot de passe</button>
+                    <button class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-shadow" (click)="logout()">Deconnexion</button>
                 </div>
             </div>
         </article>
