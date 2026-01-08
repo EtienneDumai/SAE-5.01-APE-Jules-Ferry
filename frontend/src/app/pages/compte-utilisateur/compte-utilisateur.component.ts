@@ -57,6 +57,11 @@ export class CompteUtilisateurComponent {
       }
       return null;
     }
+    if (oldPassword.value === password.value) {
+      // Pose l'erreur sur le formulaire global
+      password.setErrors({ passwordMismatchOldNew: true });
+      return { passwordMismatchOldNew: true };
+    }
     // Pose l'erreur UNIQUEMENT sur le champ confirmation
     confirmPassword.setErrors({ passwordMismatch: true });
     return { passwordMismatch: true };
@@ -74,8 +79,15 @@ export class CompteUtilisateurComponent {
   public modifierMotDePasse(): void {
     this.modifierMdp = true;
   }
-  public onSubmit(): void {}
-
+  public onSubmit(): void {
+    console.log('Formulaire soumis');
+    this.modifierMdp = false;
+    this.modificationMdpForm.reset();
+  }
+  public annulerModification(): void {
+    this.modifierMdp = false;
+    this.modificationMdpForm.reset();
+  }
   // Getters pour accéder aux contrôles du formulaire dans le template
   get mot_de_passe_actuel() {
     return this.modificationMdpForm.get('mot_de_passe_actuel');
@@ -83,7 +95,6 @@ export class CompteUtilisateurComponent {
   get nouveau_mot_de_passe() {
     return this.modificationMdpForm.get('nouveau_mot_de_passe');
   }
-
   get confirmation_nouveau_mot_de_passe() {
     return this.modificationMdpForm.get('confirmation_nouveau_mot_de_passe');
   }
