@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
@@ -41,6 +41,8 @@ export class AdminGestionUtilisateursComponent implements OnInit {
   StatutCompte = StatutCompte;
   listeRoles = Object.values(RoleUtilisateur);
   listeStatuts = Object.values(StatutCompte);
+
+  @ViewChild('bottomAnchor') bottomAnchor!: ElementRef;
 
   constructor() { }
 
@@ -98,7 +100,9 @@ export class AdminGestionUtilisateursComponent implements OnInit {
     if (this.idEnEdition) this.annulerEdition();
 
     this.modeCreation = true;
-    setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);
+    setTimeout(() => {
+      this.bottomAnchor.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
   }
 
   validerCreation(): void {
