@@ -39,6 +39,19 @@ export class CalendrierComponent implements OnInit {
   // Détection du mode mobile selon la largeur de la fenêtre
   private isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
+  //Fonction privée 
+  private scrollToCalendar(){
+      setTimeout(() => {
+      this.calendarContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+  private scrollToEvent(){
+      setTimeout(() => {
+        this.eventDetails?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+  }
+
+  
   // Options du calendrier
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -92,6 +105,11 @@ export class CalendrierComponent implements OnInit {
       this.handleEventClick(arg);
     },
 
+    datesSet: () => {
+      this.selectedEvent = null;
+      this.scrollToCalendar();
+    },
+
     events: []
   };
   
@@ -135,9 +153,7 @@ export class CalendrierComponent implements OnInit {
     const clickedEvent = this.eventsList.find(e => e.id_evenement.toString() === arg.event.id);
     if (clickedEvent) {
       this.selectedEvent = clickedEvent;
-      setTimeout(() => {
-        this.eventDetails?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+      this.scrollToEvent();
     }
   }
   
