@@ -1,14 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 
 @Component({
   selector: 'app-evenement-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './evenement-edit.component.html',
 })
 export class EvenementEditComponent implements OnInit {
@@ -17,13 +17,14 @@ export class EvenementEditComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly evenementService = inject(EvenementService);
 
-  evenementForm: FormGroup;
+
+  evenementForm!: FormGroup;
   loading = true;
   saving = false;
   idEvenement?: number;
   isEditMode = false;
 
-  constructor() {
+  ngOnInit(): void {
     this.evenementForm = this.fb.group({
       titre: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', [Validators.required]],
@@ -33,9 +34,6 @@ export class EvenementEditComponent implements OnInit {
       lieu: ['', [Validators.required, Validators.maxLength(255)]],
       image_url: ['', [Validators.maxLength(255)]],
     });
-  }
-
-  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id && id !== 'new') {
       this.idEvenement = Number(id);
@@ -77,7 +75,7 @@ export class EvenementEditComponent implements OnInit {
       this.evenementService.updateEvenement(body, this.idEvenement).subscribe({
         next: () => {
           this.saving = false;
-          this.router.navigate(['/evenements']);
+          this.goBack();
         },
         error: () => {
           this.saving = false;
@@ -88,7 +86,7 @@ export class EvenementEditComponent implements OnInit {
       this.evenementService.createEvenement(body).subscribe({
         next: () => {
           this.saving = false;
-          this.router.navigate(['/evenements']);
+          this.goBack();
         },
         error: () => {
           this.saving = false;
@@ -96,5 +94,10 @@ export class EvenementEditComponent implements OnInit {
         }
       });
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/evenements']);
+    // Si vous souhaitez utiliser location.back() à la place, injectez Location et utilisez : this.location.back();
   }
 }

@@ -6,6 +6,7 @@ import { EvenementDetailComponent } from './pages/evenement-detail/evenement-det
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { adminGuard } from './guards/admin.guard';
+import { guestGuard } from './guards/guest.guard';
 import { EvenementPageComponent } from './pages/evenement-page/evenement-page.component';
 
 export const routes: Routes = [
@@ -13,11 +14,12 @@ export const routes: Routes = [
     { 
         path: 'login', 
         component: LoginComponent,
+        canActivate: [guestGuard]
     },
     { 
         path: 'register', 
         component: RegisterComponent,
-        canActivate: []
+        canActivate: [guestGuard]
     },
     
     { path: '', loadComponent: () => import('./pages/accueil/accueil.component').then(m => m.AccueilComponent) },

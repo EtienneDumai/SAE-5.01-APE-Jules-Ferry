@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold text-gray-900">
       {{ isEditMode ? 'Modifier l\'événement' : 'Créer un nouvel événement' }}
     </h1>
-    <a routerLink="/evenements" class="text-gray-600 hover:text-blue-600 transition-colors">
+    <a (click)="goBack()" class="text-gray-600 hover:text-blue-600 transition-colors" style="cursor:pointer">
       Annuler
     </a>
   </div>

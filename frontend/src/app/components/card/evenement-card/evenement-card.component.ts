@@ -31,8 +31,18 @@ export class EvenementCardComponent {
   private readonly router = inject(Router);
 
   get canManage(): boolean {
-    return this.authService.hasRole(RoleUtilisateur.administrateur) || 
-           this.authService.hasRole(RoleUtilisateur.membre_bureau);
+    if (this.authService.hasRole(RoleUtilisateur.administrateur)) {
+      return true;
+    }
+    if (this.authService.hasRole(RoleUtilisateur.membre_bureau)) {
+      return this.currentUserId === this.id_createur;
+    }
+    return false;
+  }
+
+  @Input() id_createur?: number;
+  private get currentUserId(): number | undefined {
+    return this.authService.getCurrentUser()?.id_utilisateur;
   }
 
   onDelete(event: Event): void {
