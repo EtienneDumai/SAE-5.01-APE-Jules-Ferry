@@ -18,12 +18,16 @@ export class NewsletterPageComponent {
   
   emailNewsletter: string = '';
 
+  /**
+   * Logique de soumission de l'inscription
+   */
   onSubscribe(): void {
     if (!this.emailNewsletter || !this.emailNewsletter.includes('@')) {
       this.toastService.show("Veuillez saisir un email valide.", TypeErreurToast.ERROR);
       return;
     }
-
+    
+  // Appel au service et gestion de l'Observable
     this.newsletterService.subscribe({ email: this.emailNewsletter }).subscribe({
       next: (response) => {
         this.toastService.show(response.message, TypeErreurToast.SUCCESS);

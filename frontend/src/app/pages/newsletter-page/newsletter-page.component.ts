@@ -19,6 +19,9 @@ export class NewsletterPageComponent {
   emailNewsletter: string = '';
   rgpdAccepted: boolean = false;
 
+  /**
+   * Méthode appelée pendant de la soumission du formulaire
+   */
   onSubscribe(): void {
     if (!this.rgpdAccepted) {
       this.toastService.show("Veuillez accepter le traitement de vos données.", TypeErreurToast.ERROR);
@@ -30,6 +33,7 @@ export class NewsletterPageComponent {
       return;
     }
 
+    // Appel au service API
     this.newsletterService.subscribe({ email: this.emailNewsletter }).subscribe({
       next: (response) => {
         this.toastService.show(response.message, TypeErreurToast.SUCCESS);
