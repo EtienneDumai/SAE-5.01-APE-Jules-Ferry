@@ -5,6 +5,7 @@ import { UtilisateurService } from '../../services/Utilisateur/utilisateur.servi
 import { FormModifierPasswordComponent } from "../../components/forms/form-modifier-password/form-modifier-password.component";
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class CompteUtilisateurComponent {
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
   ngOnInit(): void {
     this.authService.currentUser$.subscribe({
       next: (user) => {
@@ -83,5 +85,24 @@ export class CompteUtilisateurComponent {
   onMdpCancelled(): void {
     this.modifierMdp = false;
     this.resetKey++;
+  }
+  deleteAccount(): void {
+    if (!this.currentUser ) {
+      console.error('Aucun utilisateur connecté — impossible de supprimer le compte');
+      this.toastService.show('Impossible de supprimer le compte veuillez réessayer plus tard', TypeErreurToast.ERROR);
+      return;
+    }
+    this.utilisateurService.deleteUtilisateur(this.currentUser.id_utilisateur).subscribe({
+      next: () => {
+        console.log('Compte utilisateur supprimé avec succès');
+        this.toastService.show('Compte utilisateur supprimé avec succès', TypeErreurToast.SUCCESS);
+        this.logout();
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.toastService.show('Erreur lors de la suppression du compte veuillez réessayer plus tard', TypeErreurToast.ERROR);
+        console.error('Erreur lors de la suppression du compte utilisateur', error);
+      }
+    });
   }
 }
