@@ -56,12 +56,12 @@ class UtilisateurController extends Controller
     }
     public function updatePassword(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'mot_de_passe' => ['required', 'string', 'min:8'],
         ]);
 
         $user = Utilisateur::findOrFail($id);
-        $user->mot_de_passe = Hash::make($request->mot_de_passe);
+        $user->mot_de_passe = Hash::make($validated['mot_de_passe']);
         $user->save();
 
         return response()->noContent();

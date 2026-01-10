@@ -74,6 +74,9 @@ export class CompteUtilisateurComponent {
       error: (error) => {
         this.toastService.show('Erreur lors de la mise à jour du mot de passe veuillez réessayer plus tard', TypeErreurToast.ERROR);
         console.error('Erreur lors de la mise à jour du mot de passe', error);
+        console.log(error.status);          // 422
+        console.log(error.error);           // doit contenir message + errors
+        console.log(error.error?.errors);   // détails champs
       }
     });
   }
