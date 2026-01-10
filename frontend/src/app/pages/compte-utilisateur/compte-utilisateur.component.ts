@@ -3,6 +3,8 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { AuthService } from '../../services/Auth/auth.service';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { FormModifierPasswordComponent } from "../../components/forms/form-modifier-password/form-modifier-password.component";
+import { ToastService } from '../../services/Toast/toast.service';
+import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 
 
 @Component({
@@ -18,13 +20,14 @@ export class CompteUtilisateurComponent {
   loadingUser: boolean = true;
   utilisateurMdp!: Utilisateur;
   erreurLoadingUser: boolean = false;
-  
-  
+
+
   // État UI
   modifierMdp: boolean = false;
   resetKey = 0;
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
   ngOnInit(): void {
     this.authService.currentUser$.subscribe({
       next: (user) => {
@@ -38,12 +41,13 @@ export class CompteUtilisateurComponent {
         console.error('Erreur lors de la récupération de l\'utilisateur courant', error);
       }
     });
-    
+
   }
   public logout(): void {
     this.authService.logout().subscribe({
       next: () => {
         console.log('Déconnexion réussie');
+        this.toastService.show('Deconnexion réussie', TypeErreurToast.SUCCESS);
       },
       error: (error) => {
         console.error('Erreur lors de la déconnexion', error);
@@ -55,13 +59,20 @@ export class CompteUtilisateurComponent {
     this.resetKey++;
   }
   onMdpSubmitted(payload: { motDePasse: string }): void {
-    this.utilisateurService.updatePassword(this.currentUser!.id_utilisateur, payload.motDePasse).subscribe({
+    if (!this.currentUser || !this.currentUser.id_utilisateur) {
+      console.error('Aucun utilisateur connecté — impossible de mettre à jour le mot de passe');
+      this.toastService.show('Impossible de mettre à jour le mot de passe veuillez réessayer plus tard', TypeErreurToast.ERROR);
+      return;
+    }
+    this.utilisateurService.updatePassword(this.currentUser.id_utilisateur, payload.motDePasse).subscribe({
       next: () => {
         console.log('Mot de passe mis à jour avec succès');
+        this.toastService.show('Mot de passe mis à jour avec succès', TypeErreurToast.SUCCESS);
         this.modifierMdp = false;
         this.resetKey++;
       },
       error: (error) => {
+        this.toastService.show('Erreur lors de la mise à jour du mot de passe veuillez réessayer plus tard', TypeErreurToast.ERROR);
         console.error('Erreur lors de la mise à jour du mot de passe', error);
       }
     });

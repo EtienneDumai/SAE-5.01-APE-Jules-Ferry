@@ -57,11 +57,11 @@ class UtilisateurController extends Controller
     public function updatePassword(Request $request, $id)
     {
         $request->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'mot_de_passe' => ['required', 'string', 'min:8'],
         ]);
 
         $user = Utilisateur::findOrFail($id);
-        $user->password = Hash::make($request->password);
+        $user->mot_de_passe = Hash::make($request->mot_de_passe);
         $user->save();
 
         return response()->noContent();
