@@ -15,7 +15,7 @@ import { environment } from '../../environments/environment.dev';
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-    private currentUserSubject = new BehaviorSubject<Utilisateur | null>(null);
+  private currentUserSubject = new BehaviorSubject<Utilisateur | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
@@ -57,10 +57,16 @@ export class AuthService {
    */
   logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-      tap(() => {
-        this.tokenService.removeToken();
-        this.currentUserSubject.next(null);
-        this.router.navigate(['/']);
+      tap({
+        next: () => {
+          this.clearAuthState();
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          // même si le backend refuse, on déconnecte côté front
+          this.clearAuthState();
+          this.router.navigate(['/']);
+        }
       })
     );
   }
@@ -97,5 +103,10 @@ export class AuthService {
   hasRole(role: string): boolean {
     const user = this.getCurrentUser();
     return user ? user.role === role : false;
+  }
+
+  private clearAuthState(): void {
+    this.tokenService.removeToken();
+    this.currentUserSubject.next(null);
   }
 }

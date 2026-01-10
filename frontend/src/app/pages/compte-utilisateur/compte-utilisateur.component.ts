@@ -46,6 +46,7 @@ export class CompteUtilisateurComponent {
 
   }
   public logout(): void {
+
     this.authService.logout().subscribe({
       next: () => {
         console.log('Déconnexion réussie');
@@ -87,21 +88,19 @@ export class CompteUtilisateurComponent {
     this.resetKey++;
   }
   deleteAccount(): void {
-    if (!this.currentUser ) {
-      console.error('Aucun utilisateur connecté — impossible de supprimer le compte');
-      this.toastService.show('Impossible de supprimer le compte veuillez réessayer plus tard', TypeErreurToast.ERROR);
-      return;
-    }
+    console.log('currentUser =', this.currentUser);
+    console.log('id_utilisateur =', this.currentUser?.id_utilisateur);
+    console.log('id =', (this.currentUser as any)?.id);
+    if (!this.currentUser) return;
+
     this.utilisateurService.deleteUtilisateur(this.currentUser.id_utilisateur).subscribe({
       next: () => {
-        console.log('Compte utilisateur supprimé avec succès');
         this.toastService.show('Compte utilisateur supprimé avec succès', TypeErreurToast.SUCCESS);
-        this.logout();
-        this.router.navigate(['/']);
+
+        this.authService.logout().subscribe();
       },
-      error: (error) => {
-        this.toastService.show('Erreur lors de la suppression du compte veuillez réessayer plus tard', TypeErreurToast.ERROR);
-        console.error('Erreur lors de la suppression du compte utilisateur', error);
+      error: () => {
+        this.toastService.show('Erreur lors de la suppression du compte', TypeErreurToast.ERROR);
       }
     });
   }
