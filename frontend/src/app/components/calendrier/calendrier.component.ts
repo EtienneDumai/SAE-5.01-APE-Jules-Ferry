@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewEncapsulation, OnInit, inject, ElementRef } f
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule, FullCalendarComponent } from "@fullcalendar/angular"; 
-import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
+import { CalendarOptions, EventClickArg , CalendarApi} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -181,7 +181,7 @@ export class CalendrierComponent implements OnInit {
   }
 
   // Gestion du redimensionnement de la fenêtre
-  handleResize(calendarApi: any): void {
+  handleResize(calendarApi: CalendarApi): void {
     const wasMobile = this.isMobile;
     this.isMobile = window.innerWidth < 768;
     

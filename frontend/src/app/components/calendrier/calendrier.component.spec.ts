@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CalendrierComponent } from './calendrier.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CalendrierComponent', () => {
   let component: CalendrierComponent;
@@ -8,9 +10,11 @@ describe('CalendrierComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CalendrierComponent]
-    })
-    .compileComponents();
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CalendrierComponent);
     component = fixture.componentInstance;

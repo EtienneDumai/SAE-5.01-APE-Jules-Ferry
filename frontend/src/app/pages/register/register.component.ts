@@ -19,8 +19,8 @@ export class RegisterComponent {
   private readonly router = inject(Router);
 
   registerForm: FormGroup;
-  errorMessage: string = '';
-  isLoading: boolean = false;
+  errorMessage!: string;
+  isLoading = false;
 
   constructor() {
     this.registerForm = this.fb.group({

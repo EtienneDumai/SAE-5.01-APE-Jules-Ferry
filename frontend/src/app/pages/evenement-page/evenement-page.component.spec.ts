@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EvenementPageComponent } from './evenement-page.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 describe('EvenementPageComponent', () => {
   let component: EvenementPageComponent;
@@ -8,9 +11,12 @@ describe('EvenementPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EvenementPageComponent]
-    })
-    .compileComponents();
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EvenementPageComponent);
     component = fixture.componentInstance;
