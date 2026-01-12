@@ -9,11 +9,12 @@ import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { StatutCompte } from '../../enums/StatutCompte/statut-compte';
 import { AlertComponent } from '../../components/alert/alert.component';
+import { UserFormComponent } from '../../components/user-form/user-form.component';
 
 @Component({
   selector: 'app-admin-utilisateurs',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent],
+  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent],
   templateUrl: './admin-utilisateurs.component.html',
   styleUrls: ['./admin-utilisateurs.component.css']
 })
@@ -22,7 +23,7 @@ export class AdminGestionUtilisateursComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   utilisateurs: Utilisateur[] = [];
   chargementEnCours = true;
-  texteRecherche: string = '';
+  texteRecherche = '';
 
   idEnEdition: number | null = null;
   utilisateurOriginal: Utilisateur | null = null;
@@ -30,10 +31,10 @@ export class AdminGestionUtilisateursComponent implements OnInit {
   idUtilisateurASupprimer: number | null = null; // Pour gérer l'affichage de l'alerte quand on demande a supprimer
 
   modeCreation: boolean = false;
-  nouvelUtilisateur: Utilisateur = this.creerUtilisateurVide();
+
 
   roleUtilisateur = RoleUtilisateur;
-  StatutCompte = StatutCompte;
+  statutCompte = StatutCompte;
   listeRoles = Object.values(RoleUtilisateur);
   listeStatuts = Object.values(StatutCompte);
 
@@ -47,7 +48,6 @@ export class AdminGestionUtilisateursComponent implements OnInit {
       nom: '',
       prenom: '',
       email: '',
-      mot_de_passe: '',
       role: RoleUtilisateur.parent,
       statut_compte: StatutCompte.actif
     };
@@ -143,44 +143,15 @@ export class AdminGestionUtilisateursComponent implements OnInit {
     }, 100);
   }
 
-  private estMotDePasseRobuste(mdp: string): boolean {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
-    return regex.test(mdp);
-  }
+  validerCreation(nouvelUtilisateur: Utilisateur): void {
+    // Basic fields check is done in component, but we double check here if needed or just trust component
+    // Component only emits if valid.
 
-  private estEmailValide(email: string): boolean {
-    const mail = (email ?? '').trim();
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    return regex.test(mail);
-  }
-
-
-  validerCreation(): void {
-    if (!this.nouvelUtilisateur.nom || !this.nouvelUtilisateur.prenom || !this.nouvelUtilisateur.email || !this.nouvelUtilisateur.mot_de_passe) {
-      this.toastService.show('Champs obligatoires manquants', TypeErreurToast.WARNING);
-      return;
-    }
-
-    if (!this.estEmailValide(this.nouvelUtilisateur.email)) {
-      this.toastService.show('Email invalide', TypeErreurToast.WARNING);
-      return;
-    }
-
-
-    if (!this.estMotDePasseRobuste(this.nouvelUtilisateur.mot_de_passe)) {
-      this.toastService.show(
-        'Le mot de passe doit contenir 12 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial.',
-        TypeErreurToast.WARNING
-      );
-      return;
-    }
-
-    this.utilisateurService.createUtilisateur(this.nouvelUtilisateur).subscribe({
+    this.utilisateurService.createUtilisateur(nouvelUtilisateur).subscribe({
       next: (userCree) => {
         this.toastService.show('Utilisateur créé !', TypeErreurToast.SUCCESS);
         this.utilisateurs.push(userCree);
         this.modeCreation = false;
-        this.reinitialiserNouvelUtilisateur();
       },
       error: () => {
         this.toastService.show('Erreur création (Email pris ?)', TypeErreurToast.ERROR);
@@ -190,11 +161,6 @@ export class AdminGestionUtilisateursComponent implements OnInit {
 
   annulerCreation(): void {
     this.modeCreation = false;
-    this.reinitialiserNouvelUtilisateur();
-  }
-
-  reinitialiserNouvelUtilisateur(): void {
-    this.nouvelUtilisateur = this.creerUtilisateurVide();
   }
 
   demanderSuppression(id: number): void {

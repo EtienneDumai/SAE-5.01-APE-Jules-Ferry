@@ -45,97 +45,51 @@
           <tbody class="divide-y divide-gray-200 bg-white">
 
             @for (user of utilisateursFiltres; track user.id_utilisateur) {
-            <tr [ngClass]="{'bg-blue-50/50': idEnEdition === user.id_utilisateur}">
-
+            @if (idEnEdition === user.id_utilisateur) {
+            <tr app-user-form [user]="user" (save)="validerEdition($event)" (cancel)="annulerEdition()">
+            </tr>
+            } @else {
+            <tr>
               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                @if (idEnEdition === user.id_utilisateur) {
-                <div class="flex gap-2">
-                  <input [(ngModel)]="user.prenom" placeholder="Prénom"
-                    class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs">
-                  <input [(ngModel)]="user.nom" placeholder="Nom"
-                    class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs uppercase">
-                </div>
-                } @else {
                 <div class="font-medium text-gray-900">{{ user.prenom }} {{ user.nom | uppercase }}</div>
-                }
               </td>
 
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                @if (idEnEdition === user.id_utilisateur) {
-                <input [(ngModel)]="user.email"
-                  class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs">
-                } @else {
                 {{ user.email }}
-                }
               </td>
 
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                @if (idEnEdition === user.id_utilisateur) {
-                <select [(ngModel)]="user.role"
-                  class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs">
-                  @for (role of listeRoles; track role) {
-                  <option [value]="role">{{ role }}</option>
-                  }
-                </select>
-                } @else {
                 <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
                   [ngClass]="{
-                          'bg-purple-50 text-purple-700 ring-purple-700/10': user.role === roleUtilisateur.administrateur, 
-                          'bg-blue-50 text-blue-700 ring-blue-700/10': user.role === roleUtilisateur.membre_bureau,
-                          'bg-gray-50 text-gray-600 ring-gray-500/10': user.role === roleUtilisateur.parent
-                        }">
+                              'bg-purple-50 text-purple-700 ring-purple-700/10': user.role === roleUtilisateur.administrateur, 
+                              'bg-blue-50 text-blue-700 ring-blue-700/10': user.role === roleUtilisateur.membre_bureau,
+                              'bg-gray-50 text-gray-600 ring-gray-500/10': user.role === roleUtilisateur.parent
+                            }">
                   {{ user.role }}
                 </span>
-                }
               </td>
 
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                @if (idEnEdition === user.id_utilisateur) {
-                <select [(ngModel)]="user.statut_compte"
-                  class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs">
-                  @for (statut of listeStatuts; track statut) {
-                  <option [value]="statut">{{ statut | titlecase }}</option>
-                  }
-                </select>
-                } @else {
                 <span
                   class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset"
                   [ngClass]="{
-                          'bg-green-100 text-green-700 ring-green-600/20': user.statut_compte === StatutCompte.actif,
-                          'bg-orange-100 text-orange-700 ring-orange-600/20': user.statut_compte === StatutCompte.suspendu,
-                          'bg-red-100 text-red-700 ring-red-600/20': user.statut_compte === StatutCompte.desactive
-                        }">
+                              'bg-green-100 text-green-700 ring-green-600/20': user.statut_compte === statutCompte.actif,
+                              'bg-orange-100 text-orange-700 ring-orange-600/20': user.statut_compte === statutCompte.suspendu,
+                              'bg-red-100 text-red-700 ring-red-600/20': user.statut_compte === statutCompte.desactive
+                            }">
                   <svg class="h-1.5 w-1.5" [ngClass]="{
-                              'fill-green-500': user.statut_compte === StatutCompte.actif,
-                              'fill-orange-500': user.statut_compte === StatutCompte.suspendu,
-                              'fill-red-500': user.statut_compte === StatutCompte.desactive
-                           }" viewBox="0 0 6 6" aria-hidden="true">
+                                  'fill-green-500': user.statut_compte === statutCompte.actif,
+                                  'fill-orange-500': user.statut_compte === statutCompte.suspendu,
+                                  'fill-red-500': user.statut_compte === statutCompte.desactive
+                               }" viewBox="0 0 6 6" aria-hidden="true">
                     <circle cx="3" cy="3" r="3" />
                   </svg>
                   {{ user.statut_compte | titlecase }}
                 </span>
-                }
               </td>
 
               <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                 <div class="flex justify-end gap-3">
-
-                  @if (idEnEdition === user.id_utilisateur) {
-                  <button (click)="validerEdition(user)" class="text-green-600 hover:text-green-900" title="Valider">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </button>
-                  <button (click)="annulerEdition()" class="text-gray-500 hover:text-gray-700" title="Annuler">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-
-                  } @else {
-
                   <button (click)="demarrerEdition(user)" class="text-indigo-600 hover:text-indigo-900"
                     title="Modifier">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -155,11 +109,10 @@
                     </svg>
                   </button>
                   }
-
-                  }
                 </div>
               </td>
             </tr>
+            }
             }
 
             @if (utilisateursFiltres.length === 0 && !modeCreation) {
@@ -171,51 +124,8 @@
             }
 
             @if (modeCreation) {
-            <tr class="bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft">
-              <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                <div class="flex gap-2">
-                  <input [(ngModel)]="nouvelUtilisateur.prenom" placeholder="Prénom"
-                    class="w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                  <input [(ngModel)]="nouvelUtilisateur.nom" placeholder="Nom"
-                    class="w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs uppercase focus:ring-indigo-500">
-                </div>
-              </td>
-              <td class="whitespace-nowrap px-3 py-4">
-                <div class="flex flex-col gap-2">
-                  <input [(ngModel)]="nouvelUtilisateur.email" placeholder="Email"
-                    class="w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                  <input [(ngModel)]="nouvelUtilisateur.mot_de_passe" type="password" placeholder="Mot de passe"
-                    class="w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                </div>
-              </td>
-              <td class="whitespace-nowrap px-3 py-4">
-                <select [(ngModel)]="nouvelUtilisateur.role"
-                  class="block w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                  @for (role of listeRoles; track role) {
-                  <option [value]="role">{{ role }}</option>
-                  }
-                </select>
-              </td>
-              <td class="whitespace-nowrap px-3 py-4">
-                <select [(ngModel)]="nouvelUtilisateur.statut_compte"
-                  class="block w-full rounded-md border-indigo-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
-                  @for (statut of listeStatuts; track statut) {
-                  <option [value]="statut">{{ statut | titlecase }}</option>
-                  }
-                </select>
-              </td>
-              <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right sm:pr-6">
-                <div class="flex justify-end gap-3">
-                  <button (click)="validerCreation()"
-                    class="text-green-700 hover:text-green-900 font-bold flex items-center gap-1 bg-green-100 px-2 py-1 rounded">
-                    <span>Valider</span>
-                  </button>
-                  <button (click)="annulerCreation()"
-                    class="text-gray-600 hover:text-gray-800 flex items-center gap-1 bg-gray-200 px-2 py-1 rounded">
-                    <span>Annuler</span>
-                  </button>
-                </div>
-              </td>
+            <tr app-user-form [isCreation]="true" (save)="validerCreation($event)" (cancel)="annulerCreation()"
+              class="bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft">
             </tr>
             }
 

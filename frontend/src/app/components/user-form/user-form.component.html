@@ -1,0 +1,95 @@
+<td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6 align-top">
+    <form [formGroup]="userForm" class="flex gap-2 flex-col">
+        <div class="flex gap-2">
+            <div class="flex-1">
+                <input formControlName="prenom" placeholder="Prénom"
+                    class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500"
+                    [class.border-red-500]="f['prenom'].invalid && f['prenom'].touched">
+                @if (f['prenom'].invalid && f['prenom'].touched) {
+                <div class="text-red-500 text-[10px]">Requis</div>
+                }
+            </div>
+            <div class="flex-1">
+                <input formControlName="nom" placeholder="Nom"
+                    class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs uppercase focus:ring-indigo-500"
+                    [class.border-red-500]="f['nom'].invalid && f['nom'].touched">
+                @if (f['nom'].invalid && f['nom'].touched) {
+                <div class="text-red-500 text-[10px]">Requis</div>
+                }
+            </div>
+        </div>
+    </form>
+</td>
+
+<td class="whitespace-nowrap px-3 py-4 align-top">
+    <form [formGroup]="userForm" class="flex flex-col gap-2">
+        <div>
+            <input formControlName="email" placeholder="Email"
+                class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500"
+                [class.border-red-500]="f['email'].invalid && f['email'].touched">
+            @if (f['email'].invalid && f['email'].touched) {
+            <div class="text-red-500 text-[10px]">
+                @if (f['email'].errors?.['required']) { Requis }
+                @else if (f['email'].errors?.['email']) { Invalide }
+            </div>
+            }
+        </div>
+
+        <div>
+            <input formControlName="mot_de_passe" type="password"
+                [placeholder]="isCreation ? 'Mot de passe' : 'Nouveau mot de passe (optionnel)'"
+                class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500"
+                [class.border-red-500]="f['mot_de_passe'].invalid && f['mot_de_passe'].touched">
+            @if (f['mot_de_passe'].invalid && f['mot_de_passe'].touched) {
+            <div class="text-red-500 text-[10px]">
+                @if (f['mot_de_passe'].errors?.['required']) { Requis }
+                @else if (f['mot_de_passe'].errors?.['minlength']) { 8 car. min }
+                @else if (f['mot_de_passe'].errors?.['pattern']) { Trop faible }
+            </div>
+            }
+        </div>
+    </form>
+</td>
+
+<td class="whitespace-nowrap px-3 py-4 align-top">
+    <form [formGroup]="userForm">
+        <select formControlName="role"
+            class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
+            @for (role of listeRoles; track role) {
+            <option [value]="role">{{ role }}</option>
+            }
+        </select>
+    </form>
+</td>
+
+<td class="whitespace-nowrap px-3 py-4 align-top">
+    <form [formGroup]="userForm">
+        <select formControlName="statut_compte"
+            class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
+            @for (statut of listeStatuts; track statut) {
+            <option [value]="statut">{{ statut | titlecase }}</option>
+            }
+        </select>
+    </form>
+</td>
+
+<td class="whitespace-nowrap py-4 pl-3 pr-4 text-right sm:pr-6 align-top">
+    <div class="flex justify-end gap-3">
+        <button (click)="onSubmit()"
+            class="text-green-700 hover:text-green-900 font-bold flex items-center gap-1 bg-green-100 px-2 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            <span>Valider</span>
+        </button>
+        <button (click)="cancel.emit()"
+            class="text-gray-600 hover:text-gray-800 flex items-center gap-1 bg-gray-200 px-2 py-1 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span>Annuler</span>
+        </button>
+    </div>
+</td>
