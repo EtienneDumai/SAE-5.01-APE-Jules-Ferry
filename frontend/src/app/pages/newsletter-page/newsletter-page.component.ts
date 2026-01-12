@@ -41,7 +41,7 @@ export class NewsletterPageComponent {
         this.rgpdAccepted = false;
       },
       error: (err) => {
-        // console.error('Erreur complète du serveur :', err); // <--- AJOUTE CECI
+        // console.error('Erreur complète du serveur :', err);
         const msg = err.error?.errors?.email?.[0] || "Erreur lors de l'inscription.";
         this.toastService.show(msg, TypeErreurToast.ERROR);
       }
