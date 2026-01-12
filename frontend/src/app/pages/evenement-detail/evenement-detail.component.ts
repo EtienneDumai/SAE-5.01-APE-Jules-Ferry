@@ -3,12 +3,11 @@ import { Evenement } from '../../models/Evenement/evenement';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
 import { Location } from '@angular/common';
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent, ErreurModaleComponent],
+  imports: [SpinnerComponent],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css'
 })

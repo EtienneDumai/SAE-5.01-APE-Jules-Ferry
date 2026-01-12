@@ -7,12 +7,11 @@ import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteCardComponent } from '../../components/card/actualite-card/actualite-card.component';
 import { EvenementCardComponent } from "../../components/card/evenement-card/evenement-card.component";
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
 import { CalendrierComponent } from '../../components/calendrier/calendrier.component';
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [ActualiteCardComponent, EvenementCardComponent, SpinnerComponent, RouterLink, ErreurModaleComponent, CalendrierComponent],
+  imports: [ActualiteCardComponent, EvenementCardComponent, SpinnerComponent, RouterLink, CalendrierComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css'
 })
