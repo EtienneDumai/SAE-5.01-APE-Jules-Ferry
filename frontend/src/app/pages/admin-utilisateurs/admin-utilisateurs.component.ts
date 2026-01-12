@@ -26,7 +26,7 @@ export class AdminGestionUtilisateursComponent implements OnInit {
 
   idEnEdition: number | null = null;
   utilisateurOriginal: Utilisateur | null = null;
-
+  idConnecte: number | null = null;
   idUtilisateurASupprimer: number | null = null; // Pour gérer l'affichage de l'alerte quand on demande a supprimer
 
   modeCreation: boolean = false;
@@ -54,8 +54,39 @@ export class AdminGestionUtilisateursComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.recupererIdConnecte();
     this.chargerUtilisateurs();
   }
+
+  recupererIdConnecte(): void {
+    const userString = localStorage.getItem('user');
+    const idConnecteString = localStorage.getItem('idConnecte');
+
+    // On tente de récupérer l'idConnecte depuis le localStorage
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        const rawId = user.id_utilisateur ?? user.id;
+        const idNum = Number(rawId);
+
+        this.idConnecte = Number.isFinite(idNum) ? idNum : null;
+        return;
+      } catch (e) {
+        console.warn('Impossible de parser localStorage.user', e);
+      }
+    }
+
+    // On tente de récupérer l'idConnecte depuis le localStorage
+    if (idConnecteString) {
+      const idNum = Number(idConnecteString);
+      this.idConnecte = Number.isFinite(idNum) ? idNum : null;
+      return;
+    }
+
+    // Si rien trouvé
+    this.idConnecte = null;
+  }
+
 
   chargerUtilisateurs(): void {
     this.chargementEnCours = true;
@@ -154,42 +185,40 @@ export class AdminGestionUtilisateursComponent implements OnInit {
   }
 
   demanderSuppression(id: number): void {
+    if (this.idConnecte !== null && Number(id) === this.idConnecte) {
+      console.warn('Tentative de suppression de soi-même bloquée. id=', id);
+      return;
+    }
     this.idUtilisateurASupprimer = id;
   }
 
   confirmerSuppression(): void {
-    if (this.idUtilisateurASupprimer !== null) {
-      const id = this.idUtilisateurASupprimer;
+    if (this.idUtilisateurASupprimer === null) return;
 
-      this.utilisateurService.deleteUtilisateur(id).subscribe({
-        next: (reponse: any) => {
-          this.utilisateurs = this.utilisateurs.filter(u => u.id_utilisateur !== id);
-          this.toastService.show(reponse.message, TypeErreurToast.SUCCESS);
-
-          this.idUtilisateurASupprimer = null;
-        },
-        error: () => {
-          this.toastService.show('Erreur suppression', TypeErreurToast.ERROR);
-          this.idUtilisateurASupprimer = null;
-        }
-      });
+    if (this.idConnecte !== null && this.idUtilisateurASupprimer === this.idConnecte) {
+      this.toastService.show('Tu peux pas supprimer ton propre compte', TypeErreurToast.WARNING);
+      this.idUtilisateurASupprimer = null;
+      return;
     }
+
+    const id = this.idUtilisateurASupprimer;
+
+    this.utilisateurService.deleteUtilisateur(id).subscribe({
+      next: (reponse: any) => {
+        this.utilisateurs = this.utilisateurs.filter(u => u.id_utilisateur !== id);
+        this.toastService.show(reponse.message, TypeErreurToast.SUCCESS);
+        this.idUtilisateurASupprimer = null;
+      },
+      error: () => {
+        this.toastService.show('Erreur suppression', TypeErreurToast.ERROR);
+        this.idUtilisateurASupprimer = null;
+      }
+    });
   }
+
 
   annulerSuppression(): void {
     this.idUtilisateurASupprimer = null;
-  }
-
-  supprimerUtilisateur(id: number): void {
-    if (confirm('Supprimer cet utilisateur ?')) {
-      this.utilisateurService.deleteUtilisateur(id).subscribe({
-        next: () => {
-          this.utilisateurs = this.utilisateurs.filter(u => u.id_utilisateur !== id);
-          this.toastService.show('Utilisateur supprimé', TypeErreurToast.SUCCESS);
-        },
-        error: () => this.toastService.show('Erreur suppression', TypeErreurToast.ERROR)
-      });
-    }
   }
 
   get utilisateursFiltres(): Utilisateur[] {

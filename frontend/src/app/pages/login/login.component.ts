@@ -17,7 +17,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  
+
   loginForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
@@ -42,6 +42,17 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: (response) => {
         console.log('Connexion réussie', response);
+
+        // Stockage local
+        if (response?.token) {
+          localStorage.setItem('token', response.token);
+        }
+
+        if (response?.user) {
+          localStorage.setItem('user', JSON.stringify(response.user));
+          // Stockage de l'idConnecte
+          localStorage.setItem('idConnecte', String(response.user.id_utilisateur ?? response.user.id_utilisateur));
+        }
         this.router.navigate(['/']);
       },
       error: (error) => {
