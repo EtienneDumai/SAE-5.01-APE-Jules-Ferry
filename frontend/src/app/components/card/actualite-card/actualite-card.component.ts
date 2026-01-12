@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ActualiteCardComponent {
   @Input() id_actualite!: number;
-  @Input() titre!: string;
+  @Input() titre: string = '';
   @Input() contenu!: string;
   @Input() image_url!: string;
   @Input() datePublication!: Date;
