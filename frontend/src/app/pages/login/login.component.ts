@@ -19,8 +19,8 @@ export class LoginComponent {
   private readonly router = inject(Router);
 
   loginForm: FormGroup;
-  errorMessage: string = '';
-  isLoading: boolean = false;
+  errorMessage!: string;
+  isLoading = false;
 
   constructor() {
     this.loginForm = this.fb.group({

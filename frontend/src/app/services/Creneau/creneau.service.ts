@@ -8,7 +8,6 @@ import { Creneau } from '../../models/Creneau/creneau';
 })
 export class CreneauService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllCreneaux(): Observable<Creneau[]> {
     return this.http.get<Creneau[]>(`${environment.apiUrl}/creneaux`);
   }

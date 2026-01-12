@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
 import { AccueilComponent } from './pages/accueil/accueil.component';
-import { ActualiteDetailComponent } from './pages/actualite-detail/actualite-detail.component';
-import { ActualitePageComponent } from './pages/actualite-page/actualite-page.component';
-import { EvenementDetailComponent } from './pages/evenement-detail/evenement-detail.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { guestGuard } from './guards/guest.guard';

@@ -14,8 +14,8 @@ import { RouterLink } from '@angular/router';
 export class EvenementPageComponent implements OnInit {
   listeEvenements!: Evenement[];
   Date: Date = new Date();
-  loadingEvenements: boolean = true;
-  errorEvenements: boolean = false;
+  loadingEvenements = true;
+  errorEvenements = false;
   private readonly evenementService = inject(EvenementService);
   ngOnInit() {
     this.evenementService.getAllEvenements().subscribe({

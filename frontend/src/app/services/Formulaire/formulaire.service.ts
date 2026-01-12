@@ -8,7 +8,6 @@ import { Formulaire } from '../../models/Formulaire/formulaire';
 })
 export class FormulaireService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllFormulaires(): Observable<Formulaire[]> {
     return this.http.get<Formulaire[]>(`${environment.apiUrl}/formulaires`);
   }

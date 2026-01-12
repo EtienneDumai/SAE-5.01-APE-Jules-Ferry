@@ -11,8 +11,6 @@ export class UtilisateurService {
   private utilisateurCourantSubject = new BehaviorSubject<Utilisateur | null>(null);
   utilisateurCourant = this.utilisateurCourantSubject.asObservable();
 
-  constructor() { }
-
   setUtilisateurCourant(utilisateur: Utilisateur | null) {
     this.utilisateurCourantSubject.next(utilisateur);
   }

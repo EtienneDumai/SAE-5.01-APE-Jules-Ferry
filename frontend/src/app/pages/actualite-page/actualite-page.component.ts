@@ -14,8 +14,8 @@ import { RouterLink } from '@angular/router';
 export class ActualitePageComponent implements OnInit {
   listeActualites!: Actualite[];
   Date: Date = new Date();
-  loadingActualites: boolean = true;
-  errorActualites: boolean = false;
+  loadingActualites = true;
+  errorActualites = false;
   private readonly actualiteService = inject(ActualiteService);
   ngOnInit() {
     this.actualiteService.getAllActualites().subscribe({
