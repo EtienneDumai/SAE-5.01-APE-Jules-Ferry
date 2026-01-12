@@ -148,11 +148,24 @@ export class AdminGestionUtilisateursComponent implements OnInit {
     return regex.test(mdp);
   }
 
+  private estEmailValide(email: string): boolean {
+    const mail = (email ?? '').trim();
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    return regex.test(mail);
+  }
+
+
   validerCreation(): void {
     if (!this.nouvelUtilisateur.nom || !this.nouvelUtilisateur.prenom || !this.nouvelUtilisateur.email || !this.nouvelUtilisateur.mot_de_passe) {
       this.toastService.show('Champs obligatoires manquants', TypeErreurToast.WARNING);
       return;
     }
+
+    if (!this.estEmailValide(this.nouvelUtilisateur.email)) {
+      this.toastService.show('Email invalide', TypeErreurToast.WARNING);
+      return;
+    }
+
 
     if (!this.estMotDePasseRobuste(this.nouvelUtilisateur.mot_de_passe)) {
       this.toastService.show(
