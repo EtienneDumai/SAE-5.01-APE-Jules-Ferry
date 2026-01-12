@@ -8,7 +8,6 @@ import { Tache } from '../../models/Tache/tache';
 })
 export class TacheService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllTaches(): Observable<Tache[]> {
     return this.http.get<Tache[]>(`${environment.apiUrl}/taches`);
   }

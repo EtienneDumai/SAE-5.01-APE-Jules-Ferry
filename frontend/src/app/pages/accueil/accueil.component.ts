@@ -19,10 +19,10 @@ import { CalendrierComponent } from '../../components/calendrier/calendrier.comp
 export class AccueilComponent implements OnInit {
   public listeActualites: Actualite[] = [];
   public listeEvenements: Evenement[] = [];
-  loadingEvents: boolean = true;
-  loadingActualites: boolean = true;
-  errorEvents: boolean = false;
-  errorActualites: boolean = false;
+  loadingEvents = true;
+  loadingActualites = true;
+  errorEvents = false;
+  errorActualites= false;
   private readonly actualiteService = inject(ActualiteService);
   private readonly evenementService = inject(EvenementService);
   Date: Date = new Date();

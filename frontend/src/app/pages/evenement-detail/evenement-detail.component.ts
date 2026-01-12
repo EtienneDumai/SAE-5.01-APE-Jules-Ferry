@@ -15,8 +15,8 @@ import { Location } from '@angular/common';
 export class EvenementDetailComponent implements OnInit {
   Date: Date = new Date();
   evenement !: Evenement;
-  loadingEvenement: boolean = true;
-  errorEvenement : boolean = false;
+  loadingEvenement = true;
+  errorEvenement = false;
   private readonly evenementService: EvenementService = inject(EvenementService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private location: Location = inject(Location);

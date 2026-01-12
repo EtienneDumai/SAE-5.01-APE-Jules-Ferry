@@ -14,8 +14,8 @@ import { Location } from '@angular/common';
 })
 export class ActualiteDetailComponent implements OnInit {
   actualite !: Actualite;
-  loadingActualite: boolean = true;
-  errorActualite : boolean = false
+  loadingActualite = true;
+  errorActualite = false;
   private readonly actualiteService : ActualiteService = inject(ActualiteService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private location: Location = inject(Location);

@@ -17,7 +17,6 @@ export class FooterComponent implements OnInit {
   RoleUtilisateur = RoleUtilisateur;
 
   utilisateurService = inject(UtilisateurService);
-  constructor() {}
 
   ngOnInit() {
     this.utilisateurCourant = this.utilisateurService.utilisateurCourant;
