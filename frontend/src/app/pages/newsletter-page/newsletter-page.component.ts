@@ -40,11 +40,11 @@ export class NewsletterPageComponent {
         this.emailNewsletter = ''; 
         this.rgpdAccepted = false;
       },
-      error: (err) => {
-        // console.error('Erreur complète du serveur :', err);
-        const msg = err.error?.errors?.email?.[0] || "Erreur lors de l'inscription.";
-        this.toastService.show(msg, TypeErreurToast.ERROR);
-      }
+      // error: (err) => {
+      // console.error('Erreur complète du serveur :', err);
+      //  const msg = err.error?.errors?.email?.[0] || "Erreur lors de l'inscription.";
+      //  this.toastService.show(msg, TypeErreurToast.ERROR);
+      //}
     });
   }
 }
