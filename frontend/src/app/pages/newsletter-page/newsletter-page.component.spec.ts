@@ -27,7 +27,7 @@ export class NewsletterPageComponent {
       return;
     }
     
-  // Appel au service et gestion de l'Observable
+  // Appel au service et gestion de l'observable
     this.newsletterService.subscribe({ email: this.emailNewsletter }).subscribe({
       next: (response) => {
         this.toastService.show(response.message, TypeErreurToast.SUCCESS);
