@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 })
 export class EvenementCardComponent {
   @Input() id_evenement!: number;
-  @Input() titre: string = '';
+  @Input() titre = '';
   @Input() description!: string;
   @Input() date_evenement!: Date;
   @Input() heure_debut!: string;
