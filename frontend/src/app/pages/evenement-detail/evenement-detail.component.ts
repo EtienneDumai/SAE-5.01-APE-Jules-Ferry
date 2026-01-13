@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent, ErreurModaleComponent, RouterModule],
+  imports: [SpinnerComponent, RouterModule],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css'
 })
@@ -22,8 +22,8 @@ export class EvenementDetailComponent implements OnInit {
     }
   Date: Date = new Date();
   evenement !: Evenement;
-  loadingEvenement: boolean = true;
-  errorEvenement : boolean = false;
+  loadingEvenement = true;
+  errorEvenement = false;
   private readonly appServices = {
     evenement: inject(EvenementService),
     auth: inject(AuthService)
