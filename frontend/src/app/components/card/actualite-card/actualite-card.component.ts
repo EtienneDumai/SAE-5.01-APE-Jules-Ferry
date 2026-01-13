@@ -1,4 +1,4 @@
-import { Component, Input, OnInit,  } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StatutActualite } from '../../../enums/StatutActualite/statut-actualite';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -10,9 +10,9 @@ import { DatePipe } from '@angular/common';
   templateUrl: './actualite-card.component.html',
   styleUrl: './actualite-card.component.css'
 })
-export class ActualiteCardComponent  {
+export class ActualiteCardComponent {
   @Input() id_actualite!: number;
-  @Input() titre!: string;
+  @Input() titre = '';
   @Input() contenu!: string;
   @Input() image_url!: string;
   @Input() datePublication!: Date;

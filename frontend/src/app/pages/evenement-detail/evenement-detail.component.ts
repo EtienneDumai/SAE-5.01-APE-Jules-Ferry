@@ -1,27 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DatePipe, Location } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
-
 import { Evenement } from '../../models/Evenement/evenement';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 import { Creneau } from '../../models/Creneau/creneau';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
-
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { FormulaireService } from '../../services/Formulaire/formulaire.service';
 import { InscriptionService } from '../../services/Inscription/inscription.service';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { AuthService } from '../../services/Auth/auth.service';
-
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
-
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent, ErreurModaleComponent, DatePipe, CommonModule, FormsModule],
+  imports: [SpinnerComponent],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css'
 })

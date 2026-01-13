@@ -25,3 +25,14 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Utiliser compodoc 
+
+Genérer la documentation du projet avec la commande suivante :
+
+```npx compodoc -p tsconfig.json```
+
+La documentation sera disponible dans le dossier "documentation" à la racine du projet.
+Pour lancer un serveur local et visualiser la documentation, utilisez la commande suivante :
+
+```npx compodoc -s```

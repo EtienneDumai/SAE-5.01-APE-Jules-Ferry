@@ -3,23 +3,23 @@ import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
-import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
 import { Location, DatePipe } from '@angular/common';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 
+
 @Component({
   selector: 'app-actualite-detail',
   standalone: true,
-  imports: [SpinnerComponent, ErreurModaleComponent, DatePipe],
+  imports: [SpinnerComponent],
   templateUrl: './actualite-detail.component.html',
   styleUrl: './actualite-detail.component.css'
 })
 export class ActualiteDetailComponent implements OnInit {
   actualite !: Actualite;
-  loadingActualite: boolean = true;
-  errorActualite : boolean = false;
-  errorAuteur: boolean = false;
+  loadingActualite = true;
+  errorActualite = false;
+  errorAuteur= false;
   auteur !: Utilisateur;
   private readonly utilisateurService : UtilisateurService = inject(UtilisateurService);
   private readonly actualiteService : ActualiteService = inject(ActualiteService);
