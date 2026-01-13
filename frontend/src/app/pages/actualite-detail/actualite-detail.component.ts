@@ -11,7 +11,7 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 @Component({
   selector: 'app-actualite-detail',
   standalone: true,
-  imports: [SpinnerComponent],
+  imports: [SpinnerComponent, DatePipe],
   templateUrl: './actualite-detail.component.html',
   styleUrl: './actualite-detail.component.css'
 })

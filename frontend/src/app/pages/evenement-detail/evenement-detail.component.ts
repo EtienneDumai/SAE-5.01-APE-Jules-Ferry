@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule, DatePipe, Location } from '@angular/common';
+import {  DatePipe, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { Evenement } from '../../models/Evenement/evenement';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 import { Creneau } from '../../models/Creneau/creneau';
@@ -12,10 +12,12 @@ import { InscriptionService } from '../../services/Inscription/inscription.servi
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { AuthService } from '../../services/Auth/auth.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent],
+  imports: [SpinnerComponent, DatePipe, FormsModule],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css'
 })
