@@ -19,11 +19,11 @@ export class InscriptionService {
     return this.http.get<Inscription[]>(`${this.apiUrl}/mes-inscriptions`);
   }
 
-  createInscription(data: { id_creneau: number, commentaire?: string }): Observable<any> {
-    return this.http.post(this.apiUrl, data);
+  createInscription(data: { id_creneau: number; commentaire?: string | null }): Observable<Inscription> {
+    return this.http.post<Inscription>(this.apiUrl, data);
   }
 
-  deleteInscription(id_creneau: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id_creneau}`);
+  deleteInscription(id_creneau: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id_creneau}`);
   }
 }

@@ -114,10 +114,9 @@ export class EvenementDetailComponent implements OnInit {
   calculerInscriptionsExistantes() {
     const user = this.authService.getCurrentUser();
     
-    console.log("UTILISATEUR CONNECTÉ :", user); //a suppr c'est du debug pour moi
-    console.log("FORMULAIRE REÇU :", this.formulaire); // Pareil
+    // (Logs supprimés pour la production)
 
-    //verif formulaire et tâches existent avant de continuer
+    // verif formulaire et tâches existent avant de continuer
     if (!user || !this.formulaire || !this.formulaire.taches) return;
 
     this.mesCreneauxActuels = [];
@@ -165,10 +164,7 @@ export class EvenementDetailComponent implements OnInit {
     return creneau.quota - (creneau.inscriptions_count || 0);
   }
 
-  // --- VALIDATION (AJOUT / SUPPRESSION) ---
-
   validerModification() {
-    // SÉCURITÉ : On vérifie que tout est chargé
     if (!this.formulaire || !this.formulaire.taches) return;
 
     const ajouts: number[] = [];
@@ -176,11 +172,9 @@ export class EvenementDetailComponent implements OnInit {
 
     this.formulaire.taches.forEach(tache => {
       tache.creneaux?.forEach(creneau => {
-        // Cas 1 : Je n'étais pas inscrit -> J'ai coché -> AJOUT
         if (!creneau.est_inscrit && creneau.selected) {
            ajouts.push(creneau.id_creneau);
         }
-        // Cas 2 : J'étais inscrit -> J'ai décoché -> SUPPRESSION
         if (creneau.est_inscrit && !creneau.selected) {
           suppressions.push(creneau.id_creneau);
         }
@@ -194,11 +188,11 @@ export class EvenementDetailComponent implements OnInit {
 
     this.isSubmitting = true;
     this.inscriptionError = null;
-
-    // On prépare toutes les requêtes (RxJS forkJoin)
-    // Note : le "as any" ici évite des erreurs de type strict sur le body
     const requetes = [
-      ...ajouts.map(id => this.inscriptionService.createInscription({ id_creneau: id, commentaire: this.commentaire } as any)),
+      ...ajouts.map(id => this.inscriptionService.createInscription({ 
+          id_creneau: id, 
+          commentaire: this.commentaire 
+      })),
       ...suppressions.map(id => this.inscriptionService.deleteInscription(id))
     ];
 
@@ -206,9 +200,6 @@ export class EvenementDetailComponent implements OnInit {
       next: () => {
         this.inscriptionSuccess = true;
         this.isSubmitting = false;
-        
-        // On recharge tout pour mettre à jour les quotas et l'affichage
-        // Le "!" dit à TypeScript qu'on est sûr que l'ID existe ici
         this.loadFormulaire(this.evenement.id_formulaire!);
         
         setTimeout(() => {
