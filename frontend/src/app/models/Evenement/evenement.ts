@@ -12,4 +12,7 @@ export interface Evenement {
     image_url: string;
     statut: StatutEvenement;
     id_auteur: number;
+    id_formulaire: number | null;
+    created_at?: string;
+    updated_at?: string;
 }

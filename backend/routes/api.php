@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\EvenementController;
 use App\Http\Controllers\Api\ActualiteController;
 use App\Http\Controllers\Api\InscriptionController;
+use App\Http\Controllers\Api\FormulaireController;
+use App\Http\Controllers\Api\UtilisateurController;
+
 use Illuminate\Http\Request;
 
 /*
@@ -26,6 +29,14 @@ Route::get('/evenements/{id}', [EvenementController::class, 'show']);
 // Actualités
 Route::get('/actualites', [ActualiteController::class, 'index']);
 Route::get('/actualites/{id}', [ActualiteController::class, 'show']);
+
+// Formulaires
+Route::get('/formulaires/{id}', [FormulaireController::class, 'show']);
+
+// Utilisateurs
+Route::get('/utilisateurs/{id}', [UtilisateurController::class, 'show']);
+
+
 
 /*
 |--------------------------------------------------------------------------
