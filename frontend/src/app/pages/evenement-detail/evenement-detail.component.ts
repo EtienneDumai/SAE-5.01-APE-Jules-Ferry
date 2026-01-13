@@ -5,7 +5,6 @@ import { Evenement } from '../../models/Evenement/evenement';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
 import { Location } from '@angular/common';
 
 @Component({

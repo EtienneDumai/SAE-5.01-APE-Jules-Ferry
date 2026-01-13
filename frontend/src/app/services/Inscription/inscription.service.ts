@@ -8,7 +8,6 @@ import { Inscription } from '../../models/Inscription/inscription';
 })
 export class InscriptionService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllInscriptions(): Observable<Inscription[]> {
     return this.http.get<Inscription[]>(`${environment.apiUrl}/inscriptions`);
   }

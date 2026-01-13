@@ -20,7 +20,7 @@ export class EvenementCardComponent {
       return 'http://localhost:8000' + image_url;
     }
   @Input() id_evenement!: number;
-  @Input() titre!: string;
+  @Input() titre = '';
   @Input() description!: string;
   @Input() date_evenement!: Date;
   @Input() heure_debut!: string;

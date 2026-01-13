@@ -8,7 +8,6 @@ import { Evenement } from '../../models/Evenement/evenement';
 })
 export class EvenementService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllEvenements(): Observable<Evenement[]> {
     return this.http.get<Evenement[]>(`${environment.apiUrl}/evenements`);
   }

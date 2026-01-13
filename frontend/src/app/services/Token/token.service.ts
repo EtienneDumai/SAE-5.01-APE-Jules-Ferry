@@ -6,8 +6,6 @@ import { Injectable } from '@angular/core';
 export class TokenService {
   private readonly TOKEN_KEY = 'auth_token';
 
-  constructor() { }
-
   /**
    * save token dans localStorage
    */
