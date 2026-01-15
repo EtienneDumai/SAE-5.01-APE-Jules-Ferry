@@ -3,7 +3,6 @@ import { AccueilComponent } from './pages/accueil/accueil.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { guestGuard } from './guards/guest.guard';
-import { NewsletterPageComponent } from './pages/newsletter-page/newsletter-page.component';
 
 export const routes: Routes = [
     { path: '', component: AccueilComponent },
