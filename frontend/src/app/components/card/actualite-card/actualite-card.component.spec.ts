@@ -3,7 +3,6 @@ import { ActualiteCardComponent } from './actualite-card.component';
 import { provideRouter } from '@angular/router';
 import { StatutActualite } from '../../../enums/StatutActualite/statut-actualite';
 import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 describe('ActualiteCardComponent', () => {
   let component: ActualiteCardComponent;
