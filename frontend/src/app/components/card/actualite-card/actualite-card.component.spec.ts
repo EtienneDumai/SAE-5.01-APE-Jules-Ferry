@@ -2,12 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActualiteCardComponent } from './actualite-card.component';
 import { provideRouter } from '@angular/router';
 import { StatutActualite } from '../../../enums/StatutActualite/statut-actualite';
-import { DebugElement } from '@angular/core';
 
 describe('ActualiteCardComponent', () => {
   let component: ActualiteCardComponent;
   let fixture: ComponentFixture<ActualiteCardComponent>;
-  let compiled: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,7 +15,6 @@ describe('ActualiteCardComponent', () => {
 
     fixture = TestBed.createComponent(ActualiteCardComponent);
     component = fixture.componentInstance;
-    compiled = fixture.debugElement;
   });
 
   it('should create', () => {
