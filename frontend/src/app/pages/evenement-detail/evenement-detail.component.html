@@ -18,8 +18,8 @@
         <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
             
             <div class="h-64 md:h-96 w-full relative overflow-hidden bg-gray-100">
-                @if (evenement.image_url) {
-                    <img [src]="evenement.image_url" [alt]="evenement.titre" loading="lazy" class="w-full h-full object-cover">
+                @if(evenement.image_url) {
+                    <img [src]="getImageUrl(evenement.image_url)" [alt]="evenement.titre" class="w-full h-full object-cover">
                 } @else {
                     <div class="flex items-center justify-center h-full text-gray-400">
                         <span class="text-lg italic">Aucune image disponible</span>

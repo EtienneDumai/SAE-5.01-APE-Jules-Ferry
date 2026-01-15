@@ -55,4 +55,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/inscriptions', [InscriptionController::class, 'store']);
     Route::get('/inscriptions/mes-inscriptions', [InscriptionController::class, 'mesInscriptions']);
     Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
+
+    Route::post('/evenements', [EvenementController::class, 'store']);
+    Route::put('/evenements/{evenement}', [EvenementController::class, 'update']);
+    Route::delete('/evenements/{evenement}', [EvenementController::class, 'destroy']);
+
+    Route::apiResource('creneaux', CreneauController::class);
+    Route::apiResource('formulaires', FormulaireController::class);
+    Route::apiResource('inscriptions', InscriptionController::class);
+    Route::apiResource('taches', TacheController::class);
+    Route::apiResource('utilisateurs', UtilisateurController::class);
 });
+
+// Routes publiques
+Route::get('/evenements', [EvenementController::class, 'index']);
+Route::get('/evenements/{evenement}', [EvenementController::class, 'show']);
+Route::apiResource('actualites', ActualiteController::class);

@@ -1,5 +1,5 @@
 export enum StatutCompte {
-    actif = 'Actif',
-    suspendu = 'Suspendu',
-    desactive = 'Désactivé'
+    actif = 'actif',
+    suspendu = 'suspendu',
+    desactive = 'desactive'
 }

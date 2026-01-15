@@ -52,6 +52,17 @@ export class EvenementDetailComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.loadEvenement(id);
+    this.evenementService.getEvenementById(id).subscribe({
+      next: (data) => {
+        this.evenement = data;
+        this.loadingEvenement = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loadingEvenement = false;
+        this.errorEvenement = true;
+      }
+    });
   }
 
   loadEvenement(id: number) {
@@ -226,17 +237,22 @@ export class EvenementDetailComponent implements OnInit {
     });
   }
 
-  goBack(): void {
-    this.location.back();
-  }
-  
   handleCancel(): void {
     this.toggleInscriptionForm();
   }
-  
+
   async handleSubmit(payload: InscriptionSubmitPayload): Promise<void> {
     // payload.creneauxSelectionnes + payload.commentaire
     // => appelez votre service puis mettez à jour success/error
     this.validerModification(payload);
+  }
+  goBack(): void {
+    this.location.back();
+  }
+
+  getImageUrl(image_url: string): string {
+    if (!image_url) return '';
+    if (image_url.startsWith('http')) return image_url;
+    return 'http://localhost:8000' + image_url;
   }
 }

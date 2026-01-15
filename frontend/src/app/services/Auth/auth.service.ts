@@ -47,6 +47,11 @@ export class AuthService {
       tap(response => {
         this.tokenService.saveToken(response.token);
         this.currentUserSubject.next(response.user);
+        if (String(response.user.role).toLowerCase() === 'administrateur') {
+          this.router.navigate(['/evenements']);
+        } else {
+          this.router.navigate(['/']);
+        }
       })
     );
   }
@@ -95,6 +100,6 @@ export class AuthService {
    */
   hasRole(role: string): boolean {
     const user = this.getCurrentUser();
-    return user ? user.role === role : false;
+    return user ? String(user.role).toLowerCase() === role.toLowerCase() : false;
   }
 }

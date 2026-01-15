@@ -1,9 +1,20 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
-    <div class="mb-6">
+    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="['/']">
             ← Retour à l'accueil
         </button>
+
+        @if(canManage) {
+            <a [routerLink]="['/evenements', 'new', 'edit']" 
+               class="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition-colors font-bold shadow-md inline-flex items-center w-fit">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+               </svg>
+               Créer un événement
+            </a>
+        }
+    </div>
 
     @if(this.loadingEvenements){
         <div class="flex justify-center items-center h-64">
@@ -45,11 +56,11 @@
             [date_evenement]="evenement.date_evenement"
             [heure_debut]="evenement.heure_debut"
             [heure_fin]="evenement.heure_fin"
-            [lieu]="evenement.lieu">
+            [lieu]="evenement.lieu"
+            (eventDeleted)="handleEventDeleted($event)">
         </app-evenement-card>
 
     } 
 </div>
     }
-</div>
 </div>
