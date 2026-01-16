@@ -9,7 +9,6 @@ import { environment }  from '../../environments/environment.dev';
 })
 export class ActualiteService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllActualites(): Observable<Actualite[]> {
     return this.http.get<Actualite[]>(`${environment.apiUrl}/actualites`);
   }

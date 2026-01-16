@@ -8,7 +8,6 @@ import {TypeToast} from '../../models/TypeToast/type-toast';
 export class ToastService {
   private toastSubject = new BehaviorSubject<TypeToast | null>(null);
   toast = this.toastSubject.asObservable();
-  constructor() { }
   show(message: string, type: TypeErreurToast = TypeErreurToast.SUCCESS): void {
     this.toastSubject.next({message, type});
   }

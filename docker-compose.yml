@@ -37,6 +37,7 @@ services:
       sh -c "
       composer install &&
       php artisan migrate:fresh --seed &&
+      (while true; do php artisan schedule:run >> /dev/null 2>&1; sleep 60; done) &
       php artisan serve --host=0.0.0.0 --port=8000
       "
 

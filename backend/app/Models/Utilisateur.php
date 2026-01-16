@@ -32,6 +32,7 @@ class Utilisateur extends Authenticatable
     // Cast automatique
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'mot_de_passe' => 'hashed',
     ];
 
     public function getAuthPassword()

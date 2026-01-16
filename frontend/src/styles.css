@@ -14,9 +14,14 @@
     --success-color:#4CAF50;
     --warning-color:#FFC107;
     --error-color:#D32F2F;
+    --error-dark-color:#B71C1C;
     --black-text-color:#1F2937;
     --gray-text-color: #6B7280;
+    --modal-overlay: #4b5563;
 }
+
+
+
 @layer base {
   app-root {
     background-color: var(--background-color);
@@ -33,3 +38,7 @@
 }
 
 
+
+app-user-form {
+    display: table-row;
+}

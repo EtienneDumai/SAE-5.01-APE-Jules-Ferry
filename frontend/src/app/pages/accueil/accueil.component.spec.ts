@@ -1,16 +1,58 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AccueilComponent } from './accueil.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
+import { ActualiteService } from '../../services/Actualite/actualite.service';
+import { EvenementService } from '../../services/Evenement/evenement.service';
+import { of, throwError } from 'rxjs';
+import { Actualite } from '../../models/Actualite/actualite';
+import { Evenement } from '../../models/Evenement/evenement';
+import { By } from '@angular/platform-browser';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { ActualiteCardComponent } from '../../components/card/actualite-card/actualite-card.component';
+import { EvenementCardComponent } from '../../components/card/evenement-card/evenement-card.component';
+import { StatutActualite } from '../../enums/StatutActualite/statut-actualite';
+import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 
 describe('AccueilComponent', () => {
   let component: AccueilComponent;
   let fixture: ComponentFixture<AccueilComponent>;
+  let actualiteServiceSpy: jasmine.SpyObj<ActualiteService>;
+  let evenementServiceSpy: jasmine.SpyObj<EvenementService>;
+
+  const mockActualites: Actualite[] = [
+    { id_actualite: 1, titre: 'Actu 1', contenu: 'Contenu 1', image_url: 'img1.jpg', date_publication: new Date('2024-01-01'), statut: StatutActualite.publie, id_auteur: 1 },
+    { id_actualite: 2, titre: 'Actu 2', contenu: 'Contenu 2', image_url: 'img2.jpg', date_publication: new Date('2024-02-01'), statut: StatutActualite.publie, id_auteur: 1 },
+    { id_actualite: 3, titre: 'Actu 3', contenu: 'Contenu 3', image_url: 'img3.jpg', date_publication: new Date('2024-03-01'), statut: StatutActualite.publie, id_auteur: 1 },
+    { id_actualite: 4, titre: 'Actu 4', contenu: 'Contenu 4', image_url: 'img4.jpg', date_publication: new Date('2024-04-01'), statut: StatutActualite.publie, id_auteur: 1 }
+  ];
+
+  const mockEvenements: Evenement[] = [
+    { id_evenement: 1, titre: 'Event 1', description: 'Desc 1', image_url: 'img1.jpg', date_evenement: new Date('2024-05-01'), heure_debut: '10:00', heure_fin: '12:00', lieu: 'Lieu 1', statut: StatutEvenement.publie, id_auteur: 1, id_formulaire: null },
+    { id_evenement: 2, titre: 'Event 2', description: 'Desc 2', image_url: 'img2.jpg', date_evenement: new Date('2024-06-01'), heure_debut: '14:00', heure_fin: '16:00', lieu: 'Lieu 2', statut: StatutEvenement.publie, id_auteur: 1, id_formulaire: null },
+    { id_evenement: 3, titre: 'Event 3', description: 'Desc 3', image_url: 'img3.jpg', date_evenement: new Date('2024-07-01'), heure_debut: '09:00', heure_fin: '10:00', lieu: 'Lieu 3', statut: StatutEvenement.publie, id_auteur: 1, id_formulaire: null },
+    { id_evenement: 4, titre: 'Event 4', description: 'Desc 4', image_url: 'img4.jpg', date_evenement: new Date('2024-08-01'), heure_debut: '18:00', heure_fin: '20:00', lieu: 'Lieu 4', statut: StatutEvenement.publie, id_auteur: 1, id_formulaire: null }
+  ];
 
   beforeEach(async () => {
+    actualiteServiceSpy = jasmine.createSpyObj('ActualiteService', ['getAllActualites']);
+    evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getAllEvenements']);
+
+    actualiteServiceSpy.getAllActualites.and.returnValue(of([]));
+    evenementServiceSpy.getAllEvenements.and.returnValue(of([]));
+
     await TestBed.configureTestingModule({
-      imports: [AccueilComponent]
+      imports: [AccueilComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        { provide: ActualiteService, useValue: actualiteServiceSpy },
+        { provide: EvenementService, useValue: evenementServiceSpy }
+      ],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AccueilComponent);
     component = fixture.componentInstance;
@@ -19,5 +61,92 @@ describe('AccueilComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Initialisation et Chargement des données', () => {
+    it('devrait charger et trier les actualités et événements à l\'initialisation', () => {
+      actualiteServiceSpy.getAllActualites.and.returnValue(of(mockActualites));
+      evenementServiceSpy.getAllEvenements.and.returnValue(of(mockEvenements));
+
+      component.ngOnInit();
+      
+      expect(component.loadingActualites).toBeFalse();
+      expect(component.loadingEvents).toBeFalse();
+      
+      expect(component.listeActualites.length).toBe(4);
+      expect(component.listeEvenements.length).toBe(4);
+    });
+
+    it('devrait gérer les erreurs de chargement des actualités', () => {
+      const error = new Error('Erreur API');
+      actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => error));
+      evenementServiceSpy.getAllEvenements.and.returnValue(of([]));
+
+      spyOn(console, 'error');
+      component.ngOnInit();
+
+      expect(component.loadingActualites).toBeFalse();
+      expect(component.errorActualites).toBeTrue();
+      expect(console.error).toHaveBeenCalledWith(error);
+    });
+
+    it('devrait gérer les erreurs de chargement des événements', () => {
+      actualiteServiceSpy.getAllActualites.and.returnValue(of([]));
+      const error = new Error('Erreur API Event');
+      evenementServiceSpy.getAllEvenements.and.returnValue(throwError(() => error));
+
+      spyOn(console, 'error');
+      component.ngOnInit();
+
+      expect(component.loadingEvents).toBeFalse();
+      expect(component.errorEvents).toBeTrue();
+      expect(console.error).toHaveBeenCalledWith(error);
+    });
+  });
+
+  describe('Affichage', () => {
+    it('devrait afficher les spinners pendant le chargement', () => {
+        component.loadingActualites = true;
+        component.loadingEvents = true;
+        fixture.detectChanges();
+
+        const spinners = fixture.debugElement.queryAll(By.directive(SpinnerComponent));
+        expect(spinners.length).toBe(2);
+    });
+
+    it('devrait afficher au maximum 3 cartes d\'actualités', () => {
+      component.listeActualites = mockActualites;
+      component.loadingActualites = false;
+      component.errorActualites = false;
+      fixture.detectChanges();
+
+      const cards = fixture.debugElement.queryAll(By.directive(ActualiteCardComponent));
+      expect(cards.length).toBe(3);
+    });
+
+    it('devrait afficher au maximum 3 cartes d\'événements', () => {
+      component.listeEvenements = mockEvenements;
+      component.loadingEvents = false;
+      component.errorEvents = false;
+      fixture.detectChanges();
+
+      const cards = fixture.debugElement.queryAll(By.directive(EvenementCardComponent));
+      expect(cards.length).toBe(3);
+    });
+  });
+
+  describe('Interaction', () => {
+      it('devrait supprimer un événement de la liste lors de la suppression', () => {
+          component.listeEvenements = [...mockEvenements];
+          fixture.detectChanges();
+
+          const initialCount = component.listeEvenements.length;
+          const idToDelete = 1;
+
+          component.handleEventDeleted(idToDelete);
+
+          expect(component.listeEvenements.length).toBe(initialCount - 1);
+          expect(component.listeEvenements.find(e => e.id_evenement === idToDelete)).toBeUndefined();
+      });
   });
 });

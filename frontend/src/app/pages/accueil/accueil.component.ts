@@ -7,21 +7,21 @@ import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteCardComponent } from '../../components/card/actualite-card/actualite-card.component';
 import { EvenementCardComponent } from "../../components/card/evenement-card/evenement-card.component";
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { ErreurModaleComponent } from '../../components/erreur-modale/erreur-modale.component';
+import { CalendrierComponent } from '../../components/calendrier/calendrier.component';
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [ActualiteCardComponent, EvenementCardComponent, SpinnerComponent, RouterLink, ErreurModaleComponent],
+  imports: [ActualiteCardComponent, EvenementCardComponent, SpinnerComponent, RouterLink, CalendrierComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css'
 })
 export class AccueilComponent implements OnInit {
   public listeActualites: Actualite[] = [];
   public listeEvenements: Evenement[] = [];
-  loadingEvents: boolean = true;
-  loadingActualites: boolean = true;
-  errorEvents: boolean = false;
-  errorActualites: boolean = false;
+  loadingEvents = true;
+  loadingActualites = true;
+  errorEvents = false;
+  errorActualites= false;
   private readonly actualiteService = inject(ActualiteService);
   private readonly evenementService = inject(EvenementService);
   Date: Date = new Date();
@@ -51,6 +51,11 @@ export class AccueilComponent implements OnInit {
     });
     this.sortEvenementByDate(this.listeEvenements);
   }
+
+  handleEventDeleted(id: number): void {
+    this.listeEvenements = this.listeEvenements.filter(e => e.id_evenement !== id);
+  }
+
   public sortEvenementByDate(a: Evenement[]): Evenement[] {
     return a.sort((a, b) => a.date_evenement.getTime() - b.date_evenement.getTime());
   }

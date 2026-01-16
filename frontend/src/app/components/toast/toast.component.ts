@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 import {ToastService} from '../../services/Toast/toast.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 

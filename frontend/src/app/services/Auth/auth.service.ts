@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -17,12 +17,11 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
   private currentUserSubject = new BehaviorSubject<Utilisateur | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
-
-  constructor(
-    private http: HttpClient,
-    private tokenService: TokenService,
-    private router: Router
-  ) {
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly router: Router = inject(Router);
+  private readonly tokenService: TokenService = inject(TokenService);
+  init():void 
+  {
     if (this.tokenService.hasToken()) {
       this.loadCurrentUser();
     }
@@ -48,6 +47,11 @@ export class AuthService {
       tap(response => {
         this.tokenService.saveToken(response.token);
         this.currentUserSubject.next(response.user);
+        if (String(response.user.role).toLowerCase() === 'administrateur') {
+          this.router.navigate(['/evenements']);
+        } else {
+          this.router.navigate(['/']);
+        }
       })
     );
   }
@@ -55,8 +59,8 @@ export class AuthService {
   /**
    * Déconnexion
    */
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
       tap({
         next: () => {
           this.clearAuthState();
@@ -102,7 +106,7 @@ export class AuthService {
    */
   hasRole(role: string): boolean {
     const user = this.getCurrentUser();
-    return user ? user.role === role : false;
+    return user ? String(user.role).toLowerCase() === role.toLowerCase() : false;
   }
 
   private clearAuthState(): void {

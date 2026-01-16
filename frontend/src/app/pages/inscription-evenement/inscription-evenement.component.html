@@ -1,0 +1,26 @@
+<div class = "">
+    <div id="titre-evenement" class="bg-[var(--primary-light-blue)]">
+        <p>{{ evenement.titre }}</p>
+    </div>
+    <div id="description-evenement" class="bg-[var(--primary-light-blue)]">
+        <p>{{ evenement.description }}</p>
+    </div>
+    <div id="date-evenement" class="bg-[var(--primary-light-blue)]">
+        <p>{{ evenement.date_evennement }}</p>
+    </div>
+    <div id="image-evenement">
+        <img [src]="evenement.image_url" alt="Image de l'événement">
+    </div>
+    @if(listeTaches.length > 0) {
+    <div id="liste-taches-evenement" class="bg-[var(--primary-light-blue)]">
+        <h2>Tâches associées à cet événement :</h2>
+        <ul>
+            @for(tache of listeTaches; track tache.id_tache){
+                <li>
+                    {{ tache.description }}
+                </li>
+            }
+        </ul>
+    </div>
+    }
+</div>

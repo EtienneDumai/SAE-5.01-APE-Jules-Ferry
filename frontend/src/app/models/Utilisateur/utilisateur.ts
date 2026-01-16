@@ -6,6 +6,7 @@ export interface Utilisateur {
     nom: string;
     prenom: string;
     email: string;
+    mot_de_passe?: string; // En optionnel car lors de la modification, on ne modifie pas le mot de passe
     role: RoleUtilisateur;
     statut_compte: StatutCompte;
 }

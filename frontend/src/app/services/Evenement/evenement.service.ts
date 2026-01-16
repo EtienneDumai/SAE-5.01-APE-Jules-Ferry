@@ -8,18 +8,17 @@ import { Evenement } from '../../models/Evenement/evenement';
 })
 export class EvenementService {
   private readonly http = inject(HttpClient);
-  constructor() { }
   getAllEvenements(): Observable<Evenement[]> {
     return this.http.get<Evenement[]>(`${environment.apiUrl}/evenements`);
   }
   getEvenementById(id: number): Observable<Evenement> {
     return this.http.get<Evenement>(`${environment.apiUrl}/evenements/${id}`);
   }
-  createEvenement(evenement: Evenement): Observable<Evenement> {
+  createEvenement(evenement: Evenement | FormData): Observable<Evenement> {
     return this.http.post<Evenement>(`${environment.apiUrl}/evenements`, evenement);
   }
-  updateEvenement(evenement: Evenement, id: number): Observable<Evenement> {
-    return this.http.put<Evenement>(`${environment.apiUrl}/evenements/${id}`, evenement);
+  updateEvenement(evenement: Evenement | FormData, id: number): Observable<Evenement> {
+    return this.http.post<Evenement>(`${environment.apiUrl}/evenements/${id}?_method=PUT`, evenement);
   }
   deleteEvenement(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/evenements/${id}`);
