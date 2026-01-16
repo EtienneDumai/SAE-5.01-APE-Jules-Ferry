@@ -46,7 +46,7 @@
     @else {
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             
-    @for(evenement of this.listeEvenements; track evenement.id_evenement){
+   @for(evenement of this.listeEvenements; track evenement.id_evenement){
         
         <app-evenement-card 
             [id_evenement]="evenement.id_evenement"
@@ -57,10 +57,15 @@
             [heure_debut]="evenement.heure_debut"
             [heure_fin]="evenement.heure_fin"
             [lieu]="evenement.lieu"
+            
+            [id_auteur]="evenement.id_auteur" 
+            
+            [currentUser]="currentUser$ | async" 
+
             (eventDeleted)="handleEventDeleted($event)">
         </app-evenement-card>
 
-    } 
+    }
 </div>
     }
 </div>

@@ -7,19 +7,24 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/Auth/auth.service';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { CommonModule } from '@angular/common';
+import { Utilisateur } from '../../models/Utilisateur/utilisateur';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-evenement-page',
   standalone: true,
-  imports: [EvenementCardComponent, SpinnerComponent, RouterLink, CommonModule],
+  imports: [EvenementCardComponent, SpinnerComponent, RouterLink, CommonModule, AsyncPipe],
   templateUrl: './evenement-page.component.html',
   styleUrl: './evenement-page.component.css'
 })
 export class EvenementPageComponent implements OnInit {
   listeEvenements!: Evenement[];
-  Date: Date = new Date();
   loadingEvenements = true;
   errorEvenements = false;
+  
+  currentUser$: Observable<Utilisateur | null> | undefined;
+
   private readonly evenementService = inject(EvenementService);
   private readonly authService = inject(AuthService);
 
@@ -29,6 +34,8 @@ export class EvenementPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currentUser$ = this.authService.currentUser$;
+
     this.evenementService.getAllEvenements().subscribe({
       next: (data) => {
         this.listeEvenements = data;
@@ -48,7 +55,7 @@ export class EvenementPageComponent implements OnInit {
   }
 
   public sortEvenementByDate(): void {
-  const sortedList = [...this.listeEvenements];
+    const sortedList = [...this.listeEvenements];
     sortedList.sort((a, b) => {
       const dateA = new Date(a.date_evenement).getTime();
       const dateB = new Date(b.date_evenement).getTime();
