@@ -36,7 +36,7 @@ export class InscriptionEvenementComponent implements OnInit {
       next: (data: Evenement) => {
         this.evenement = data;
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error(err);
         this.toastService.show('Erreur lors du chargement de l\'événement', TypeErreurToast.ERROR);
       }
