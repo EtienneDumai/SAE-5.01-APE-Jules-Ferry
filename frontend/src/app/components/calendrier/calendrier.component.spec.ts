@@ -24,6 +24,8 @@ describe('CalendrierComponent', () => {
       lieu: 'Salle A',
       image_url: 'image1.jpg',
       statut: StatutEvenement.publie,
+      id_auteur: 1,
+      id_formulaire: null,
     },
     {
       id_evenement: 2,
@@ -35,6 +37,8 @@ describe('CalendrierComponent', () => {
       lieu: 'Salle B',
       image_url: 'image2.jpg',
       statut: StatutEvenement.publie,
+      id_auteur: 1,
+      id_formulaire: null,
     },
   ];
 

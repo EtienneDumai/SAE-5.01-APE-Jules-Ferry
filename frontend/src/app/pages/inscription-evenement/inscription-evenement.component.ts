@@ -5,7 +5,7 @@ import { EvennementService } from '../../services/Evennement/evennement.service'
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
-import { Evennement } from '../../models/Evennement/evennement';
+import { Evenement } from '../../models/Evenement/evenement';
 
 @Component({
   selector: 'app-inscription-evenement',
@@ -16,7 +16,7 @@ import { Evennement } from '../../models/Evennement/evennement';
 })
 export class InscriptionEvenementComponent implements OnInit {
   listeTaches: Tache[] = [];
-  evenement!: Evennement;
+  evenement!: Evenement;
   private readonly tacheService = inject(TacheService);
   private readonly evenementService = inject(EvennementService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
