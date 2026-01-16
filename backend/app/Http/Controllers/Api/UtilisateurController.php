@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\Utilisateur;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Validation\Rules\Password;
 class UtilisateurController extends Controller
 {
