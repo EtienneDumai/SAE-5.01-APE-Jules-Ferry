@@ -18,15 +18,10 @@ describe('EvenementCardComponent', () => {
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    // 1. Mocks des services
+    // Mocks des services
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser']);
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['deleteEvenement']);
-    
-    // 2. Mock du Router enrichi pour supporter RouterLink
-    // RouterLink a besoin de createUrlTree et serializeUrl en plus de navigate
     const routerSpy = jasmine.createSpyObj('Router', ['navigate', 'createUrlTree', 'serializeUrl']);
-    
-    // Configuration par défaut des méthodes du Router pour éviter les erreurs
     routerSpy.createUrlTree.and.returnValue({} as UrlTree); 
     routerSpy.serializeUrl.and.returnValue('');
 
@@ -36,7 +31,6 @@ describe('EvenementCardComponent', () => {
         { provide: AuthService, useValue: authServiceSpy },
         { provide: EvenementService, useValue: evenementServiceSpy },
         { provide: Router, useValue: routerSpy },
-        // 3. LA CORRECTION PRINCIPALE : Fournir ActivatedRoute
         { 
           provide: ActivatedRoute, 
           useValue: { snapshot: { paramMap: { get: () => null } } } 
@@ -65,9 +59,6 @@ describe('EvenementCardComponent', () => {
     
     fixture.detectChanges();
   });
-
-  // --- LES TESTS RESTENT IDENTIQUES ---
-
   describe('Initialisation du composant', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
