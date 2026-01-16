@@ -4,86 +4,107 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class EvenementSeeder extends Seeder
 {
     public function run(): void
     {
+
         DB::table('evenements')->insert([
             [
-                'titre' => 'Kermesse de l\'école 2025',
-                'description' => 'Grande kermesse annuelle de l\'école Jules Ferry avec stands de jeux, tombola, restauration et spectacle des enfants.',
-                'date_evenement' => '2025-06-15',
+                'titre' => 'Kermesse de l\'école ' . now()->year,
+                'description' => 'Grande kermesse annuelle avec stands de jeux et spectacle.',
+                'date_evenement' => now()->addMonths(3)->toDateString(), 
                 'heure_debut' => '14:00:00',
                 'heure_fin' => '18:00:00',
                 'lieu' => 'Cour de l\'école Jules Ferry',
-                'image_url' => '/images/kermesse-2025.jpg',
+                'image_url' => '/images/kermesse.jpg',
                 'statut' => 'publie',
                 'id_auteur' => 1,
-                'id_formulaire' => 1, // Formulaire d'inscription kermesse
-                'created_at' => now()->subDays(15),
-                'updated_at' => now()->subDays(15),
+                'id_formulaire' => 1, 
+                'created_at' => now()->subDays(2),
+                'updated_at' => now()->subDays(2),
             ],
             [
-                'titre' => 'Vente de gâteaux de Noël',
-                'description' => 'Vente de gâteaux confectionnés par les parents pour financer les projets pédagogiques.',
-                'date_evenement' => '2025-12-20',
+                'titre' => 'Vente de gâteaux',
+                'description' => 'Vente pour financer les projets pédagogiques.',
+                'date_evenement' => now()->addDays(10)->toDateString(),
                 'heure_debut' => '16:30:00',
                 'heure_fin' => '18:00:00',
                 'lieu' => 'Hall de l\'école',
                 'image_url' => null,
                 'statut' => 'publie',
                 'id_auteur' => 2,
-                'id_formulaire' => 2, // Formulaire bénévoles vente de gâteaux
-                'created_at' => now()->subDays(10),
-                'updated_at' => now()->subDays(10),
+                'id_formulaire' => 2,
+                'created_at' => now()->subDays(5),
+                'updated_at' => now()->subDays(5),
             ],
             [
-                'titre' => 'Sortie au Musée d\'Histoire Naturelle',
-                'description' => 'Sortie scolaire pour les classes de CE2 et CM1. Besoin d\'accompagnateurs.',
-                'date_evenement' => '2025-11-28',
+                'titre' => 'Assemblée Générale APE',
+                'description' => 'Réunion importante pour tous les parents.',
+                'date_evenement' => now()->addWeeks(2)->toDateString(),
+                'heure_debut' => '18:30:00',
+                'heure_fin' => '20:00:00',
+                'lieu' => 'Salle polyvalente',
+                'image_url' => null,
+                'statut' => 'publie',
+                'id_auteur' => 1,
+                'id_formulaire' => null,
+                'created_at' => now()->subDays(1),
+                'updated_at' => now()->subDays(1),
+            ],
+
+            [
+                'titre' => 'Sortie au Musée',
+                'description' => 'Sortie scolaire CE2/CM1.',
+                'date_evenement' => now()->subMonth()->toDateString(),
                 'heure_debut' => '09:00:00',
                 'heure_fin' => '16:00:00',
                 'lieu' => 'Musée d\'Histoire Naturelle',
                 'image_url' => null,
                 'statut' => 'termine',
                 'id_auteur' => 2,
-                'id_formulaire' => 3, // Formulaire aide sortie scolaire
-                'created_at' => now()->subDays(30),
-                'updated_at' => now()->subDays(18),
+                'id_formulaire' => 3,
+                'created_at' => now()->subMonths(2),
+                'updated_at' => now()->subMonths(2),
             ],
             [
-                'titre' => 'Marché de Noël 2024',
-                'description' => 'Marché de Noël organisé par l\'APE avec vente de créations artisanales et de produits gourmands.',
-                'date_evenement' => '2024-12-14',
+                'titre' => 'Marché de Noël passé',
+                'description' => 'Souvenir du marché de noël.',
+                'date_evenement' => now()->subMonths(6)->toDateString(),
                 'heure_debut' => '15:00:00',
                 'heure_fin' => '19:00:00',
-                'lieu' => 'Préau de l\'école',
-                'image_url' => '/images/marche-noel-2024.jpg',
+                'lieu' => 'Préau',
+                'image_url' => null,
                 'statut' => 'termine',
                 'id_auteur' => 3,
-                'id_formulaire' => 4, // Formulaire marché de Noël
-                'created_at' => now()->subDays(60),
-                'updated_at' => now()->subDays(32),
+                'id_formulaire' => 4,
+                'created_at' => now()->subMonths(7),
+                'updated_at' => now()->subMonths(7),
             ],
+
+            //enregistrement de test pour commande auto (publié/terminé)
             [
-                'titre' => 'Assemblée Générale de l\'APE',
-                'description' => 'Assemblée générale annuelle de l\'association des parents d\'élèves. Tous les parents sont invités.',
-                'date_evenement' => '2026-01-25',
-                'heure_debut' => '18:30:00',
-                'heure_fin' => '20:00:00',
-                'lieu' => 'Salle polyvalente de l\'école',
+                'titre' => 'Test Automatisation',
+                'description' => 'Cet événement est hier, mais encore noté publie. La commande doit le passer en termine.',
+                // Date : HIER
+                'date_evenement' => now()->subDay()->toDateString(),
+                'heure_debut' => '10:00:00',
+                'heure_fin' => '12:00:00',
+                'lieu' => 'Test Zone',
                 'image_url' => null,
-                'statut' => 'publie',
+                'statut' => 'publie', 
                 'id_auteur' => 1,
-                'id_formulaire' => null, // Pas de formulaire d'inscription
-                'created_at' => now()->subDays(5),
-                'updated_at' => now()->subDays(5),
+                'id_formulaire' => null,
+                'created_at' => now()->subDays(2),
+                'updated_at' => now()->subDays(2),
             ],
+
             [
-                'titre' => 'Brouillon - Carnaval 2026',
-                'description' => 'Projet de carnaval pour le printemps 2026. En cours de préparation.',
-                'date_evenement' => '2026-03-20',
+                'titre' => 'Brouillon - Carnaval',
+                'description' => 'En cours de préparation.',
+                'date_evenement' => now()->addMonths(6)->toDateString(),
                 'heure_debut' => '14:00:00',
                 'heure_fin' => '17:00:00',
                 'lieu' => 'À définir',

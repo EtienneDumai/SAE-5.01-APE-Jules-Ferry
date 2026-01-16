@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Formulaire;
+use Illuminate\Http\Request;
+
 class FormulaireController extends Controller
 {
     public function index()
@@ -15,15 +17,29 @@ class FormulaireController extends Controller
             return response()->json(['message' => 'Aucun formulaire trouvé'], 404);
         }
     }
+    
     public function show($id)
     {
-        $formulaire = Formulaire::find($id);
-        if ($formulaire) {
+        try {
+            $formulaire = Formulaire::with([
+                'taches.creneaux' => function($query) {
+                    $query->withCount('inscriptions')
+                          ->with('inscriptions');
+                }
+            ])->find($id);
+
+            if (!$formulaire) {
+                return response()->json(['message' => 'Formulaire non trouvé'], 404);
+            }
+
             return response()->json($formulaire);
-        } else {
-            return response()->json(['message' => 'Formulaire non trouvé'], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
+
     public function store(Request $request)
     {
         $formulaire = Formulaire::create($request->all());

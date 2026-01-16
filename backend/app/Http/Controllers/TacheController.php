@@ -53,4 +53,13 @@ class TacheController extends Controller
             return response()->json(['message' => 'Tâche non trouvée'], 404);
         }
     }
+    public function getTachesByEvennement($id_evennement)
+    {
+        $taches = Tache::where('id_evennement', $id_evennement)->get();
+        if ($taches) {
+            return response()->json($taches);
+        } else {
+            return response()->json(['message' => 'Aucune tâche trouvée pour cet événement'], 404);
+        }
+    }
 }

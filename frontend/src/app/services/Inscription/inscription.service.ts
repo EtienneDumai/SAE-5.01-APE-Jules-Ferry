@@ -3,24 +3,27 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.dev';
 import { Inscription } from '../../models/Inscription/inscription';
+
 @Injectable({
   providedIn: 'root'
 })
 export class InscriptionService {
   private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${environment.apiUrl}/inscriptions`;
+
   getAllInscriptions(): Observable<Inscription[]> {
-    return this.http.get<Inscription[]>(`${environment.apiUrl}/inscriptions`);
+    return this.http.get<Inscription[]>(this.apiUrl);
   }
-  getInscriptionById(id: number): Observable<Inscription> {
-    return this.http.get<Inscription>(`${environment.apiUrl}/inscriptions/${id}`);
+
+  getMesInscriptions(): Observable<Inscription[]> {
+    return this.http.get<Inscription[]>(`${this.apiUrl}/mes-inscriptions`);
   }
-  createInscription(inscription: Inscription): Observable<Inscription> {
-    return this.http.post<Inscription>(`${environment.apiUrl}/inscriptions`, inscription);
+
+  createInscription(data: { id_creneau: number; commentaire?: string | null }): Observable<Inscription> {
+    return this.http.post<Inscription>(this.apiUrl, data);
   }
-  updateInscription(inscription: Inscription, id: number): Observable<Inscription> {
-    return this.http.put<Inscription>(`${environment.apiUrl}/inscriptions/${id}`, inscription);
-  }
-  deleteInscription(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/inscriptions/${id}`);
+
+  deleteInscription(id_creneau: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id_creneau}`);
   }
 }

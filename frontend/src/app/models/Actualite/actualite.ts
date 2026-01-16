@@ -7,5 +7,6 @@ export interface Actualite {
     image_url: string;
     date_publication: Date;
     statut: StatutActualite;
+    id_auteur: number; //clef étrangère vers un utilisateur
     // date_creation: Date; peut être à mettre dépend des choix de conception
 }
