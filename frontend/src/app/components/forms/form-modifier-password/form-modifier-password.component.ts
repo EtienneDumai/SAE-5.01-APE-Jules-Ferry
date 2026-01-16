@@ -10,12 +10,13 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractContro
 export class FormModifierPasswordComponent implements OnInit {
 
   @Input() resetKey = 0;
-
   @Output() submitted = new EventEmitter<{ motDePasse: string }>();
   @Output() cancelled = new EventEmitter<void>();
 
   modificationMdpForm!: FormGroup;
+
   private readonly fb = inject(FormBuilder);
+
   ngOnInit(): void {
     this.modificationMdpForm = this.fb.group({
       mot_de_passe_actuel: ['', [Validators.required]],
@@ -24,6 +25,12 @@ export class FormModifierPasswordComponent implements OnInit {
     }, {
       validators: this.passwordMatchValidator
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['resetKey'] && !changes['resetKey'].firstChange) {
+      this.modificationMdpForm.reset();
+    }
   }
 
   private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -48,12 +55,6 @@ export class FormModifierPasswordComponent implements OnInit {
     // Pose l'erreur UNIQUEMENT sur le champ confirmation
     confirmPassword.setErrors({ passwordMismatch: true });
     return { passwordMismatch: true };
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['resetKey'] && !changes['resetKey'].firstChange) {
-      this.modificationMdpForm.reset();
-    }
   }
 
   public submit(): void {
