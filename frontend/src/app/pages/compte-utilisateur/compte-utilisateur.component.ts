@@ -6,6 +6,7 @@ import { FormModifierPasswordComponent } from "../../components/forms/form-modif
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 import { Router } from '@angular/router';
+import { InscriptionService } from '../../services/Inscription/inscription.service';
 
 
 @Component({
@@ -26,10 +27,12 @@ export class CompteUtilisateurComponent {
   // État UI
   modifierMdp: boolean = false;
   resetKey = 0;
+  private readonly inscriptionService = inject(InscriptionService);
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
   private readonly router = inject(Router);
+  
   ngOnInit(): void {
     this.authService.currentUser$.subscribe({
       next: (user) => {
@@ -92,7 +95,16 @@ export class CompteUtilisateurComponent {
     console.log('id_utilisateur =', this.currentUser?.id_utilisateur);
     console.log('id =', (this.currentUser as any)?.id);
     if (!this.currentUser) return;
-
+    this.inscriptionService.deleteInscription(this.currentUser.id_utilisateur).subscribe({
+      next: () => {
+        this.toastService.show('Compte utilisateur supprimé avec succès', TypeErreurToast.SUCCESS);
+        console.log('Delete de les inscriptions réussie');
+      },
+      error: () => {
+        this.toastService.show('Erreur lors de la suppression du compte', TypeErreurToast.ERROR);
+        console.log('Erreur lors du delete des inscriptions');
+      }
+    });
     this.utilisateurService.deleteUtilisateur(this.currentUser.id_utilisateur).subscribe({
       next: () => {
         this.toastService.show('Compte utilisateur supprimé avec succès', TypeErreurToast.SUCCESS);
@@ -103,5 +115,6 @@ export class CompteUtilisateurComponent {
         this.toastService.show('Erreur lors de la suppression du compte', TypeErreurToast.ERROR);
       }
     });
+    
   }
 }

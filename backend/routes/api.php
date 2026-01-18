@@ -56,7 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Inscriptions (CRUD)
     Route::post('/inscriptions', [InscriptionController::class, 'store']);
     Route::get('/inscriptions/mes-inscriptions', [InscriptionController::class, 'mesInscriptions']);
-    Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
+    
 
     Route::post('/evenements', [EvenementController::class, 'store']);
     Route::put('/evenements/{evenement}', [EvenementController::class, 'update']);
@@ -68,7 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('taches', TacheController::class);
     Route::apiResource('utilisateurs', UtilisateurController::class);
 });
-
+Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
 // Routes publiques
 Route::get('/evenements', [EvenementController::class, 'index']);
 Route::get('/evenements/{evenement}', [EvenementController::class, 'show']);
