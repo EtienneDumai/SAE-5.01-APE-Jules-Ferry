@@ -1,6 +1,7 @@
 import { Component, inject,  OnInit } from '@angular/core';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
+import { AuthService } from '../../services/Auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { Location, DatePipe } from '@angular/common';
@@ -11,7 +12,7 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 @Component({
   selector: 'app-actualite-detail',
   standalone: true,
-  imports: [SpinnerComponent, DatePipe],
+  imports: [SpinnerComponent, DatePipe, ],
   templateUrl: './actualite-detail.component.html',
   styleUrl: './actualite-detail.component.css'
 })
@@ -23,8 +24,11 @@ export class ActualiteDetailComponent implements OnInit {
   auteur !: Utilisateur;
   private readonly utilisateurService : UtilisateurService = inject(UtilisateurService);
   private readonly actualiteService : ActualiteService = inject(ActualiteService);
+  protected readonly authService : AuthService = inject(AuthService);
+
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private location: Location = inject(Location);
+
   ngOnInit() : void{
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.actualiteService.getActualiteById(Number(id)).subscribe({
