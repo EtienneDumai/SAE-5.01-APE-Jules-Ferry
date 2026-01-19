@@ -20,6 +20,11 @@ export const routes: Routes = [
     { path: 'newsletter', loadComponent: () => import('./pages/newsletter-page/newsletter-page.component').then(m => m.NewsletterPageComponent) },
 
     { path: 'actualites', loadComponent: () => import('./pages/actualite-page/actualite-page.component').then(m => m.ActualitePageComponent) },
+    { 
+        path: 'actualites/creer', 
+        loadComponent: () => import('./pages/actualite-creer/actualite-creer.component').then(m => m.ActualiteCreerComponent),
+        canActivate: [adminGuard]
+    },
     { path: 'actualites/:id', loadComponent: () => import('./pages/actualite-detail/actualite-detail.component').then(m => m.ActualiteDetailComponent) },
     { path: 'evenements', loadComponent: () => import('./pages/evenement-page/evenement-page.component').then(m => m.EvenementPageComponent) },
     { path: 'evenements/:id', loadComponent: () => import('./pages/evenement-detail/evenement-detail.component').then(m => m.EvenementDetailComponent) },
