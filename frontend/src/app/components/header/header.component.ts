@@ -16,6 +16,7 @@ import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 export class HeaderComponent implements OnInit {
   menuOpen = false;
   private readonly authService = inject(AuthService);
+  
   currentUser: Utilisateur | null = null;
   isAuthenticated = false;
   roleUtilisateur = RoleUtilisateur;
@@ -30,21 +31,20 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
       this.authService.logout().subscribe({
-        next: () => {
-          console.log('Déconnexion réussie');
-        },
-        error: (error) => {
-          console.error('Erreur lors de la déconnexion', error);
-        }
+        next: () => console.log('Déconnexion réussie'),
+        error: (error) => console.error('Erreur lors de la déconnexion', error)
       });
     }
   }
+
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
+
   closeMenu(): void {
     this.menuOpen = false;
   }
+
   @HostListener('document:keydown.escape')
   onEsc(): void {
     this.closeMenu();

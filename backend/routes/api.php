@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\ActualiteController;
 use App\Http\Controllers\Api\InscriptionController;
 use App\Http\Controllers\Api\FormulaireController;
 use App\Http\Controllers\Api\UtilisateurController;
-
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Http\Request;
 
 /*
@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 // Auth
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store']);
 
 // Événements
 Route::get('/evenements', [EvenementController::class, 'index']);

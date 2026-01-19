@@ -43,18 +43,18 @@ describe('HeaderComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('devrait créer', () => {
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
-    it('should initialize with no user and isAuthenticated false', () => {
+    it('devrait initialiser sans utilisateur et isAuthenticated à faux', () => {
       fixture.detectChanges();
       expect(component.currentUser).toBeNull();
       expect(component.isAuthenticated).toBeFalse();
     });
 
-    it('should set currentUser and isAuthenticated when user is logged in', () => {
+    it('devrait définir currentUser et isAuthenticated quand un utilisateur est connecté', () => {
       currentUserSubject.next(mockUser);
       fixture.detectChanges();
       
@@ -62,7 +62,7 @@ describe('HeaderComponent', () => {
       expect(component.isAuthenticated).toBeTrue();
     });
 
-    it('should update currentUser when it changes', () => {
+    it('devrait mettre à jour currentUser quand il change', () => {
       fixture.detectChanges();
       expect(component.currentUser).toBeNull();
       
@@ -81,7 +81,7 @@ describe('HeaderComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should call authService.logout when user confirms', () => {
+    it('devrait appeler authService.logout quand l\'utilisateur confirme', () => {
       spyOn(window, 'confirm').and.returnValue(true);
       authService.logout.and.returnValue(of(undefined));
       spyOn(console, 'log');
@@ -93,7 +93,7 @@ describe('HeaderComponent', () => {
       expect(console.log).toHaveBeenCalledWith('Déconnexion réussie');
     });
 
-    it('should not call authService.logout when user cancels', () => {
+    it('ne devrait pas appeler authService.logout quand l\'utilisateur annule', () => {
       spyOn(window, 'confirm').and.returnValue(false);
 
       component.logout();
@@ -102,7 +102,7 @@ describe('HeaderComponent', () => {
       expect(authService.logout).not.toHaveBeenCalled();
     });
 
-    it('should handle logout error', () => {
+    it('devrait gérer l\'erreur de déconnexion', () => {
       spyOn(window, 'confirm').and.returnValue(true);
       const error = { message: 'Logout failed' };
       authService.logout.and.returnValue(throwError(() => error));
@@ -116,13 +116,13 @@ describe('HeaderComponent', () => {
   });
 
   describe('toggleMenu', () => {
-    it('should toggle menuOpen from false to true', () => {
+    it('devrait basculer menuOpen de faux à vrai', () => {
       component.menuOpen = false;
       component.toggleMenu();
       expect(component.menuOpen).toBeTrue();
     });
 
-    it('should toggle menuOpen from true to false', () => {
+    it('devrait basculer menuOpen de vrai à faux', () => {
       component.menuOpen = true;
       component.toggleMenu();
       expect(component.menuOpen).toBeFalse();
@@ -130,13 +130,13 @@ describe('HeaderComponent', () => {
   });
 
   describe('closeMenu', () => {
-    it('should set menuOpen to false', () => {
+    it('devrait définir menuOpen à faux', () => {
       component.menuOpen = true;
       component.closeMenu();
       expect(component.menuOpen).toBeFalse();
     });
 
-    it('should keep menuOpen false if already false', () => {
+    it('devrait garder menuOpen à faux s\'il est déjà faux', () => {
       component.menuOpen = false;
       component.closeMenu();
       expect(component.menuOpen).toBeFalse();
@@ -144,13 +144,13 @@ describe('HeaderComponent', () => {
   });
 
   describe('onEsc', () => {
-    it('should close menu when escape key is pressed', () => {
+    it('devrait fermer le menu quand la touche échap est pressée', () => {
       component.menuOpen = true;
       component.onEsc();
       expect(component.menuOpen).toBeFalse();
     });
 
-    it('should be triggered by escape key event', () => {
+    it('devrait être déclenché par l\'appui sur la touche échap', () => {
       fixture.detectChanges();
       component.menuOpen = true;
       
@@ -162,7 +162,7 @@ describe('HeaderComponent', () => {
   });
 
   describe('roleUtilisateur', () => {
-    it('should have roleUtilisateur property set to RoleUtilisateur enum', () => {
+    it('devrait avoir la propriété roleUtilisateur définie sur l\'enum RoleUtilisateur', () => {
       expect(component.roleUtilisateur).toBe(RoleUtilisateur);
     });
   });

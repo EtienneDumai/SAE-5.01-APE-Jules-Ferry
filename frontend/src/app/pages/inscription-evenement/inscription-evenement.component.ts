@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Tache } from '../../models/Tache/tache';
 import { TacheService } from '../../services/Tache/tache.service';
-import { EvennementService } from '../../services/Evennement/evennement.service';
+import { EvenementService } from '../../services/Evenement/evenement.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
-import { Evennement } from '../../models/Evennement/evennement';
+import { Evenement } from '../../models/Evenement/evenement';
 
 @Component({
   selector: 'app-inscription-evenement',
@@ -16,9 +16,9 @@ import { Evennement } from '../../models/Evennement/evennement';
 })
 export class InscriptionEvenementComponent implements OnInit {
   listeTaches: Tache[] = [];
-  evenement!: Evennement;
+  evenement!: Evenement;
   private readonly tacheService = inject(TacheService);
-  private readonly evenementService = inject(EvennementService);
+  private readonly evenementService = inject(EvenementService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
   ngOnInit(): void {
@@ -32,8 +32,8 @@ export class InscriptionEvenementComponent implements OnInit {
         this.toastService.show('Erreur lors du chargement des tâches de l\'événement', TypeErreurToast.ERROR);
       }
     });
-    this.evenementService.getEvennementById(Number(id_evennement)).subscribe({
-      next: (data) => {
+    this.evenementService.getEvenementById(Number(id_evennement)).subscribe({
+      next: (data: Evenement) => {
         this.evenement = data;
       },
       error: (err) => {

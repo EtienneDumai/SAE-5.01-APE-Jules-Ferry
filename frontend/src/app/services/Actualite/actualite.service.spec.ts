@@ -46,12 +46,12 @@ describe('ActualiteService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('getAllActualites', () => {
-    it('should return an array of actualites', () => {
+    it('devrait retourner un tableau d\'actualités', () => {
       service.getAllActualites().subscribe((actualites) => {
         expect(actualites).toEqual(mockActualites);
         expect(actualites.length).toBe(2);
@@ -62,7 +62,7 @@ describe('ActualiteService', () => {
       req.flush(mockActualites);
     });
 
-    it('should handle empty array response', () => {
+    it('devrait gérer une réponse avec un tableau vide', () => {
       service.getAllActualites().subscribe((actualites) => {
         expect(actualites).toEqual([]);
         expect(actualites.length).toBe(0);
@@ -72,7 +72,7 @@ describe('ActualiteService', () => {
       req.flush([]);
     });
 
-    it('should handle error response', () => {
+    it('devrait gérer une réponse d\'erreur', () => {
       const errorMessage = 'Server error';
       
       service.getAllActualites().subscribe({
@@ -88,7 +88,7 @@ describe('ActualiteService', () => {
   });
 
   describe('getActualiteById', () => {
-    it('should return a single actualite by id', () => {
+    it('devrait retourner une actualité unique par son id', () => {
       service.getActualiteById(1).subscribe((actualite) => {
         expect(actualite).toEqual(mockActualite);
         expect(actualite.id_actualite).toBe(1);
@@ -99,7 +99,7 @@ describe('ActualiteService', () => {
       req.flush(mockActualite);
     });
 
-    it('should handle not found error', () => {
+    it('devrait gérer l\'erreur non trouvé', () => {
       service.getActualiteById(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
@@ -113,7 +113,7 @@ describe('ActualiteService', () => {
   });
 
   describe('createActualite', () => {
-    it('should create a new actualite', () => {
+    it('devrait créer une nouvelle actualité', () => {
       const newActualite: Actualite = {
         titre: 'Nouvelle Actualité',
         contenu: 'Nouveau contenu',
@@ -132,7 +132,7 @@ describe('ActualiteService', () => {
       req.flush({ ...newActualite, id_actualite: 3 });
     });
 
-    it('should handle validation error', () => {
+    it('devrait gérer les erreurs de validation', () => {
       const invalidActualite: Actualite = {} as Actualite;
 
       service.createActualite(invalidActualite).subscribe({
@@ -148,7 +148,7 @@ describe('ActualiteService', () => {
   });
 
   describe('updateActualite', () => {
-    it('should update an existing actualite', () => {
+    it('devrait mettre à jour une actualité existante', () => {
       const updatedActualite: Actualite = {
         ...mockActualite,
         titre: 'Titre mis à jour',
@@ -165,7 +165,7 @@ describe('ActualiteService', () => {
       req.flush(updatedActualite);
     });
 
-    it('should handle not found error on update', () => {
+    it('devrait gérer l\'erreur non trouvé lors de la mise à jour', () => {
       service.updateActualite(mockActualite, 999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
@@ -179,7 +179,7 @@ describe('ActualiteService', () => {
   });
 
   describe('deleteActualite', () => {
-    it('should delete an actualite', () => {
+    it('devrait supprimer une actualité', () => {
       service.deleteActualite(1).subscribe(() => {
         expect(true).toBeTrue();
       });
@@ -189,7 +189,7 @@ describe('ActualiteService', () => {
       req.flush(null);
     });
 
-    it('should handle not found error on delete', () => {
+    it('devrait gérer l\'erreur non trouvé lors de la suppression', () => {
       service.deleteActualite(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {

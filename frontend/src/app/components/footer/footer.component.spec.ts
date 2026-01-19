@@ -45,18 +45,18 @@ describe('FooterComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('devrait créer', () => {
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
-    it('should initialize utilisateurCourant from service', () => {
+    it('devrait initialiser utilisateurCourant depuis le service', () => {
       fixture.detectChanges();
       expect(component.utilisateurCourant).toBeDefined();
       expect(component.utilisateurCourant).toBe(utilisateurService.utilisateurCourant);
     });
 
-    it('should receive null user initially', (done) => {
+    it('devrait recevoir un utilisateur null initialement', (done) => {
       fixture.detectChanges();
       component.utilisateurCourant.subscribe(user => {
         expect(user).toBeNull();
@@ -64,7 +64,7 @@ describe('FooterComponent', () => {
       });
     });
 
-    it('should receive user updates from service', (done) => {
+    it('devrait recevoir les mises à jour d\'utilisateur depuis le service', (done) => {
       fixture.detectChanges();
       utilisateurCourantSubject.next(mockUser);
       
@@ -80,19 +80,19 @@ describe('FooterComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should call utilisateurService.setUtilisateurCourant with user', () => {
+    it('devrait appeler utilisateurService.setUtilisateurCourant avec l\'utilisateur', () => {
       component.setUtilisateur(mockUser);
       expect(utilisateurService.setUtilisateurCourant).toHaveBeenCalledWith(mockUser);
     });
 
-    it('should call utilisateurService.setUtilisateurCourant with null', () => {
+    it('devrait appeler utilisateurService.setUtilisateurCourant avec null', () => {
       component.setUtilisateur(null);
       expect(utilisateurService.setUtilisateurCourant).toHaveBeenCalledWith(null);
     });
   });
 
   describe('roleUtilisateur', () => {
-    it('should have roleUtilisateur property set to RoleUtilisateur enum', () => {
+    it('devrait avoir la propriété roleUtilisateur définie sur l\'enum RoleUtilisateur', () => {
       expect(component.roleUtilisateur).toBe(RoleUtilisateur);
     });
   });
