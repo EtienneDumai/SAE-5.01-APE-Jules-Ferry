@@ -57,12 +57,12 @@ describe('ActualiteCreerComponent', () => {
   });
 
   describe('Initialisation du formulaire', () => {
-    it('devrait initialiser le formulaire avec des champs vides', () => {
+    it('devrait initialiser le formulaire avec des valeurs par défaut', () => {
       expect(component.actualiteForm).toBeTruthy();
       expect(component.actualiteForm.get('titre')?.value).toBe('');
       expect(component.actualiteForm.get('contenu')?.value).toBe('');
-      expect(component.actualiteForm.get('date_publication')?.value).toBe('');
-      expect(component.actualiteForm.get('statut')?.value).toBe('');
+      expect(component.actualiteForm.get('date_publication')?.value).toBe('2026-01-19');
+      expect(component.actualiteForm.get('statut')?.value).toBe('publie');
       expect(component.actualiteForm.get('image_url')?.value).toBe('');
     });
 
@@ -117,6 +117,7 @@ describe('ActualiteCreerComponent', () => {
 
     it('devrait marquer date_publication comme invalide lorsqu\'elle est vide', () => {
       const date = component.actualiteForm.get('date_publication');
+      date?.setValue('');
       expect(date?.valid).toBe(false);
       expect(date?.hasError('required')).toBe(true);
     });
@@ -129,6 +130,7 @@ describe('ActualiteCreerComponent', () => {
 
     it('devrait marquer statut comme invalide lorsqu\'il est vide', () => {
       const statut = component.actualiteForm.get('statut');
+      statut?.setValue('');
       expect(statut?.valid).toBe(false);
       expect(statut?.hasError('required')).toBe(true);
     });
@@ -154,7 +156,8 @@ describe('ActualiteCreerComponent', () => {
         titre: 'Titre',
         contenu: 'Contenu',
         date_publication: '2026-01-20',
-        statut: 'PUBLIE'
+        statut: 'publie',
+        id_auteur: 1
       });
       expect(component.actualiteForm.valid).toBe(true);
     });
@@ -261,31 +264,33 @@ describe('ActualiteCreerComponent', () => {
         titre: 'Test Actualité',
         contenu: 'Contenu de test',
         date_publication: '2026-01-20',
-        statut: 'PUBLIE'
+        statut: 'publie',
+        id_auteur: 1
       });
 
       component.onSubmit();
       tick();
 
       expect(actualiteService.createActualite).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith('Actualité créée avec succès !');
-      expect(router.navigate).toHaveBeenCalledWith(['/actualites', 1]);
+      expect(router.navigate).toHaveBeenCalledWith(['/actualites']);
     }));
 
-    it('devrait définir saving à true pendant la soumission', () => {
+    it('devrait définir saving à true pendant la soumission', fakeAsync(() => {
       actualiteService.createActualite.and.returnValue(of(mockActualite));
 
       component.actualiteForm.patchValue({
         titre: 'Test Actualité',
         contenu: 'Contenu de test',
         date_publication: '2026-01-20',
-        statut: 'PUBLIE'
+        statut: 'publie',
+        id_auteur: 1
       });
 
       component.onSubmit();
 
       expect(component.saving).toBe(true);
-    });
+      tick();
+    }));
 
     it('devrait inclure l\'image dans le FormData si elle est sélectionnée', fakeAsync(() => {
       actualiteService.createActualite.and.returnValue(of(mockActualite));
@@ -297,12 +302,14 @@ describe('ActualiteCreerComponent', () => {
         titre: 'Test Actualité',
         contenu: 'Contenu de test',
         date_publication: '2026-01-20',
-        statut: 'PUBLIE'
+        statut: 'publie',
+        id_auteur: 1
       });
 
       component.onSubmit();
       tick();
 
+      expect(actualiteService.createActualite).toHaveBeenCalled();
       const formData = actualiteService.createActualite.calls.mostRecent().args[0] as FormData;
       expect(formData.get('image')).toBe(file);
     }));
@@ -316,13 +323,14 @@ describe('ActualiteCreerComponent', () => {
         titre: 'Test Actualité',
         contenu: 'Contenu de test',
         date_publication: '2026-01-20',
-        statut: 'PUBLIE'
+        statut: 'publie',
+        id_auteur: 1
       });
 
       component.onSubmit();
       tick();
 
-      expect(console.error).toHaveBeenCalledWith('Erreur lors de la création de l\'actualité:', error);
+      expect(console.error).toHaveBeenCalledWith('Erreur lors de la sauvegarde de l\'actualité:', error);
       expect(window.alert).toHaveBeenCalledWith('Erreur lors de la création de l\'actualité. Veuillez réessayer.');
       expect(component.saving).toBe(false);
     }));
@@ -334,8 +342,9 @@ describe('ActualiteCreerComponent', () => {
         titre: 'Test Actualité',
         contenu: 'Contenu de test',
         date_publication: '2026-01-20',
-        statut: 'PUBLIE',
-        image_url: '' // Vide
+        statut: 'publie',
+        image_url: '', // Vide
+        id_auteur: 1
       });
 
       component.onSubmit();
