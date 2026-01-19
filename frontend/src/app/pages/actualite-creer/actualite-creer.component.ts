@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { AuthService } from '../../services/Auth/auth.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
@@ -18,6 +18,7 @@ export class ActualiteCreerComponent implements OnInit {
   selectedImageFile: File | null = null;
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly location = inject(Location);
   private readonly actualiteService = inject(ActualiteService);
   private readonly authService = inject(AuthService);
@@ -25,6 +26,9 @@ export class ActualiteCreerComponent implements OnInit {
   actualiteForm!: FormGroup;
   loading = false;
   saving = false;
+  isEditMode = false;
+  idActualite?: number;
+  currentImageUrl?: string;
 
   ngOnInit(): void {
     const TODAY = new Date().toISOString().split('T')[0];
@@ -37,6 +41,37 @@ export class ActualiteCreerComponent implements OnInit {
       statut: ['publie', [Validators.required]],
       image_url: [''],
       id_auteur: [CURRENT_USER?.id_utilisateur || null, [Validators.required]],
+    });
+
+    const ID = this.route.snapshot.paramMap.get('id');
+    if (ID) {
+      this.idActualite = Number(ID);
+      this.isEditMode = true;
+      this.loadActualite(this.idActualite);
+    }
+  }
+
+  loadActualite(ID: number): void {
+    this.loading = true;
+    this.actualiteService.getActualiteById(ID).subscribe({
+      next: (actualite) => {
+        this.currentImageUrl = actualite.image_url;
+        const dateStr = new Date(actualite.date_publication).toISOString().split('T')[0];
+        this.actualiteForm.patchValue({
+          titre: actualite.titre,
+          contenu: actualite.contenu,
+          date_publication: dateStr,
+          statut: actualite.statut,
+          image_url: actualite.image_url,
+          id_auteur: actualite.id_auteur
+        });
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement de l\'actualité:', error);
+        alert('Erreur lors du chargement de l\'actualité');
+        this.router.navigate(['/actualites']);
+      }
     });
   }
 
@@ -58,7 +93,6 @@ export class ActualiteCreerComponent implements OnInit {
 
   onSubmit(): void {
     if (this.actualiteForm.invalid) {
-      // Marquer tous les champs comme touchés pour afficher les erreurs
       Object.keys(this.actualiteForm.controls).forEach(key => {
         this.actualiteForm.get(key)?.markAsTouched();
       });
@@ -68,28 +102,47 @@ export class ActualiteCreerComponent implements OnInit {
     this.saving = true;
     const FORM_DATA = new FormData();
     
-    // Ajouter tous les champs du formulaire au FormData
     Object.entries(this.actualiteForm.value).forEach(([key, value]) => {
       if (value !== null && value !== '') {
         FORM_DATA.append(key, value as string);
       }
     });
 
-    // Ajouter l'image si elle est sélectionnée
     if (this.selectedImageFile) {
       FORM_DATA.append('image', this.selectedImageFile);
     }
 
-    this.actualiteService.createActualite(FORM_DATA).subscribe({
+    const REQUEST = this.isEditMode && this.idActualite
+      ? this.actualiteService.updateActualite(FORM_DATA, this.idActualite)
+      : this.actualiteService.createActualite(FORM_DATA);
+
+    REQUEST.subscribe({
       next: (actualite) => {
         this.router.navigate(['/actualites']);
       },
       error: (error) => {
-        console.error('Erreur lors de la création de l\'actualité:', error);
-        alert('Erreur lors de la création de l\'actualité. Veuillez réessayer.');
+        console.error('Erreur lors de la sauvegarde de l\'actualité:', error);
+        const MESSAGE = this.isEditMode ? 'Erreur lors de la modification' : 'Erreur lors de la création';
+        alert(MESSAGE + ' de l\'actualité. Veuillez réessayer.');
         this.saving = false;
       }
     });
+  }
+
+  deleteActualite(): void {
+    if (!this.idActualite) return;
+    
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?')) {
+      this.actualiteService.deleteActualite(this.idActualite).subscribe({
+        next: () => {
+          this.router.navigate(['/actualites']);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression:', error);
+          alert('Erreur lors de la suppression de l\'actualité.');
+        }
+      });
+    }
   }
 
   goBack(): void {
