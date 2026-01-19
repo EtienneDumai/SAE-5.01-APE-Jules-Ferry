@@ -16,14 +16,14 @@ class Tache extends Model
     protected $fillable = [
         'nom_tache',
         'description',
-        'heure_debut_global',
+        'heure_debut_globale',
         'heure_fin_globale',
         'id_formulaire'
     ];
 
     // Cast auto
     protected $casts = [
-        'heure_debut_global' => 'datetime:H:i',
+        'heure_debut_globale' => 'datetime:H:i',
         'heure_fin_globale' => 'datetime:H:i',
     ];
 

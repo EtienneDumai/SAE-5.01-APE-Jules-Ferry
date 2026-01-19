@@ -30,6 +30,17 @@ export const routes: Routes = [
     },
 
     { 
+        path: 'admin/formulaires/new', 
+        loadComponent: () => import('./components/formulaire-edit/formulaire-edit.component').then(m => m.FormulaireEditComponent),
+        canActivate: [managerGuard]
+    },
+    { 
+        path: 'admin/formulaires/:id/edit', 
+        loadComponent: () => import('./components/formulaire-edit/formulaire-edit.component').then(m => m.FormulaireEditComponent),
+        canActivate: [managerGuard]
+    },
+    
+    { 
         path: 'admin/utilisateurs', 
         loadComponent: () => import('./pages/admin-utilisateurs/admin-utilisateurs.component').then(m => m.AdminGestionUtilisateursComponent), 
         canActivate: [adminGuard]

@@ -24,6 +24,7 @@ export class EvenementPageComponent implements OnInit {
   errorEvenements = false;
   
   currentUser$: Observable<Utilisateur | null> | undefined;
+  currentFilter = 'tous';
 
   private readonly evenementService = inject(EvenementService);
   private readonly authService = inject(AuthService);
@@ -35,8 +36,16 @@ export class EvenementPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
+    // On charge tous les événements par défaut
+    this.loadEvenements('tous');
+  }
 
-    this.evenementService.getAllEvenements().subscribe({
+  // AJOUT : Méthode pour charger selon le filtre
+  loadEvenements(statut: string) {
+    this.currentFilter = statut;
+    this.loadingEvenements = true;
+    
+    this.evenementService.getAllEvenements(statut).subscribe({
       next: (data) => {
         this.listeEvenements = data;
         this.sortEvenementByDate();
@@ -62,5 +71,9 @@ export class EvenementPageComponent implements OnInit {
       return dateB - dateA; 
     });
     this.listeEvenements = sortedList;
+  }
+
+  getAsDate(date: string | Date): Date {
+    return new Date(date);
   }
 }

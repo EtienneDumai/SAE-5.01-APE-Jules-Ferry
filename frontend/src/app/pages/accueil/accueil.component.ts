@@ -8,6 +8,7 @@ import { ActualiteCardComponent } from '../../components/card/actualite-card/act
 import { EvenementCardComponent } from "../../components/card/evenement-card/evenement-card.component";
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CalendrierComponent } from '../../components/calendrier/calendrier.component';
+
 @Component({
   selector: 'app-accueil',
   standalone: true,
@@ -18,17 +19,21 @@ import { CalendrierComponent } from '../../components/calendrier/calendrier.comp
 export class AccueilComponent implements OnInit {
   public listeActualites: Actualite[] = [];
   public listeEvenements: Evenement[] = [];
+  
   loadingEvents = true;
   loadingActualites = true;
   errorEvents = false;
   errorActualites= false;
+
   private readonly actualiteService = inject(ActualiteService);
   private readonly evenementService = inject(EvenementService);
   Date: Date = new Date();
+
   ngOnInit() {
-    this.actualiteService.getAllActualites().subscribe( {
+    this.actualiteService.getAllActualites().subscribe({
       next: (data) => {
         this.listeActualites = data;
+        this.sortActualiteByDate();
         this.loadingActualites = false;
       },
       error: (err) => {
@@ -37,10 +42,11 @@ export class AccueilComponent implements OnInit {
         this.errorActualites = true;
       }
     });
-    this.sortActualiteByDate(this.listeActualites);
+
     this.evenementService.getAllEvenements().subscribe({
       next: (data) => {
         this.listeEvenements = data;
+        this.sortEvenementByDate();
         this.loadingEvents = false;
       },
       error: (err) => {
@@ -49,17 +55,21 @@ export class AccueilComponent implements OnInit {
         this.errorEvents = true;
       }
     });
-    this.sortEvenementByDate(this.listeEvenements);
   }
 
   handleEventDeleted(id: number): void {
     this.listeEvenements = this.listeEvenements.filter(e => e.id_evenement !== id);
   }
 
-  public sortEvenementByDate(a: Evenement[]): Evenement[] {
-    return a.sort((a, b) => a.date_evenement.getTime() - b.date_evenement.getTime());
+  public sortEvenementByDate(): void {
+    this.listeEvenements.sort((a, b) => {
+        return new Date(a.date_evenement).getTime() - new Date(b.date_evenement).getTime();
+    });
   }
-  public sortActualiteByDate(a: Actualite[]): Actualite[] {
-    return a.sort((a, b) => a.date_publication.getTime() - b.date_publication.getTime());
+
+  public sortActualiteByDate(): void {
+    this.listeActualites.sort((a, b) => {
+        return new Date(b.date_publication).getTime() - new Date(a.date_publication).getTime();
+    });
   }
 }

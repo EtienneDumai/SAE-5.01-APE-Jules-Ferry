@@ -1,10 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-// AJOUTS
 import { FormulaireService } from '../../services/Formulaire/formulaire.service';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 
@@ -17,6 +16,8 @@ import { Formulaire } from '../../models/Formulaire/formulaire';
 export class EvenementEditComponent implements OnInit {
   imageError: string | null = null;
   selectedImageFile: File | null = null;
+  previewImage: string | ArrayBuffer | null = null;
+
   formulaires: Formulaire[] = [];
   selectedFormulaire: Formulaire | null = null;
 
@@ -42,20 +43,31 @@ export class EvenementEditComponent implements OnInit {
       lieu: ['', [Validators.required, Validators.maxLength(255)]],
       image_url: [''],
       id_formulaire: [null] 
+    }, { 
+      validators: this.timeRangeValidator 
     });
 
     this.evenementForm.get('id_formulaire')?.valueChanges.subscribe(() => {
-        this.onFormulaireChange();
+        this.onFormulaireChange(null); 
     });
 
     this.loadData();
   }
 
+  // verif erreurs des heures
+  timeRangeValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+    const debut = group.get('heure_debut')?.value;
+    const fin = group.get('heure_fin')?.value;
+    if (debut && fin && debut >= fin) {
+      return { timeRangeInvalid: true };
+    }
+    return null;
+  };
+
   loadData() {
     this.formulaireService.getAllFormulaires().subscribe({
-        next: (forms) => {
+        next: (forms: Formulaire[]) => {
             this.formulaires = forms;
-            
             const id = this.route.snapshot.paramMap.get('id');
             if (id && id !== 'new') {
                 this.idEvenement = Number(id);
@@ -75,17 +87,23 @@ export class EvenementEditComponent implements OnInit {
   loadEvenement(id: number): void {
     this.evenementService.getEvenementById(id).subscribe({
       next: (evenement) => {
+        let dateStr = '';
+        if (evenement.date_evenement) {
+             dateStr = evenement.date_evenement.toString().split('T')[0];
+        }
+
         this.evenementForm.patchValue({
           titre: evenement.titre,
           description: evenement.description,
-          date_evenement: evenement.date_evenement,
+          date_evenement: dateStr,
           heure_debut: evenement.heure_debut,
           heure_fin: evenement.heure_fin,
           lieu: evenement.lieu,
           image_url: evenement.image_url,
           id_formulaire: evenement.id_formulaire || null 
         });
-        this.onFormulaireChange();
+
+        this.onFormulaireChange(null);
         this.loading = false;
       },
       error: () => {
@@ -95,9 +113,10 @@ export class EvenementEditComponent implements OnInit {
     });
   }
 
-  onFormulaireChange(): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+  onFormulaireChange(event: any = null): void {
     const formId = this.evenementForm.get('id_formulaire')?.value;
-    if (formId) {
+    if (formId && formId != 'null') {
       this.selectedFormulaire = this.formulaires.find(f => f.id_formulaire == formId) || null;
     } else {
       this.selectedFormulaire = null;
@@ -109,15 +128,25 @@ export class EvenementEditComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
       this.selectedImageFile = null;
+      this.previewImage = null;
       return;
     }
+    
     const file = input.files[0];
     if (!file.type.startsWith('image/')) {
       this.imageError = 'Seuls les fichiers images sont autorisés.';
       this.selectedImageFile = null;
+      this.previewImage = null;
       return;
     }
+
     this.selectedImageFile = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImage = reader.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   onSubmit(): void {
@@ -126,21 +155,25 @@ export class EvenementEditComponent implements OnInit {
     const formData = new FormData();
     
     Object.entries(this.evenementForm.value).forEach(([key, value]) => {
-      if (key === 'id_formulaire') {
-        return; 
-      }
+      if (key === 'id_formulaire') return;
       formData.append(key, value as string);
     });
+
+    formData.append('statut', 'publie');
 
     if (this.selectedImageFile) {
       formData.append('image', this.selectedImageFile);
     }
 
     const formId = this.evenementForm.get('id_formulaire')?.value;
-    if(formId && formId !== 'null') {
+    if(formId && formId != 'null') {
         formData.append('id_formulaire', formId);
     } else {
-        formData.append('id_formulaire', '');
+        formData.append('id_formulaire', ''); 
+    }
+
+    if (this.isEditMode) {
+        formData.append('_method', 'PUT');
     }
 
     const request$ = (this.isEditMode && this.idEvenement)
@@ -152,7 +185,8 @@ export class EvenementEditComponent implements OnInit {
         this.saving = false;
         this.goBack();
       },
-      error: () => {
+      error: (err) => {
+        console.error(err);
         this.saving = false;
         alert('Erreur lors de l\'enregistrement');
       }

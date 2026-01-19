@@ -1,16 +1,15 @@
 import { StatutEvenement } from "../../enums/StatutEvenement/statut-evenement";
 
-
 export interface Evenement {
     id_evenement: number;
     titre: string;
     description: string;
-    date_evenement: Date;
+    date_evenement: Date | string; 
     heure_debut: string;
     heure_fin: string;
     lieu: string;
     image_url: string;
-    statut: StatutEvenement;
+    statut: StatutEvenement | string; 
     id_auteur: number;
     id_formulaire: number | null;
     created_at?: string;
