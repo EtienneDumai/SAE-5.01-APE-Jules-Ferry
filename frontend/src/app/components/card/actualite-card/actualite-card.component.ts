@@ -20,6 +20,7 @@ export class ActualiteCardComponent {
   @Input() datePublication!: Date;
   @Input() statut!: StatutActualite;
   @Input() id_auteur?: number;
+  @Input() disableEdit: boolean = false;
 
   @Output() actualiteDeleted = new EventEmitter<number>();
 
@@ -28,7 +29,7 @@ export class ActualiteCardComponent {
   private readonly router = inject(Router);
 
   get canManage(): boolean {
-    return this.authService.hasRole('administrateur');
+    return this.authService.hasRole('administrateur') && !this.disableEdit;
   }
 
   onDelete(event: Event): void {
