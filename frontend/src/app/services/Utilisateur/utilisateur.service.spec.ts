@@ -44,29 +44,29 @@ describe('UtilisateurService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('utilisateurCourant management', () => {
-    it('should have utilisateurCourant observable defined', () => {
+    it('devrait avoir l\'observable utilisateurCourant défini', () => {
       expect(service.utilisateurCourant).toBeDefined();
     });
 
-    it('should initially have null utilisateur', (done) => {
+    it('devrait initialement avoir un utilisateur null', (done) => {
       service.utilisateurCourant.subscribe((utilisateur) => {
         expect(utilisateur).toBeNull();
         done();
       });
     });
 
-    it('should return null from getUtilisateurCourant initially', () => {
+    it('devrait retourner null depuis getUtilisateurCourant initialement', () => {
       expect(service.getUtilisateurCourant()).toBeNull();
     });
   });
 
   describe('setUtilisateurCourant', () => {
-    it('should set current utilisateur', (done) => {
+    it('devrait définir l\'utilisateur actuel', (done) => {
       service.setUtilisateurCourant(mockUtilisateur);
       
       service.utilisateurCourant.subscribe((utilisateur) => {
@@ -77,12 +77,12 @@ describe('UtilisateurService', () => {
       });
     });
 
-    it('should update getUtilisateurCourant return value', () => {
+    it('devrait mettre à jour la valeur de retour de getUtilisateurCourant', () => {
       service.setUtilisateurCourant(mockUtilisateur);
       expect(service.getUtilisateurCourant()).toEqual(mockUtilisateur);
     });
 
-    it('should set utilisateur to null', (done) => {
+    it('devrait définir l\'utilisateur à null', (done) => {
       service.setUtilisateurCourant(mockUtilisateur);
       service.setUtilisateurCourant(null);
       
@@ -94,7 +94,7 @@ describe('UtilisateurService', () => {
       });
     });
 
-    it('should notify subscribers when utilisateur changes', () => {
+    it('devrait notifier les abonnés quand l\'utilisateur change', () => {
       const values: (Utilisateur | null)[] = [];
       
       service.utilisateurCourant.subscribe((utilisateur) => {
@@ -112,7 +112,7 @@ describe('UtilisateurService', () => {
   });
 
   describe('getAllUtilisateurs', () => {
-    it('should return an array of utilisateurs', () => {
+    it('devrait retourner un tableau d\'utilisateurs', () => {
       service.getAllUtilisateurs().subscribe((utilisateurs) => {
         expect(utilisateurs).toEqual(mockUtilisateurs);
         expect(utilisateurs.length).toBe(2);
@@ -123,7 +123,7 @@ describe('UtilisateurService', () => {
       req.flush(mockUtilisateurs);
     });
 
-    it('should handle empty array response', () => {
+    it('devrait gérer une réponse avec un tableau vide', () => {
       service.getAllUtilisateurs().subscribe((utilisateurs) => {
         expect(utilisateurs).toEqual([]);
         expect(utilisateurs.length).toBe(0);
@@ -133,7 +133,7 @@ describe('UtilisateurService', () => {
       req.flush([]);
     });
 
-    it('should handle error response', () => {
+    it('devrait gérer une réponse d\'erreur', () => {
       service.getAllUtilisateurs().subscribe({
         next: () => fail('should have failed with 500 error'),
         error: (error) => {
@@ -147,7 +147,7 @@ describe('UtilisateurService', () => {
   });
 
   describe('getUtilisateurById', () => {
-    it('should return a single utilisateur by id', () => {
+    it('devrait retourner un utilisateur unique par son id', () => {
       service.getUtilisateurById(1).subscribe((utilisateur) => {
         expect(utilisateur).toEqual(mockUtilisateur);
         expect(utilisateur.id_utilisateur).toBe(1);
@@ -158,7 +158,7 @@ describe('UtilisateurService', () => {
       req.flush(mockUtilisateur);
     });
 
-    it('should handle not found error', () => {
+    it('devrait gérer l\'erreur non trouvé', () => {
       service.getUtilisateurById(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
@@ -172,7 +172,7 @@ describe('UtilisateurService', () => {
   });
 
   describe('createUtilisateur', () => {
-    it('should create a new utilisateur', () => {
+    it('devrait créer un nouvel utilisateur', () => {
       const newUtilisateur: Utilisateur = {
         nom: 'Nouveau',
         prenom: 'Test',
@@ -190,7 +190,7 @@ describe('UtilisateurService', () => {
       req.flush({ ...newUtilisateur, id_utilisateur: 3 });
     });
 
-    it('should handle validation error', () => {
+    it('devrait gérer les erreurs de validation', () => {
       const invalidUtilisateur: Utilisateur = {} as Utilisateur;
 
       service.createUtilisateur(invalidUtilisateur).subscribe({
@@ -206,7 +206,7 @@ describe('UtilisateurService', () => {
   });
 
   describe('updateUtilisateur', () => {
-    it('should update an existing utilisateur', () => {
+    it('devrait mettre à jour un utilisateur existant', () => {
       const updatedUtilisateur: Utilisateur = {
         ...mockUtilisateur,
         nom: 'Dupont Modifié',
@@ -223,7 +223,7 @@ describe('UtilisateurService', () => {
       req.flush(updatedUtilisateur);
     });
 
-    it('should handle not found error on update', () => {
+    it('devrait gérer l\'erreur non trouvé lors de la mise à jour', () => {
       service.updateUtilisateur(mockUtilisateur, 999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
@@ -237,7 +237,7 @@ describe('UtilisateurService', () => {
   });
 
   describe('deleteUtilisateur', () => {
-    it('should delete an utilisateur and return message', () => {
+    it('devrait supprimer un utilisateur et retourner un message', () => {
       const expectedResponse = { message: 'Utilisateur supprimé avec succès' };
 
       service.deleteUtilisateur(1).subscribe((response) => {
@@ -249,7 +249,7 @@ describe('UtilisateurService', () => {
       req.flush(expectedResponse);
     });
 
-    it('should handle not found error on delete', () => {
+    it('devrait gérer l\'erreur non trouvé lors de la suppression', () => {
       service.deleteUtilisateur(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {

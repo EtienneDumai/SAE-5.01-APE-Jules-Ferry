@@ -61,39 +61,39 @@ describe('EvenementCardComponent', () => {
     fixture.detectChanges();
   });
   describe('Initialisation du composant', () => {
-    it('should create', () => {
+    it('devrait créer', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should initialize inputs correctly', () => {
+    it('devrait initialiser les inputs correctement', () => {
       expect(component.titre).toBe('Événement Test');
       expect(component.id_evenement).toBe(1);
     });
   });
 
   describe('Gestion des URLs d\'images', () => {
-    it('should return empty string if no url', () => {
+    it('devrait retourner une chaîne vide si aucune url', () => {
       expect(component.getImageUrl('')).toBe('');
     });
 
-    it('should return original url if it starts with http', () => {
+    it('devrait retourner l\'url originale si elle commence par http', () => {
       const url = 'http://example.com/image.jpg';
       expect(component.getImageUrl(url)).toBe(url);
     });
 
-    it('should prepend localhost if url is relative', () => {
+    it('devrait préfixer localhost si l\'url est relative', () => {
       const url = '/uploads/image.jpg';
       expect(component.getImageUrl(url)).toBe('http://localhost:8000/uploads/image.jpg');
     });
   });
 
   describe('Gestion des permissions (canManage)', () => {
-    it('should return true if user is admin', () => {
+    it('devrait retourner vrai si l\'utilisateur est admin', () => {
       authService.hasRole.and.callFake(role => role === RoleUtilisateur.administrateur);
       expect(component.canManage).toBe(true);
     });
 
-    it('should return true if user is membre_bureau AND is creator', () => {
+    it('devrait retourner vrai si l\'utilisateur est membre_bureau ET est créateur', () => {
       component.id_createur = 10;
       authService.hasRole.and.callFake(role => role === RoleUtilisateur.membre_bureau);
       authService.getCurrentUser.and.returnValue({ id_utilisateur: 10 } as unknown as Utilisateur);
@@ -101,7 +101,7 @@ describe('EvenementCardComponent', () => {
       expect(component.canManage).toBe(true);
     });
 
-    it('should return false if user is membre_bureau BUT NOT creator', () => {
+    it('devrait retourner faux si l\'utilisateur est membre_bureau MAIS PAS créateur', () => {
       component.id_createur = 10;
       authService.hasRole.and.callFake(role => role === RoleUtilisateur.membre_bureau);
       authService.getCurrentUser.and.returnValue({ id_utilisateur: 99 } as unknown as Utilisateur);
@@ -109,14 +109,14 @@ describe('EvenementCardComponent', () => {
       expect(component.canManage).toBe(false);
     });
 
-    it('should return false for other roles', () => {
+    it('devrait retourner faux pour les autres rôles', () => {
       authService.hasRole.and.returnValue(false);
       expect(component.canManage).toBe(false);
     });
   });
 
   describe('Navigation (Edition)', () => {
-    it('should navigate to edit page onEdit', () => {
+    it('devrait naviguer vers la page d\'edition lors de onEdit', () => {
       const event = new Event('click');
       spyOn(event, 'stopPropagation');
       
@@ -128,7 +128,7 @@ describe('EvenementCardComponent', () => {
   });
 
   describe('Suppression d\'événement', () => {
-    it('should not delete if user cancels confirmation', () => {
+    it('ne devrait pas supprimer si l\'utilisateur annule la confirmation', () => {
       spyOn(window, 'confirm').and.returnValue(false);
       const event = new Event('click');
       
@@ -137,7 +137,7 @@ describe('EvenementCardComponent', () => {
       expect(evenementService.deleteEvenement).not.toHaveBeenCalled();
     });
 
-    it('should delete and emit eventDeleted if confirmed', () => {
+    it('devrait supprimer et émettre eventDeleted si confirmé', () => {
       spyOn(window, 'confirm').and.returnValue(true);
       const event = new Event('click');
       spyOn(event, 'stopPropagation');
@@ -152,7 +152,7 @@ describe('EvenementCardComponent', () => {
       expect(component.eventDeleted.emit).toHaveBeenCalledWith(1);
     });
 
-    it('should handle error during deletion', () => {
+    it('devrait gérer l\'erreur lors de la suppression', () => {
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(console, 'error');
       const event = new Event('click');

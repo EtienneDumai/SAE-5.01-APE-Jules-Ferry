@@ -54,12 +54,12 @@ describe('CreneauService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('getAllCreneaux', () => {
-    it('should retrieve all creneaux', () => {
+    it('devrait récupérer tous les créneaux', () => {
       service.getAllCreneaux().subscribe({
         next: (creneaux) => {
           expect(creneaux).toEqual(mockCreneaux);
@@ -73,7 +73,7 @@ describe('CreneauService', () => {
       req.flush(mockCreneaux);
     });
 
-    it('should return empty array when no creneaux exist', () => {
+    it('devrait retourner un tableau vide quand aucun créneau n\'existe', () => {
       service.getAllCreneaux().subscribe({
         next: (creneaux) => {
           expect(creneaux).toEqual([]);
@@ -87,7 +87,7 @@ describe('CreneauService', () => {
       req.flush([]);
     });
 
-    it('should handle error when retrieving creneaux', () => {
+    it('devrait gérer les erreurs lors de la récupération des créneaux', () => {
       const errorMessage = 'Server error';
       
       service.getAllCreneaux().subscribe({
@@ -104,7 +104,7 @@ describe('CreneauService', () => {
   });
 
   describe('getCreneauById', () => {
-    it('should retrieve a specific creneau by id', () => {
+    it('devrait récupérer un créneau spécifique par son id', () => {
       const creneauId = 1;
 
       service.getCreneauById(creneauId).subscribe({
@@ -120,7 +120,7 @@ describe('CreneauService', () => {
       req.flush(mockCreneau);
     });
 
-    it('should handle 404 when creneau not found', () => {
+    it('devrait gérer l\'erreur 404 quand le créneau n\'est pas trouvé', () => {
       const creneauId = 999;
 
       service.getCreneauById(creneauId).subscribe({
@@ -136,7 +136,7 @@ describe('CreneauService', () => {
   });
 
   describe('createCreneau', () => {
-    it('should create a new creneau', () => {
+    it('devrait créer un nouveau créneau', () => {
       const newCreneau: Creneau = {
         id_creneau: 0,
         heure_debut: '08:00',
@@ -163,7 +163,7 @@ describe('CreneauService', () => {
       req.flush(createdCreneau);
     });
 
-    it('should handle validation error when creating creneau', () => {
+    it('devrait gérer les erreurs de validation lors de la création d\'un créneau', () => {
       const invalidCreneau: Creneau = {
         id_creneau: 0,
         heure_debut: '',
@@ -187,7 +187,7 @@ describe('CreneauService', () => {
   });
 
   describe('updateCreneau', () => {
-    it('should update an existing creneau', () => {
+    it('devrait mettre à jour un créneau existant', () => {
       const updatedCreneau: Creneau = {
         ...mockCreneau,
         quota: 25
@@ -208,7 +208,7 @@ describe('CreneauService', () => {
       req.flush(updatedCreneau);
     });
 
-    it('should handle error when updating non-existent creneau', () => {
+    it('devrait gérer l\'erreur lors de la mise à jour d\'un créneau inexistant', () => {
       const creneauId = 999;
 
       service.updateCreneau(mockCreneau, creneauId).subscribe({
@@ -222,7 +222,7 @@ describe('CreneauService', () => {
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should handle validation error when updating creneau', () => {
+    it('devrait gérer les erreurs de validation lors de la mise à jour d\'un créneau', () => {
       const creneauId = 1;
       const invalidCreneau = { ...mockCreneau, quota: -1 };
 
@@ -239,7 +239,7 @@ describe('CreneauService', () => {
   });
 
   describe('deleteCreneau', () => {
-    it('should delete a creneau by id', () => {
+    it('devrait supprimer un créneau par son id', () => {
       const creneauId = 1;
 
       service.deleteCreneau(creneauId).subscribe({
@@ -254,7 +254,7 @@ describe('CreneauService', () => {
       req.flush(null);
     });
 
-    it('should handle error when deleting non-existent creneau', () => {
+    it('devrait gérer l\'erreur lors de la suppression d\'un créneau inexistant', () => {
       const creneauId = 999;
 
       service.deleteCreneau(creneauId).subscribe({
@@ -268,7 +268,7 @@ describe('CreneauService', () => {
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should handle server error when deleting creneau', () => {
+    it('devrait gérer les erreurs serveur lors de la suppression d\'un créneau', () => {
       const creneauId = 1;
 
       service.deleteCreneau(creneauId).subscribe({
@@ -284,7 +284,7 @@ describe('CreneauService', () => {
   });
 
   describe('getCreneauxByEventId', () => {
-    it('should retrieve creneaux for a specific event', () => {
+    it('devrait récupérer les créneaux pour un événement spécifique', () => {
       const eventId = 1;
 
       service.getCreneauxByEventId(eventId).subscribe({
@@ -300,7 +300,7 @@ describe('CreneauService', () => {
       req.flush(mockCreneaux);
     });
 
-    it('should return empty array when event has no creneaux', () => {
+    it('devrait retourner un tableau vide quand l\'événement n\'a pas de créneaux', () => {
       const eventId = 2;
 
       service.getCreneauxByEventId(eventId).subscribe({
@@ -316,7 +316,7 @@ describe('CreneauService', () => {
       req.flush([]);
     });
 
-    it('should handle error when event not found', () => {
+    it('devrait gérer l\'erreur quand l\'événement n\'est pas trouvé', () => {
       const eventId = 999;
 
       service.getCreneauxByEventId(eventId).subscribe({
@@ -330,7 +330,7 @@ describe('CreneauService', () => {
       req.flush('Event Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should handle server error when retrieving creneaux by event', () => {
+    it('devrait gérer les erreurs serveur lors de la récupération des créneaux par événement', () => {
       const eventId = 1;
 
       service.getCreneauxByEventId(eventId).subscribe({

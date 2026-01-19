@@ -11,16 +11,16 @@ describe('ToastService', () => {
     service = TestBed.inject(ToastService);
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('toast observable', () => {
-    it('should be defined', () => {
+    it('devrait être défini', () => {
       expect(service.toast).toBeDefined();
     });
 
-    it('should initially emit null', (done) => {
+    it('devrait initialement émettre null', (done) => {
       service.toast.subscribe((toast) => {
         expect(toast).toBeNull();
         done();
@@ -29,7 +29,7 @@ describe('ToastService', () => {
   });
 
   describe('show', () => {
-    it('should emit a toast with message and default type SUCCESS', (done) => {
+    it('devrait émettre un toast avec un message et le type par défaut SUCCESS', (done) => {
       const message = 'Test message';
       
       service.toast.subscribe((toast) => {
@@ -43,7 +43,7 @@ describe('ToastService', () => {
       service.show(message);
     });
 
-    it('should emit a toast with message and type SUCCESS', (done) => {
+    it('devrait émettre un toast avec un message et le type SUCCESS', (done) => {
       const message = 'Success message';
       
       service.toast.subscribe((toast) => {
@@ -57,7 +57,7 @@ describe('ToastService', () => {
       service.show(message, TypeErreurToast.SUCCESS);
     });
 
-    it('should emit a toast with message and type ERROR', (done) => {
+    it('devrait émettre un toast avec un message et le type ERROR', (done) => {
       const message = 'Error message';
       
       service.toast.subscribe((toast) => {
@@ -71,7 +71,7 @@ describe('ToastService', () => {
       service.show(message, TypeErreurToast.ERROR);
     });
 
-    it('should emit a toast with message and type WARNING', (done) => {
+    it('devrait émettre un toast avec un message et le type WARNING', (done) => {
       const message = 'Warning message';
       
       service.toast.subscribe((toast) => {
@@ -85,7 +85,7 @@ describe('ToastService', () => {
       service.show(message, TypeErreurToast.WARNING);
     });
 
-    it('should update toast when show is called multiple times', (done) => {
+    it('devrait mettre à jour le toast quand show est appelé plusieurs fois', (done) => {
       const messages: TypeToast[] = [];
       
       service.toast.subscribe((toast) => {
@@ -107,7 +107,7 @@ describe('ToastService', () => {
   });
 
   describe('clear', () => {
-    it('should emit null when clear is called', (done) => {
+    it('devrait émettre null quand clear est appelé', (done) => {
       let emissionCount = 0;
       
       service.toast.subscribe((toast) => {
@@ -126,7 +126,7 @@ describe('ToastService', () => {
       service.clear();
     });
 
-    it('should clear toast after being set', (done) => {
+    it('devrait effacer le toast après avoir été défini', (done) => {
       service.show('Test message', TypeErreurToast.ERROR);
       
       service.toast.subscribe((toast) => {

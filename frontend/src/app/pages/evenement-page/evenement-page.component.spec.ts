@@ -23,7 +23,7 @@ describe('EvenementPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('devrait créer', () => {
     expect(component).toBeTruthy();
   });
 });

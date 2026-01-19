@@ -67,12 +67,12 @@ describe('FormulaireService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('getAllFormulaires', () => {
-    it('should return an array of formulaires', () => {
+    it('devrait retourner un tableau de formulaires', () => {
       service.getAllFormulaires().subscribe(formulaires => {
         expect(formulaires).toEqual(mockFormulaires);
         expect(formulaires.length).toBe(2);
@@ -83,7 +83,7 @@ describe('FormulaireService', () => {
       req.flush(mockFormulaires);
     });
 
-    it('should return empty array when no formulaires', () => {
+    it('devrait retourner un tableau vide quand aucun formulaire', () => {
       service.getAllFormulaires().subscribe(formulaires => {
         expect(formulaires).toEqual([]);
         expect(formulaires.length).toBe(0);
@@ -93,7 +93,7 @@ describe('FormulaireService', () => {
       req.flush([]);
     });
 
-    it('should handle error when getAllFormulaires fails', () => {
+    it('devrait gérer l\'erreur quand getAllFormulaires échoue', () => {
       const errorMessage = 'Server error';
 
       service.getAllFormulaires().subscribe({
@@ -107,7 +107,7 @@ describe('FormulaireService', () => {
       req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
     });
 
-    it('should return formulaires with different statuts', () => {
+    it('devrait retourner des formulaires avec différents statuts', () => {
       service.getAllFormulaires().subscribe(formulaires => {
         expect(formulaires).toEqual(mockFormulaireArchive);
         expect(formulaires[0].statut).toBe(StatutFormulaire.actif);
@@ -120,7 +120,7 @@ describe('FormulaireService', () => {
   });
 
   describe('getFormulaireById', () => {
-    it('should return a single formulaire by id', () => {
+    it('devrait retourner un formulaire unique par son id', () => {
       const formulaireId = 1;
 
       service.getFormulaireById(formulaireId).subscribe(formulaire => {
@@ -133,7 +133,7 @@ describe('FormulaireService', () => {
       req.flush(mockFormulaire);
     });
 
-    it('should handle error when formulaire not found', () => {
+    it('devrait gérer l\'erreur quand le formulaire n\'est pas trouvé', () => {
       const formulaireId = 999;
 
       service.getFormulaireById(formulaireId).subscribe({
@@ -147,7 +147,7 @@ describe('FormulaireService', () => {
       req.flush('Not found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should return formulaire with archive status', () => {
+    it('devrait retourner un formulaire avec le statut archivé', () => {
       const formulaireId = 2;
 
       service.getFormulaireById(formulaireId).subscribe(formulaire => {
@@ -160,7 +160,7 @@ describe('FormulaireService', () => {
   });
 
   describe('createFormulaire', () => {
-    it('should create a new formulaire', () => {
+    it('devrait créer un nouveau formulaire', () => {
       const newFormulaire: Formulaire = {
         id_formulaire: 0,
         nom_formulaire: 'Nouveau formulaire',
@@ -183,7 +183,7 @@ describe('FormulaireService', () => {
       req.flush(createdFormulaire);
     });
 
-    it('should handle error when create fails', () => {
+    it('devrait gérer l\'erreur quand la création échoue', () => {
       const newFormulaire: Formulaire = {
         id_formulaire: 0,
         nom_formulaire: 'Nouveau formulaire',
@@ -204,7 +204,7 @@ describe('FormulaireService', () => {
       req.flush('Bad request', { status: 400, statusText: 'Bad Request' });
     });
 
-    it('should create formulaire with cloture status', () => {
+    it('devrait créer un formulaire avec le statut clôturé', () => {
       const createdFormulaire = { ...mockFormulaireCloture, id_formulaire: 4 };
 
       service.createFormulaire(mockFormulaireCloture).subscribe(formulaire => {
@@ -218,7 +218,7 @@ describe('FormulaireService', () => {
   });
 
   describe('updateFormulaire', () => {
-    it('should update an existing formulaire', () => {
+    it('devrait mettre à jour un formulaire existant', () => {
       const formulaireId = 1;
       const updatedFormulaire: Formulaire = {
         ...mockFormulaire,
@@ -236,7 +236,7 @@ describe('FormulaireService', () => {
       req.flush(updatedFormulaire);
     });
 
-    it('should handle error when update fails', () => {
+    it('devrait gérer l\'erreur quand la mise à jour échoue', () => {
       const formulaireId = 999;
 
       service.updateFormulaire(mockFormulaire, formulaireId).subscribe({
@@ -250,7 +250,7 @@ describe('FormulaireService', () => {
       req.flush('Not found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should update formulaire status to archive', () => {
+    it('devrait mettre à jour le statut du formulaire vers archivé', () => {
       const formulaireId = 1;
       const archivedFormulaire: Formulaire = {
         ...mockFormulaire,
@@ -265,7 +265,7 @@ describe('FormulaireService', () => {
       req.flush(archivedFormulaire);
     });
 
-    it('should update multiple fields of formulaire', () => {
+    it('devrait mettre à jour plusieurs champs du formulaire', () => {
       const formulaireId = 1;
       const updatedFormulaire: Formulaire = {
         ...mockFormulaire,
@@ -286,7 +286,7 @@ describe('FormulaireService', () => {
   });
 
   describe('deleteFormulaire', () => {
-    it('should delete a formulaire by id', () => {
+    it('devrait supprimer un formulaire par son id', () => {
       const formulaireId = 1;
 
       service.deleteFormulaire(formulaireId).subscribe(response => {
@@ -298,7 +298,7 @@ describe('FormulaireService', () => {
       req.flush(null);
     });
 
-    it('should handle error when delete fails', () => {
+    it('devrait gérer l\'erreur quand la suppression échoue', () => {
       const formulaireId = 999;
 
       service.deleteFormulaire(formulaireId).subscribe({
@@ -312,7 +312,7 @@ describe('FormulaireService', () => {
       req.flush('Not found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should handle unauthorized delete', () => {
+    it('devrait gérer une suppression non autorisée', () => {
       const formulaireId = 1;
 
       service.deleteFormulaire(formulaireId).subscribe({

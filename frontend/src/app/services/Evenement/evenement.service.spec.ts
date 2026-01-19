@@ -61,12 +61,12 @@ describe('EvenementService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('getAllEvenements', () => {
-    it('should retrieve all evenements', () => {
+    it('devrait récupérer tous les événements', () => {
       service.getAllEvenements().subscribe({
         next: (evenements) => {
           expect(evenements).toEqual(mockEvenements);
@@ -80,7 +80,7 @@ describe('EvenementService', () => {
       req.flush(mockEvenements);
     });
 
-    it('should return empty array when no evenements exist', () => {
+    it('devrait retourner un tableau vide quand aucun événement n\'existe', () => {
       service.getAllEvenements().subscribe({
         next: (evenements) => {
           expect(evenements).toEqual([]);
@@ -94,7 +94,7 @@ describe('EvenementService', () => {
       req.flush([]);
     });
 
-    it('should handle error when retrieving evenements', () => {
+    it('devrait gérer les erreurs lors de la récupération des événements', () => {
       const errorMessage = 'Server error';
       
       service.getAllEvenements().subscribe({
@@ -111,7 +111,7 @@ describe('EvenementService', () => {
   });
 
   describe('getEvenementById', () => {
-    it('should retrieve a specific evenement by id', () => {
+    it('devrait récupérer un événement spécifique par son id', () => {
       const evenementId = 1;
 
       service.getEvenementById(evenementId).subscribe({
@@ -127,7 +127,7 @@ describe('EvenementService', () => {
       req.flush(mockEvenement);
     });
 
-    it('should handle 404 when evenement not found', () => {
+    it('devrait gérer l\'erreur 404 quand l\'événement n\'est pas trouvé', () => {
       const evenementId = 999;
 
       service.getEvenementById(evenementId).subscribe({
@@ -143,7 +143,7 @@ describe('EvenementService', () => {
   });
 
   describe('createEvenement', () => {
-    it('should create a new evenement with Evenement object', () => {
+    it('devrait créer un nouvel événement avec un objet Evenement', () => {
       const newEvenement: Evenement = {
         id_evenement: 0,
         titre: 'New Event',
@@ -174,7 +174,7 @@ describe('EvenementService', () => {
       req.flush(createdEvenement);
     });
 
-    it('should create a new evenement with FormData', () => {
+    it('devrait créer un nouvel événement avec FormData', () => {
       const formData = new FormData();
       formData.append('titre', 'New Event');
       formData.append('description', 'New Description');
@@ -194,7 +194,7 @@ describe('EvenementService', () => {
       req.flush(createdEvenement);
     });
 
-    it('should handle validation error when creating evenement', () => {
+    it('devrait gérer les erreurs de validation lors de la création d\'un événement', () => {
       const invalidEvenement = { ...mockEvenement };
 
       service.createEvenement(invalidEvenement).subscribe({
@@ -210,7 +210,7 @@ describe('EvenementService', () => {
   });
 
   describe('updateEvenement', () => {
-    it('should update an existing evenement with Evenement object', () => {
+    it('devrait mettre à jour un événement existant avec un objet Evenement', () => {
       const updatedEvenement: Evenement = {
         ...mockEvenement,
         titre: 'Updated Event'
@@ -231,7 +231,7 @@ describe('EvenementService', () => {
       req.flush(updatedEvenement);
     });
 
-    it('should update an existing evenement with FormData', () => {
+    it('devrait mettre à jour un événement existant avec FormData', () => {
       const formData = new FormData();
       formData.append('titre', 'Updated Event');
       const evenementId = 1;
@@ -250,7 +250,7 @@ describe('EvenementService', () => {
       req.flush(updatedEvenement);
     });
 
-    it('should handle error when updating non-existent evenement', () => {
+    it('devrait gérer l\'erreur lors de la mise à jour d\'un événement inexistant', () => {
       const evenementId = 999;
 
       service.updateEvenement(mockEvenement, evenementId).subscribe({
@@ -266,7 +266,7 @@ describe('EvenementService', () => {
   });
 
   describe('deleteEvenement', () => {
-    it('should delete an evenement by id', () => {
+    it('devrait supprimer un événement par son id', () => {
       const evenementId = 1;
 
       service.deleteEvenement(evenementId).subscribe({
@@ -281,7 +281,7 @@ describe('EvenementService', () => {
       req.flush(null);
     });
 
-    it('should handle error when deleting non-existent evenement', () => {
+    it('devrait gérer l\'erreur lors de la suppression d\'un événement inexistant', () => {
       const evenementId = 999;
 
       service.deleteEvenement(evenementId).subscribe({
@@ -295,7 +295,7 @@ describe('EvenementService', () => {
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should handle server error when deleting evenement', () => {
+    it('devrait gérer les erreurs serveur lors de la suppression d\'un événement', () => {
       const evenementId = 1;
 
       service.deleteEvenement(evenementId).subscribe({

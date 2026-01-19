@@ -48,12 +48,12 @@ describe('TacheService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('getAllTaches', () => {
-    it('should return an array of taches', () => {
+    it('devrait retourner un tableau de tâches', () => {
       service.getAllTaches().subscribe(taches => {
         expect(taches).toEqual(mockTaches);
         expect(taches.length).toBe(2);
@@ -64,7 +64,7 @@ describe('TacheService', () => {
       req.flush(mockTaches);
     });
 
-    it('should return empty array when no taches', () => {
+    it('devrait retourner un tableau vide quand aucune tâche', () => {
       service.getAllTaches().subscribe(taches => {
         expect(taches).toEqual([]);
         expect(taches.length).toBe(0);
@@ -74,7 +74,7 @@ describe('TacheService', () => {
       req.flush([]);
     });
 
-    it('should handle error when getAllTaches fails', () => {
+    it('devrait gérer l\'erreur quand getAllTaches échoue', () => {
       const errorMessage = 'Server error';
 
       service.getAllTaches().subscribe({
@@ -90,7 +90,7 @@ describe('TacheService', () => {
   });
 
   describe('getTacheById', () => {
-    it('should return a single tache by id', () => {
+    it('devrait retourner une tâche unique par son id', () => {
       const tacheId = 1;
 
       service.getTacheById(tacheId).subscribe(tache => {
@@ -103,7 +103,7 @@ describe('TacheService', () => {
       req.flush(mockTache);
     });
 
-    it('should handle error when tache not found', () => {
+    it('devrait gérer l\'erreur quand la tâche n\'est pas trouvée', () => {
       const tacheId = 999;
 
       service.getTacheById(tacheId).subscribe({
@@ -119,7 +119,7 @@ describe('TacheService', () => {
   });
 
   describe('createTache', () => {
-    it('should create a new tache', () => {
+    it('devrait créer une nouvelle tâche', () => {
       const newTache: Tache = {
         id_tache: 0,
         nom_tache: 'Nouvelle tâche',
@@ -143,7 +143,7 @@ describe('TacheService', () => {
       req.flush(createdTache);
     });
 
-    it('should handle error when create fails', () => {
+    it('devrait gérer l\'erreur quand la création échoue', () => {
       const newTache: Tache = {
         id_tache: 0,
         nom_tache: 'Nouvelle tâche',
@@ -167,7 +167,7 @@ describe('TacheService', () => {
   });
 
   describe('updateTache', () => {
-    it('should update an existing tache', () => {
+    it('devrait mettre à jour une tâche existante', () => {
       const tacheId = 1;
       const updatedTache: Tache = {
         ...mockTache,
@@ -185,7 +185,7 @@ describe('TacheService', () => {
       req.flush(updatedTache);
     });
 
-    it('should handle error when update fails', () => {
+    it('devrait gérer l\'erreur quand la mise à jour échoue', () => {
       const tacheId = 999;
 
       service.updateTache(mockTache, tacheId).subscribe({
@@ -201,7 +201,7 @@ describe('TacheService', () => {
   });
 
   describe('deleteTache', () => {
-    it('should delete a tache by id', () => {
+    it('devrait supprimer une tâche par son id', () => {
       const tacheId = 1;
 
       service.deleteTache(tacheId).subscribe(response => {
@@ -213,7 +213,7 @@ describe('TacheService', () => {
       req.flush(null);
     });
 
-    it('should handle error when delete fails', () => {
+    it('devrait gérer l\'erreur quand la suppression échoue', () => {
       const tacheId = 999;
 
       service.deleteTache(tacheId).subscribe({
@@ -229,7 +229,7 @@ describe('TacheService', () => {
   });
 
   describe('getAlltachesByIdEvennement', () => {
-    it('should return all taches for a specific evenement', () => {
+    it('devrait retourner toutes les tâches pour un événement spécifique', () => {
       const evenementId = 1;
 
       service.getAlltachesByIdEvennement(evenementId).subscribe(taches => {
@@ -242,7 +242,7 @@ describe('TacheService', () => {
       req.flush(mockTaches);
     });
 
-    it('should return empty array when evenement has no taches', () => {
+    it('devrait retourner un tableau vide quand l\'événement n\'a pas de tâches', () => {
       const evenementId = 2;
 
       service.getAlltachesByIdEvennement(evenementId).subscribe(taches => {
@@ -254,7 +254,7 @@ describe('TacheService', () => {
       req.flush([]);
     });
 
-    it('should handle error when evenement not found', () => {
+    it('devrait gérer l\'erreur quand l\'événement n\'est pas trouvé', () => {
       const evenementId = 999;
 
       service.getAlltachesByIdEvennement(evenementId).subscribe({

@@ -78,12 +78,12 @@ describe('AuthService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('init', () => {
-    it('should load current user when token exists', () => {
+    it('devrait charger l\'utilisateur actuel quand un token existe', () => {
       tokenService.hasToken.and.returnValue(true);
       
       service.init();
@@ -97,7 +97,7 @@ describe('AuthService', () => {
       });
     });
 
-    it('should not load current user when no token exists', () => {
+    it('ne devrait pas charger l\'utilisateur actuel quand aucun token n\'existe', () => {
       tokenService.hasToken.and.returnValue(false);
       
       service.init();
@@ -107,7 +107,7 @@ describe('AuthService', () => {
   });
 
   describe('register', () => {
-    it('should register a new user and save token', (done) => {
+    it('devrait enregistrer un nouvel utilisateur et sauvegarder le token', (done) => {
       const registerData: RegisterData = {
         nom: 'Doe',
         prenom: 'John',
@@ -135,7 +135,7 @@ describe('AuthService', () => {
       req.flush(mockAuthResponse);
     });
 
-    it('should handle validation error during registration', () => {
+    it('devrait gérer les erreurs de validation lors de l\'inscription', () => {
       const registerData: RegisterData = {
         nom: '',
         prenom: '',
@@ -157,7 +157,7 @@ describe('AuthService', () => {
   });
 
   describe('login', () => {
-    it('should login a benevole user and navigate to home', (done) => {
+    it('devrait connecter un utilisateur bénévole et naviguer vers l\'accueil', (done) => {
       const credentials: LoginCredentials = {
         email: 'john.doe@example.com',
         mot_de_passe: 'password123'
@@ -183,7 +183,7 @@ describe('AuthService', () => {
       req.flush(mockAuthResponse);
     });
 
-    it('should login an admin user and navigate to events', (done) => {
+    it('devrait connecter un utilisateur admin et naviguer vers les événements', (done) => {
       const credentials: LoginCredentials = {
         email: 'admin@example.com',
         mot_de_passe: 'admin123'
@@ -208,7 +208,7 @@ describe('AuthService', () => {
       req.flush(mockAdminAuthResponse);
     });
 
-    it('should handle invalid credentials', () => {
+    it('devrait gérer les identifiants invalides', () => {
       const credentials: LoginCredentials = {
         email: 'wrong@example.com',
         mot_de_passe: 'wrongpassword'
@@ -227,7 +227,7 @@ describe('AuthService', () => {
   });
 
   describe('logout', () => {
-    it('should logout user, remove token and navigate to login', (done) => {
+    it('devrait déconnecter l\'utilisateur, supprimer le token et naviguer vers login', (done) => {
       service.logout().subscribe({
         next: () => {
           expect(tokenService.removeToken).toHaveBeenCalled();
@@ -247,7 +247,7 @@ describe('AuthService', () => {
       req.flush(null);
     });
 
-    it('should handle logout error but still clear local state', () => {
+    it('devrait gérer l\'erreur de déconnexion mais nettoyer l\'état local', () => {
       service.logout().subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
@@ -262,7 +262,7 @@ describe('AuthService', () => {
   });
 
   describe('loadCurrentUser', () => {
-    it('should load current user successfully', (done) => {
+    it('devrait charger l\'utilisateur actuel avec succès', (done) => {
       service.loadCurrentUser();
 
       const req = httpMock.expectOne(`${apiUrl}/user`);
@@ -275,7 +275,7 @@ describe('AuthService', () => {
       });
     });
 
-    it('should handle error and clear token', (done) => {
+    it('devrait gérer l\'erreur et nettoyer le token', (done) => {
       service.loadCurrentUser();
 
       const req = httpMock.expectOne(`${apiUrl}/user`);
@@ -292,13 +292,13 @@ describe('AuthService', () => {
   });
 
   describe('isAuthenticated', () => {
-    it('should return true when token exists', () => {
+    it('devrait retourner vrai quand un token existe', () => {
       tokenService.hasToken.and.returnValue(true);
       
       expect(service.isAuthenticated()).toBe(true);
     });
 
-    it('should return false when no token exists', () => {
+    it('devrait retourner faux quand aucun token n\'existe', () => {
       tokenService.hasToken.and.returnValue(false);
       
       expect(service.isAuthenticated()).toBe(false);
@@ -306,7 +306,7 @@ describe('AuthService', () => {
   });
 
   describe('getCurrentUser', () => {
-    it('should return current user', (done) => {
+    it('devrait retourner l\'utilisateur actuel', (done) => {
       service['currentUserSubject'].next(mockUtilisateur);
       
       const currentUser = service.getCurrentUser();
@@ -314,7 +314,7 @@ describe('AuthService', () => {
       done();
     });
 
-    it('should return null when no user is logged in', () => {
+    it('devrait retourner null quand aucun utilisateur n\'est connecté', () => {
       service['currentUserSubject'].next(null);
       
       const currentUser = service.getCurrentUser();
@@ -323,7 +323,7 @@ describe('AuthService', () => {
   });
 
   describe('hasRole', () => {
-    it('should return true when user has the specified role', () => {
+    it('devrait retourner vrai quand l\'utilisateur a le rôle spécifié', () => {
       service['currentUserSubject'].next(mockUtilisateur);
       
       expect(service.hasRole('parent')).toBe(true);
@@ -331,19 +331,19 @@ describe('AuthService', () => {
       expect(service.hasRole('Parent')).toBe(true);
     });
 
-    it('should return false when user does not have the specified role', () => {
+    it('devrait retourner faux quand l\'utilisateur n\'a pas le rôle spécifié', () => {
       service['currentUserSubject'].next(mockUtilisateur);
       
       expect(service.hasRole('administrateur')).toBe(false);
     });
 
-    it('should return false when no user is logged in', () => {
+    it('devrait retourner faux quand aucun utilisateur n\'est connecté', () => {
       service['currentUserSubject'].next(null);
       
       expect(service.hasRole('benevole')).toBe(false);
     });
 
-    it('should return true when admin user has admin role', () => {
+    it('devrait retourner vrai quand l\'utilisateur admin a le rôle admin', () => {
       service['currentUserSubject'].next(mockAdminUtilisateur);
       
       expect(service.hasRole('administrateur')).toBe(true);
@@ -352,7 +352,7 @@ describe('AuthService', () => {
   });
 
   describe('currentUser$ observable', () => {
-    it('should emit user changes', (done) => {
+    it('devrait émettre les changements d\'utilisateur', (done) => {
       const users: (Utilisateur | null)[] = [];
       
       service.currentUser$.subscribe(user => {

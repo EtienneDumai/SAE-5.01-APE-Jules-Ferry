@@ -46,12 +46,12 @@ describe('InscriptionService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('devrait être créé', () => {
     expect(service).toBeTruthy();
   });
 
   describe('getAllInscriptions', () => {
-    it('should return an array of inscriptions', () => {
+    it('devrait retourner un tableau d\'inscriptions', () => {
       service.getAllInscriptions().subscribe(inscriptions => {
         expect(inscriptions).toEqual(mockInscriptions);
         expect(inscriptions.length).toBe(2);
@@ -62,7 +62,7 @@ describe('InscriptionService', () => {
       req.flush(mockInscriptions);
     });
 
-    it('should return empty array when no inscriptions', () => {
+    it('devrait retourner un tableau vide quand aucune inscription', () => {
       service.getAllInscriptions().subscribe(inscriptions => {
         expect(inscriptions).toEqual([]);
         expect(inscriptions.length).toBe(0);
@@ -72,7 +72,7 @@ describe('InscriptionService', () => {
       req.flush([]);
     });
 
-    it('should handle error when getAllInscriptions fails', () => {
+    it('devrait gérer l\'erreur quand getAllInscriptions échoue', () => {
       const errorMessage = 'Server error';
 
       service.getAllInscriptions().subscribe({
@@ -88,7 +88,7 @@ describe('InscriptionService', () => {
   });
 
   describe('getMesInscriptions', () => {
-    it('should return my inscriptions', () => {
+    it('devrait retourner mes inscriptions', () => {
       service.getMesInscriptions().subscribe(inscriptions => {
         expect(inscriptions).toEqual(mockInscriptions);
         expect(inscriptions.length).toBe(2);
@@ -99,7 +99,7 @@ describe('InscriptionService', () => {
       req.flush(mockInscriptions);
     });
 
-    it('should return empty array when user has no inscriptions', () => {
+    it('devrait retourner un tableau vide quand l\'utilisateur n\'a pas d\'inscriptions', () => {
       service.getMesInscriptions().subscribe(inscriptions => {
         expect(inscriptions).toEqual([]);
         expect(inscriptions.length).toBe(0);
@@ -109,7 +109,7 @@ describe('InscriptionService', () => {
       req.flush([]);
     });
 
-    it('should handle error when getMesInscriptions fails', () => {
+    it('devrait gérer l\'erreur quand getMesInscriptions échoue', () => {
       service.getMesInscriptions().subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
@@ -123,7 +123,7 @@ describe('InscriptionService', () => {
   });
 
   describe('createInscription', () => {
-    it('should create a new inscription with commentaire', () => {
+    it('devrait créer une nouvelle inscription avec commentaire', () => {
       const inscriptionData = {
         id_creneau: 1,
         commentaire: 'Nouveau commentaire'
@@ -141,7 +141,7 @@ describe('InscriptionService', () => {
       req.flush(mockInscription);
     });
 
-    it('should create a new inscription without commentaire', () => {
+    it('devrait créer une nouvelle inscription sans commentaire', () => {
       const inscriptionData = {
         id_creneau: 2,
         commentaire: null
@@ -165,7 +165,7 @@ describe('InscriptionService', () => {
       req.flush(inscriptionWithoutComment);
     });
 
-    it('should handle error when creneau is full', () => {
+    it('devrait gérer l\'erreur quand le créneau est complet', () => {
       const inscriptionData = {
         id_creneau: 1,
         commentaire: 'Test'
@@ -182,7 +182,7 @@ describe('InscriptionService', () => {
       req.flush('Creneau complet', { status: 409, statusText: 'Conflict' });
     });
 
-    it('should handle error when already registered', () => {
+    it('devrait gérer l\'erreur quand déjà inscrit', () => {
       const inscriptionData = {
         id_creneau: 1,
         commentaire: 'Test'
@@ -201,7 +201,7 @@ describe('InscriptionService', () => {
   });
 
   describe('deleteInscription', () => {
-    it('should delete an inscription by creneau id', () => {
+    it('devrait supprimer une inscription par l\'id du créneau', () => {
       const creneauId = 1;
 
       service.deleteInscription(creneauId).subscribe(response => {
@@ -213,7 +213,7 @@ describe('InscriptionService', () => {
       req.flush(null);
     });
 
-    it('should handle error when inscription not found', () => {
+    it('devrait gérer l\'erreur quand l\'inscription n\'est pas trouvée', () => {
       const creneauId = 999;
 
       service.deleteInscription(creneauId).subscribe({
@@ -227,7 +227,7 @@ describe('InscriptionService', () => {
       req.flush('Not found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('should handle error when unauthorized to delete', () => {
+    it('devrait gérer l\'erreur quand non autorisé à supprimer', () => {
       const creneauId = 1;
 
       service.deleteInscription(creneauId).subscribe({

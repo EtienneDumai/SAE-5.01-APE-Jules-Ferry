@@ -61,11 +61,11 @@ describe('CalendrierComponent', () => {
 
   //Test création du composant et initialisation des propriétés
   describe('Initialisation du composant', () => {
-    it('should create', () => {
+    it('devrait créer', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should initialize with default properties', () => {
+    it('devrait initialiser avec les propriétés par défaut', () => {
       expect(component.selectedEvent).toBeNull();
       expect(component.eventsList).toEqual([]);
       expect(component.isLoading).toBe(true);
@@ -73,7 +73,7 @@ describe('CalendrierComponent', () => {
       expect(component.calendarState).toBe('closed');
     });
 
-    it('should load evenements on init', () => {
+    it('devrait charger les événements à l\'initialisation', () => {
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
       fixture.detectChanges();
 
@@ -85,7 +85,7 @@ describe('CalendrierComponent', () => {
 
   //Tests pour le chargement des événements et gestion des erreurs
   describe('Chargement des événements', () => {
-    it('should load evenements successfully', (done) => {
+    it('devrait charger les événements avec succès', (done) => {
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
       component.loadEvenements();
 
@@ -97,7 +97,7 @@ describe('CalendrierComponent', () => {
       }, 0);
     });
 
-    it('should handle error when loading evenements', (done) => {
+    it('devrait gérer les erreurs lors du chargement des événements', (done) => {
       const error = new Error('API error');
       evenementService.getAllEvenements.and.returnValue(
         throwError(() => error)
@@ -115,7 +115,7 @@ describe('CalendrierComponent', () => {
       }, 0);
     });
 
-    it('should set isLoading to false after loading evenements', () => {
+    it('devrait définir isLoading à false après le chargement des événements', () => {
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
       component.isLoading = true;
 
@@ -124,7 +124,7 @@ describe('CalendrierComponent', () => {
       expect(component.isLoading).toBe(false);
     });
 
-    it('should clear error message when loading new evenements', () => {
+    it('devrait effacer le message d\'erreur lors du chargement de nouveaux événements', () => {
       component.errorMessage = 'Previous error';
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
 
@@ -133,7 +133,7 @@ describe('CalendrierComponent', () => {
       expect(component.errorMessage).toBeNull();
     });
 
-    it('should format calendar events correctly', (done) => {
+    it('devrait formater correctement les événements du calendrier', (done) => {
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
       component.loadEvenements();
 
@@ -158,7 +158,7 @@ describe('CalendrierComponent', () => {
 
   //Tests pour le formatage des dates
   describe('Formatage des dates', () => {
-    it('should format event date correctly', () => {
+    it('devrait formater correctement la date de l\'événement', () => {
       const date = new Date('2026-01-15');
       const time = '10:30';
       const result = component.formatEventDate(date, time);
@@ -166,7 +166,7 @@ describe('CalendrierComponent', () => {
       expect(result).toBe('2026-01-15T10:30');
     });
 
-    it('should handle different time formats', () => {
+    it('devrait gérer différents formats d\'heure', () => {
       const date = new Date('2026-06-20');
       const time = '23:59';
       const result = component.formatEventDate(date, time);
@@ -183,7 +183,7 @@ describe('CalendrierComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should select event when clicked', (done) => {
+    it('devrait sélectionner un événement lorsqu\'il est cliqué', (done) => {
       const mockEventClickArg: Partial<EventClickArg> = {
         event: {
           id: '1',
@@ -200,7 +200,7 @@ describe('CalendrierComponent', () => {
       }, 100);
     });
 
-    it('should not select event if ID does not match', () => {
+    it('ne devrait pas sélectionner un événement si l\'ID ne correspond pas', () => {
       const mockEventClickArg: Partial<EventClickArg> = {
         event: {
           id: '999',
@@ -212,7 +212,7 @@ describe('CalendrierComponent', () => {
       expect(component.selectedEvent).toBeNull();
     });
 
-    it('should close event details', () => {
+    it('devrait fermer les détails de l\'événement', () => {
       component.selectedEvent = mockEvenements[0];
 
       component.closeEventDetails();
@@ -223,7 +223,7 @@ describe('CalendrierComponent', () => {
 
   //Tests pour la gestion de l'état du calendrier
   describe("Gestion de l'état du calendrier", () => {
-    it('should expand calendar', () => {
+    it('devrait étendre le calendrier', () => {
       component.calendarState = 'compact';
 
       component.expandCalendar();
@@ -231,7 +231,7 @@ describe('CalendrierComponent', () => {
       expect(component.calendarState).toBe('expanded');
     });
 
-    it('should collapse calendar', () => {
+    it('devrait réduire le calendrier', () => {
       component.calendarState = 'expanded';
 
       component.collapseCalendar();
@@ -239,7 +239,7 @@ describe('CalendrierComponent', () => {
       expect(component.calendarState).toBe('compact');
     });
 
-    it('should close calendar', () => {
+    it('devrait fermer le calendrier', () => {
       component.calendarState = 'expanded';
 
       component.closeCalendar();
@@ -247,7 +247,7 @@ describe('CalendrierComponent', () => {
       expect(component.calendarState).toBe('closed');
     });
 
-    it('should open calendar', () => {
+    it('devrait ouvrir le calendrier', () => {
       component.calendarState = 'closed';
 
       component.openCalendar();
@@ -258,7 +258,7 @@ describe('CalendrierComponent', () => {
 
   //Tests pour la gestion du redimensionnement
   describe('Gestion du redimensionnement', () => {
-    it('should handle window resize', () => {
+    it('devrait gérer le redimensionnement de la fenêtre', () => {
       const mockCalendarApi = {
         setOption: jasmine.createSpy('setOption'),
         view: { type: 'dayGridMonth' },
@@ -277,7 +277,7 @@ describe('CalendrierComponent', () => {
       expect(component['isMobile']).toBe(false);
     });
 
-    it('should update headerToolbar when transitioning from mobile to desktop', () => {
+    it('devrait mettre à jour headerToolbar lors de la transition du mobile au bureau', () => {
       const mockCalendarApi = {
         setOption: jasmine.createSpy('setOption'),
         view: { type: 'dayGridMonth' },
@@ -303,7 +303,7 @@ describe('CalendrierComponent', () => {
       );
     });
 
-    it('should update headerToolbar when transitioning from desktop to mobile', () => {
+    it('devrait mettre à jour headerToolbar lors de la transition du bureau au mobile', () => {
       const mockCalendarApi = {
         setOption: jasmine.createSpy('setOption'),
         view: {
@@ -334,7 +334,7 @@ describe('CalendrierComponent', () => {
 
   //Tests pour la configuration du calendrier
   describe('Configuration du calendrier', () => {
-    it('should have correct calendar plugins configured', () => {
+    it('devrait avoir les bons plugins de calendrier configurés', () => {
       expect(component.calendarOptions.plugins).toBeTruthy();
       expect(
         (component.calendarOptions.locale as { code: string })?.code ||
@@ -342,18 +342,18 @@ describe('CalendrierComponent', () => {
       ).toBe('fr');
     });
 
-    it('should have correct initial view settings', () => {
+    it('devrait avoir les bons paramètres de vue initiale', () => {
       expect(component.calendarOptions.initialView).toBe('dayGridMonth');
       expect(component.calendarOptions.weekNumbers).toBe(true);
       expect(component.calendarOptions.weekends).toBe(true);
     });
 
-    it('should have correct time slot settings', () => {
+    it('devrait avoir les bons paramètres de créneaux horaires', () => {
       expect(component.calendarOptions.slotMinTime).toBe('07:00:00');
       expect(component.calendarOptions.slotMaxTime).toBe('20:00:00');
     });
 
-    it('should have correct event styling', () => {
+    it('devrait avoir le bon style d\'événement', () => {
       expect(component.calendarOptions.eventColor).toBe('#9ae39cff');
       expect(component.calendarOptions.eventTextColor).toBe('#000000');
     });
@@ -361,7 +361,7 @@ describe('CalendrierComponent', () => {
 
   //Tests d'intégration complète
   describe('Intégration complète', () => {
-    it('should load events and display calendar correctly', (done) => {
+    it('devrait charger les événements et afficher correctement le calendrier', (done) => {
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
       fixture.detectChanges();
 
@@ -373,7 +373,7 @@ describe('CalendrierComponent', () => {
       }, 0);
     });
 
-    it('should handle complete user flow', (done) => {
+    it('devrait gérer le flux utilisateur complet', (done) => {
       evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
       component.loadEvenements();
 
