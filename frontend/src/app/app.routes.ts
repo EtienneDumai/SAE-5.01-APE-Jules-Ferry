@@ -25,6 +25,11 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/actualite-creer/actualite-creer.component').then(m => m.ActualiteCreerComponent),
         canActivate: [adminGuard]
     },
+    { 
+        path: 'actualites/:id/edit', 
+        loadComponent: () => import('./pages/actualite-creer/actualite-creer.component').then(m => m.ActualiteCreerComponent),
+        canActivate: [adminGuard]
+    },
     { path: 'actualites/:id', loadComponent: () => import('./pages/actualite-detail/actualite-detail.component').then(m => m.ActualiteDetailComponent) },
     { path: 'evenements', loadComponent: () => import('./pages/evenement-page/evenement-page.component').then(m => m.EvenementPageComponent) },
     { path: 'evenements/:id', loadComponent: () => import('./pages/evenement-detail/evenement-detail.component').then(m => m.EvenementDetailComponent) },
