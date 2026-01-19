@@ -77,18 +77,12 @@
     <div class="flex justify-end gap-3">
         <button (click)="onSubmit()"
             class="text-green-700 hover:text-green-900 font-bold flex items-center gap-1 bg-green-100 px-2 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
+            <i class="fa-solid fa-check w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
             <span>Valider</span>
         </button>
         <button (click)="cancelForm.emit()"
             class="text-gray-600 hover:text-gray-800 flex items-center gap-1 bg-gray-200 px-2 py-1 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <i class="fa-solid fa-xmark w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
             <span>Annuler</span>
         </button>
     </div>

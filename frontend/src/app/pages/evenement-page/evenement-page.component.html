@@ -8,9 +8,7 @@
         @if(canManage) {
             <a [routerLink]="['/evenements', 'new', 'edit']" 
                class="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition-colors font-bold shadow-md inline-flex items-center w-fit">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-               </svg>
+               <i class="fa-solid fa-plus w-5 h-5 mr-2" aria-hidden="true" style="font-size: 20px;"></i>
                Créer un événement
             </a>
         }
@@ -26,9 +24,7 @@
         <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm" role="alert">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                    </svg>
+                    <i class="fa-regular fa-circle-xmark h-5 w-5 text-red-400" aria-hidden="true" style="font-size: 20px;"></i>
                 </div>
                 <div class="ml-3">
                     <p class="text-sm text-red-700">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>
