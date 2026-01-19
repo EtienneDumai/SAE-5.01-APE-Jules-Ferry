@@ -2,7 +2,7 @@ import { Component, inject,  OnInit } from '@angular/core';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
 import { AuthService } from '../../services/Auth/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { Location, DatePipe } from '@angular/common';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
@@ -22,11 +22,13 @@ export class ActualiteDetailComponent implements OnInit {
   errorActualite = false;
   errorAuteur= false;
   auteur !: Utilisateur;
+  isAdmin =false;
   private readonly utilisateurService : UtilisateurService = inject(UtilisateurService);
   private readonly actualiteService : ActualiteService = inject(ActualiteService);
   protected readonly authService : AuthService = inject(AuthService);
 
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly router: Router = inject(Router);
   private location: Location = inject(Location);
 
   ngOnInit() : void{
@@ -38,6 +40,7 @@ export class ActualiteDetailComponent implements OnInit {
         this.utilisateurService.getUtilisateurById(this.actualite.id_auteur).subscribe({
           next : (data) =>{
             this.auteur = data;
+            this.isAdmin = this.authService.hasRole('administrateur');
           },
           error: (err) => {
             console.error(err);
@@ -57,5 +60,23 @@ export class ActualiteDetailComponent implements OnInit {
   }
   goBack(): void {
     this.location.back();
+  }
+
+  editActualite(): void {
+    this.router.navigate([`/actualites/${this.actualite.id_actualite}/edit`]);
+  }
+
+  confirmDelete(): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?')) {
+      this.actualiteService.deleteActualite(this.actualite.id_actualite).subscribe({
+        next: () => {
+          this.router.navigate(['/actualites']);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression:', error);
+          alert('Erreur lors de la suppression de l\'actualité.');
+        }
+      });
+    }
   }
 }
