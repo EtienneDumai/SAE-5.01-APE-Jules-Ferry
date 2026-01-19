@@ -117,7 +117,7 @@ export class ActualiteCreerComponent implements OnInit {
       : this.actualiteService.createActualite(FORM_DATA);
 
     REQUEST.subscribe({
-      next: (actualite) => {
+      next: () => {
         this.router.navigate(['/actualites']);
       },
       error: (error) => {
