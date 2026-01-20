@@ -61,9 +61,10 @@ describe('ActualiteCreerComponent', () => {
       expect(component.actualiteForm).toBeTruthy();
       expect(component.actualiteForm.get('titre')?.value).toBe('');
       expect(component.actualiteForm.get('contenu')?.value).toBe('');
-      expect(component.actualiteForm.get('date_publication')?.value).toBe('2026-01-19');
+      expect(component.actualiteForm.get('date_publication')?.value).toBe('' + new Date().toISOString().split('T')[0]);
       expect(component.actualiteForm.get('statut')?.value).toBe('publie');
       expect(component.actualiteForm.get('image_url')?.value).toBe('');
+      expect(component.actualiteForm.get('id_auteur')?.value).toBeDefined();
     });
 
     it('devrait avoir tous les contrôles nécessaires', () => {
