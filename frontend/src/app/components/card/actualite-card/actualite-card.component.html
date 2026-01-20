@@ -1,7 +1,6 @@
 <div class="h-full flex flex-col rounded-2xl border border-green-600 overflow-hidden bg-[var(--secondary-light-green)] shadow-sm hover:shadow-md transition-shadow">
 
     <div class="p-4 flex items-center gap-4">
-        
         <div class="w-12 h-12 flex-shrink-0 rounded-full bg-green-600 flex items-center justify-center text-white text-xl font-bold">
             {{ titre.charAt(0).toUpperCase() }}
         </div>
@@ -18,10 +17,10 @@
 
     <div class="h-48 w-full bg-gray-200 relative">
         @if(image_url) {
-            <img [src]="image_url" [alt]="titre" class="w-full h-full object-cover">
+            <img [src]="getImageUrl(image_url)" [alt]="titre" class="w-full h-full object-cover" loading="lazy">
         } @else {
             <div class="w-full h-full flex items-center justify-center bg-gray-100 opacity-50">
-                <i class="fa-solid fa-image text-gray-400" aria-hidden="true" style="font-size: 48px;"></i>
+                <i class="fa-regular fa-image text-gray-400" aria-hidden="true" style="font-size: 48px;"></i>
             </div>
         }
     </div>

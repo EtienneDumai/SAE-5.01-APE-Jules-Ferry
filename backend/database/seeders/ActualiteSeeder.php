@@ -4,11 +4,36 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ActualiteSeeder extends Seeder
 {
+    private function copierImage($nomFichier)
+    {
+        if (!$nomFichier) return null;
+        $sourcePath = database_path('seeders/images/actualites/' . $nomFichier);
+        
+        $destinationDir = storage_path('app/public/actualites');
+        $destinationPath = $destinationDir . '/' . uniqid() . '_' . $nomFichier;
+    
+        if (File::exists($sourcePath)) {
+            if (!File::isDirectory($destinationDir)) {
+                File::makeDirectory($destinationDir, 0755, true);
+            }
+    
+            if (File::copy($sourcePath, $destinationPath)) {
+                return '/storage/actualites/' . basename($destinationPath);
+            }
+        }
+        return null; 
+    }
+
     public function run(): void
     {
+        if (!Storage::disk('public')->exists('actualites')) {
+            Storage::disk('public')->makeDirectory('actualites');
+        }
         DB::table('actualites')->insert([
             [
                 'titre' => 'Bienvenue sur le nouveau site de l\'APE',
@@ -21,9 +46,9 @@ class ActualiteSeeder extends Seeder
                 'updated_at' => now()->subDays(30),
             ],
             [
-                'titre' => 'Prochaine kermesse : 15 juin 2025',
-                'contenu' => 'Réservez votre journée ! La kermesse annuelle de l\'école aura lieu le samedi 15 juin 2025. Au programme : stands de jeux, tombola, restauration et bien plus encore. Nous avons besoin de bénévoles !',
-                'image_url' => '/images/kermesse.jpg',
+                'titre' => 'Fête de l\'écode : 15 juin 2025',
+                'contenu' => 'Réservez votre journée ! La fête de l\'école aura lieu le samedi 15 juin 2025. Au programme : stands de jeux, tombola, restauration et bien plus encore. Nous avons besoin de bénévoles !',
+                'image_url' =>$this->copierImage('fete_de_l_ecole.jpg'),
                 'date_publication' => now()->subDays(10)->toDateString(),
                 'statut' => 'publie',
                 'id_auteur' => 2,
@@ -31,9 +56,9 @@ class ActualiteSeeder extends Seeder
                 'updated_at' => now()->subDays(10),
             ],
             [
-                'titre' => 'Vente de gâteaux le 20 décembre',
-                'contenu' => 'L\'APE organise une vente de gâteaux pour financer les projets pédagogiques. Tous les bénéfices iront directement aux classes.',
-                'image_url' => null,
+                'titre' => 'Sortie piscine',
+                'contenu' => 'L\'APE organise une sortie piscine pour les enfants. N\'oubliez pas les maillots !.',
+                'image_url' =>$this->copierImage('piscine.jpg'),
                 'date_publication' => now()->subDays(5)->toDateString(),
                 'statut' => 'publie',
                 'id_auteur' => 2,
@@ -41,9 +66,9 @@ class ActualiteSeeder extends Seeder
                 'updated_at' => now()->subDays(5),
             ],
             [
-                'titre' => 'Compte-rendu de la dernière réunion',
-                'contenu' => 'Voici le résumé de la réunion du bureau de l\'APE qui s\'est tenue le 1er décembre 2025. Nous avons discuté des projets à venir et du budget.',
-                'image_url' => null,
+                'titre' => 'Projet de carnaval',
+                'contenu' => 'Le carnaval pour est prévu pour mars 2026. Une grosse journée se prépare soyez présent',
+                'image_url' =>$this->copierImage('carnaval.jpg'),
                 'date_publication' => now()->subDays(3)->toDateString(),
                 'statut' => 'publie',
                 'id_auteur' => 3,
@@ -51,8 +76,8 @@ class ActualiteSeeder extends Seeder
                 'updated_at' => now()->subDays(3),
             ],
             [
-                'titre' => 'Brouillon - Projet de carnaval',
-                'contenu' => 'Article en cours de rédaction sur le projet de carnaval pour mars 2026.',
+                'titre' => 'Compte-rendu de la dernière réunion',
+                'contenu' => 'Voici le résumé de la réunion du bureau de l\'APE qui s\'est tenue le 1er décembre 2025. Nous avons discuté des projets à venir et du budget.',
                 'image_url' => null,
                 'date_publication' => now()->addDays(30)->toDateString(),
                 'statut' => 'brouillon',

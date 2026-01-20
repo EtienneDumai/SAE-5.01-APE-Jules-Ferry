@@ -4,8 +4,7 @@
     </div>
 
 } @else if (this.errorActualite) {
-
-} @else {
+    } @else {
     <div class="max-w-4xl mx-auto px-4 py-8">
         
         <button (click)="goBack()" class="mb-6 flex items-center text-gray-600 hover:text-[var(--primary-blue)] transition-colors">
@@ -17,7 +16,7 @@
             
             <div class="h-64 md:h-96 w-full relative overflow-hidden bg-gray-100">
                 @if(actualite.image_url) {
-                    <img [src]="actualite.image_url" [alt]="actualite.titre" class="w-full h-full object-cover">
+                    <img [src]="getImageUrl(actualite.image_url)" [alt]="actualite.titre" class="w-full h-full object-cover">
                 } @else {
                     <div class="flex items-center justify-center h-full text-gray-400">
                         <span class="text-lg italic">Aucune image disponible</span>
@@ -29,12 +28,9 @@
                 <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-6 items-center">
                     
                     <div class="flex items-center">
-                        <i class="fa-regular fa-calendar w-4 h-4 mr-2" aria-hidden="true" style="font-size: 16px;"></i>                        {{ actualite.date_publication | date : 'dd/MM/yyyy'}}
+                        <i class="fa-regular fa-calendar w-4 h-4 mr-2" aria-hidden="true" style="font-size: 16px;"></i>
+                        {{ actualite.date_publication | date : 'dd/MM/yyyy'}}
                     </div>
-
-                    <!-- @if(actualite.statut === 'brouillon') {
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Brouillon</span>
-                    } -->
                 </div>
 
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight">
@@ -47,14 +43,15 @@
 
                 <div class="mt-12 pt-6 border-t border-gray-100 flex items-center">
                     <div class="bg-blue-100 rounded-full p-3 mr-4">
-                        <i class="fa-regular fa-user w-6 h-6 text-blue-600" aria-hidden="true" style="font-size: 24px;"></i>                    </div>
-                <div>
+                        <i class="fa-regular fa-user w-6 h-6 text-blue-600" aria-hidden="true" style="font-size: 24px;"></i>
+                    </div>
+                    <div>
                         <p class="text-sm text-gray-500">Publié par</p>
-                            @if(!this.errorAuteur) {
-                                <p class="text-lg font-medium">{{ auteur.nom }} {{ auteur.prenom }}</p>
-                            } @else {
-                                <p class="text-[var(--error-color)]">Erreur de chargement</p>
-                            }
+                        @if(!this.errorAuteur) {
+                            <p class="text-lg font-medium">{{ auteur.nom }} {{ auteur.prenom }}</p>
+                        } @else {
+                            <p class="text-[var(--error-color)]">Erreur de chargement</p>
+                        }
                     </div>
                 </div>
             </div>
