@@ -1,10 +1,9 @@
-import { Component, Input, inject, Output, EventEmitter } from '@angular/core';
+import { Component, Input, inject, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { StatutEvenement } from '../../../enums/StatutEvenement/statut-evenement';
 import { RouterLink, Router } from '@angular/router';
 import { DatePipe, CommonModule } from '@angular/common';
-import { AuthService } from '../../../services/Auth/auth.service';
-import { RoleUtilisateur } from '../../../enums/RoleUtilisateur/role-utilisateur';
 import { EvenementService } from '../../../services/Evenement/evenement.service';
+import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 
 @Component({
   selector: 'app-evenement-card',
@@ -13,12 +12,8 @@ import { EvenementService } from '../../../services/Evenement/evenement.service'
   templateUrl: './evenement-card.component.html',
   styleUrl: './evenement-card.component.css'
 })
-export class EvenementCardComponent {
-    getImageUrl(image_url: string): string {
-      if (!image_url) return '';
-      if (image_url.startsWith('http')) return image_url;
-      return 'http://localhost:8000' + image_url;
-    }
+export class EvenementCardComponent implements OnChanges {
+  
   @Input() id_evenement!: number;
   @Input() titre = '';
   @Input() description!: string;
@@ -28,26 +23,41 @@ export class EvenementCardComponent {
   @Input() lieu!: string;
   @Input() image_url!: string;
   @Input() statut!: StatutEvenement;
+  @Input() id_auteur!: number; 
+  @Input() currentUser: Utilisateur | null = null;
 
   @Output() eventDeleted = new EventEmitter<number>();
 
-  private readonly authService = inject(AuthService);
   private readonly evenementService = inject(EvenementService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['currentUser']) {
+        this.cdr.markForCheck();
+    }
+  }
 
   get canManage(): boolean {
-    if (this.authService.hasRole(RoleUtilisateur.administrateur)) {
+    if (!this.currentUser) return false;
+
+    const role = this.currentUser.role.toLowerCase();
+
+    if (role === 'administrateur') {
       return true;
     }
-    if (this.authService.hasRole(RoleUtilisateur.membre_bureau)) {
-      return this.currentUserId === this.id_createur;
+
+    if (role === 'membre_bureau') {
+      return this.currentUser.id_utilisateur === this.id_auteur;
     }
+
     return false;
   }
 
-  @Input() id_createur?: number;
-  private get currentUserId(): number | undefined {
-    return this.authService.getCurrentUser()?.id_utilisateur;
+  getImageUrl(image_url: string): string {
+    if (!image_url) return '';
+    if (image_url.startsWith('http')) return image_url;
+    return 'http://localhost:8000' + image_url;
   }
 
   onDelete(event: Event): void {

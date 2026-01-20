@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DatePipe, Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { DatePipe, Location, CommonModule, AsyncPipe } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { forkJoin, Observable } from 'rxjs';
 import { Evenement } from '../../models/Evenement/evenement';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 import { Creneau } from '../../models/Creneau/creneau';
@@ -18,7 +18,7 @@ import { FormInscriptionEvenementComponent, InscriptionSubmitPayload } from '../
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent, DatePipe, FormsModule, FormInscriptionEvenementComponent],
+  imports: [SpinnerComponent, DatePipe, FormsModule, FormInscriptionEvenementComponent, AsyncPipe, RouterLink, CommonModule],
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css'
 })
@@ -39,6 +39,8 @@ export class EvenementDetailComponent implements OnInit {
   errorAuteur = false;
   showInscriptionForm = false;
 
+  currentUser$: Observable<Utilisateur | null> | undefined;
+
   //injection de dependances
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly evenementService = inject(EvenementService);
@@ -50,19 +52,9 @@ export class EvenementDetailComponent implements OnInit {
   private readonly location = inject(Location);
 
   ngOnInit() {
+    this.currentUser$ = this.authService.currentUser$;
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.loadEvenement(id);
-    this.evenementService.getEvenementById(id).subscribe({
-      next: (data) => {
-        this.evenement = data;
-        this.loadingEvenement = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.loadingEvenement = false;
-        this.errorEvenement = true;
-      }
-    });
   }
 
   loadEvenement(id: number) {
@@ -103,6 +95,33 @@ export class EvenementDetailComponent implements OnInit {
         this.loadingFormulaire = false;
       }
     });
+  }
+
+  canManage(user: Utilisateur | null): boolean {
+    if (!user || !this.evenement) return false;
+    
+    const role = String(user.role).toLowerCase();
+
+    if (role === 'administrateur') return true;
+
+    if (role === 'membre_bureau') {
+      // securisation des types avec ==
+      return user.id_utilisateur == this.evenement.id_auteur;
+    }
+
+    return false;
+  }
+
+  onDeleteEvent() {
+    if (!this.evenement) return;
+    if (confirm('Voulez-vous vraiment supprimer cet événement ? Cette action est irréversible.')) {
+      this.evenementService.deleteEvenement(this.evenement.id_evenement).subscribe({
+        next: () => {
+          this.router.navigate(['/evenements']);
+        },
+        error: (err) => console.error(err)
+      });
+    }
   }
 
   isEvenementTermine(): boolean {

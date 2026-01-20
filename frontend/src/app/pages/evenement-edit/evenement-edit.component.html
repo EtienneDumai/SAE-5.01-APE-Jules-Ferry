@@ -1,10 +1,10 @@
-<div class="max-w-3xl mx-auto px-4 py-8">
+<div class="max-w-4xl mx-auto px-4 py-8">
   <div class="mb-6 flex items-center justify-between">
     <h1 class="text-2xl font-bold text-gray-900">
       {{ isEditMode ? 'Modifier l\'événement' : 'Créer un nouvel événement' }}
     </h1>
-    <button type="button" (click)="goBack()" class="text-gray-600 hover:text-blue-600 transition-colors bg-transparent border-0 p-0" style="cursor:pointer">
-      Annuler
+    <button type="button" (click)="goBack()" class="text-gray-600 hover:text-blue-600 transition-colors bg-transparent border-0 p-0 font-medium">
+      Annuler / Retour
     </button>
   </div>
 
@@ -13,59 +13,152 @@
       <app-spinner></app-spinner>
     </div>
   } @else {
-    <form [formGroup]="evenementForm" (ngSubmit)="onSubmit()" class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-      <div class="grid grid-cols-1 gap-6">
+    <form [formGroup]="evenementForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      
+      <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+            <div>
+                <label for="id_formulaire" class="block text-lg font-bold text-blue-900 mb-1">
+                   1. Gestion des Inscriptions (Bénévoles)
+                </label>
+                <p class="text-sm text-blue-700">
+                    Associez un formulaire pour que les membres puissent s'inscrire.
+                </p>
+            </div>
+            
+            <a routerLink="/admin/formulaires/new" class="inline-flex items-center px-4 py-2 bg-white text-blue-600 font-bold rounded-lg border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors text-sm shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Créer un formulaire
+            </a>
+        </div>
+
+        <div class="mb-4 bg-white/60 p-3 rounded border-l-4 border-orange-400 text-sm text-gray-600 italic">
+            <strong>Conseil :</strong> Si le formulaire dont vous avez besoin n'existe pas encore, cliquez sur "Créer un formulaire" <u>maintenant</u>.
+        </div>
         
-        <div>
-          <label for="titre" class="block text-sm font-medium text-gray-700 mb-1">Titre</label>
-          <input id="titre" type="text" formControlName="titre" 
-                 class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+        <select id="id_formulaire" formControlName="id_formulaire" (change)="onFormulaireChange($event)"
+                class="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white font-medium text-gray-700">
+            <option [ngValue]="null">-- Aucun (Entrée libre / Pas d'inscription) --</option>
+            @for (form of formulaires; track form.id_formulaire) {
+                <option [value]="form.id_formulaire">
+                    {{ form.nom_formulaire }} ({{ form.taches ? form.taches.length : 0 }} tâches)
+                </option>
+            }
+        </select>
+
+        @if (selectedFormulaire) {
+            <div class="mt-6 bg-white p-4 rounded-lg border border-blue-200 shadow-sm animate-fade-in">
+                <h4 class="font-bold text-blue-900 text-sm mb-2 flex items-center border-b border-gray-100 pb-2">
+                    Aperçu : {{ selectedFormulaire.nom_formulaire }}
+                </h4>
+                <p class="text-xs text-gray-500 mb-3 italic">{{ selectedFormulaire.description }}</p>
+                <div class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                    @for (tache of selectedFormulaire.taches; track tache.id_tache) {
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="font-bold text-gray-800 text-sm">{{ tache.nom_tache }}</span>
+                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                                    {{ tache.creneaux ? tache.creneaux.length : 0 }} créneaux
+                                </span>
+                            </div>
+                            <div class="text-xs text-gray-500 mb-2">
+                                Horaire global : {{ tache.heure_debut_globale }} - {{ tache.heure_fin_globale }}
+                            </div>
+                            @if (tache.creneaux && tache.creneaux.length > 0) {
+                                <div class="space-y-1 border-l-2 border-gray-300 pl-2">
+                                    @for (creneau of tache.creneaux; track creneau.id_creneau) {
+                                        <div class="flex justify-between text-xs text-gray-600">
+                                            <span>{{ creneau.heure_debut }} - {{ creneau.heure_fin }}</span>
+                                            <span>Quota: {{ creneau.quota }}</span>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+        <h2 class="text-lg font-bold text-gray-800 mb-6 pb-2 border-b">2. Détails de l'événement</h2>
+
+        <div class="grid grid-cols-1 gap-6">
+            <div>
+                <label for="titre" class="block text-sm font-medium text-gray-700 mb-1">Titre de l'événement</label>
+                <input id="titre" type="text" formControlName="titre" placeholder="Ex: Grande Kermesse 2026"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea id="description" formControlName="description" rows="4" placeholder="Description détaillée..."
+                          class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="date_evenement" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                    <input id="date_evenement" type="date" formControlName="date_evenement"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                </div>
+                <div>
+                    <label for="heure_debut" class="block text-sm font-medium text-gray-700 mb-1">Heure début</label>
+                    <input id="heure_debut" type="time" formControlName="heure_debut"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                </div>
+                <div>
+                    <label for="heure_fin" class="block text-sm font-medium text-gray-700 mb-1">Heure fin</label>
+                    <input id="heure_fin" type="time" formControlName="heure_fin"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                </div>
+            </div>
+
+            @if (evenementForm.errors?.['timeRangeInvalid'] && (evenementForm.get('heure_fin')?.touched || evenementForm.get('heure_fin')?.dirty)) {
+                <div class="mt-2 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded flex items-center animate-fade-in">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <strong>Attention :</strong> L'heure de fin ne peut pas être inférieure à l'heure de début.
+                </div>
+            }
+
+            <div>
+                <label for="lieu" class="block text-sm font-medium text-gray-700 mb-1">Lieu</label>
+                <input id="lieu" type="text" formControlName="lieu" placeholder="Ex: Cour de l'école"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+            </div>
+
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image de l'événement</label>
+                
+                <p class="text-xs text-gray-500 mb-2 italic">
+                    Format recommandé : Paysage (JPG, PNG, WEBP). Taille max : 20 Mo.
+                </p>
+
+                <input id="image" type="file" accept="image/*" (change)="onImageFileChange($event)"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                
+                @if (imageError) {
+                    <div class="text-red-500 text-sm mt-2">{{ imageError }}</div>
+                }
+                @if (previewImage) {
+                    <div class="mt-4 relative w-full h-48 rounded-lg overflow-hidden border border-gray-200">
+                        <img [src]="previewImage" alt="Aperçu" class="w-full h-full object-cover">
+                    </div>
+                }
+            </div>
         </div>
 
-        <div>
-          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-          <textarea id="description" formControlName="description" rows="4"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></textarea>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label for="date_evenement" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-            <input id="date_evenement" type="date" formControlName="date_evenement"
-                   class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-          </div>
-          <div>
-            <label for="heure_debut" class="block text-sm font-medium text-gray-700 mb-1">Heure début</label>
-            <input id="heure_debut" type="time" formControlName="heure_debut"
-                   class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-          </div>
-          <div>
-            <label for="heure_fin" class="block text-sm font-medium text-gray-700 mb-1">Heure fin</label>
-            <input id="heure_fin" type="time" formControlName="heure_fin"
-                   class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-          </div>
-        </div>
-
-        <div>
-          <label for="lieu" class="block text-sm font-medium text-gray-700 mb-1">Lieu</label>
-          <input id="lieu" type="text" formControlName="lieu"
-                 class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-        </div>
-
-        <div>
-          <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
-          <input id="image" type="file" accept="image/*" (change)="onImageFileChange($event)"
-                 class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-          @if (imageError) {
-            <div class="text-red-500 text-sm mt-2">{{ imageError }}</div>
-          }
-        </div>
-
-        <div class="pt-4">
-          <button type="submit" [disabled]="evenementForm.invalid || saving"
-                  class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md active:scale-95">
-            {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
-          </button>
+        <div class="pt-8 border-t border-gray-100 mt-6">
+            <button type="submit" [disabled]="evenementForm.invalid || saving"
+                    class="w-full md:w-auto md:ml-auto float-right bg-green-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg active:scale-95">
+            {{ saving ? 'Enregistrement en cours...' : (isEditMode ? 'Mettre à jour l\'événement' : 'Créer l\'événement') }}
+            </button>
+            <div class="clear-both"></div>
         </div>
 
       </div>

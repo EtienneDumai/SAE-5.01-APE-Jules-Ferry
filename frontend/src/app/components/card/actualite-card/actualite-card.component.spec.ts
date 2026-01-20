@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActualiteCardComponent } from './actualite-card.component';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { StatutActualite } from '../../../enums/StatutActualite/statut-actualite';
 
 describe('ActualiteCardComponent', () => {
@@ -10,7 +11,10 @@ describe('ActualiteCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ActualiteCardComponent],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        provideHttpClient()
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ActualiteCardComponent);

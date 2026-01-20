@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
+import { AuthService } from '../../services/Auth/auth.service';
 import { ActualiteCardComponent } from "../../components/card/actualite-card/actualite-card.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { RouterLink } from '@angular/router';
@@ -17,6 +18,7 @@ export class ActualitePageComponent implements OnInit {
   loadingActualites = true;
   errorActualites = false;
   private readonly actualiteService = inject(ActualiteService);
+  protected readonly authService = inject(AuthService);
   ngOnInit() {
     this.actualiteService.getAllActualites().subscribe({
       next: (data) => {
@@ -39,5 +41,9 @@ public sortActualiteByDate(): void {
       return dateB - dateA; 
     });
     this.listeActualites = sortedList;
+  }
+
+  onActualiteDeleted(id: number): void {
+    this.listeActualites = this.listeActualites.filter(a => a.id_actualite !== id);
   }
 }

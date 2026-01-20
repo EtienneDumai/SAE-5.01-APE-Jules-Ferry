@@ -144,8 +144,11 @@ export class CalendrierComponent implements OnInit {
     });
   }
   
-  formatEventDate(date: Date, time: string): string {
-    const dateStr = new Date(date).toISOString().split('T')[0];
+  formatEventDate(date: string | Date, time: string): string {
+    const dateObj = new Date(date); 
+    if (isNaN(dateObj.getTime())) return '';
+
+    const dateStr = dateObj.toISOString().split('T')[0];
     return `${dateStr}T${time}`;
   }
   

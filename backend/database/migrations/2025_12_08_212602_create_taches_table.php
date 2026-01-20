@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id('id_tache'); // Clé primaire
             $table->string('nom_tache', 100);
             $table->text('description')->nullable();
-            $table->time('heure_debut_global');
+            $table->time('heure_debut_globale');
             $table->time('heure_fin_globale');
             $table->foreignId('id_formulaire')
                   ->constrained('formulaires', 'id_formulaire')

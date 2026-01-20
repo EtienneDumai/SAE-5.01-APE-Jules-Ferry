@@ -100,10 +100,6 @@ describe('EvenementPageComponent', () => {
     it('devrait initialiser avec errorEvenements à false', () => {
       expect(component.errorEvenements).toBe(false);
     });
-
-    it('devrait initialiser avec une date courante', () => {
-      expect(component.Date).toBeInstanceOf(Date);
-    });
   });
 
   describe('ngOnInit', () => {

@@ -4,6 +4,9 @@
     </div>
 } 
 @else if (errorEvenement) {
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm mx-auto max-w-4xl my-8">
+        <p class="text-red-700">Erreur lors du chargement de l'événement.</p>
+    </div>
 } 
 @else {
     <div class="max-w-4xl mx-auto px-4 py-8">
@@ -56,19 +59,27 @@
                         <div class="bg-blue-100 rounded-full p-3 mr-4">
                             <i class="fa-regular fa-user w-6 h-6 text-blue-600" aria-hidden="true"></i>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Publié par</p>
-                            @if (!errorAuteur) {
-                                <p class="text-lg font-semibold text-gray-900">{{ auteur?.nom }} {{ auteur?.prenom }}</p>
-                            } @else {
-                                <p class="text-lg font-semibold text-gray-900">Erreur chargement auteur</p>
+
+                        @if (currentUser$ | async; as user) {
+                            @if (canManage(user)) {
+                                <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                                    <a [routerLink]="['/evenements', evenement.id_evenement, 'edit']" 
+                                       class="bg-[var(--primary-blue)] text-white px-4 py-2 rounded hover:shadow transition-shadow text-center">
+                                        Modifier l'événement
+                                    </a>
+
+                                    <button (click)="onDeleteEvent()" 
+                                            class="bg-red-600 text-white px-4 py-2 rounded hover:shadow transition-shadow">
+                                        Supprimer l'événement
+                                    </button>
+                                </div>
                             }
-                        </div>
+                        }
                     </div>
                 </div>
 
                 @if (evenement.id_formulaire) {
-                    <div class="mt-12 pt-6 border-t border-gray-100">
+                    <div class="mt-8 pt-6 border-t border-gray-100">
                         
                         @if (!isEvenementTermine() && isInscriptionOuverte()) {
                             
@@ -135,7 +146,7 @@
                     }
 
                 } @else {
-                    <div class="mt-12 pt-6 border-t border-gray-100">
+                    <div class="mt-8 pt-6 border-t border-gray-100">
                         <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r flex items-start">
                             <i class="fa-solid fa-circle-info w-6 h-6 text-blue-500 mr-3 flex-shrink-0" aria-hidden="true"></i>
                             <div>

@@ -132,6 +132,26 @@ class EvenementController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+
+        // logique des perms de modifs/suppr
+        $role = $user ? strtolower($user->role) : '';
+        $isAuteur = ($evenement->id_auteur === $user->id_utilisateur);
+
+        if ($role !== 'administrateur' && ($role !== 'membre_bureau' || !$isAuteur)) {
+            return response()->json(['message' => 'Accès refusé. Vous ne pouvez modifier que vos propres événements.'], 403);
+        }
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = uniqid('event_') . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('evenements', $filename, 'public');
+            $data['image_url'] = '/storage/' . $path;
+        }
+        unset($data['id_auteur']);
+
+        $evenement->update($data);
+        return response()->json($evenement);
     }
 
     public function destroy($id)
@@ -149,3 +169,7 @@ class EvenementController extends Controller
         return response()->json(['message' => 'Non trouvé'], 404);
     }
 }
+
+
+
+

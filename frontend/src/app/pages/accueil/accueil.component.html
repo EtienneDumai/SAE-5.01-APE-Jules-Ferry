@@ -20,7 +20,8 @@
                 [image_url]="actualite.image_url"
                 [contenu]="actualite.contenu"
                 [datePublication]="actualite.date_publication"
-                [statut]="actualite.statut"> </app-actualite-card>
+                [statut]="actualite.statut"
+                [disableEdit]="true"> </app-actualite-card>
         } 
         
     </div>
@@ -45,7 +46,7 @@
                 [titre]="evenement.titre"
                 [image_url]="evenement.image_url"
                 [description]="evenement.description"
-                [date_evenement]="evenement.date_evenement"
+                [date_evenement]="getAsDate(evenement.date_evenement)"
                 [heure_debut]="evenement.heure_debut"
                 [heure_fin]="evenement.heure_fin"
                 [lieu]="evenement.lieu"

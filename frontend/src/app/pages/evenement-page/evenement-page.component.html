@@ -1,7 +1,7 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
-    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="['/']">
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/']">
             ← Retour à l'accueil
         </button>
 
@@ -13,6 +13,31 @@
             </a>
         }
     </div>
+
+    @if(canManage) {
+        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+            <button (click)="loadEvenements('tous')" 
+                    [class]="currentFilter === 'tous' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
+                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                Tous
+            </button>
+            <button (click)="loadEvenements('publie')" 
+                    [class]="currentFilter === 'publie' ? 'bg-green-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
+                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                Publiés
+            </button>
+            <button (click)="loadEvenements('brouillon')" 
+                    [class]="currentFilter === 'brouillon' ? 'bg-gray-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
+                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                Brouillons
+            </button>
+            <button (click)="loadEvenements('termine')" 
+                    [class]="currentFilter === 'termine' ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
+                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                Terminés
+            </button>
+        </div>
+    }
 
     @if(this.loadingEvenements){
         <div class="flex justify-center items-center h-64">
@@ -35,28 +60,36 @@
 
     @else if (this.listeEvenements.length === 0) {
         <div class="text-center py-12 bg-gray-50 rounded-lg">
-            <p class="text-gray-500 text-lg">Aucun événement pour le moment.</p>
+            <p class="text-gray-500 text-lg">Aucun événement trouvé pour ce filtre.</p>
         </div>
     }
 
     @else {
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            
-    @for(evenement of this.listeEvenements; track evenement.id_evenement){
+           
+       @for(evenement of this.listeEvenements; track evenement.id_evenement){
         
         <app-evenement-card 
             [id_evenement]="evenement.id_evenement"
             [titre]="evenement.titre"
             [image_url]="evenement.image_url"
             [description]="evenement.description"
-            [date_evenement]="evenement.date_evenement"
+            
+            [date_evenement]="getAsDate(evenement.date_evenement)"
+            
             [heure_debut]="evenement.heure_debut"
             [heure_fin]="evenement.heure_fin"
             [lieu]="evenement.lieu"
-            (eventDeleted)="handleEventDeleted($event)">
-        </app-evenement-card>
+            
+            [id_auteur]="evenement.id_auteur" 
+            
+            [currentUser]="currentUser$ | async" 
 
-    } 
-</div>
+            (eventDeleted)="handleEventDeleted($event)">
+            
+            </app-evenement-card>
+
+       }
+      </div>
     }
 </div>
