@@ -4,7 +4,10 @@
     </div>
 
 } @else if (this.errorActualite) {
-    } @else {
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm mx-auto max-w-4xl my-8">
+        <p class="text-red-700">Erreur lors du chargement de l'actualité.</p>
+    </div>
+} @else {
     <div class="max-w-4xl mx-auto px-4 py-8">
         
         <button (click)="goBack()" class="mb-6 flex items-center text-gray-600 hover:text-[var(--primary-blue)] transition-colors">
@@ -26,7 +29,6 @@
 
             <div class="p-8 md:p-12">
                 <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-6 items-center">
-                    
                     <div class="flex items-center">
                         <i class="fa-regular fa-calendar w-4 h-4 mr-2" aria-hidden="true" style="font-size: 16px;"></i>
                         {{ actualite.date_publication | date : 'dd/MM/yyyy'}}
@@ -41,19 +43,37 @@
                     {{ actualite.contenu }}
                 </div>
 
-                <div class="mt-12 pt-6 border-t border-gray-100 flex items-center">
-                    <div class="bg-blue-100 rounded-full p-3 mr-4">
-                        <i class="fa-regular fa-user w-6 h-6 text-blue-600" aria-hidden="true" style="font-size: 24px;"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Publié par</p>
-                        @if(!this.errorAuteur) {
-                            <p class="text-lg font-medium">{{ auteur.nom }} {{ auteur.prenom }}</p>
-                        } @else {
-                            <p class="text-[var(--error-color)]">Erreur de chargement</p>
+                <div class="mt-12 pt-6 border-t border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        
+                        <div class="flex items-center">
+                            <div class="bg-blue-100 rounded-full p-3 mr-4">
+                                <i class="fa-regular fa-user w-6 h-6 text-blue-600" aria-hidden="true" style="font-size: 24px;"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Publié par</p>
+                                @if(!this.errorAuteur) {
+                                    <p class="text-lg font-medium">{{ auteur.nom }} {{ auteur.prenom }}</p>
+                                } @else {
+                                    <p class="text-[var(--error-color)]">Erreur de chargement</p>
+                                }
+                            </div>
+                        </div>
+                        @if (isAdmin) {
+                            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                                <button (click)="editActualite()" class="bg-[var(--primary-blue)] text-white px-4 py-2 rounded hover:shadow transition-shadow flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Modifier l'actualité
+                                </button>
+                                <button (click)="confirmDelete()" class="bg-red-600 text-white px-4 py-2 rounded hover:shadow transition-shadow flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                    Supprimer l'actualité
+                                </button>
+                            </div>
                         }
                     </div>
                 </div>
+
             </div>
         </article>
     </div>

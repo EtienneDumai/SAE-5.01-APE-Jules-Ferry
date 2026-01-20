@@ -66,4 +66,21 @@ export class ActualiteDetailComponent implements OnInit {
     if (url.startsWith('http')) return url;
     return 'http://localhost:8000' + url;
   }
+  editActualite(): void {
+    this.router.navigate([`/actualites/${this.actualite.id_actualite}/edit`]);
+  }
+
+  confirmDelete(): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?')) {
+      this.actualiteService.deleteActualite(this.actualite.id_actualite).subscribe({
+        next: () => {
+          this.router.navigate(['/actualites']);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression:', error);
+          alert('Erreur lors de la suppression de l\'actualité.');
+        }
+      });
+    }
+  }
 }
