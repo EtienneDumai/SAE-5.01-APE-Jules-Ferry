@@ -2,10 +2,17 @@ FROM php:8.4-cli
 
 WORKDIR /var/www
 
-# extensions basiques + pgsql
+# Installation des dépendances système + extensions (GD avec support WebP/JPEG + PGSQL)
 RUN apt-get update && apt-get install -y \
-    git unzip libpq-dev \
- && docker-php-ext-install pdo pdo_pgsql \
+    git \
+    unzip \
+    libpq-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libwebp-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+ && docker-php-ext-install pdo pdo_pgsql gd \
  && rm -rf /var/lib/apt/lists/*
 
 # composer

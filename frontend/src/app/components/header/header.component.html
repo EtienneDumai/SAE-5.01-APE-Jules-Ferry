@@ -7,9 +7,7 @@
       <button type="button"
         class="lg:hidden p-2 text-[var(--black-text-color)] hover:bg-white/50 rounded transition-colors"
         (click)="toggleMenu()" aria-label="Ouvrir le menu">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <i class="fa-solid fa-bars w-8 h-8" aria-hidden="true" style="font-size: 32px;"></i>
       </button>
 
       <a routerLink="/" class="flex-shrink-0">
@@ -23,8 +21,6 @@
           routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">Événements</a>
         <a routerLink="/newsletter" class="text-[var(--black-text-color)]"
           routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">Newsletter</a>
-        <a routerLink="/contact" class="text-[var(--black-text-color)]"
-          routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">Contact</a>
         @if(isAuthenticated && currentUser?.role === roleUtilisateur.administrateur) {
         <a routerLink="/admin/utilisateurs" class="text-[var(--black-text-color)]"
           routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">
@@ -48,10 +44,7 @@
       </span>
       <button (click)="logout()"
         class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-full shadow-sm transition-colors" title="Déconnexion">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-        </svg>
+        <i class="fa-solid fa-right-from-bracket w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
       </button>
       }
     </div>
@@ -68,9 +61,7 @@
 
       <button type="button" class="p-2 text-gray-600 hover:bg-red-50 hover:text-red-500 rounded-full transition-colors"
         (click)="closeMenu()" aria-label="Fermer">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+        <i class="fa-solid fa-xmark w-6 h-6" aria-hidden="true" style="font-size: 24px;"></i>
       </button>
     </div>
 
@@ -84,9 +75,6 @@
       <a routerLink="/newsletter" (click)="closeMenu()"
         routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"
         class="block px-4 py-3 rounded-r-lg hover:bg-gray-50 transition-all">Newsletter</a>
-      <a routerLink="/contact" (click)="closeMenu()"
-        routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"
-        class="block px-4 py-3 rounded-r-lg hover:bg-gray-50 transition-all">Contact</a>
       @if(isAuthenticated && currentUser?.role === roleUtilisateur.administrateur) {
       <a routerLink="/admin/utilisateurs" (click)="closeMenu()"
         routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"

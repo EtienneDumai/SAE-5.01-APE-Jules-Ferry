@@ -51,4 +51,9 @@ export class ActualiteCardComponent {
     event.stopPropagation();
     this.router.navigate(['/actualites', this.id_actualite, 'edit']);
   }
+  getImageUrl(url: string | null): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return 'http://localhost:8000' + url;
+  }
 }

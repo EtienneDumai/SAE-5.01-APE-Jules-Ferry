@@ -331,7 +331,6 @@ describe('AuthService', () => {
       service['currentUserSubject'].next(mockUtilisateur);
       
       expect(service.hasRole('parent')).toBe(true);
-
     });
 
     it('devrait retourner faux quand l\'utilisateur n\'a pas le rôle spécifié', () => {
