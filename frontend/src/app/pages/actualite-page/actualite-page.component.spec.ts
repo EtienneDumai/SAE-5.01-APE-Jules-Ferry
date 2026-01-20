@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter, Router } from '@angular/router';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
+import { AuthService } from '../../services/Auth/auth.service';
 import { of, throwError } from 'rxjs';
 import { Actualite } from '../../models/Actualite/actualite';
 import { StatutActualite } from '../../enums/StatutActualite/statut-actualite';
@@ -15,6 +16,7 @@ describe('ActualitePageComponent', () => {
   let component: ActualitePageComponent;
   let fixture: ComponentFixture<ActualitePageComponent>;
   let actualiteServiceSpy: jasmine.SpyObj<ActualiteService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: Router;
 
   const mockActualites: Actualite[] = [
@@ -42,13 +44,17 @@ describe('ActualitePageComponent', () => {
     actualiteServiceSpy = jasmine.createSpyObj('ActualiteService', ['getAllActualites']);
     actualiteServiceSpy.getAllActualites.and.returnValue(of(mockActualites));
 
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole']);
+    authServiceSpy.hasRole.and.returnValue(false);
+
     await TestBed.configureTestingModule({
       imports: [ActualitePageComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
-        { provide: ActualiteService, useValue: actualiteServiceSpy }
+        { provide: ActualiteService, useValue: actualiteServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy }
       ],
     }).compileComponents();
 
@@ -132,6 +138,51 @@ describe('ActualitePageComponent', () => {
       expect(linkDebugEl).toBeTruthy();
       const routerLinkAttr = linkDebugEl.nativeElement.getAttribute('ng-reflect-router-link');
       expect(routerLinkAttr).toBe('/');
+    });
+  });
+
+  describe('Bouton de création d\'actualité', () => {
+    it('ne devrait pas afficher le bouton "Créer une actualité" pour les non-admins', () => {
+      authServiceSpy.hasRole.and.returnValue(false);
+      fixture.detectChanges();
+
+      const buttons = fixture.debugElement.queryAll(By.css('button'));
+      const createButton = buttons.find(btn => 
+        btn.nativeElement.textContent.includes('Créer une actualité')
+      );
+      expect(createButton).toBeUndefined();
+    });
+
+    it('devrait afficher le bouton "Créer une actualité" pour les administrateurs', () => {
+      authServiceSpy.hasRole.and.returnValue(true);
+      fixture.detectChanges();
+
+      const buttons = fixture.debugElement.queryAll(By.css('button'));
+      const createButton = buttons.find(btn => 
+        btn.nativeElement.textContent.includes('Créer une actualité')
+      );
+      expect(createButton).toBeTruthy();
+      expect(createButton?.nativeElement.textContent).toContain('Créer une actualité');
+    });
+
+    it('devrait avoir le bon routerLink pour le bouton de création', () => {
+      authServiceSpy.hasRole.and.returnValue(true);
+      fixture.detectChanges();
+
+      const buttons = fixture.debugElement.queryAll(By.css('button'));
+      const createButton = buttons.find(btn => 
+        btn.nativeElement.textContent.includes('Créer une actualité')
+      );
+      
+      if (createButton) {
+        const routerLinkAttr = createButton.nativeElement.getAttribute('ng-reflect-router-link');
+        expect(routerLinkAttr).toBe('/actualites/creer');
+      }
+    });
+
+    it('devrait appeler hasRole avec "administrateur"', () => {
+      fixture.detectChanges();
+      expect(authServiceSpy.hasRole).toHaveBeenCalledWith('administrateur');
     });
   });
 });

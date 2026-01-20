@@ -129,8 +129,11 @@ describe('ToastService', () => {
     it('devrait effacer le toast après avoir été défini', (done) => {
       service.show('Test message', TypeErreurToast.ERROR);
       
+      let callCount = 0;
       service.toast.subscribe((toast) => {
-        if (toast === null) {
+        callCount++;
+        if (toast === null && callCount > 1) {
+          expect(toast).toBeNull();
           done();
         }
       });

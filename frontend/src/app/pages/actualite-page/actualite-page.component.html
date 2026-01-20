@@ -1,9 +1,17 @@
 <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
-    <div class="mb-6">
-        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="['/']">
+    <div class="mb-6 flex justify-between items-center">
+        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/']">
             ← Retour à l'accueil
         </button>
+
+        @if (authService.hasRole('administrateur')) {
+            <button class="bg-green-600 text-white rounded hover:bg-green-700 hover:shadow p-2 px-4 transition-colors" 
+                    [routerLink]="['/actualites/creer']">
+                + Créer une actualité
+            </button>
+        }
+    </div>
 
     @if(this.loadingActualites){
         <div class="flex justify-center items-center h-64">
@@ -43,11 +51,12 @@
             [contenu]="actualite.contenu"
             [image_url]="actualite.image_url"
             [datePublication]="actualite.date_publication" 
-            [statut]="actualite.statut">
+            [statut]="actualite.statut"
+            [id_auteur]="actualite.id_auteur"
+            (actualiteDeleted)="onActualiteDeleted($event)">
         </app-actualite-card>
 
     } 
 </div>
     }
-</div>
 </div>

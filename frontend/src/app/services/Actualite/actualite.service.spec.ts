@@ -132,6 +132,32 @@ describe('ActualiteService', () => {
       req.flush({ ...newActualite, id_actualite: 3 });
     });
 
+    it('devrait créer une actualité avec FormData', () => {
+      const formData = new FormData();
+      formData.append('titre', 'Nouvelle Actualité');
+      formData.append('contenu', 'Nouveau contenu');
+      formData.append('date_publication', '2026-01-17');
+      formData.append('statut', 'BROUILLON');
+
+      const expectedResponse: Actualite = {
+        id_actualite: 3,
+        titre: 'Nouvelle Actualité',
+        contenu: 'Nouveau contenu',
+        image_url: 'new.jpg',
+        date_publication: new Date('2026-01-17'),
+        statut: StatutActualite.brouillon,
+      } as Actualite;
+
+      service.createActualite(formData).subscribe((actualite) => {
+        expect(actualite).toEqual(expectedResponse);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/actualites`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(formData);
+      req.flush(expectedResponse);
+    });
+
     it('devrait gérer les erreurs de validation', () => {
       const invalidActualite: Actualite = {} as Actualite;
 

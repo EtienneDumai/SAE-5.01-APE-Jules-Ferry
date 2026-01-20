@@ -4,7 +4,6 @@ import { Router, ActivatedRoute, UrlTree } from '@angular/router';
 import { EvenementService } from '../../../services/Evenement/evenement.service';
 import { AuthService } from '../../../services/Auth/auth.service';
 import { StatutEvenement } from '../../../enums/StatutEvenement/statut-evenement';
-import { RoleUtilisateur } from '../../../enums/RoleUtilisateur/role-utilisateur';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 import { of, throwError } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -89,22 +88,20 @@ describe('EvenementCardComponent', () => {
 
   describe('Gestion des permissions (canManage)', () => {
     it('devrait retourner vrai si l\'utilisateur est admin', () => {
-      authService.hasRole.and.callFake(role => role === RoleUtilisateur.administrateur);
+      component.currentUser = { id_utilisateur: 1, role: 'administrateur' } as Utilisateur;
       expect(component.canManage).toBe(true);
     });
 
     it('devrait retourner vrai si l\'utilisateur est membre_bureau ET est créateur', () => {
-      component.id_createur = 10;
-      authService.hasRole.and.callFake(role => role === RoleUtilisateur.membre_bureau);
-      authService.getCurrentUser.and.returnValue({ id_utilisateur: 10 } as unknown as Utilisateur);
+      component.id_auteur = 10;
+      component.currentUser = { id_utilisateur: 10, role: 'membre_bureau' } as Utilisateur;
 
       expect(component.canManage).toBe(true);
     });
 
     it('devrait retourner faux si l\'utilisateur est membre_bureau MAIS PAS créateur', () => {
-      component.id_createur = 10;
-      authService.hasRole.and.callFake(role => role === RoleUtilisateur.membre_bureau);
-      authService.getCurrentUser.and.returnValue({ id_utilisateur: 99 } as unknown as Utilisateur);
+      component.id_auteur = 10;
+      component.currentUser = { id_utilisateur: 99, role: 'membre_bureau' } as Utilisateur;
 
       expect(component.canManage).toBe(false);
     });
