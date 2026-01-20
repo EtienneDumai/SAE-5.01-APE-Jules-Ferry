@@ -1,4 +1,4 @@
-import { Component, Input, inject, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StatutActualite } from '../../../enums/StatutActualite/statut-actualite';
 import { RouterLink } from '@angular/router';
 import { DatePipe, CommonModule } from '@angular/common';
