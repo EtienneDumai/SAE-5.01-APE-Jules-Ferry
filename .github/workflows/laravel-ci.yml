@@ -58,3 +58,6 @@ jobs:
         run: |
           cd backend
           php artisan migrate --pretend
+
+      - name: Test app
+        run: php artisan test
