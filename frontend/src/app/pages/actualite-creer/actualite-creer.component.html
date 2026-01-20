@@ -43,7 +43,7 @@
           }
         </div>
         <div>
-          <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
+          <label for="image" loading="lazy" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
           @if (isEditMode && currentImageUrl && !selectedImageFile) {
             <div class="mb-2">
               <img [src]="currentImageUrl" alt="Actuelle" class="h-32 w-auto rounded-lg border border-gray-300">
