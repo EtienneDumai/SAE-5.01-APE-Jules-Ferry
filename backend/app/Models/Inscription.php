@@ -56,7 +56,6 @@ class Inscription extends Model
         if (isset($this->original[$keyName])) {
             return $this->original[$keyName];
         }
-
         return $this->getAttribute($keyName);
     }
 }
