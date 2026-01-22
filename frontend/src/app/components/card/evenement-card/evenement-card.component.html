@@ -43,16 +43,25 @@
             {{ description }}
         </p>
 
-        <div class="flex justify-between items-center mt-auto">
+        <div class="flex flex-col gap-2">
             <div class="flex items-center gap-1 text-gray-700">
                 <i class="fa-solid fa-location-dot w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
                 <span class="text-sm">{{ lieu }}</span>
             </div>
-            <button 
-                [routerLink]="['/evenements', id_evenement]"
-                class="bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-6 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
-                Voir plus..
-            </button>
+            
+            <div class="flex gap-2">
+                <button 
+                    [routerLink]="['/evenements', id_evenement]"
+                    class="flex-1 bg-white text-[var(--primary-blue)] border-2 border-[var(--primary-blue)] rounded-full px-4 py-1.5 text-sm font-bold hover:bg-blue-50 transition-colors">
+                    Voir plus
+                </button>
+                <button 
+                    [routerLink]="['/evenements', id_evenement]"
+                    [queryParams]="{ openForm: 'true' }"
+                    class="flex-1 bg-[var(--primary-blue)] text-white border-2 border-[var(--primary-blue)] rounded-full px-4 py-1.5 text-sm font-bold hover:bg-[var(--primary-dark-blue)] transition-colors">
+                    M'inscrire
+                </button>
+            </div>
         </div>
     </div>
 

@@ -114,7 +114,7 @@
                                     (click)="toggleInscriptionForm()" 
                                     class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-all hover:bg-[var(--primary-dark-blue)] flex items-center w-fit gap-2">
                                     @if (showInscriptionForm) {
-                                        <i class="fa-regular fa-xmark w-5 h-5" aria-hidden="true"></i>
+                                        <i class="fa-solid fa-xmark w-5 h-5" aria-hidden="true"></i>
                                         Fermer
                                     } @else {
                                         <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"></i>
@@ -135,20 +135,22 @@
                     </div>
 
                     @if (showInscriptionForm && formulaire) {
-                        <app-form-inscription-evenement 
-                            [mesCreneauxActuels]="mesCreneauxActuels"
-                            [formulaire]="formulaire"
-                            [loadingFormulaire]="loadingFormulaire"
-                            [errorFormulaire]="errorFormulaire"
-                            [isSubmitting]="isSubmitting"
-                            [inscriptionSuccess]="inscriptionSuccess"
-                            [inscriptionError]="inscriptionError"
-                            [isCreneauComplet]="isCreneauComplet.bind(this)"
-                            [getPlacesRestantes]="getPlacesRestantes.bind(this)"
-                            (formCancelled)="handleCancel()"
-                            (formSubmitted)="handleSubmit($event)"
-                            (closeForm)="toggleInscriptionForm()">
-                        </app-form-inscription-evenement>
+                        <div #inscriptionFormContainer>
+                            <app-form-inscription-evenement 
+                                [mesCreneauxActuels]="mesCreneauxActuels"
+                                [formulaire]="formulaire"
+                                [loadingFormulaire]="loadingFormulaire"
+                                [errorFormulaire]="errorFormulaire"
+                                [isSubmitting]="isSubmitting"
+                                [inscriptionSuccess]="inscriptionSuccess"
+                                [inscriptionError]="inscriptionError"
+                                [isCreneauComplet]="isCreneauComplet.bind(this)"
+                                [getPlacesRestantes]="getPlacesRestantes.bind(this)"
+                                (formCancelled)="handleCancel()"
+                                (formSubmitted)="handleSubmit($event)"
+                                (closeForm)="toggleInscriptionForm()">
+                            </app-form-inscription-evenement>
+                        </div>
                     }
 
                 } @else {

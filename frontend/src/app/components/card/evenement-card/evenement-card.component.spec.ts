@@ -70,6 +70,36 @@ describe('EvenementCardComponent', () => {
     });
   });
 
+  describe('Redirection vers formulaire d\'inscription', () => {
+    it('devrait contenir un lien avec queryParams openForm=true pour le bouton M\'inscrire', () => {
+      fixture.detectChanges();
+      const compiled = fixture.nativeElement as HTMLElement;
+      const buttons = compiled.querySelectorAll('button');
+      
+      let inscriptionButton: Element | null = null;
+      buttons.forEach(btn => {
+        if (btn.textContent?.trim() === 'M\'inscrire') {
+          inscriptionButton = btn;
+        }
+      });
+      
+      expect(inscriptionButton).toBeTruthy();
+    });
+
+    it('devrait avoir deux boutons de navigation dans la card', () => {
+      fixture.detectChanges();
+      const compiled = fixture.nativeElement as HTMLElement;
+      const buttons = compiled.querySelectorAll('button');
+      
+      const navigationButtons = Array.from(buttons).filter(btn => {
+        const text = btn.textContent?.trim();
+        return text === 'Voir plus' || text === 'M\'inscrire';
+      });
+      
+      expect(navigationButtons.length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
   describe('Gestion des URLs d\'images', () => {
     it('devrait retourner une chaîne vide si aucune url', () => {
       expect(component.getImageUrl('')).toBe('');

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { CalendrierComponent } from './calendrier.component';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
@@ -6,6 +6,7 @@ import { of, throwError } from 'rxjs';
 import { CalendarApi } from '@fullcalendar/core';
 import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 import { EventClickArg } from '@fullcalendar/core';
+import { provideRouter } from '@angular/router';
 
 describe('CalendrierComponent', () => {
   let component: CalendrierComponent;
@@ -49,7 +50,10 @@ describe('CalendrierComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [CalendrierComponent],
-      providers: [{ provide: EvenementService, useValue: evenementServiceSpy }],
+      providers: [
+        { provide: EvenementService, useValue: evenementServiceSpy },
+        provideRouter([])
+      ],
     }).compileComponents();
 
     evenementService = TestBed.inject(
@@ -403,5 +407,45 @@ describe('CalendrierComponent', () => {
         }, 100);
       }, 0);
     });
+  });
+
+  describe('Redirection vers formulaire d\'inscription', () => {
+    it('devrait sélectionner un événement au clic', fakeAsync(() => {
+      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      component.loadEvenements();
+      tick();
+
+      expect(component.eventsList.length).toBe(2);
+      
+      const mockEventClickArg: Partial<EventClickArg> = {
+        event: { id: '1' } as EventClickArg['event'],
+      };
+      component.handleEventClick(mockEventClickArg as EventClickArg);
+      
+      expect(component.selectedEvent).toBeTruthy();
+      expect(component.selectedEvent?.id_evenement).toBe(1);
+      expect(component.selectedEvent?.titre).toBe("Réunion d'équipe");
+      
+      flush();
+    }));
+
+    it('devrait permettre de fermer les détails d\'un événement', fakeAsync(() => {
+      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      component.loadEvenements();
+      tick();
+
+      const mockEventClickArg: Partial<EventClickArg> = {
+        event: { id: '1' } as EventClickArg['event'],
+      };
+      component.handleEventClick(mockEventClickArg as EventClickArg);
+      
+      expect(component.selectedEvent).toBeTruthy();
+      
+      component.closeEventDetails();
+      
+      expect(component.selectedEvent).toBeNull();
+      
+      flush();
+    }));
   });
 });
