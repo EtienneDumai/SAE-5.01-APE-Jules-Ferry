@@ -54,8 +54,20 @@ export class EvenementDetailComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadEvenement(id);
+    const ID = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadEvenement(ID);
+    
+    // Vérifier si on doit ouvrir le formulaire d'inscription
+    this.route.queryParams.subscribe(params => {
+      if (params['openForm'] === 'true' && this.authService.isAuthenticated()) {
+        setTimeout(() => {
+          this.showInscriptionForm = true;
+          setTimeout(() => {
+            this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+        }, 500);
+      }
+    });
   }
 
   loadEvenement(id: number) {

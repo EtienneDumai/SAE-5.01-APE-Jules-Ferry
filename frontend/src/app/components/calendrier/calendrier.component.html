@@ -98,20 +98,18 @@
           }
         </div>
 
-        <div class="mt-4 w-full sm:w-auto">
+        <div class="flex flex-col sm:flex-row gap-3 mt-4 w-full">
           <a 
             [routerLink]="['/evenements', selectedEvent.id_evenement]"
-            class="inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg transition-colors no-underline cursor-pointer shadow-sm">
-            Voir la page de l'événement
+            class="inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg hover:bg-[var(--primary-dark-blue)] transition-colors no-underline cursor-pointer shadow-sm">
+            Voir les détails
           </a>
-        </div>
-
-        <!-- Bouton je m'inscris -->
-
-        <div class="mt-4 w-full sm:w-auto">
-          <a >
-
-
+          
+          <a 
+            [routerLink]="['/evenements', selectedEvent.id_evenement]"
+            [queryParams]="{ openForm: 'true' }"
+            class="inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg hover:bg-[var(--primary-dark-blue)] transition-colors no-underline cursor-pointer shadow-sm">
+            Je m'inscris !
           </a>
         </div>
 
