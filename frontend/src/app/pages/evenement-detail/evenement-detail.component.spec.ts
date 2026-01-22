@@ -144,7 +144,8 @@ describe('EvenementDetailComponent', () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        snapshot: { paramMap: { get: () => '1' } }
+                        snapshot: { paramMap: { get: () => '1' } },
+                        queryParams: of({})
                     }
                 }
             ],
@@ -239,7 +240,25 @@ describe('EvenementDetailComponent', () => {
             utilisateurServiceSpy.getUtilisateurById.and.returnValue(of(mockAuteur));
             formulaireServiceSpy.getFormulaireById.and.returnValue(of(JSON.parse(JSON.stringify(mockFormulaire))));
 
-            TestBed.overrideProvider(ActivatedRoute, { useValue: mockActivatedRoute });
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
@@ -256,7 +275,25 @@ describe('EvenementDetailComponent', () => {
             authServiceSpy.isAuthenticated.and.returnValue(false);
             evenementServiceSpy.getEvenementById.and.returnValue(of(mockEvenement));
 
-            TestBed.overrideProvider(ActivatedRoute, { useValue: mockActivatedRoute });
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
@@ -276,7 +313,25 @@ describe('EvenementDetailComponent', () => {
             utilisateurServiceSpy.getUtilisateurById.and.returnValue(of(mockAuteur));
             formulaireServiceSpy.getFormulaireById.and.returnValue(of(JSON.parse(JSON.stringify(mockFormulaire))));
 
-            TestBed.overrideProvider(ActivatedRoute, { useValue: mockActivatedRoute });
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
@@ -295,7 +350,25 @@ describe('EvenementDetailComponent', () => {
             evenementServiceSpy.getEvenementById.and.returnValue(of(evenementSansFormulaire));
             utilisateurServiceSpy.getUtilisateurById.and.returnValue(of(mockAuteur));
 
-            TestBed.overrideProvider(ActivatedRoute, { useValue: mockActivatedRoute });
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();

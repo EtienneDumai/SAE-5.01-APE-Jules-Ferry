@@ -6,6 +6,7 @@ import { Evenement } from '../../models/Evenement/evenement';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 import { Creneau } from '../../models/Creneau/creneau';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
+import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { FormulaireService } from '../../services/Formulaire/formulaire.service';
 import { InscriptionService } from '../../services/Inscription/inscription.service';
@@ -152,7 +153,7 @@ export class EvenementDetailComponent implements OnInit {
   }
 
   isEvenementTermine(): boolean {
-    return (this.evenement?.statut as unknown as string) === 'termine';
+    return this.evenement?.statut === StatutEvenement.termine;
   }
 
   isInscriptionOuverte(): boolean {
