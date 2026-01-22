@@ -48,7 +48,7 @@ export class AuthService {
         if (String(response.user.role).toLowerCase() === 'administrateur') {
            this.router.navigate(['/evenements']);
         } else {
-           this.router.navigate(['/']);
+           this.router.navigate(['/login']);
         }
       })
     );
