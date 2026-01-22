@@ -59,12 +59,12 @@ export class AuthService {
       tap({
         next: () => {
           this.clearAuthState();
-          this.router.navigate(['/']);
+          this.router.navigate(['/login']);
         },
         error: () => {
           // même si le backend refuse, on déconnecte côté front
           this.clearAuthState();
-          this.router.navigate(['/']);
+          this.router.navigate(['/login']);
         }
       })
     );
