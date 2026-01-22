@@ -9,7 +9,9 @@ use App\Http\Controllers\Api\ActualiteController;
 use App\Http\Controllers\Api\InscriptionController;
 use App\Http\Controllers\Api\FormulaireController;
 use App\Http\Controllers\Api\UtilisateurController;
-use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\Api\NewsletterController;
+use App\Http\Controllers\Api\CreneauController; 
+use App\Http\Controllers\Api\TacheController;
 use Illuminate\Http\Request;
 
 /*
@@ -20,7 +22,10 @@ use Illuminate\Http\Request;
 
 // Auth
 Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])
+    ->middleware('throttle:10,1'); // Limite à 10 tentatives par minute
+
+
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store']);
 
 // Événements
@@ -48,14 +53,16 @@ Route::get('/utilisateurs/{id}', [UtilisateurController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::post('/logout', [LogoutController::class, 'logout']);
-    Route::get('/user', function(Request $request) {
+    Route::get('/user', function (Request $request) {
         return response()->json(['user' => $request->user()]);
     });
+    Route::patch('utilisateurs/{id}/mot-de-passe', [UtilisateurController::class, 'updatePassword']);
 
     // Inscriptions (CRUD)
     Route::post('/inscriptions', [InscriptionController::class, 'store']);
     Route::get('/inscriptions/mes-inscriptions', [InscriptionController::class, 'mesInscriptions']);
     Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
+
 
     Route::post('/evenements', [EvenementController::class, 'store']);
     Route::put('/evenements/{evenement}', [EvenementController::class, 'update']);
@@ -63,12 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('creneaux', CreneauController::class);
     Route::apiResource('formulaires', FormulaireController::class);
-    Route::apiResource('inscriptions', InscriptionController::class);
     Route::apiResource('taches', TacheController::class);
     Route::apiResource('utilisateurs', UtilisateurController::class);
 });
-
-// Routes publiques
-Route::get('/evenements', [EvenementController::class, 'index']);
-Route::get('/evenements/{evenement}', [EvenementController::class, 'show']);
-Route::apiResource('actualites', ActualiteController::class);

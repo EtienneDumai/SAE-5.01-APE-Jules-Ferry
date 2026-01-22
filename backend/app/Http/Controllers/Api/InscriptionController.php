@@ -85,6 +85,5 @@ class InscriptionController extends Controller
 
         return response()->json(['message' => 'Inscription introuvable.'], 404);
     }
-
     //ajout de modif d'inscription eventuellement après pmv? ou direct a voir
 }
