@@ -38,14 +38,20 @@
       </button>
       }
       @if(isAuthenticated && currentUser) {
+        <span class="hidden md:inline text-sm font-medium mr-2 text-gray-700">
+          {{ currentUser.prenom }}
+        </span>
 
-      <span class="hidden md:inline text-sm font-medium mr-2 text-gray-700">
-        {{ currentUser.prenom }}
-      </span>
-      <button (click)="logout()"
-        class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-full shadow-sm transition-colors" title="Déconnexion">
-        <i class="fa-solid fa-right-from-bracket w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
-      </button>
+        <button class="bg-white text-[var(--primary-blue)] border border-[var(--primary-blue)] font-bold py-1.5 px-4 rounded-full text-sm hover:bg-blue-50 transition-colors mr-2" 
+                title="Mon Compte" 
+                [routerLink]="'/compte'">
+            Compte
+        </button>
+
+        <button (click)="logout()"
+          class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-full shadow-sm transition-colors" title="Déconnexion">
+          <i class="fa-solid fa-right-from-bracket w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
+        </button>
       }
     </div>
   </div>

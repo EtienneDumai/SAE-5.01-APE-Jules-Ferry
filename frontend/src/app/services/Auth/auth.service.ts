@@ -56,9 +56,16 @@ export class AuthService {
 
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
-      tap(() => {
-        this.logoutLocal();
-        this.router.navigate(['/login']);
+      tap({
+        next: () => {
+          this.clearAuthState();
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          // même si le backend refuse, on déconnecte côté front
+          this.clearAuthState();
+          this.router.navigate(['/']);
+        }
       })
     );
   }
@@ -105,5 +112,10 @@ export class AuthService {
   hasRole(role: string): boolean {
     const user = this.getCurrentUser();
     return user ? String(user.role).toLowerCase() === role.toLowerCase() : false;
+  }
+
+  private clearAuthState(): void {
+    this.tokenService.removeToken();
+    this.currentUserSubject.next(null);
   }
 }
