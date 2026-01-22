@@ -39,6 +39,7 @@ export class EvenementDetailComponent implements OnInit {
   errorEvenement = false;
   errorAuteur = false;
   showInscriptionForm = false;
+  private shouldOpenForm = false;
 
   currentUser$: Observable<Utilisateur | null> | undefined;
 
@@ -55,19 +56,15 @@ export class EvenementDetailComponent implements OnInit {
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
     const ID = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadEvenement(ID);
     
     // Vérifier si on doit ouvrir le formulaire d'inscription
     this.route.queryParams.subscribe(params => {
-      if (params['openForm'] === 'true' && this.authService.isAuthenticated()) {
-        setTimeout(() => {
-          this.showInscriptionForm = true;
-          setTimeout(() => {
-            this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 100);
-        }, 500);
+      if (params['openForm'] === 'true') {
+        this.shouldOpenForm = true;
       }
     });
+    
+    this.loadEvenement(ID);
   }
 
   loadEvenement(id: number) {
@@ -101,6 +98,7 @@ export class EvenementDetailComponent implements OnInit {
         this.formulaire = data;
         this.loadingFormulaire = false;
         this.calculerInscriptionsExistantes();
+        this.tryOpenFormIfRequested();
       },
       error: (err) => {
         console.error(err);
@@ -108,6 +106,22 @@ export class EvenementDetailComponent implements OnInit {
         this.loadingFormulaire = false;
       }
     });
+  }
+
+  private tryOpenFormIfRequested() {
+    if (this.shouldOpenForm && 
+        this.authService.isAuthenticated() && 
+        this.evenement?.id_formulaire &&
+        !this.isEvenementTermine() && 
+        this.isInscriptionOuverte()) {
+      setTimeout(() => {
+        this.showInscriptionForm = true;
+        setTimeout(() => {
+          this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }, 300);
+      this.shouldOpenForm = false;
+    }
   }
 
   canManage(user: Utilisateur | null): boolean {
