@@ -30,8 +30,7 @@ show_menu() {
     echo "        Base de données       "
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "------------------------------"
-    echo " 21) Lancer la base de données"
-    echo " 22) Arrêter la base de données"
+    echo " 21) Accèder a la base de données"
     echo "------------------------------"
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "          GIT Commands        "
@@ -177,17 +176,7 @@ while true; do
             generate_middleware_laravel
             ;;
         21)
-            docker run --name ape-postgres -d \
-            -e POSTGRES_DB=ape_db \
-            -e POSTGRES_USER=ape_user \
-            -e POSTGRES_PASSWORD=ape_password \
-            -p 5432:5432 \
-            -v ./db-data/:/var/lib/postgresql/data \
-            postgres:16
-            ;;
-        22)
-            docker stop ape-postgres
-            docker rm ape-postgres
+            docker exec -it ape_postgres psql -U ape_user -d ape_db
             ;;
         31)
             git_pull

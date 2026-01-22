@@ -40,11 +40,17 @@ export class NewsletterPageComponent {
         this.emailNewsletter = ""; 
         this.rgpdAccepted = false;
       },
-      // error: (err) => {
-      // console.error('Erreur complète du serveur :', err);
-      //  const msg = err.error?.errors?.email?.[0] || "Erreur lors de l'inscription.";
-      //  this.toastService.show(msg, TypeErreurToast.ERROR);
-      //}
+      error: (err) => {
+        let msg = "Erreur lors de l'inscription.";
+
+        if (err.status === 422 && err.error?.errors?.email) {
+          msg = err.error.errors.email[0];
+        } else if (err.error?.message) {
+          msg = err.error.message;
+        }
+
+        this.toastService.show(msg, TypeErreurToast.ERROR);
+      }
     });
   }
 }
