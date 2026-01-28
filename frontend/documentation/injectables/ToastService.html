@@ -189,24 +189,6 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor()</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/Toast/toast.service.ts:10</a></div>
-                            </td>
-                        </tr>
-
-            </tbody>
-        </table>
-</section>
 
             <section data-compodoc="block-methods">
     
@@ -233,8 +215,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="15"
-                                    class="link-to-prism">src/app/services/Toast/toast.service.ts:15</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="14"
+                                    class="link-to-prism">src/app/services/Toast/toast.service.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -270,8 +252,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="12"
-                                    class="link-to-prism">src/app/services/Toast/toast.service.ts:12</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="11"
+                                    class="link-to-prism">src/app/services/Toast/toast.service.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -420,7 +402,6 @@ import {TypeToast} from &#x27;../../models/TypeToast/type-toast&#x27;;
 export class ToastService {
   private toastSubject &#x3D; new BehaviorSubject&lt;TypeToast | null&gt;(null);
   toast &#x3D; this.toastSubject.asObservable();
-  constructor() { }
   show(message: string, type: TypeErreurToast &#x3D; TypeErreurToast.SUCCESS): void {
     this.toastSubject.next({message, type});
   }
@@ -462,7 +443,9 @@ export class ToastService {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 20px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

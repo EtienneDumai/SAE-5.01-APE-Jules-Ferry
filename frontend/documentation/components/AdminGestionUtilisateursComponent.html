@@ -1,0 +1,1954 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminGestionUtilisateursComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-utilisateurs</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                                <code><a href="../components/SpinnerComponent.html" target="_self" >SpinnerComponent</a></code>
+                            <code>FormsModule</code>
+                                <code><a href="../components/AlertComponent.html" target="_self" >AlertComponent</a></code>
+                                <code><a href="../components/UserFormComponent.html" target="_self" >UserFormComponent</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./admin-utilisateurs.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./admin-utilisateurs.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#bottomAnchor" >bottomAnchor</a>
+                            </li>
+                            <li>
+                                <a href="#chargementEnCours" >chargementEnCours</a>
+                            </li>
+                            <li>
+                                <a href="#idConnecte" >idConnecte</a>
+                            </li>
+                            <li>
+                                <a href="#idEnEdition" >idEnEdition</a>
+                            </li>
+                            <li>
+                                <a href="#idUtilisateurASupprimer" >idUtilisateurASupprimer</a>
+                            </li>
+                            <li>
+                                <a href="#listeRoles" >listeRoles</a>
+                            </li>
+                            <li>
+                                <a href="#listeStatuts" >listeStatuts</a>
+                            </li>
+                            <li>
+                                <a href="#modeCreation" >modeCreation</a>
+                            </li>
+                            <li>
+                                <a href="#roleUtilisateur" >roleUtilisateur</a>
+                            </li>
+                            <li>
+                                <a href="#statutCompte" >statutCompte</a>
+                            </li>
+                            <li>
+                                <a href="#texteRecherche" >texteRecherche</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#toastService" >toastService</a>
+                            </li>
+                            <li>
+                                <a href="#utilisateurOriginal" >utilisateurOriginal</a>
+                            </li>
+                            <li>
+                                <a href="#utilisateurs" >utilisateurs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#utilisateurService" >utilisateurService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#afficherLigneCreation" >afficherLigneCreation</a>
+                            </li>
+                            <li>
+                                <a href="#annulerCreation" >annulerCreation</a>
+                            </li>
+                            <li>
+                                <a href="#annulerEdition" >annulerEdition</a>
+                            </li>
+                            <li>
+                                <a href="#annulerSuppression" >annulerSuppression</a>
+                            </li>
+                            <li>
+                                <a href="#chargerUtilisateurs" >chargerUtilisateurs</a>
+                            </li>
+                            <li>
+                                <a href="#confirmerSuppression" >confirmerSuppression</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#creerUtilisateurVide" >creerUtilisateurVide</a>
+                            </li>
+                            <li>
+                                <a href="#demanderSuppression" >demanderSuppression</a>
+                            </li>
+                            <li>
+                                <a href="#demarrerEdition" >demarrerEdition</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#recupererIdConnecte" >recupererIdConnecte</a>
+                            </li>
+                            <li>
+                                <a href="#validerCreation" >validerCreation</a>
+                            </li>
+                            <li>
+                                <a href="#validerEdition" >validerEdition</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#utilisateursFiltres" >utilisateursFiltres</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="afficherLigneCreation"></a>
+                    <span class="name">
+                        <span ><b>afficherLigneCreation</b></span>
+                        <a href="#afficherLigneCreation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>afficherLigneCreation()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annulerCreation"></a>
+                    <span class="name">
+                        <span ><b>annulerCreation</b></span>
+                        <a href="#annulerCreation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>annulerCreation()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="160"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:160</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annulerEdition"></a>
+                    <span class="name">
+                        <span ><b>annulerEdition</b></span>
+                        <a href="#annulerEdition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>annulerEdition()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="124"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="annulerSuppression"></a>
+                    <span class="name">
+                        <span ><b>annulerSuppression</b></span>
+                        <a href="#annulerSuppression"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>annulerSuppression()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="197"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:197</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chargerUtilisateurs"></a>
+                    <span class="name">
+                        <span ><b>chargerUtilisateurs</b></span>
+                        <a href="#chargerUtilisateurs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>chargerUtilisateurs()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmerSuppression"></a>
+                    <span class="name">
+                        <span ><b>confirmerSuppression</b></span>
+                        <a href="#confirmerSuppression"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmerSuppression()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="172"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:172</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="creerUtilisateurVide"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>creerUtilisateurVide</b></span>
+                        <a href="#creerUtilisateurVide"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>creerUtilisateurVide()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="demanderSuppression"></a>
+                    <span class="name">
+                        <span ><b>demanderSuppression</b></span>
+                        <a href="#demanderSuppression"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>demanderSuppression(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="demarrerEdition"></a>
+                    <span class="name">
+                        <span ><b>demarrerEdition</b></span>
+                        <a href="#demarrerEdition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>demarrerEdition(user: <a href="../interfaces/Utilisateur.html" target="_self">Utilisateur</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recupererIdConnecte"></a>
+                    <span class="name">
+                        <span ><b>recupererIdConnecte</b></span>
+                        <a href="#recupererIdConnecte"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>recupererIdConnecte()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validerCreation"></a>
+                    <span class="name">
+                        <span ><b>validerCreation</b></span>
+                        <a href="#validerCreation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validerCreation(nouvelUtilisateur: <a href="../interfaces/Utilisateur.html" target="_self">Utilisateur</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:144</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>nouvelUtilisateur</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validerEdition"></a>
+                    <span class="name">
+                        <span ><b>validerEdition</b></span>
+                        <a href="#validerEdition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validerEdition(user: <a href="../interfaces/Utilisateur.html" target="_self">Utilisateur</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:111</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bottomAnchor"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>bottomAnchor</b></span>
+                        <a href="#bottomAnchor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;bottomAnchor&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chargementEnCours"></a>
+                    <span class="name">
+                        <span ><b>chargementEnCours</b></span>
+                        <a href="#chargementEnCours"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="idConnecte"></a>
+                    <span class="name">
+                        <span ><b>idConnecte</b></span>
+                        <a href="#idConnecte"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="idEnEdition"></a>
+                    <span class="name">
+                        <span ><b>idEnEdition</b></span>
+                        <a href="#idEnEdition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="idUtilisateurASupprimer"></a>
+                    <span class="name">
+                        <span ><b>idUtilisateurASupprimer</b></span>
+                        <a href="#idUtilisateurASupprimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listeRoles"></a>
+                    <span class="name">
+                        <span ><b>listeRoles</b></span>
+                        <a href="#listeRoles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.values(RoleUtilisateur)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listeStatuts"></a>
+                    <span class="name">
+                        <span ><b>listeStatuts</b></span>
+                        <a href="#listeStatuts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.values(StatutCompte)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modeCreation"></a>
+                    <span class="name">
+                        <span ><b>modeCreation</b></span>
+                        <a href="#modeCreation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="roleUtilisateur"></a>
+                    <span class="name">
+                        <span ><b>roleUtilisateur</b></span>
+                        <a href="#roleUtilisateur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>RoleUtilisateur</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="statutCompte"></a>
+                    <span class="name">
+                        <span ><b>statutCompte</b></span>
+                        <a href="#statutCompte"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>StatutCompte</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="texteRecherche"></a>
+                    <span class="name">
+                        <span ><b>texteRecherche</b></span>
+                        <a href="#texteRecherche"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>toastService</b></span>
+                        <a href="#toastService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ToastService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="utilisateurOriginal"></a>
+                    <span class="name">
+                        <span ><b>utilisateurOriginal</b></span>
+                        <a href="#utilisateurOriginal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="utilisateurs"></a>
+                    <span class="name">
+                        <span ><b>utilisateurs</b></span>
+                        <a href="#utilisateurs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="utilisateurService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>utilisateurService</b></span>
+                        <a href="#utilisateurService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UtilisateurService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="utilisateursFiltres"></a>
+                        <span class="name"><b>utilisateursFiltres</b><a href="#utilisateursFiltres"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>utilisateursFiltres()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">src/app/pages/admin-utilisateurs/admin-utilisateurs.component.ts:201</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, inject, ViewChild, ElementRef } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { SpinnerComponent } from &#x27;../../components/spinner/spinner.component&#x27;;
+import { UtilisateurService } from &#x27;../../services/Utilisateur/utilisateur.service&#x27;;
+import { Utilisateur } from &#x27;../../models/Utilisateur/utilisateur&#x27;;
+import { ToastService } from &#x27;../../services/Toast/toast.service&#x27;;
+import { TypeErreurToast } from &#x27;../../enums/TypeErreurToast/type-erreur-toast&#x27;;
+import { RoleUtilisateur } from &#x27;../../enums/RoleUtilisateur/role-utilisateur&#x27;;
+import { StatutCompte } from &#x27;../../enums/StatutCompte/statut-compte&#x27;;
+import { AlertComponent } from &#x27;../../components/alert/alert.component&#x27;;
+import { UserFormComponent } from &#x27;../../components/user-form/user-form.component&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-utilisateurs&#x27;,
+  standalone: true,
+  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent],
+  templateUrl: &#x27;./admin-utilisateurs.component.html&#x27;,
+  styleUrls: [&#x27;./admin-utilisateurs.component.css&#x27;]
+})
+export class AdminGestionUtilisateursComponent implements OnInit {
+  private readonly utilisateurService &#x3D; inject(UtilisateurService);
+  private readonly toastService &#x3D; inject(ToastService);
+  utilisateurs: Utilisateur[] &#x3D; [];
+  chargementEnCours &#x3D; true;
+  texteRecherche &#x3D; &#x27;&#x27;;
+
+  idEnEdition: number | null &#x3D; null;
+  utilisateurOriginal: Utilisateur | null &#x3D; null;
+  idConnecte: number | null &#x3D; null;
+  idUtilisateurASupprimer: number | null &#x3D; null; // Pour gérer l&#x27;affichage de l&#x27;alerte quand on demande a supprimer
+
+  modeCreation &#x3D; false;
+
+
+  roleUtilisateur &#x3D; RoleUtilisateur;
+  statutCompte &#x3D; StatutCompte;
+  listeRoles &#x3D; Object.values(RoleUtilisateur);
+  listeStatuts &#x3D; Object.values(StatutCompte);
+
+  @ViewChild(&#x27;bottomAnchor&#x27;) bottomAnchor!: ElementRef;
+
+  private creerUtilisateurVide(): Utilisateur {
+    return {
+      id_utilisateur: 0,
+      nom: &#x27;&#x27;,
+      prenom: &#x27;&#x27;,
+      email: &#x27;&#x27;,
+      role: RoleUtilisateur.parent,
+      statut_compte: StatutCompte.actif
+    };
+  }
+
+  ngOnInit(): void {
+    this.recupererIdConnecte();
+    this.chargerUtilisateurs();
+  }
+
+  recupererIdConnecte(): void {
+    const userString &#x3D; localStorage.getItem(&#x27;user&#x27;);
+    const idConnecteString &#x3D; localStorage.getItem(&#x27;idConnecte&#x27;);
+
+    // On tente de récupérer l&#x27;idConnecte depuis le localStorage
+    if (userString) {
+      try {
+        const user &#x3D; JSON.parse(userString);
+        const rawId &#x3D; user.id_utilisateur ?? user.id;
+        const idNum &#x3D; Number(rawId);
+
+        this.idConnecte &#x3D; Number.isFinite(idNum) ? idNum : null;
+        return;
+      } catch (e) {
+        console.warn(&#x27;Impossible de parser localStorage.user&#x27;, e);
+      }
+    }
+
+    // On tente de récupérer l&#x27;idConnecte depuis le localStorage
+    if (idConnecteString) {
+      const idNum &#x3D; Number(idConnecteString);
+      this.idConnecte &#x3D; Number.isFinite(idNum) ? idNum : null;
+      return;
+    }
+
+    // Si rien trouvé
+    this.idConnecte &#x3D; null;
+  }
+
+
+  chargerUtilisateurs(): void {
+    this.chargementEnCours &#x3D; true;
+    this.utilisateurService.getAllUtilisateurs().subscribe({
+      next: (data) &#x3D;&gt; {
+        this.utilisateurs &#x3D; data;
+        this.chargementEnCours &#x3D; false;
+      },
+      error: () &#x3D;&gt; {
+        this.toastService.show(&#x27;Erreur chargement utilisateurs&#x27;, TypeErreurToast.ERROR);
+        this.chargementEnCours &#x3D; false;
+      }
+    });
+  }
+
+  demarrerEdition(user: Utilisateur): void {
+    if (this.idEnEdition !&#x3D;&#x3D; null) {
+      this.annulerEdition();
+    }
+    this.idEnEdition &#x3D; user.id_utilisateur;
+    this.utilisateurOriginal &#x3D; { ...user };
+  }
+
+  validerEdition(user: Utilisateur): void {
+    this.utilisateurService.updateUtilisateur(user, user.id_utilisateur).subscribe({
+      next: () &#x3D;&gt; {
+        this.toastService.show(&#x27;Utilisateur modifié&#x27;, TypeErreurToast.SUCCESS);
+        this.idEnEdition &#x3D; null;
+        this.utilisateurOriginal &#x3D; null;
+      },
+      error: () &#x3D;&gt; {
+        this.toastService.show(&#x27;Erreur lors de la modification&#x27;, TypeErreurToast.ERROR);
+      }
+    });
+  }
+
+  annulerEdition(): void {
+    if (this.idEnEdition !&#x3D;&#x3D; null &amp;&amp; this.utilisateurOriginal) {
+      const index &#x3D; this.utilisateurs.findIndex(u &#x3D;&gt; u.id_utilisateur &#x3D;&#x3D;&#x3D; this.idEnEdition);
+      if (index !&#x3D;&#x3D; -1) {
+        this.utilisateurs[index] &#x3D; { ...this.utilisateurOriginal };
+      }
+    }
+    this.idEnEdition &#x3D; null;
+    this.utilisateurOriginal &#x3D; null;
+  }
+
+  afficherLigneCreation(): void {
+    if (this.idEnEdition) this.annulerEdition();
+
+    this.modeCreation &#x3D; true;
+    setTimeout(() &#x3D;&gt; {
+      this.bottomAnchor.nativeElement.scrollIntoView({ behavior: &#x27;smooth&#x27;, block: &#x27;center&#x27; });
+    }, 100);
+  }
+
+  validerCreation(nouvelUtilisateur: Utilisateur): void {
+    // Basic fields check is done in component, but we double check here if needed or just trust component
+    // Component only emits if valid.
+
+    this.utilisateurService.createUtilisateur(nouvelUtilisateur).subscribe({
+      next: (userCree) &#x3D;&gt; {
+        this.toastService.show(&#x27;Utilisateur créé !&#x27;, TypeErreurToast.SUCCESS);
+        this.utilisateurs.push(userCree);
+        this.modeCreation &#x3D; false;
+      },
+      error: () &#x3D;&gt; {
+        this.toastService.show(&#x27;Erreur création (Email pris ?)&#x27;, TypeErreurToast.ERROR);
+      }
+    });
+  }
+
+  annulerCreation(): void {
+    this.modeCreation &#x3D; false;
+  }
+
+  demanderSuppression(id: number): void {
+    if (this.idConnecte !&#x3D;&#x3D; null &amp;&amp; Number(id) &#x3D;&#x3D;&#x3D; this.idConnecte) {
+      console.warn(&#x27;Tentative de suppression de soi-même bloquée. id&#x3D;&#x27;, id);
+      return;
+    }
+    this.idUtilisateurASupprimer &#x3D; id;
+  }
+
+  confirmerSuppression(): void {
+    if (this.idUtilisateurASupprimer &#x3D;&#x3D;&#x3D; null) return;
+
+    if (this.idConnecte !&#x3D;&#x3D; null &amp;&amp; this.idUtilisateurASupprimer &#x3D;&#x3D;&#x3D; this.idConnecte) {
+      this.toastService.show(&#x27;Tu peux pas supprimer ton propre compte&#x27;, TypeErreurToast.WARNING);
+      this.idUtilisateurASupprimer &#x3D; null;
+      return;
+    }
+
+    const id &#x3D; this.idUtilisateurASupprimer;
+
+    this.utilisateurService.deleteUtilisateur(id).subscribe({
+      next: (data) &#x3D;&gt; {
+        this.utilisateurs &#x3D; this.utilisateurs.filter(u &#x3D;&gt; u.id_utilisateur !&#x3D;&#x3D; id);
+        this.toastService.show(data.message, TypeErreurToast.SUCCESS);
+        this.idUtilisateurASupprimer &#x3D; null;
+      },
+      error: () &#x3D;&gt; {
+        this.toastService.show(&#x27;Erreur suppression&#x27;, TypeErreurToast.ERROR);
+        this.idUtilisateurASupprimer &#x3D; null;
+      }
+    });
+  }
+
+
+  annulerSuppression(): void {
+    this.idUtilisateurASupprimer &#x3D; null;
+  }
+
+  get utilisateursFiltres(): Utilisateur[] {
+    if (!this.texteRecherche) return this.utilisateurs;
+    const s &#x3D; this.texteRecherche.toLowerCase();
+    return this.utilisateurs.filter(u &#x3D;&gt;
+      u.nom.toLowerCase().includes(s) || u.prenom.toLowerCase().includes(s) || u.email.toLowerCase().includes(s)
+    );
+  }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;main class&#x3D;&quot;min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8&quot;&gt;
+  &lt;div class&#x3D;&quot;max-w-7xl mx-auto&quot;&gt;
+
+    &lt;div class&#x3D;&quot;md:flex md:items-center md:justify-between mb-6 gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;min-w-0 flex-1&quot;&gt;
+        &lt;h2 class&#x3D;&quot;text-2xl font-bold leading-7 text-gray-900&quot;&gt;
+          Administration des Comptes
+        &lt;/h2&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;relative max-w-sm w-full&quot;&gt;
+        &lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;texteRecherche&quot; placeholder&#x3D;&quot;Rechercher...&quot;
+          class&#x3D;&quot;block w-full rounded-md border-gray-300 pl-3 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;afficherLigneCreation()&quot;
+        class&#x3D;&quot;inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-regular fa-circle-check -ml-0.5 mr-1.5 h-5 w-5&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
+        Ajouter un membre
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    @if (chargementEnCours) {
+    &lt;div class&#x3D;&quot;flex justify-center py-20&quot;&gt;
+      &lt;app-spinner&gt;&lt;/app-spinner&gt;
+    &lt;/div&gt;
+    } @else {
+    &lt;div class&#x3D;&quot;overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white&quot;&gt;
+      &lt;div class&#x3D;&quot;overflow-x-auto&quot;&gt;
+        &lt;table class&#x3D;&quot;min-w-full divide-y divide-gray-300&quot;&gt;
+          &lt;thead class&#x3D;&quot;bg-gray-50&quot;&gt;
+            &lt;tr&gt;
+              &lt;th scope&#x3D;&quot;col&quot; class&#x3D;&quot;py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 w-[25%]&quot;&gt;
+                Utilisateur&lt;/th&gt;
+              &lt;th scope&#x3D;&quot;col&quot; class&#x3D;&quot;px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[25%]&quot;&gt;Email&lt;/th&gt;
+              &lt;th scope&#x3D;&quot;col&quot; class&#x3D;&quot;px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]&quot;&gt;Rôle&lt;/th&gt;
+              &lt;th scope&#x3D;&quot;col&quot; class&#x3D;&quot;px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[15%]&quot;&gt;Statut&lt;/th&gt;
+              &lt;th scope&#x3D;&quot;col&quot; class&#x3D;&quot;relative py-3.5 pl-3 pr-4 sm:pr-6 w-[15%]&quot;&gt;Actions&lt;/th&gt;
+            &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody class&#x3D;&quot;divide-y divide-gray-200 bg-white&quot;&gt;
+
+            @for (user of utilisateursFiltres; track user.id_utilisateur) {
+            @if (idEnEdition &#x3D;&#x3D;&#x3D; user.id_utilisateur) {
+            &lt;app-user-form [user]&#x3D;&quot;user&quot; (save)&#x3D;&quot;validerEdition($event)&quot; (cancelForm)&#x3D;&quot;annulerEdition()&quot;&gt;
+            &lt;/app-user-form&gt;
+            } @else {
+            &lt;tr&gt;
+              &lt;td class&#x3D;&quot;whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6&quot;&gt;
+                &lt;div class&#x3D;&quot;font-medium text-gray-900&quot;&gt;{{ user.prenom }} {{ user.nom | uppercase }}&lt;/div&gt;
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                {{ user.email }}
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                &lt;span class&#x3D;&quot;inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset&quot;
+                  [ngClass]&#x3D;&quot;{
+                              &#x27;bg-purple-50 text-purple-700 ring-purple-700/10&#x27;: user.role &#x3D;&#x3D;&#x3D; roleUtilisateur.administrateur, 
+                              &#x27;bg-blue-50 text-blue-700 ring-blue-700/10&#x27;: user.role &#x3D;&#x3D;&#x3D; roleUtilisateur.membre_bureau,
+                              &#x27;bg-gray-50 text-gray-600 ring-gray-500/10&#x27;: user.role &#x3D;&#x3D;&#x3D; roleUtilisateur.parent
+                            }&quot;&gt;
+                  {{ user.role }}
+                &lt;/span&gt;
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                &lt;span
+                  class&#x3D;&quot;inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset&quot;
+                  [ngClass]&#x3D;&quot;{
+                              &#x27;bg-green-100 text-green-700 ring-green-600/20&#x27;: user.statut_compte &#x3D;&#x3D;&#x3D; statutCompte.actif,
+                              &#x27;bg-orange-100 text-orange-700 ring-orange-600/20&#x27;: user.statut_compte &#x3D;&#x3D;&#x3D; statutCompte.suspendu,
+                              &#x27;bg-red-100 text-red-700 ring-red-600/20&#x27;: user.statut_compte &#x3D;&#x3D;&#x3D; statutCompte.desactive
+                            }&quot;&gt;
+                            &lt;i class&#x3D;&quot;fa-solid fa-circle h-1.5 w-1.5&quot; 
+                            [ngClass]&#x3D;&quot;{
+                               &#x27;text-green-500&#x27;: user.statut_compte &#x3D;&#x3D;&#x3D; statutCompte.actif,
+                               &#x27;text-orange-500&#x27;: user.statut_compte &#x3D;&#x3D;&#x3D; statutCompte.suspendu,
+                               &#x27;text-red-500&#x27;: user.statut_compte &#x3D;&#x3D;&#x3D; statutCompte.desactive
+                            }&quot; 
+                            aria-hidden&#x3D;&quot;true&quot; 
+                            style&#x3D;&quot;font-size: 6px;&quot;&gt;
+                         &lt;/i&gt;
+                  {{ user.statut_compte | titlecase }}
+                &lt;/span&gt;
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6&quot;&gt;
+                &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+                  &lt;button (click)&#x3D;&quot;demarrerEdition(user)&quot; class&#x3D;&quot;text-indigo-600 hover:text-indigo-900&quot;
+                    title&#x3D;&quot;Modifier&quot;&gt;
+                    &lt;i class&#x3D;&quot;fa-regular fa-pen-to-square w-5 h-5&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
+                  &lt;/button&gt;
+
+                  @if (idConnecte &#x3D;&#x3D;&#x3D; null || user.id_utilisateur !&#x3D;&#x3D; idConnecte) {
+                  &lt;button (click)&#x3D;&quot;demanderSuppression(user.id_utilisateur)&quot; class&#x3D;&quot;text-red-600 hover:text-red-900&quot;
+                    title&#x3D;&quot;Supprimer&quot;&gt;
+                    &lt;i class&#x3D;&quot;fa-regular fa-trash-can w-5 h-5&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
+                  &lt;/button&gt;
+                  }
+                &lt;/div&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+            }
+            }
+
+            @if (utilisateursFiltres.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; !modeCreation) {
+            &lt;tr&gt;
+              &lt;td colspan&#x3D;&quot;5&quot; class&#x3D;&quot;text-center py-10 text-gray-500&quot;&gt;
+                Aucun utilisateur trouvé.
+              &lt;/td&gt;
+            &lt;/tr&gt;
+            }
+
+            @if (modeCreation) {
+            &lt;app-user-form [isCreation]&#x3D;&quot;true&quot; (save)&#x3D;&quot;validerCreation($event)&quot; (cancelForm)&#x3D;&quot;annulerCreation()&quot;
+              class&#x3D;&quot;bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft&quot;&gt;
+            &lt;/app-user-form&gt;
+            }
+
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+
+      &lt;/div&gt;
+    &lt;/div&gt;
+    }
+    @if (idUtilisateurASupprimer !&#x3D;&#x3D; null) {
+    &lt;app-alert message&#x3D;&quot;Voulez vous vraiment supprimer cet utilisateur ?&quot; texteBoutonValider&#x3D;&quot;Supprimer&quot;
+      texteBoutonAnnuler&#x3D;&quot;Annuler&quot; (valider)&#x3D;&quot;confirmerSuppression()&quot; (annuler)&#x3D;&quot;annulerSuppression()&quot;&gt;
+    &lt;/app-alert&gt;
+    }
+    &lt;div #bottomAnchor&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/main&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./admin-utilisateurs.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><main class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">  <div class="max-w-7xl mx-auto">    <div class="md:flex md:items-center md:justify-between mb-6 gap-4">      <div class="min-w-0 flex-1">        <h2 class="text-2xl font-bold leading-7 text-gray-900">          Administration des Comptes        </h2>      </div>      <div class="relative max-w-sm w-full">        <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher..."          class="block w-full rounded-md border-gray-300 pl-3 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">      </div>      <button type="button" (click)="afficherLigneCreation()"        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">        <i class="fa-regular fa-circle-check -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" style="font-size: 20px;"></i>        Ajouter un membre      </button>    </div>    @if (chargementEnCours) {    <div class="flex justify-center py-20">      <app-spinner></app-spinner>    </div>    } @else {    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">      <div class="overflow-x-auto">        <table class="min-w-full divide-y divide-gray-300">          <thead class="bg-gray-50">            <tr>              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 w-[25%]">                Utilisateur</th>              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[25%]">Email</th>              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]">Rôle</th>              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[15%]">Statut</th>              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 w-[15%]">Actions</th>            </tr>          </thead>          <tbody class="divide-y divide-gray-200 bg-white">            @for (user of utilisateursFiltres; track user.id_utilisateur) {            @if (idEnEdition === user.id_utilisateur) {            <app-user-form [user]="user" (save)="validerEdition($event)" (cancelForm)="annulerEdition()">            </app-user-form>            } @else {            <tr>              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">                <div class="font-medium text-gray-900">{{ user.prenom }} {{ user.nom | uppercase }}</div>              </td>              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">                {{ user.email }}              </td>              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">                <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"                  [ngClass]="{                              \'bg-purple-50 text-purple-700 ring-purple-700/10\': user.role === roleUtilisateur.administrateur,                               \'bg-blue-50 text-blue-700 ring-blue-700/10\': user.role === roleUtilisateur.membre_bureau,                              \'bg-gray-50 text-gray-600 ring-gray-500/10\': user.role === roleUtilisateur.parent                            }">                  {{ user.role }}                </span>              </td>              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">                <span                  class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset"                  [ngClass]="{                              \'bg-green-100 text-green-700 ring-green-600/20\': user.statut_compte === statutCompte.actif,                              \'bg-orange-100 text-orange-700 ring-orange-600/20\': user.statut_compte === statutCompte.suspendu,                              \'bg-red-100 text-red-700 ring-red-600/20\': user.statut_compte === statutCompte.desactive                            }">                            <i class="fa-solid fa-circle h-1.5 w-1.5"                             [ngClass]="{                               \'text-green-500\': user.statut_compte === statutCompte.actif,                               \'text-orange-500\': user.statut_compte === statutCompte.suspendu,                               \'text-red-500\': user.statut_compte === statutCompte.desactive                            }"                             aria-hidden="true"                             style="font-size: 6px;">                         </i>                  {{ user.statut_compte | titlecase }}                </span>              </td>              <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">                <div class="flex justify-end gap-3">                  <button (click)="demarrerEdition(user)" class="text-indigo-600 hover:text-indigo-900"                    title="Modifier">                    <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>                  </button>                  @if (idConnecte === null || user.id_utilisateur !== idConnecte) {                  <button (click)="demanderSuppression(user.id_utilisateur)" class="text-red-600 hover:text-red-900"                    title="Supprimer">                    <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>                  </button>                  }                </div>              </td>            </tr>            }            }            @if (utilisateursFiltres.length === 0 && !modeCreation) {            <tr>              <td colspan="5" class="text-center py-10 text-gray-500">                Aucun utilisateur trouvé.              </td>            </tr>            }            @if (modeCreation) {            <app-user-form [isCreation]="true" (save)="validerCreation($event)" (cancelForm)="annulerCreation()"              class="bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft">            </app-user-form>            }          </tbody>        </table>      </div>    </div>    }    @if (idUtilisateurASupprimer !== null) {    <app-alert message="Voulez vous vraiment supprimer cet utilisateur ?" texteBoutonValider="Supprimer"      texteBoutonAnnuler="Annuler" (valider)="confirmerSuppression()" (annuler)="annulerSuppression()">    </app-alert>    }    <div #bottomAnchor></div>  </div></main></div>'
+    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteCreerComponent', 'selector': 'app-actualite-creer'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AdminGestionUtilisateursComponent', 'selector': 'app-admin-utilisateurs'},{'name': 'AlertComponent', 'selector': 'app-alert'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'CompteUtilisateurComponent', 'selector': 'app-compte-utilisateur'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementEditComponent', 'selector': 'app-evenement-edit'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormInscriptionEvenementComponent', 'selector': 'app-form-inscription-evenement'},{'name': 'FormModifierPasswordComponent', 'selector': 'app-form-modifier-password'},{'name': 'FormulaireEditComponent', 'selector': 'app-formulaire-edit'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InscriptionEvenementComponent', 'selector': 'app-inscription-evenement'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewsletterPageComponent', 'selector': 'app-newsletter-page'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'},{'name': 'ToastComponent', 'selector': 'app-toast'},{'name': 'UserFormComponent', 'selector': 'app-user-form'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AdminGestionUtilisateursComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminGestionUtilisateursComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

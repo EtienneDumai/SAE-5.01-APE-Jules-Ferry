@@ -354,8 +354,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="175"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:175</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -391,8 +391,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="160"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:160</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="163"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:163</a></div>
                         </td>
                     </tr>
 
@@ -428,8 +428,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="171"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:171</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="174"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:174</a></div>
                         </td>
                     </tr>
 
@@ -465,8 +465,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="167"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:167</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="170"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:170</a></div>
                         </td>
                     </tr>
 
@@ -495,7 +495,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>formatEventDate(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, time: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>formatEventDate(date: string | Date, time: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -526,7 +526,7 @@
                                         <tr>
                                                 <td>date</td>
                                             <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                                        <code>string | Date</code>
                                             </td>
 
                                             <td>
@@ -581,8 +581,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="152"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:152</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:155</a></div>
                         </td>
                     </tr>
 
@@ -641,15 +641,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>handleResize(calendarApi: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>handleResize(calendarApi: CalendarApi)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="184"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:184</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:187</a></div>
                         </td>
                     </tr>
 
@@ -672,7 +672,7 @@
                                         <tr>
                                                 <td>calendarApi</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        <code>CalendarApi</code>
                                             </td>
 
                                             <td>
@@ -789,8 +789,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="179"
-                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:179</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="182"
+                                    class="link-to-prism">src/app/components/calendrier/calendrier.component.ts:182</a></div>
                         </td>
                     </tr>
 
@@ -1317,7 +1317,7 @@
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
 import { FullCalendarModule, FullCalendarComponent } from &quot;@fullcalendar/angular&quot;; 
-import { CalendarOptions, EventClickArg } from &#x27;@fullcalendar/core&#x27;;
+import { CalendarOptions, EventClickArg , CalendarApi} from &#x27;@fullcalendar/core&#x27;;
 import dayGridPlugin from &#x27;@fullcalendar/daygrid&#x27;;
 import timeGridPlugin from &#x27;@fullcalendar/timegrid&#x27;;
 import listPlugin from &#x27;@fullcalendar/list&#x27;;
@@ -1459,8 +1459,11 @@ export class CalendrierComponent implements OnInit {
     });
   }
   
-  formatEventDate(date: Date, time: string): string {
-    const dateStr &#x3D; new Date(date).toISOString().split(&#x27;T&#x27;)[0];
+  formatEventDate(date: string | Date, time: string): string {
+    const dateObj &#x3D; new Date(date); 
+    if (isNaN(dateObj.getTime())) return &#x27;&#x27;;
+
+    const dateStr &#x3D; dateObj.toISOString().split(&#x27;T&#x27;)[0];
     return &#x60;${dateStr}T${time}&#x60;;
   }
   
@@ -1496,7 +1499,7 @@ export class CalendrierComponent implements OnInit {
   }
 
   // Gestion du redimensionnement de la fenêtre
-  handleResize(calendarApi: any): void {
+  handleResize(calendarApi: CalendarApi): void {
     const wasMobile &#x3D; this.isMobile;
     this.isMobile &#x3D; window.innerWidth &lt; 768;
     
@@ -1555,12 +1558,7 @@ export class CalendrierComponent implements OnInit {
       &lt;button 
         (click)&#x3D;&quot;openCalendar()&quot; 
         class&#x3D;&quot;w-full flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-md border border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer&quot;&gt;
-        &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; class&#x3D;&quot;text-gray-600&quot;&gt;
-          &lt;rect x&#x3D;&quot;3&quot; y&#x3D;&quot;4&quot; width&#x3D;&quot;18&quot; height&#x3D;&quot;18&quot; rx&#x3D;&quot;2&quot; ry&#x3D;&quot;2&quot;&gt;&lt;/rect&gt;
-          &lt;line x1&#x3D;&quot;16&quot; y1&#x3D;&quot;2&quot; x2&#x3D;&quot;16&quot; y2&#x3D;&quot;6&quot;&gt;&lt;/line&gt;
-          &lt;line x1&#x3D;&quot;8&quot; y1&#x3D;&quot;2&quot; x2&#x3D;&quot;8&quot; y2&#x3D;&quot;6&quot;&gt;&lt;/line&gt;
-          &lt;line x1&#x3D;&quot;3&quot; y1&#x3D;&quot;10&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;10&quot;&gt;&lt;/line&gt;
-        &lt;/svg&gt;
+        &lt;i class&#x3D;&quot;fa-regular fa-calendar-days text-gray-600&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 24px;&quot;&gt;&lt;/i&gt;
         &lt;span class&#x3D;&quot;font-medium text-gray-700&quot;&gt;Ouvrir le calendrier&lt;/span&gt;
       &lt;/button&gt;
     }
@@ -1577,29 +1575,16 @@ export class CalendrierComponent implements OnInit {
               class&#x3D;&quot;p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200&quot;
               [attr.title]&#x3D;&quot;calendarState &#x3D;&#x3D;&#x3D; &#x27;compact&#x27; ? &#x27;Agrandir&#x27; : &#x27;Réduire&#x27;&quot;&gt;
               @if (calendarState &#x3D;&#x3D;&#x3D; &#x27;compact&#x27;) {
-                &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; width&#x3D;&quot;20&quot; height&#x3D;&quot;20&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-                  &lt;polyline points&#x3D;&quot;15 3 21 3 21 9&quot;&gt;&lt;/polyline&gt;
-                  &lt;polyline points&#x3D;&quot;9 21 3 21 3 15&quot;&gt;&lt;/polyline&gt;
-                  &lt;line x1&#x3D;&quot;21&quot; y1&#x3D;&quot;3&quot; x2&#x3D;&quot;14&quot; y2&#x3D;&quot;10&quot;&gt;&lt;/line&gt;
-                  &lt;line x1&#x3D;&quot;3&quot; y1&#x3D;&quot;21&quot; x2&#x3D;&quot;10&quot; y2&#x3D;&quot;14&quot;&gt;&lt;/line&gt;
-                &lt;/svg&gt;
+                &lt;i class&#x3D;&quot;fa-solid fa-expand&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
               } @else {
-                &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; width&#x3D;&quot;20&quot; height&#x3D;&quot;20&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-                  &lt;polyline points&#x3D;&quot;4 14 10 14 10 20&quot;&gt;&lt;/polyline&gt;
-                  &lt;polyline points&#x3D;&quot;20 10 14 10 14 4&quot;&gt;&lt;/polyline&gt;
-                  &lt;line x1&#x3D;&quot;14&quot; y1&#x3D;&quot;10&quot; x2&#x3D;&quot;21&quot; y2&#x3D;&quot;3&quot;&gt;&lt;/line&gt;
-                  &lt;line x1&#x3D;&quot;3&quot; y1&#x3D;&quot;21&quot; x2&#x3D;&quot;10&quot; y2&#x3D;&quot;14&quot;&gt;&lt;/line&gt;
-                &lt;/svg&gt;
+                &lt;i class&#x3D;&quot;fa-solid fa-compress&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
               }
             &lt;/button&gt;
             &lt;button 
               (click)&#x3D;&quot;closeCalendar()&quot; 
               class&#x3D;&quot;p-2 bg-white rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer border border-gray-200&quot;
               title&#x3D;&quot;Fermer le calendrier&quot;&gt;
-              &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; width&#x3D;&quot;20&quot; height&#x3D;&quot;20&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-                &lt;line x1&#x3D;&quot;18&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;6&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
-                &lt;line x1&#x3D;&quot;6&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;18&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
-              &lt;/svg&gt;
+              &lt;i class&#x3D;&quot;fa-solid fa-xmark&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
             &lt;/button&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -1631,10 +1616,7 @@ export class CalendrierComponent implements OnInit {
       &lt;button 
         (click)&#x3D;&quot;closeEventDetails()&quot; 
         class&#x3D;&quot;absolute top-4 right-4 text-black bg-transparent border-none cursor-pointer&quot;&gt;
-        &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2&quot; stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;&gt;
-          &lt;line x1&#x3D;&quot;18&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;6&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
-          &lt;line x1&#x3D;&quot;6&quot; y1&#x3D;&quot;6&quot; x2&#x3D;&quot;18&quot; y2&#x3D;&quot;18&quot;&gt;&lt;/line&gt;
-        &lt;/svg&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-xmark&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 24px;&quot;&gt;&lt;/i&gt;
       &lt;/button&gt;
 
       &lt;div class&#x3D;&quot;flex flex-col items-start gap-4 pr-8&quot;&gt;
@@ -1655,18 +1637,18 @@ export class CalendrierComponent implements OnInit {
           }
         &lt;/div&gt;
 
-        &lt;div class&#x3D;&quot;mt-4 w-full sm:w-auto&quot;&gt;
+        &lt;div class&#x3D;&quot;flex flex-col sm:flex-row gap-3 mt-4 w-full&quot;&gt;
           &lt;a 
             [routerLink]&#x3D;&quot;[&#x27;/evenements&#x27;, selectedEvent.id_evenement]&quot;
-            class&#x3D;&quot;inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg transition-colors no-underline cursor-pointer shadow-sm&quot;&gt;
-            Voir la page de l&#x27;événement
+            class&#x3D;&quot;inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg hover:bg-[var(--primary-dark-blue)] transition-colors no-underline cursor-pointer shadow-sm&quot;&gt;
+            Voir les détails
           &lt;/a&gt;
-        &lt;/div&gt;
-
-        &lt;div class&#x3D;&quot;mt-4 w-full sm:w-auto&quot;&gt;
-          &lt;a &gt;
-
-
+          
+          &lt;a 
+            [routerLink]&#x3D;&quot;[&#x27;/evenements&#x27;, selectedEvent.id_evenement]&quot;
+            [queryParams]&#x3D;&quot;{ openForm: &#x27;true&#x27; }&quot;
+            class&#x3D;&quot;inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg hover:bg-[var(--primary-dark-blue)] transition-colors no-underline cursor-pointer shadow-sm&quot;&gt;
+            Je m&#x27;inscris !
           &lt;/a&gt;
         &lt;/div&gt;
 
@@ -1702,8 +1684,8 @@ export class CalendrierComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><h1 class="text-3xl font-bold mb-3 text-center">Calendrier</h1><div class="p-5 bg-white font-sans max-w-6xl mx-auto md:p-4 sm:p-2.5">    @if (isLoading) {    <app-spinner></app-spinner>  }    @if (errorMessage) {    <div class="bg-red-50 border border-red-400 rounded-lg p-5 text-center text-red-800">      <p>{{ errorMessage }}</p>      <button (click)="loadEvenements()" class="mt-2.5 px-5 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">        Réessayer      </button>    </div>  }    @if (!isLoading && !errorMessage) {    @if (calendarState === \'closed\') {      <button         (click)="openCalendar()"         class="w-full flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-md border border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer">        <i class="fa-regular fa-calendar-days text-gray-600" aria-hidden="true" style="font-size: 24px;"></i>        <span class="font-medium text-gray-700">Ouvrir le calendrier</span>      </button>    }    @if (calendarState !== \'closed\') {      <div #calendarContainer class="main-calendar bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">         <div class="flex items-center justify-between p-3 bg-gray-50 border-b border-gray-100">          <span class="font-medium text-gray-700">            {{ calendarState === \'compact\' ? \'Aperçu du calendrier\' : \'Calendrier complet\' }}          </span>          <div class="flex items-center gap-2">            <button               (click)="calendarState === \'compact\' ? expandCalendar() : collapseCalendar()"               class="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200"              [attr.title]="calendarState === \'compact\' ? \'Agrandir\' : \'Réduire\'">              @if (calendarState === \'compact\') {                <i class="fa-solid fa-expand aria-hidden="true" style="font-size: 20px;"></i>              } @else {                <i class="fa-solid fa-compress" aria-hidden="true" style="font-size: 20px;"></i>              }            </button>            <button               (click)="closeCalendar()"               class="p-2 bg-white rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer border border-gray-200"              title="Fermer le calendrier">              <i class="fa-solid fa-xmark" aria-hidden="true" style="font-size: 20px;"></i>            </button>          </div>        </div>                <!-- Calendrier -->        <div           class="p-4 sm:p-2.5 transition-all duration-300 overflow-hidden"          [class.max-h-[300px]]="calendarState === \'compact\'"          [class.max-h-none]="calendarState === \'expanded\'">          <full-calendar #calendar [options]="calendarOptions"></full-calendar>        </div>                @if (calendarState === \'compact\') {          <div class="text-center py-2 bg-gradient-to-t from-white via-white to-transparent -mt-8 relative z-10">            <button               (click)="expandCalendar()"               class="text-indigo-600 hover:text-indigo-800 font-medium text-sm cursor-pointer bg-transparent border-none">              Voir le calendrier complet             </button>          </div>        }      </div>    }  }    @if (selectedEvent) {    <div #eventDetails class="mt-6 bg-white border border-gray-200 rounded-xl shadow-lg p-6 relative max-w-2xl mx-auto">            <button         (click)="closeEventDetails()"         class="absolute top-4 right-4 text-black bg-transparent border-none cursor-pointer">        <i class="fa-solid fa-xmark" aria-hidden="true" style="font-size: 24px;"></i>      </button>      <div class="flex flex-col items-start gap-4 pr-8">                <h3 class="text-2xl font-bold text-gray-800 m-0">{{ selectedEvent.titre }}</h3>                <div class="flex flex-col gap-2">          <div class="flex items-center gap-2">            <span class="font-medium">              {{ selectedEvent.heure_debut }}h - {{ selectedEvent.heure_fin }}h            </span>          </div>                    @if (selectedEvent.lieu) {            <div class="flex items-center gap-2">              <span>{{ selectedEvent.lieu }}</span>            </div>          }        </div>        <div class="mt-4 w-full sm:w-auto">          <a             [routerLink]="[\'/evenements\', selectedEvent.id_evenement]"            class="inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg transition-colors no-underline cursor-pointer shadow-sm">            Voir la page de l\'événement          </a>        </div>        <div class="mt-4 w-full sm:w-auto">          <a >          </a>        </div>      </div>    </div>  }</div></div>'
-    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'ErreurModaleComponent', 'selector': 'app-erreur-modale'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><h1 class="text-3xl font-bold mb-3 text-center">Calendrier</h1><div class="p-5 bg-white font-sans max-w-6xl mx-auto md:p-4 sm:p-2.5">    @if (isLoading) {    <app-spinner></app-spinner>  }    @if (errorMessage) {    <div class="bg-red-50 border border-red-400 rounded-lg p-5 text-center text-red-800">      <p>{{ errorMessage }}</p>      <button (click)="loadEvenements()" class="mt-2.5 px-5 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">        Réessayer      </button>    </div>  }    @if (!isLoading && !errorMessage) {    @if (calendarState === \'closed\') {      <button         (click)="openCalendar()"         class="w-full flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-md border border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer">        <i class="fa-regular fa-calendar-days text-gray-600" aria-hidden="true" style="font-size: 24px;"></i>        <span class="font-medium text-gray-700">Ouvrir le calendrier</span>      </button>    }    @if (calendarState !== \'closed\') {      <div #calendarContainer class="main-calendar bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">         <div class="flex items-center justify-between p-3 bg-gray-50 border-b border-gray-100">          <span class="font-medium text-gray-700">            {{ calendarState === \'compact\' ? \'Aperçu du calendrier\' : \'Calendrier complet\' }}          </span>          <div class="flex items-center gap-2">            <button               (click)="calendarState === \'compact\' ? expandCalendar() : collapseCalendar()"               class="p-2 bg-white rounded-lg hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200"              [attr.title]="calendarState === \'compact\' ? \'Agrandir\' : \'Réduire\'">              @if (calendarState === \'compact\') {                <i class="fa-solid fa-expand" aria-hidden="true" style="font-size: 20px;"></i>              } @else {                <i class="fa-solid fa-compress" aria-hidden="true" style="font-size: 20px;"></i>              }            </button>            <button               (click)="closeCalendar()"               class="p-2 bg-white rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer border border-gray-200"              title="Fermer le calendrier">              <i class="fa-solid fa-xmark" aria-hidden="true" style="font-size: 20px;"></i>            </button>          </div>        </div>                <!-- Calendrier -->        <div           class="p-4 sm:p-2.5 transition-all duration-300 overflow-hidden"          [class.max-h-[300px]]="calendarState === \'compact\'"          [class.max-h-none]="calendarState === \'expanded\'">          <full-calendar #calendar [options]="calendarOptions"></full-calendar>        </div>                @if (calendarState === \'compact\') {          <div class="text-center py-2 bg-gradient-to-t from-white via-white to-transparent -mt-8 relative z-10">            <button               (click)="expandCalendar()"               class="text-indigo-600 hover:text-indigo-800 font-medium text-sm cursor-pointer bg-transparent border-none">              Voir le calendrier complet             </button>          </div>        }      </div>    }  }    @if (selectedEvent) {    <div #eventDetails class="mt-6 bg-white border border-gray-200 rounded-xl shadow-lg p-6 relative max-w-2xl mx-auto">            <button         (click)="closeEventDetails()"         class="absolute top-4 right-4 text-black bg-transparent border-none cursor-pointer">        <i class="fa-solid fa-xmark" aria-hidden="true" style="font-size: 24px;"></i>      </button>      <div class="flex flex-col items-start gap-4 pr-8">                <h3 class="text-2xl font-bold text-gray-800 m-0">{{ selectedEvent.titre }}</h3>                <div class="flex flex-col gap-2">          <div class="flex items-center gap-2">            <span class="font-medium">              {{ selectedEvent.heure_debut }}h - {{ selectedEvent.heure_fin }}h            </span>          </div>                    @if (selectedEvent.lieu) {            <div class="flex items-center gap-2">              <span>{{ selectedEvent.lieu }}</span>            </div>          }        </div>        <div class="flex flex-col sm:flex-row gap-3 mt-4 w-full">          <a             [routerLink]="[\'/evenements\', selectedEvent.id_evenement]"            class="inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg hover:bg-[var(--primary-dark-blue)] transition-colors no-underline cursor-pointer shadow-sm">            Voir les détails          </a>                    <a             [routerLink]="[\'/evenements\', selectedEvent.id_evenement]"            [queryParams]="{ openForm: \'true\' }"            class="inline-block w-full sm:w-auto text-center px-6 py-2.5 bg-[var(--primary-blue)] text-white font-medium rounded-lg hover:bg-[var(--primary-dark-blue)] transition-colors no-underline cursor-pointer shadow-sm">            Je m\'inscris !          </a>        </div>      </div>    </div>  }</div></div>'
+    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteCreerComponent', 'selector': 'app-actualite-creer'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AdminGestionUtilisateursComponent', 'selector': 'app-admin-utilisateurs'},{'name': 'AlertComponent', 'selector': 'app-alert'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'CompteUtilisateurComponent', 'selector': 'app-compte-utilisateur'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementEditComponent', 'selector': 'app-evenement-edit'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormInscriptionEvenementComponent', 'selector': 'app-form-inscription-evenement'},{'name': 'FormModifierPasswordComponent', 'selector': 'app-form-modifier-password'},{'name': 'FormulaireEditComponent', 'selector': 'app-formulaire-edit'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InscriptionEvenementComponent', 'selector': 'app-inscription-evenement'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewsletterPageComponent', 'selector': 'app-newsletter-page'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'},{'name': 'ToastComponent', 'selector': 'app-toast'},{'name': 'UserFormComponent', 'selector': 'app-user-form'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'CalendrierComponent'};
 </script>
@@ -1742,7 +1724,9 @@ export class CalendrierComponent implements OnInit {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-regular fa-moon slider-icon" aria-hidden="true" style="font-size: 20px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

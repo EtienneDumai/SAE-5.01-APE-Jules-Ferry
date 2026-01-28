@@ -196,24 +196,6 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor()</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/Actualite/actualite.service.ts:11</a></div>
-                            </td>
-                        </tr>
-
-            </tbody>
-        </table>
-</section>
 
             <section data-compodoc="block-methods">
     
@@ -233,15 +215,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createActualite(actualite: <a href="../interfaces/Actualite.html" target="_self">Actualite</a>)</code>
+<code>createActualite(actualite: <a href="../interfaces/Actualite.html" target="_self">FormData | Actualite</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="19"
-                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:19</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="18"
+                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -264,7 +246,7 @@
                                         <tr>
                                                 <td>actualite</td>
                                             <td>
-                                                            <code><a href="../interfaces/Actualite.html" target="_self" >Actualite</a></code>
+                                                            <code><a href="../interfaces/Actualite.html" target="_self" >FormData | Actualite</a></code>
                                             </td>
 
                                             <td>
@@ -307,8 +289,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="25"
-                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:25</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="24"
+                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -374,8 +356,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="16"
-                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:16</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="15"
+                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -441,8 +423,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="13"
-                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:13</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="12"
+                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -471,15 +453,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateActualite(actualite: <a href="../interfaces/Actualite.html" target="_self">Actualite</a>, id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>updateActualite(actualite: <a href="../interfaces/Actualite.html" target="_self">FormData | Actualite</a>, id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="22"
-                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:22</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="21"
+                                    class="link-to-prism">src/app/services/Actualite/actualite.service.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -502,7 +484,7 @@
                                         <tr>
                                                 <td>actualite</td>
                                             <td>
-                                                            <code><a href="../interfaces/Actualite.html" target="_self" >Actualite</a></code>
+                                                            <code><a href="../interfaces/Actualite.html" target="_self" >FormData | Actualite</a></code>
                                             </td>
 
                                             <td>
@@ -593,17 +575,16 @@ import { environment }  from &#x27;../../environments/environment.dev&#x27;;
 })
 export class ActualiteService {
   private readonly http &#x3D; inject(HttpClient);
-  constructor() { }
   getAllActualites(): Observable&lt;Actualite[]&gt; {
     return this.http.get&lt;Actualite[]&gt;(&#x60;${environment.apiUrl}/actualites&#x60;);
   }
   getActualiteById(id: number): Observable&lt;Actualite&gt; {
     return this.http.get&lt;Actualite&gt;(&#x60;${environment.apiUrl}/actualites/${id}&#x60;);
   }
-  createActualite(actualite: Actualite): Observable&lt;Actualite&gt; {
+  createActualite(actualite: FormData | Actualite): Observable&lt;Actualite&gt; {
     return this.http.post&lt;Actualite&gt;(&#x60;${environment.apiUrl}/actualites&#x60;, actualite);
   }
-  updateActualite(actualite: Actualite, id: number): Observable&lt;Actualite&gt; {
+  updateActualite(actualite: FormData | Actualite, id: number): Observable&lt;Actualite&gt; {
     return this.http.put&lt;Actualite&gt;(&#x60;${environment.apiUrl}/actualites/${id}&#x60;, actualite);
   }
   deleteActualite(id: number): Observable&lt;void&gt; {
@@ -644,7 +625,9 @@ export class ActualiteService {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 20px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

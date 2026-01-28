@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit,ViewChild } from '@angular/core';
 import { DatePipe, Location, CommonModule, AsyncPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { Evenement } from '../../models/Evenement/evenement';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 import { Creneau } from '../../models/Creneau/creneau';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
+import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { FormulaireService } from '../../services/Formulaire/formulaire.service';
 import { InscriptionService } from '../../services/Inscription/inscription.service';
@@ -24,6 +25,7 @@ import { FormInscriptionEvenementComponent, InscriptionSubmitPayload } from '../
 })
 export class EvenementDetailComponent implements OnInit {
 
+  @ViewChild('inscriptionFormContainer') inscriptionFormContainer!: ElementRef;
   //Données pour le formulaire d'inscription
   mesCreneauxActuels: Creneau[] = [];
   loadingFormulaire = false;
@@ -38,6 +40,7 @@ export class EvenementDetailComponent implements OnInit {
   errorEvenement = false;
   errorAuteur = false;
   showInscriptionForm = false;
+  private shouldOpenForm = false;
 
   currentUser$: Observable<Utilisateur | null> | undefined;
 
@@ -53,8 +56,16 @@ export class EvenementDetailComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadEvenement(id);
+    const ID = Number(this.route.snapshot.paramMap.get('id'));
+    
+    // Vérifier si on doit ouvrir le formulaire d'inscription
+    this.route.queryParams.subscribe(params => {
+      if (params['openForm'] === 'true') {
+        this.shouldOpenForm = true;
+      }
+    });
+    
+    this.loadEvenement(ID);
   }
 
   loadEvenement(id: number) {
@@ -88,6 +99,7 @@ export class EvenementDetailComponent implements OnInit {
         this.formulaire = data;
         this.loadingFormulaire = false;
         this.calculerInscriptionsExistantes();
+        this.tryOpenFormIfRequested();
       },
       error: (err) => {
         console.error(err);
@@ -95,6 +107,22 @@ export class EvenementDetailComponent implements OnInit {
         this.loadingFormulaire = false;
       }
     });
+  }
+
+  private tryOpenFormIfRequested() {
+    if (this.shouldOpenForm && 
+        this.authService.isAuthenticated() && 
+        this.evenement?.id_formulaire &&
+        !this.isEvenementTermine() && 
+        this.isInscriptionOuverte()) {
+      setTimeout(() => {
+        this.showInscriptionForm = true;
+        setTimeout(() => {
+          this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }, 300);
+      this.shouldOpenForm = false;
+    }
   }
 
   canManage(user: Utilisateur | null): boolean {
@@ -125,7 +153,7 @@ export class EvenementDetailComponent implements OnInit {
   }
 
   isEvenementTermine(): boolean {
-    return (this.evenement?.statut as unknown as string) === 'termine';
+    return this.evenement?.statut === StatutEvenement.termine;
   }
 
   isInscriptionOuverte(): boolean {
@@ -165,6 +193,13 @@ export class EvenementDetailComponent implements OnInit {
       return;
     }
     this.showInscriptionForm = !this.showInscriptionForm;
+    
+    if (this.showInscriptionForm) {
+      setTimeout(() => {
+        this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+        
     if (!this.showInscriptionForm) {
       this.inscriptionError = null;
       this.inscriptionSuccess = false;

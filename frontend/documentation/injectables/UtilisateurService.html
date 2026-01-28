@@ -195,6 +195,9 @@
                                 <a href="#setUtilisateurCourant" >setUtilisateurCourant</a>
                             </li>
                             <li>
+                                <a href="#updatePassword" >updatePassword</a>
+                            </li>
+                            <li>
                                 <a href="#updateUtilisateur" >updateUtilisateur</a>
                             </li>
                         </ul>
@@ -209,24 +212,6 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor()</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:12</a></div>
-                            </td>
-                        </tr>
-
-            </tbody>
-        </table>
-</section>
 
             <section data-compodoc="block-methods">
     
@@ -253,8 +238,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="29"
-                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:29</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="31"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -313,15 +298,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>deleteUtilisateur(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>deleteUtilisateur(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, password?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="35"
-                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:35</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="39"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -353,11 +338,23 @@
 
 
                                         </tr>
+                                        <tr>
+                                                <td>password</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+                            <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
 
                         </div>
                             <div class="io-description">
@@ -424,8 +421,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="26"
-                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:26</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="27"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -491,8 +488,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="20"
-                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:20</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="19"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -528,8 +525,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="16"
-                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:16</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="15"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -579,6 +576,85 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="updatePassword"></a>
+                    <span class="name">
+                        <span ><b>updatePassword</b></span>
+                        <a href="#updatePassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updatePassword(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, motDePasse: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>motDePasse</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Observable&lt;Utilisateur&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateUtilisateur"></a>
                     <span class="name">
                         <span ><b>updateUtilisateur</b></span>
@@ -595,8 +671,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:32</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="35"
+                                    class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -686,7 +762,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -717,7 +793,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -749,7 +825,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/Utilisateur/utilisateur.service.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -767,6 +843,7 @@ import { inject, Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, BehaviorSubject } from &#x27;rxjs&#x27;;
 import { environment } from &#x27;../../environments/environment.dev&#x27;;
 import { Utilisateur } from &#x27;../../models/Utilisateur/utilisateur&#x27;;
+
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
@@ -775,8 +852,6 @@ export class UtilisateurService {
   private utilisateurCourantSubject &#x3D; new BehaviorSubject&lt;Utilisateur | null&gt;(null);
   utilisateurCourant &#x3D; this.utilisateurCourantSubject.asObservable();
 
-  constructor() { }
-
   setUtilisateurCourant(utilisateur: Utilisateur | null) {
     this.utilisateurCourantSubject.next(utilisateur);
   }
@@ -784,23 +859,32 @@ export class UtilisateurService {
   getUtilisateurCourant(): Utilisateur | null {
     return this.utilisateurCourantSubject.value;
   }
+
   getAllUtilisateurs(): Observable&lt;Utilisateur[]&gt; {
     return this.http.get&lt;Utilisateur[]&gt;(&#x60;${environment.apiUrl}/utilisateurs&#x60;);
   }
+
   getUtilisateurById(id: number): Observable&lt;Utilisateur&gt; {
     return this.http.get&lt;Utilisateur&gt;(&#x60;${environment.apiUrl}/utilisateurs/${id}&#x60;);
   }
+
   createUtilisateur(utilisateur: Utilisateur): Observable&lt;Utilisateur&gt; {
     return this.http.post&lt;Utilisateur&gt;(&#x60;${environment.apiUrl}/utilisateurs&#x60;, utilisateur);
   }
+
   updateUtilisateur(utilisateur: Utilisateur, id: number): Observable&lt;Utilisateur&gt; {
     return this.http.put&lt;Utilisateur&gt;(&#x60;${environment.apiUrl}/utilisateurs/${id}&#x60;, utilisateur);
   }
-  deleteUtilisateur(id: number): Observable&lt;void&gt; {
-    return this.http.delete&lt;void&gt;(&#x60;${environment.apiUrl}/utilisateurs/${id}&#x60;);
+
+  deleteUtilisateur(id: number, password?: string): Observable&lt;{ message: string }&gt; {
+    const options &#x3D; password ? { body: { password } } : {};
+    return this.http.delete&lt;{ message: string }&gt;(&#x60;${environment.apiUrl}/utilisateurs/${id}&#x60;, options);
   }
-}
-</code></pre>
+
+  updatePassword(id: number, motDePasse: string): Observable&lt;Utilisateur&gt; {
+    return this.http.patch&lt;Utilisateur&gt;(&#x60;${environment.apiUrl}/utilisateurs/${id}/mot-de-passe&#x60;, { mot_de_passe : motDePasse });
+  }
+}</code></pre>
     </div>
 
 </div>
@@ -834,7 +918,9 @@ export class UtilisateurService {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 20px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

@@ -164,6 +164,21 @@
                                     <span class="modifier">Private</span>
                                 <a href="#currentUserSubject" >currentUserSubject</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#http" >http</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tokenService" >tokenService</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -177,10 +192,25 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clearAuthState" >clearAuthState</a>
+                            </li>
+                            <li>
                                 <a href="#getCurrentUser" >getCurrentUser</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getUserFromStorage" >getUserFromStorage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handleAuthResponse" >handleAuthResponse</a>
+                            </li>
+                            <li>
                                 <a href="#hasRole" >hasRole</a>
+                            </li>
+                            <li>
+                                <a href="#init" >init</a>
                             </li>
                             <li>
                                 <a href="#isAuthenticated" >isAuthenticated</a>
@@ -193,6 +223,10 @@
                             </li>
                             <li>
                                 <a href="#logout" >logout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#logoutLocal" >logoutLocal</a>
                             </li>
                             <li>
                                 <a href="#register" >register</a>
@@ -209,84 +243,51 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(http: HttpClient, tokenService: <a href="../injectables/TokenService.html" target="_self">TokenService</a>, router: Router)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/Auth/auth.service.ts:19</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>http</td>
-                                                  
-                                                        <td>
-                                                                    <code>HttpClient</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>tokenService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/TokenService.html" target="_self" >TokenService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>router</td>
-                                                  
-                                                        <td>
-                                                                    <code>Router</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
 
             <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearAuthState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>clearAuthState</b></span>
+                        <a href="#clearAuthState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearAuthState()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:117</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -307,21 +308,127 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="90"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:90</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="108"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:108</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Récupérer utilisateur actuel</p>
-</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur | null</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserFromStorage"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getUserFromStorage</b></span>
+                        <a href="#getUserFromStorage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUserFromStorage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="22"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Utilisateur | null</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleAuthResponse"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handleAuthResponse</b></span>
+                        <a href="#handleAuthResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleAuthResponse(response: <a href="../interfaces/AuthResponse.html" target="_self">AuthResponse</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>response</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AuthResponse.html" target="_self" >AuthResponse</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -346,16 +453,14 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="97"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:97</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:112</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>verif rôle spécifique utilisateur</p>
-</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -399,6 +504,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <span ><b>init</b></span>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>init()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="30"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isAuthenticated"></a>
                     <span class="name">
                         <span ><b>isAuthenticated</b></span>
@@ -415,8 +557,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="83"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:83</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:104</a></div>
                         </td>
                     </tr>
 
@@ -452,16 +594,14 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="71"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:71</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:92</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>CHARGER CHARGER CHARGER CHARGER (les infos du user connecté)</p>
-</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -491,16 +631,14 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="46"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:46</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:44</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Connexion</p>
-</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -560,19 +698,56 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="58"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:58</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:57</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Déconnexion</p>
-</div>
 
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                            <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logoutLocal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>logoutLocal</b></span>
+                        <a href="#logoutLocal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>logoutLocal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="74"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
                 </td>
@@ -599,16 +774,14 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="34"
-                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:34</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/app/services/Auth/auth.service.ts:38</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Inscription</p>
-</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -711,7 +884,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/Auth/auth.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/Auth/auth.service.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -738,12 +911,111 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject&lt;Utilisateur | null&gt;(null)</code>
+                        <i>Default value : </i><code>new BehaviorSubject&lt;Utilisateur | null&gt;(this.getUserFromStorage())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/Auth/auth.service.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="http"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>http</b></span>
+                        <a href="#http"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HttpClient</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(HttpClient)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/services/Auth/auth.service.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Router</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/services/Auth/auth.service.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tokenService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tokenService</b></span>
+                        <a href="#tokenService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/TokenService.html" target="_self" >TokenService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TokenService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/services/Auth/auth.service.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -756,7 +1028,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { inject, Injectable } from &#x27;@angular/core&#x27;;
 import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { BehaviorSubject, Observable, tap } from &#x27;rxjs&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
@@ -773,67 +1045,88 @@ import { environment } from &#x27;../../environments/environment.dev&#x27;;
 })
 export class AuthService {
   private apiUrl &#x3D; environment.apiUrl;
-    private currentUserSubject &#x3D; new BehaviorSubject&lt;Utilisateur | null&gt;(null);
+  private readonly http: HttpClient &#x3D; inject(HttpClient);
+  private readonly router: Router &#x3D; inject(Router);
+  private readonly tokenService: TokenService &#x3D; inject(TokenService);
+
+  private getUserFromStorage(): Utilisateur | null {
+    const userStr &#x3D; localStorage.getItem(&#x27;user&#x27;);
+    return userStr ? JSON.parse(userStr) : null;
+  }
+
+  private currentUserSubject &#x3D; new BehaviorSubject&lt;Utilisateur | null&gt;(this.getUserFromStorage());
   public currentUser$ &#x3D; this.currentUserSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private tokenService: TokenService,
-    private router: Router
-  ) {
+  init(): void {
     if (this.tokenService.hasToken()) {
       this.loadCurrentUser();
+    } else {
+      this.logoutLocal();
     }
   }
 
-  /**
-   * Inscription
-   */
   register(data: RegisterData): Observable&lt;AuthResponse&gt; {
     return this.http.post&lt;AuthResponse&gt;(&#x60;${this.apiUrl}/register&#x60;, data).pipe(
-      tap(response &#x3D;&gt; {
-        this.tokenService.saveToken(response.token);
-        this.currentUserSubject.next(response.user);
-      })
+      tap(response &#x3D;&gt; this.handleAuthResponse(response))
     );
   }
 
-  /**
-   * Connexion
-   */
   login(credentials: LoginCredentials): Observable&lt;AuthResponse&gt; {
     return this.http.post&lt;AuthResponse&gt;(&#x60;${this.apiUrl}/login&#x60;, credentials).pipe(
       tap(response &#x3D;&gt; {
-        this.tokenService.saveToken(response.token);
-        this.currentUserSubject.next(response.user);
+        this.handleAuthResponse(response);
+        if (String(response.user.role).toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;administrateur&#x27;) {
+           this.router.navigate([&#x27;/evenements&#x27;]);
+        } else {
+           this.router.navigate([&#x27;/&#x27;]);
+        }
       })
     );
   }
 
-  /**
-   * Déconnexion
-   */
-  logout(): Observable&lt;any&gt; {
-    return this.http.post(&#x60;${this.apiUrl}/logout&#x60;, {}).pipe(
-      tap(() &#x3D;&gt; {
-        this.tokenService.removeToken();
-        this.currentUserSubject.next(null);
-        this.router.navigate([&#x27;/login&#x27;]);
+  logout(): Observable&lt;void&gt; {
+    return this.http.post&lt;void&gt;(&#x60;${this.apiUrl}/logout&#x60;, {}).pipe(
+      tap({
+        next: () &#x3D;&gt; {
+          this.clearAuthState();
+          this.router.navigate([&#x27;/login&#x27;]);
+        },
+        error: () &#x3D;&gt; {
+          // même si le backend refuse, on déconnecte côté front
+          this.clearAuthState();
+          this.router.navigate([&#x27;/login&#x27;]);
+        }
       })
     );
   }
 
-  /**
-   * CHARGER CHARGER CHARGER CHARGER (les infos du user connecté)
-   */
+  // helper nettoyage local
+  private logoutLocal() {
+    this.tokenService.removeToken();
+    localStorage.removeItem(&#x27;user&#x27;);
+    localStorage.removeItem(&#x27;idConnecte&#x27;);
+    this.currentUserSubject.next(null);
+  }
+
+  // helper save reponse
+  private handleAuthResponse(response: AuthResponse) {
+    this.tokenService.saveToken(response.token);
+    console.log(&#x27;User reçu du backend :&#x27;, response.user);
+    localStorage.setItem(&#x27;user&#x27;, JSON.stringify(response.user));
+    if (response.user.id_utilisateur) {
+        localStorage.setItem(&#x27;idConnecte&#x27;, String(response.user.id_utilisateur));
+    }
+    this.currentUserSubject.next(response.user);
+  }
+
   loadCurrentUser(): void {
     this.http.get&lt;{ user: Utilisateur }&gt;(&#x60;${this.apiUrl}/user&#x60;).subscribe({
       next: (response) &#x3D;&gt; {
+        localStorage.setItem(&#x27;user&#x27;, JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
       },
       error: () &#x3D;&gt; {
-        this.tokenService.removeToken();
-        this.currentUserSubject.next(null);
+        this.logoutLocal();
       }
     });
   }
@@ -842,19 +1135,18 @@ export class AuthService {
     return this.tokenService.hasToken();
   }
 
-  /**
-   * Récupérer utilisateur actuel
-   */
   getCurrentUser(): Utilisateur | null {
     return this.currentUserSubject.value;
   }
 
-  /**
-   * verif rôle spécifique utilisateur
-   */
   hasRole(role: string): boolean {
     const user &#x3D; this.getCurrentUser();
-    return user ? user.role &#x3D;&#x3D;&#x3D; role : false;
+    return user ? String(user.role).toLowerCase() &#x3D;&#x3D;&#x3D; role.toLowerCase() : false;
+  }
+
+  private clearAuthState(): void {
+    this.tokenService.removeToken();
+    this.currentUserSubject.next(null);
   }
 }</code></pre>
     </div>
@@ -890,7 +1182,9 @@ export class AuthService {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 20px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

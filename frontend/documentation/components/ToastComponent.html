@@ -269,8 +269,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="16"
-                                    class="link-to-prism">src/app/components/toast/toast.component.ts:16</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="15"
+                                    class="link-to-prism">src/app/components/toast/toast.component.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -316,7 +316,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/components/toast/toast.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/toast/toast.component.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -349,7 +349,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/toast/toast.component.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/components/toast/toast.component.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -363,7 +363,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject } from &#x27;@angular/core&#x27;;
-import { TypeErreurToast } from &#x27;../../enums/TypeErreurToast/type-erreur-toast&#x27;;
 import {ToastService} from &#x27;../../services/Toast/toast.service&#x27;;
 import { toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;
 
@@ -390,7 +389,7 @@ export class ToastComponent {
   class&#x3D;&quot;flex flex-wrap justify-between w-32 fixed bottom-4 right-4 z-50 rounded w-fit max-w-sm items-center shadow-2xl transition-shadow&quot;
   [class]&#x3D;&quot;toast.type&quot;
 &gt;
-  @if (toast.type &#x3D;&#x3D; &#x27;error&#x27;) {
+  @if (toast.type &#x3D;&#x3D;&#x3D; &#x27;error&#x27;) {
   &lt;div class&#x3D;&quot;text-white rounded-lg px-4 py-3 flex items-center gap-3&quot;&gt;
     &lt;p class&#x3D;&quot;text-sm leading-snug break-all&quot;&gt;{{ toast.message }}&lt;/p&gt;
     &lt;button class&#x3D;&quot;close&quot; (click)&#x3D;&quot;close()&quot;&gt;&lt;p class&#x3D;&quot;text-sm&quot;&gt;x&lt;/p&gt;&lt;/button&gt;
@@ -432,8 +431,8 @@ export class ToastComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div>@if (toast(); as toast) {<div  class="flex flex-wrap justify-between w-32 fixed bottom-4 right-4 z-50 rounded w-fit max-w-sm items-center shadow-2xl transition-shadow"  [class]="toast.type">  @if (toast.type == \'error\') {  <div class="text-white rounded-lg px-4 py-3 flex items-center gap-3">    <p class="text-sm leading-snug break-all">{{ toast.message }}</p>    <button class="close" (click)="close()"><p class="text-sm">x</p></button>  </div>  } @else {  <div class="text-black rounded-lg px-4 py-3 flex items-center gap-3">    <p class="text-sm leading-snug break-all">{{ toast.message }}</p>    <button class="close" (click)="close()"><p class="text-sm">x</p></button>  </div>    }</div>}</div>'
-    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'ErreurModaleComponent', 'selector': 'app-erreur-modale'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div>@if (toast(); as toast) {<div  class="flex flex-wrap justify-between w-32 fixed bottom-4 right-4 z-50 rounded w-fit max-w-sm items-center shadow-2xl transition-shadow"  [class]="toast.type">  @if (toast.type === \'error\') {  <div class="text-white rounded-lg px-4 py-3 flex items-center gap-3">    <p class="text-sm leading-snug break-all">{{ toast.message }}</p>    <button class="close" (click)="close()"><p class="text-sm">x</p></button>  </div>  } @else {  <div class="text-black rounded-lg px-4 py-3 flex items-center gap-3">    <p class="text-sm leading-snug break-all">{{ toast.message }}</p>    <button class="close" (click)="close()"><p class="text-sm">x</p></button>  </div>    }</div>}</div>'
+    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteCreerComponent', 'selector': 'app-actualite-creer'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AdminGestionUtilisateursComponent', 'selector': 'app-admin-utilisateurs'},{'name': 'AlertComponent', 'selector': 'app-alert'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'CompteUtilisateurComponent', 'selector': 'app-compte-utilisateur'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementEditComponent', 'selector': 'app-evenement-edit'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormInscriptionEvenementComponent', 'selector': 'app-form-inscription-evenement'},{'name': 'FormModifierPasswordComponent', 'selector': 'app-form-modifier-password'},{'name': 'FormulaireEditComponent', 'selector': 'app-formulaire-edit'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InscriptionEvenementComponent', 'selector': 'app-inscription-evenement'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewsletterPageComponent', 'selector': 'app-newsletter-page'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'},{'name': 'ToastComponent', 'selector': 'app-toast'},{'name': 'UserFormComponent', 'selector': 'app-user-form'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'ToastComponent'};
 </script>
@@ -472,7 +471,9 @@ export class ToastComponent {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 20px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

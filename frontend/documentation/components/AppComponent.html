@@ -337,7 +337,7 @@ export class AppComponent {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="min-h-screen flex flex-col">  <app-header></app-header>  <main class="flex-1 my-3">    <router-outlet></router-outlet>  </main>  <app-footer></app-footer></div><app-toast></app-toast></div>'
-    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'ErreurModaleComponent', 'selector': 'app-erreur-modale'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteCreerComponent', 'selector': 'app-actualite-creer'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AdminGestionUtilisateursComponent', 'selector': 'app-admin-utilisateurs'},{'name': 'AlertComponent', 'selector': 'app-alert'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'CompteUtilisateurComponent', 'selector': 'app-compte-utilisateur'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementEditComponent', 'selector': 'app-evenement-edit'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormInscriptionEvenementComponent', 'selector': 'app-form-inscription-evenement'},{'name': 'FormModifierPasswordComponent', 'selector': 'app-form-modifier-password'},{'name': 'FormulaireEditComponent', 'selector': 'app-formulaire-edit'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InscriptionEvenementComponent', 'selector': 'app-inscription-evenement'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewsletterPageComponent', 'selector': 'app-newsletter-page'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'},{'name': 'ToastComponent', 'selector': 'app-toast'},{'name': 'UserFormComponent', 'selector': 'app-user-form'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'AppComponent'};
 </script>
@@ -376,7 +376,9 @@ export class AppComponent {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 18px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

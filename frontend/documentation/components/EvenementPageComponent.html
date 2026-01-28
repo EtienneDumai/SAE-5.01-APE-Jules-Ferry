@@ -180,6 +180,8 @@
                                 <code><a href="../components/EvenementCardComponent.html" target="_self" >EvenementCardComponent</a></code>
                                 <code><a href="../components/SpinnerComponent.html" target="_self" >SpinnerComponent</a></code>
                             <code>RouterLink</code>
+                            <code>CommonModule</code>
+                            <code>AsyncPipe</code>
                 </td>
             </tr>
 
@@ -219,7 +221,15 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#Date" >Date</a>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                <a href="#currentFilter" >currentFilter</a>
+                            </li>
+                            <li>
+                                <a href="#currentUser$" >currentUser$</a>
                             </li>
                             <li>
                                 <a href="#errorEvenements" >errorEvenements</a>
@@ -248,6 +258,15 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#getAsDate" >getAsDate</a>
+                            </li>
+                            <li>
+                                <a href="#handleEventDeleted" >handleEventDeleted</a>
+                            </li>
+                            <li>
+                                <a href="#loadEvenements" >loadEvenements</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
@@ -262,6 +281,20 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#canManage" >canManage</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -276,6 +309,207 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAsDate"></a>
+                    <span class="name">
+                        <span ><b>getAsDate</b></span>
+                        <a href="#getAsDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAsDate(date: string | Date)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>date</td>
+                                            <td>
+                                                        <code>string | Date</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleEventDeleted"></a>
+                    <span class="name">
+                        <span ><b>handleEventDeleted</b></span>
+                        <a href="#handleEventDeleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleEventDeleted(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="62"
+                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadEvenements"></a>
+                    <span class="name">
+                        <span ><b>loadEvenements</b></span>
+                        <a href="#loadEvenements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadEvenements(statut: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>statut</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -296,8 +530,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="20"
-                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:20</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -335,8 +569,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="34"
-                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:34</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -362,27 +596,86 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="Date"></a>
+                    <a name="authService"></a>
                     <span class="name">
-                        <span ><b>Date</b></span>
-                        <a href="#Date"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                        <i>Type : </i>    <code>unknown</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new Date()</code>
+                        <i>Default value : </i><code>inject(AuthService)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentFilter"></a>
+                    <span class="name">
+                        <span ><b>currentFilter</b></span>
+                        <a href="#currentFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;tous&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUser$"></a>
+                    <span class="name">
+                        <span ><b>currentUser$</b></span>
+                        <a href="#currentUser$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Utilisateur.html" target="_self" >Observable&lt;Utilisateur | null&gt; | undefined</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -402,7 +695,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <i>Type : </i>    <code>unknown</code>
 
                     </td>
                 </tr>
@@ -413,7 +706,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -446,7 +739,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -472,7 +765,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -492,7 +785,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <i>Type : </i>    <code>unknown</code>
 
                     </td>
                 </tr>
@@ -503,7 +796,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -512,6 +805,33 @@
     </table>
 </section>
 
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="canManage"></a>
+                        <span class="name"><b>canManage</b><a href="#canManage"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>canManage()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/pages/evenement-page/evenement-page.component.ts:32</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
 </div>
 
 
@@ -522,21 +842,48 @@ import { Evenement } from &#x27;../../models/Evenement/evenement&#x27;;
 import { EvenementCardComponent } from &quot;../../components/card/evenement-card/evenement-card.component&quot;;
 import { SpinnerComponent } from &quot;../../components/spinner/spinner.component&quot;;
 import { RouterLink } from &#x27;@angular/router&#x27;; 
+import { AuthService } from &#x27;../../services/Auth/auth.service&#x27;;
+import { RoleUtilisateur } from &#x27;../../enums/RoleUtilisateur/role-utilisateur&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Utilisateur } from &#x27;../../models/Utilisateur/utilisateur&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { AsyncPipe } from &#x27;@angular/common&#x27;;
+
 @Component({
   selector: &#x27;app-evenement-page&#x27;,
   standalone: true,
-  imports: [EvenementCardComponent, SpinnerComponent, RouterLink],
+  imports: [EvenementCardComponent, SpinnerComponent, RouterLink, CommonModule, AsyncPipe],
   templateUrl: &#x27;./evenement-page.component.html&#x27;,
   styleUrl: &#x27;./evenement-page.component.css&#x27;
 })
 export class EvenementPageComponent implements OnInit {
   listeEvenements!: Evenement[];
-  Date: Date &#x3D; new Date();
-  loadingEvenements: boolean &#x3D; true;
-  errorEvenements: boolean &#x3D; false;
+  loadingEvenements &#x3D; true;
+  errorEvenements &#x3D; false;
+  
+  currentUser$: Observable&lt;Utilisateur | null&gt; | undefined;
+  currentFilter &#x3D; &#x27;tous&#x27;;
+
   private readonly evenementService &#x3D; inject(EvenementService);
+  private readonly authService &#x3D; inject(AuthService);
+
+  get canManage(): boolean {
+    return this.authService.hasRole(RoleUtilisateur.administrateur) || 
+           this.authService.hasRole(RoleUtilisateur.membre_bureau);
+  }
+
   ngOnInit() {
-    this.evenementService.getAllEvenements().subscribe({
+    this.currentUser$ &#x3D; this.authService.currentUser$;
+    // On charge tous les événements par défaut
+    this.loadEvenements(&#x27;tous&#x27;);
+  }
+
+  // AJOUT : Méthode pour charger selon le filtre
+  loadEvenements(statut: string) {
+    this.currentFilter &#x3D; statut;
+    this.loadingEvenements &#x3D; true;
+    
+    this.evenementService.getAllEvenements(statut).subscribe({
       next: (data) &#x3D;&gt; {
         this.listeEvenements &#x3D; data;
         this.sortEvenementByDate();
@@ -549,8 +896,13 @@ export class EvenementPageComponent implements OnInit {
       }
     });
   }
-public sortEvenementByDate(): void {
-  const sortedList &#x3D; [...this.listeEvenements];
+
+  handleEventDeleted(id: number): void {
+    this.listeEvenements &#x3D; this.listeEvenements.filter(e &#x3D;&gt; e.id_evenement !&#x3D;&#x3D; id);
+  }
+
+  public sortEvenementByDate(): void {
+    const sortedList &#x3D; [...this.listeEvenements];
     sortedList.sort((a, b) &#x3D;&gt; {
       const dateA &#x3D; new Date(a.date_evenement).getTime();
       const dateB &#x3D; new Date(b.date_evenement).getTime();
@@ -558,17 +910,54 @@ public sortEvenementByDate(): void {
     });
     this.listeEvenements &#x3D; sortedList;
   }
-}
-</code></pre>
+
+  getAsDate(date: string | Date): Date {
+    return new Date(date);
+  }
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;mx-auto px-4 sm:px-6 lg:px-8 py-8&quot;&gt;
     
-    &lt;div class&#x3D;&quot;mb-6&quot;&gt;
-        &lt;button class&#x3D;&quot;bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4&quot; [routerLink]&#x3D;&quot;[&#x27;/&#x27;]&quot;&gt;
+    &lt;div class&#x3D;&quot;mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4&quot;&gt;
+        &lt;button class&#x3D;&quot;bg-[var(--primary-blue)] text-white rounded hover:shadow p-2&quot; [routerLink]&#x3D;&quot;[&#x27;/&#x27;]&quot;&gt;
             ← Retour à l&#x27;accueil
         &lt;/button&gt;
+
+        @if(canManage) {
+            &lt;a [routerLink]&#x3D;&quot;[&#x27;/evenements&#x27;, &#x27;new&#x27;, &#x27;edit&#x27;]&quot; 
+               class&#x3D;&quot;bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition-colors font-bold shadow-md inline-flex items-center w-fit&quot;&gt;
+               &lt;i class&#x3D;&quot;fa-solid fa-plus w-5 h-5 mr-2&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
+               Créer un événement
+            &lt;/a&gt;
+        }
+    &lt;/div&gt;
+
+    @if(canManage) {
+        &lt;div class&#x3D;&quot;flex space-x-2 mb-6 overflow-x-auto pb-2&quot;&gt;
+            &lt;button (click)&#x3D;&quot;loadEvenements(&#x27;tous&#x27;)&quot; 
+                    [class]&#x3D;&quot;currentFilter &#x3D;&#x3D;&#x3D; &#x27;tous&#x27; ? &#x27;bg-blue-600 text-white&#x27; : &#x27;bg-white text-gray-600 hover:bg-gray-100&#x27;&quot;
+                    class&#x3D;&quot;px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap&quot;&gt;
+                Tous
+            &lt;/button&gt;
+            &lt;button (click)&#x3D;&quot;loadEvenements(&#x27;publie&#x27;)&quot; 
+                    [class]&#x3D;&quot;currentFilter &#x3D;&#x3D;&#x3D; &#x27;publie&#x27; ? &#x27;bg-green-600 text-white&#x27; : &#x27;bg-white text-gray-600 hover:bg-gray-100&#x27;&quot;
+                    class&#x3D;&quot;px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap&quot;&gt;
+                Publiés
+            &lt;/button&gt;
+            &lt;button (click)&#x3D;&quot;loadEvenements(&#x27;brouillon&#x27;)&quot; 
+                    [class]&#x3D;&quot;currentFilter &#x3D;&#x3D;&#x3D; &#x27;brouillon&#x27; ? &#x27;bg-gray-600 text-white&#x27; : &#x27;bg-white text-gray-600 hover:bg-gray-100&#x27;&quot;
+                    class&#x3D;&quot;px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap&quot;&gt;
+                Brouillons
+            &lt;/button&gt;
+            &lt;button (click)&#x3D;&quot;loadEvenements(&#x27;termine&#x27;)&quot; 
+                    [class]&#x3D;&quot;currentFilter &#x3D;&#x3D;&#x3D; &#x27;termine&#x27; ? &#x27;bg-orange-500 text-white&#x27; : &#x27;bg-white text-gray-600 hover:bg-gray-100&#x27;&quot;
+                    class&#x3D;&quot;px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap&quot;&gt;
+                Terminés
+            &lt;/button&gt;
+        &lt;/div&gt;
+    }
 
     @if(this.loadingEvenements){
         &lt;div class&#x3D;&quot;flex justify-center items-center h-64&quot;&gt;
@@ -580,9 +969,7 @@ public sortEvenementByDate(): void {
         &lt;div class&#x3D;&quot;bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm&quot; role&#x3D;&quot;alert&quot;&gt;
             &lt;div class&#x3D;&quot;flex&quot;&gt;
                 &lt;div class&#x3D;&quot;flex-shrink-0&quot;&gt;
-                    &lt;svg class&#x3D;&quot;h-5 w-5 text-red-400&quot; viewBox&#x3D;&quot;0 0 20 20&quot; fill&#x3D;&quot;currentColor&quot;&gt;
-                        &lt;path fill-rule&#x3D;&quot;evenodd&quot; d&#x3D;&quot;M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z&quot; clip-rule&#x3D;&quot;evenodd&quot;/&gt;
-                    &lt;/svg&gt;
+                    &lt;i class&#x3D;&quot;fa-regular fa-circle-xmark h-5 w-5 text-red-400&quot; aria-hidden&#x3D;&quot;true&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
                 &lt;/div&gt;
                 &lt;div class&#x3D;&quot;ml-3&quot;&gt;
                     &lt;p class&#x3D;&quot;text-sm text-red-700&quot;&gt;Erreur lors du chargement des événements. Veuillez réessayer plus tard.&lt;/p&gt;
@@ -593,30 +980,38 @@ public sortEvenementByDate(): void {
 
     @else if (this.listeEvenements.length &#x3D;&#x3D;&#x3D; 0) {
         &lt;div class&#x3D;&quot;text-center py-12 bg-gray-50 rounded-lg&quot;&gt;
-            &lt;p class&#x3D;&quot;text-gray-500 text-lg&quot;&gt;Aucun événement pour le moment.&lt;/p&gt;
+            &lt;p class&#x3D;&quot;text-gray-500 text-lg&quot;&gt;Aucun événement trouvé pour ce filtre.&lt;/p&gt;
         &lt;/div&gt;
     }
 
     @else {
       &lt;div class&#x3D;&quot;grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3&quot;&gt;
-            
-    @for(evenement of this.listeEvenements; track evenement.id_evenement){
+           
+       @for(evenement of this.listeEvenements; track evenement.id_evenement){
         
         &lt;app-evenement-card 
             [id_evenement]&#x3D;&quot;evenement.id_evenement&quot;
             [titre]&#x3D;&quot;evenement.titre&quot;
             [image_url]&#x3D;&quot;evenement.image_url&quot;
             [description]&#x3D;&quot;evenement.description&quot;
-            [date_evenement]&#x3D;&quot;evenement.date_evenement&quot;
+            
+            [date_evenement]&#x3D;&quot;getAsDate(evenement.date_evenement)&quot;
+            
             [heure_debut]&#x3D;&quot;evenement.heure_debut&quot;
             [heure_fin]&#x3D;&quot;evenement.heure_fin&quot;
-            [lieu]&#x3D;&quot;evenement.lieu&quot;&gt;
-        &lt;/app-evenement-card&gt;
+            [lieu]&#x3D;&quot;evenement.lieu&quot;
+            
+            [id_auteur]&#x3D;&quot;evenement.id_auteur&quot; 
+            
+            [currentUser]&#x3D;&quot;currentUser$ | async&quot; 
 
-    } 
-&lt;/div&gt;
+            (eventDeleted)&#x3D;&quot;handleEventDeleted($event)&quot;&gt;
+            
+            &lt;/app-evenement-card&gt;
+
+       }
+      &lt;/div&gt;
     }
-&lt;/div&gt;
 &lt;/div&gt;</code></pre>
     </div>
 
@@ -646,8 +1041,8 @@ public sortEvenementByDate(): void {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">        <div class="mb-6">        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2 mb-4" [routerLink]="[\'/\']">            ← Retour à l\'accueil        </button>    @if(this.loadingEvenements){        <div class="flex justify-center items-center h-64">            <app-spinner></app-spinner>        </div>    }    @else if (this.errorEvenements) {        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm" role="alert">            <div class="flex">                <div class="flex-shrink-0">                    <i class="fa-regular fa-circle-xmark h-5 w-5 text-red-400" aria-hidden="true"></i>                </div>                <div class="ml-3">                    <p class="text-sm text-red-700">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>                </div>            </div>        </div>    }    @else if (this.listeEvenements.length === 0) {        <div class="text-center py-12 bg-gray-50 rounded-lg">            <p class="text-gray-500 text-lg">Aucun événement pour le moment.</p>        </div>    }    @else {      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">                @for(evenement of this.listeEvenements; track evenement.id_evenement){                <app-evenement-card             [id_evenement]="evenement.id_evenement"            [titre]="evenement.titre"            [image_url]="evenement.image_url"            [description]="evenement.description"            [date_evenement]="evenement.date_evenement"            [heure_debut]="evenement.heure_debut"            [heure_fin]="evenement.heure_fin"            [lieu]="evenement.lieu">        </app-evenement-card>    } </div>    }</div></div></div>'
-    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'ErreurModaleComponent', 'selector': 'app-erreur-modale'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">        <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="[\'/\']">            ← Retour à l\'accueil        </button>        @if(canManage) {            <a [routerLink]="[\'/evenements\', \'new\', \'edit\']"                class="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition-colors font-bold shadow-md inline-flex items-center w-fit">               <i class="fa-solid fa-plus w-5 h-5 mr-2" aria-hidden="true" style="font-size: 20px;"></i>               Créer un événement            </a>        }    </div>    @if(canManage) {        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">            <button (click)="loadEvenements(\'tous\')"                     [class]="currentFilter === \'tous\' ? \'bg-blue-600 text-white\' : \'bg-white text-gray-600 hover:bg-gray-100\'"                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">                Tous            </button>            <button (click)="loadEvenements(\'publie\')"                     [class]="currentFilter === \'publie\' ? \'bg-green-600 text-white\' : \'bg-white text-gray-600 hover:bg-gray-100\'"                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">                Publiés            </button>            <button (click)="loadEvenements(\'brouillon\')"                     [class]="currentFilter === \'brouillon\' ? \'bg-gray-600 text-white\' : \'bg-white text-gray-600 hover:bg-gray-100\'"                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">                Brouillons            </button>            <button (click)="loadEvenements(\'termine\')"                     [class]="currentFilter === \'termine\' ? \'bg-orange-500 text-white\' : \'bg-white text-gray-600 hover:bg-gray-100\'"                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">                Terminés            </button>        </div>    }    @if(this.loadingEvenements){        <div class="flex justify-center items-center h-64">            <app-spinner></app-spinner>        </div>    }    @else if (this.errorEvenements) {        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm" role="alert">            <div class="flex">                <div class="flex-shrink-0">                    <i class="fa-regular fa-circle-xmark h-5 w-5 text-red-400" aria-hidden="true" style="font-size: 20px;"></i>                </div>                <div class="ml-3">                    <p class="text-sm text-red-700">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>                </div>            </div>        </div>    }    @else if (this.listeEvenements.length === 0) {        <div class="text-center py-12 bg-gray-50 rounded-lg">            <p class="text-gray-500 text-lg">Aucun événement trouvé pour ce filtre.</p>        </div>    }    @else {      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">                  @for(evenement of this.listeEvenements; track evenement.id_evenement){                <app-evenement-card             [id_evenement]="evenement.id_evenement"            [titre]="evenement.titre"            [image_url]="evenement.image_url"            [description]="evenement.description"                        [date_evenement]="getAsDate(evenement.date_evenement)"                        [heure_debut]="evenement.heure_debut"            [heure_fin]="evenement.heure_fin"            [lieu]="evenement.lieu"                        [id_auteur]="evenement.id_auteur"                         [currentUser]="currentUser$ | async"             (eventDeleted)="handleEventDeleted($event)">                        </app-evenement-card>       }      </div>    }</div></div>'
+    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteCreerComponent', 'selector': 'app-actualite-creer'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AdminGestionUtilisateursComponent', 'selector': 'app-admin-utilisateurs'},{'name': 'AlertComponent', 'selector': 'app-alert'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'CompteUtilisateurComponent', 'selector': 'app-compte-utilisateur'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementEditComponent', 'selector': 'app-evenement-edit'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormInscriptionEvenementComponent', 'selector': 'app-form-inscription-evenement'},{'name': 'FormModifierPasswordComponent', 'selector': 'app-form-modifier-password'},{'name': 'FormulaireEditComponent', 'selector': 'app-formulaire-edit'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InscriptionEvenementComponent', 'selector': 'app-inscription-evenement'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewsletterPageComponent', 'selector': 'app-newsletter-page'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'},{'name': 'ToastComponent', 'selector': 'app-toast'},{'name': 'UserFormComponent', 'selector': 'app-user-form'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'EvenementPageComponent'};
 </script>
@@ -686,7 +1081,9 @@ public sortEvenementByDate(): void {
           <label class="dark-mode-switch">
                <input type="checkbox">
                <span class="slider">
-                <i class="fa-solid fa-moon slider-icon" aria-hidden="true" style="font-size: 18px; color: #000;"></i>
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
                </span>
           </label>
 

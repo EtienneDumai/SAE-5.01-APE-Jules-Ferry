@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { EvenementDetailComponent } from './evenement-detail.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter, Router, ActivatedRoute } from '@angular/router';
+import { provideRouter, Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location, DatePipe } from '@angular/common';
 import { of, throwError } from 'rxjs';
 
@@ -20,6 +20,22 @@ import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { StatutCompte } from '../../enums/StatutCompte/statut-compte';
 import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
 import { InscriptionSubmitPayload } from '../../components/forms/form-inscription-evenement/form-inscription-evenement.component';
+
+function createMockActivatedRoute(queryParams: Record<string, string>): Partial<ActivatedRoute> {
+    const mockParamMap: ParamMap = {
+        get: (key: string): string | null => key === 'id' ? '1' : null,
+        has: (key: string): boolean => key === 'id',
+        getAll: (key: string): string[] => key === 'id' ? ['1'] : [],
+        keys: ['id']
+    };
+
+    return {
+        queryParams: of(queryParams),
+        snapshot: {
+            paramMap: mockParamMap
+        } as ActivatedRoute['snapshot']
+    };
+}
 
 describe('EvenementDetailComponent', () => {
     let component: EvenementDetailComponent;
@@ -128,7 +144,8 @@ describe('EvenementDetailComponent', () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        snapshot: { paramMap: { get: () => '1' } }
+                        snapshot: { paramMap: { get: () => '1' } },
+                        queryParams: of({})
                     }
                 }
             ],
@@ -212,6 +229,155 @@ describe('EvenementDetailComponent', () => {
             component.toggleInscriptionForm();
             expect(component.showInscriptionForm).toBeTrue();
         });
+    });
+
+    describe('Redirection avec paramètre openForm', () => {
+        it('devrait ouvrir le formulaire automatiquement si openForm=true et conditions remplies', fakeAsync(() => {
+            const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
+
+            authServiceSpy.isAuthenticated.and.returnValue(true);
+            evenementServiceSpy.getEvenementById.and.returnValue(of(mockEvenement));
+            utilisateurServiceSpy.getUtilisateurById.and.returnValue(of(mockAuteur));
+            formulaireServiceSpy.getFormulaireById.and.returnValue(of(JSON.parse(JSON.stringify(mockFormulaire))));
+
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
+            const newFixture = TestBed.createComponent(EvenementDetailComponent);
+            const newComponent = newFixture.componentInstance;
+            newComponent.ngOnInit();
+            tick();
+            newFixture.detectChanges();
+            tick(500);
+
+            expect(newComponent.showInscriptionForm).toBeTrue();
+        }));
+
+        it('ne devrait pas ouvrir le formulaire si utilisateur non authentifié', fakeAsync(() => {
+            const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
+
+            authServiceSpy.isAuthenticated.and.returnValue(false);
+            evenementServiceSpy.getEvenementById.and.returnValue(of(mockEvenement));
+
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
+            const newFixture = TestBed.createComponent(EvenementDetailComponent);
+            const newComponent = newFixture.componentInstance;
+            newComponent.ngOnInit();
+            tick();
+            newFixture.detectChanges();
+            tick(500);
+
+            expect(newComponent.showInscriptionForm).toBeFalse();
+        }));
+
+        it('ne devrait pas ouvrir le formulaire si événement terminé', fakeAsync(() => {
+            const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
+
+            const evenementTermine = { ...mockEvenement, statut: StatutEvenement.termine };
+            authServiceSpy.isAuthenticated.and.returnValue(true);
+            evenementServiceSpy.getEvenementById.and.returnValue(of(evenementTermine));
+            utilisateurServiceSpy.getUtilisateurById.and.returnValue(of(mockAuteur));
+            formulaireServiceSpy.getFormulaireById.and.returnValue(of(JSON.parse(JSON.stringify(mockFormulaire))));
+
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
+            const newFixture = TestBed.createComponent(EvenementDetailComponent);
+            const newComponent = newFixture.componentInstance;
+            newComponent.ngOnInit();
+            tick();
+            newFixture.detectChanges();
+            tick(500);
+
+            expect(newComponent.showInscriptionForm).toBeFalse();
+        }));
+
+        it('ne devrait pas ouvrir le formulaire si pas de formulaire d\'inscription', fakeAsync(() => {
+            const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
+
+            const evenementSansFormulaire = { ...mockEvenement, id_formulaire: null };
+            authServiceSpy.isAuthenticated.and.returnValue(true);
+            evenementServiceSpy.getEvenementById.and.returnValue(of(evenementSansFormulaire));
+            utilisateurServiceSpy.getUtilisateurById.and.returnValue(of(mockAuteur));
+
+            TestBed.resetTestingModule();
+            TestBed.configureTestingModule({
+                imports: [EvenementDetailComponent],
+                providers: [
+                    provideHttpClient(),
+                    provideHttpClientTesting(),
+                    provideRouter([]),
+                    DatePipe,
+                    { provide: EvenementService, useValue: evenementServiceSpy },
+                    { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+                    { provide: FormulaireService, useValue: formulaireServiceSpy },
+                    { provide: InscriptionService, useValue: inscriptionServiceSpy },
+                    { provide: AuthService, useValue: authServiceSpy },
+                    { provide: Router, useValue: routerSpy },
+                    { provide: Location, useValue: locationSpy },
+                    { provide: ActivatedRoute, useValue: mockActivatedRoute }
+                ]
+            });
+
+            const newFixture = TestBed.createComponent(EvenementDetailComponent);
+            const newComponent = newFixture.componentInstance;
+            newComponent.ngOnInit();
+            tick();
+            newFixture.detectChanges();
+            tick(500);
+
+            expect(newComponent.showInscriptionForm).toBeFalse();
+        }));
     });
 
     describe('Gestion des Inscriptions (handleSubmit)', () => {

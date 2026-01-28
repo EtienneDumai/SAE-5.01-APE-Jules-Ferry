@@ -1,0 +1,1806 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">frontend documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  FormulaireEditComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/formulaire-edit/formulaire-edit.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-formulaire-edit</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>ReactiveFormsModule</code>
+                                <code><a href="../components/SpinnerComponent.html" target="_self" >SpinnerComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./formulaire-edit.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./formulaire-edit.component.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#apiError" >apiError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#formulaireService" >formulaireService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#idFormulaire" >idFormulaire</a>
+                            </li>
+                            <li>
+                                <a href="#isEditMode" >isEditMode</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                <a href="#mainForm" >mainForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#saving" >saving</a>
+                            </li>
+                            <li>
+                                <a href="#validationErrors" >validationErrors</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addCreneau" >addCreneau</a>
+                            </li>
+                            <li>
+                                <a href="#addTache" >addTache</a>
+                            </li>
+                            <li>
+                                <a href="#getCreneaux" >getCreneaux</a>
+                            </li>
+                            <li>
+                                <a href="#goBack" >goBack</a>
+                            </li>
+                            <li>
+                                <a href="#initForm" >initForm</a>
+                            </li>
+                            <li>
+                                <a href="#loadFormulaire" >loadFormulaire</a>
+                            </li>
+                            <li>
+                                <a href="#newCreneau" >newCreneau</a>
+                            </li>
+                            <li>
+                                <a href="#newTache" >newTache</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                <a href="#removeCreneau" >removeCreneau</a>
+                            </li>
+                            <li>
+                                <a href="#removeTache" >removeTache</a>
+                            </li>
+                            <li>
+                                <a href="#validerLogique" >validerLogique</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#taches" >taches</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCreneau"></a>
+                    <span class="name">
+                        <span ><b>addCreneau</b></span>
+                        <a href="#addCreneau"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addCreneau(tacheIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tacheIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addTache"></a>
+                    <span class="name">
+                        <span ><b>addTache</b></span>
+                        <a href="#addTache"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addTache()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCreneaux"></a>
+                    <span class="name">
+                        <span ><b>getCreneaux</b></span>
+                        <a href="#getCreneaux"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCreneaux(tacheIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tacheIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormArray</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goBack"></a>
+                    <span class="name">
+                        <span ><b>goBack</b></span>
+                        <a href="#goBack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goBack()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initForm"></a>
+                    <span class="name">
+                        <span ><b>initForm</b></span>
+                        <a href="#initForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initForm()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadFormulaire"></a>
+                    <span class="name">
+                        <span ><b>loadFormulaire</b></span>
+                        <a href="#loadFormulaire"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadFormulaire(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newCreneau"></a>
+                    <span class="name">
+                        <span ><b>newCreneau</b></span>
+                        <a href="#newCreneau"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newCreneau()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormGroup</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newTache"></a>
+                    <span class="name">
+                        <span ><b>newTache</b></span>
+                        <a href="#newTache"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newTache()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="56"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormGroup</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="30"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCreneau"></a>
+                    <span class="name">
+                        <span ><b>removeCreneau</b></span>
+                        <a href="#removeCreneau"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeCreneau(tacheIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, creneauIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tacheIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>creneauIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeTache"></a>
+                    <span class="name">
+                        <span ><b>removeTache</b></span>
+                        <a href="#removeTache"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeTache(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validerLogique"></a>
+                    <span class="name">
+                        <span ><b>validerLogique</b></span>
+                        <a href="#validerLogique"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validerLogique()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="apiError"></a>
+                    <span class="name">
+                        <span ><b>apiError</b></span>
+                        <a href="#apiError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formulaireService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>formulaireService</b></span>
+                        <a href="#formulaireService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormulaireService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="idFormulaire"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>idFormulaire</b></span>
+                        <a href="#idFormulaire"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEditMode"></a>
+                    <span class="name">
+                        <span ><b>isEditMode</b></span>
+                        <a href="#isEditMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mainForm"></a>
+                    <span class="name">
+                        <span ><b>mainForm</b></span>
+                        <a href="#mainForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saving"></a>
+                    <span class="name">
+                        <span ><b>saving</b></span>
+                        <a href="#saving"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validationErrors"></a>
+                    <span class="name">
+                        <span ><b>validationErrors</b></span>
+                        <a href="#validationErrors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="taches"></a>
+                        <span class="name"><b>taches</b><a href="#taches"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>taches()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/formulaire-edit/formulaire-edit.component.ts:52</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnInit } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { FormulaireService } from &#x27;../../services/Formulaire/formulaire.service&#x27;;
+import { SpinnerComponent } from &#x27;../../components/spinner/spinner.component&#x27;;
+
+@Component({
+  selector: &#x27;app-formulaire-edit&#x27;,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
+  templateUrl: &#x27;./formulaire-edit.component.html&#x27;,
+  styleUrl: &#x27;./formulaire-edit.component.css&#x27;
+})
+export class FormulaireEditComponent implements OnInit {
+  mainForm!: FormGroup;
+  loading &#x3D; true;
+  saving &#x3D; false;
+  isEditMode &#x3D; false;
+  idFormulaire?: number;
+
+  validationErrors: string[] &#x3D; [];
+  apiError: string | null &#x3D; null;
+
+  private fb &#x3D; inject(FormBuilder);
+  private route &#x3D; inject(ActivatedRoute);
+  private router &#x3D; inject(Router);
+  private formulaireService &#x3D; inject(FormulaireService);
+
+  ngOnInit() {
+    this.initForm();
+    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
+    if (id &amp;&amp; id !&#x3D;&#x3D; &#x27;new&#x27;) {
+      this.isEditMode &#x3D; true;
+      this.idFormulaire &#x3D; Number(id);
+      this.loadFormulaire(this.idFormulaire);
+    } else {
+      this.addTache();
+      this.loading &#x3D; false;
+    }
+  }
+
+  initForm() {
+    this.mainForm &#x3D; this.fb.group({
+      nom_formulaire: [&#x27;&#x27;, [Validators.required, Validators.maxLength(255)]],
+      description: [&#x27;&#x27;],
+      statut: [&#x27;actif&#x27;], 
+      taches: this.fb.array([]) 
+    });
+  }
+
+  get taches(): FormArray {
+    return this.mainForm.get(&#x27;taches&#x27;) as FormArray;
+  }
+
+  newTache(): FormGroup {
+    return this.fb.group({
+      id_tache: [null],
+      nom_tache: [&#x27;&#x27;, Validators.required],
+      description: [&#x27;&#x27;],
+      heure_debut_globale: [&#x27;&#x27;, Validators.required], 
+      heure_fin_globale: [&#x27;&#x27;, Validators.required],
+      creneaux: this.fb.array([])
+    });
+  }
+
+  addTache() {
+    const tacheGroup &#x3D; this.newTache();
+    (tacheGroup.get(&#x27;creneaux&#x27;) as FormArray).push(this.newCreneau());
+    this.taches.push(tacheGroup);
+  }
+
+  removeTache(index: number) {
+    if (confirm(&#x27;Supprimer cette tâche ?&#x27;)) {
+      this.taches.removeAt(index);
+    }
+  }
+
+  getCreneaux(tacheIndex: number): FormArray {
+    return this.taches.at(tacheIndex).get(&#x27;creneaux&#x27;) as FormArray;
+  }
+
+  newCreneau(): FormGroup {
+    return this.fb.group({
+      id_creneau: [null],
+      heure_debut: [&#x27;&#x27;, Validators.required],
+      heure_fin: [&#x27;&#x27;, Validators.required],
+      quota: [1, [Validators.required, Validators.min(1)]]
+    });
+  }
+
+  addCreneau(tacheIndex: number) {
+    this.getCreneaux(tacheIndex).push(this.newCreneau());
+  }
+
+  removeCreneau(tacheIndex: number, creneauIndex: number) {
+    this.getCreneaux(tacheIndex).removeAt(creneauIndex);
+  }
+
+  loadFormulaire(id: number) {
+    this.formulaireService.getFormulaireById(id).subscribe({
+      next: (data) &#x3D;&gt; {
+        this.mainForm.patchValue({
+          nom_formulaire: data.nom_formulaire,
+          description: data.description,
+          statut: data.statut
+        });
+
+        this.taches.clear();
+        if (data.taches) {
+          data.taches.forEach(tache &#x3D;&gt; {
+            const tacheGroup &#x3D; this.newTache();
+            tacheGroup.patchValue({
+                id_tache: tache.id_tache,
+                nom_tache: tache.nom_tache,
+                description: tache.description,
+                heure_debut_globale: tache.heure_debut_globale, 
+                heure_fin_globale: tache.heure_fin_globale
+            });
+
+            const creneauxArray &#x3D; tacheGroup.get(&#x27;creneaux&#x27;) as FormArray;
+            if (tache.creneaux) {
+                tache.creneaux.forEach(creneau &#x3D;&gt; {
+                    const creneauGroup &#x3D; this.newCreneau();
+                    creneauGroup.patchValue(creneau);
+                    creneauxArray.push(creneauGroup);
+                });
+            }
+            this.taches.push(tacheGroup);
+          });
+        }
+        this.loading &#x3D; false;
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(err);
+        this.apiError &#x3D; &quot;Erreur chargement formulaire&quot;;
+        this.loading &#x3D; false;
+      }
+    });
+  }
+
+  onSubmit() {
+    this.validationErrors &#x3D; [];
+    this.apiError &#x3D; null;
+
+    if (this.mainForm.invalid) {
+        this.validationErrors.push(&quot;Veuillez remplir tous les champs obligatoires.&quot;);
+        return;
+    }
+
+    const erreursLogiques &#x3D; this.validerLogique();
+    if (erreursLogiques.length &gt; 0) {
+        this.validationErrors &#x3D; erreursLogiques;
+        window.scrollTo(0, 0);
+        return;
+    }
+
+    this.saving &#x3D; true;
+    const request$ &#x3D; this.isEditMode &amp;&amp; this.idFormulaire
+      ? this.formulaireService.updateFormulaire(this.mainForm.value, this.idFormulaire)
+      : this.formulaireService.createFormulaire(this.mainForm.value);
+
+    request$.subscribe({
+      next: () &#x3D;&gt; { 
+        this.saving &#x3D; false; 
+        this.goBack(); 
+      },
+      error: (err) &#x3D;&gt; { 
+        console.error(err);
+        this.saving &#x3D; false; 
+        this.apiError &#x3D; &quot;Erreur technique lors de la sauvegarde.&quot;;
+      }
+    });
+  }
+
+  validerLogique(): string[] {
+    const erreurs: string[] &#x3D; [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const taches &#x3D; this.mainForm.value.taches as any[];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    taches.forEach((tache: any, index: number) &#x3D;&gt; {
+        const nom &#x3D; tache.nom_tache || &#x60;Tâche ${index + 1}&#x60;;
+        const debut &#x3D; tache.heure_debut_globale; 
+        const fin &#x3D; tache.heure_fin_globale;
+
+        if (debut &amp;&amp; fin &amp;&amp; debut &gt;&#x3D; fin) {
+            erreurs.push(&#x60;[${nom}] Fin (${fin}) doit être après Début (${debut}).&#x60;);
+        }
+
+        if (tache.creneaux) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            tache.creneaux.forEach((c: any, j: number) &#x3D;&gt; {
+                if (c.heure_debut &amp;&amp; c.heure_fin &amp;&amp; c.heure_debut &gt;&#x3D; c.heure_fin) {
+                    erreurs.push(&#x60;[${nom} - Créneau ${j+1}] Fin créneau avant début.&#x60;);
+                }
+                if (debut &amp;&amp; c.heure_debut &lt; debut) {
+                    erreurs.push(&#x60;[${nom} - Créneau ${j+1}] Commence avant la tâche.&#x60;);
+                }
+                if (fin &amp;&amp; c.heure_fin &gt; fin) {
+                    erreurs.push(&#x60;[${nom} - Créneau ${j+1}] Finit après la tâche.&#x60;);
+                }
+            });
+        }
+    });
+
+    return erreurs;
+  }
+
+  goBack() {
+      window.history.back();
+  }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;max-w-5xl mx-auto px-4 py-8&quot;&gt;
+  &lt;div class&#x3D;&quot;flex justify-between items-center mb-6&quot;&gt;
+    &lt;h1 class&#x3D;&quot;text-2xl font-bold text-gray-800&quot;&gt;
+      {{ isEditMode ? &#x27;Modifier le formulaire&#x27; : &#x27;Nouveau formulaire&#x27; }}
+    &lt;/h1&gt;
+    &lt;button (click)&#x3D;&quot;goBack()&quot; class&#x3D;&quot;text-gray-500 hover:text-gray-700&quot;&gt;Annuler&lt;/button&gt;
+  &lt;/div&gt;
+
+  @if (validationErrors.length &gt; 0 || apiError) {
+    &lt;div class&#x3D;&quot;mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm&quot;&gt;
+        &lt;div class&#x3D;&quot;flex items-start&quot;&gt;
+          &lt;i class&#x3D;&quot;fa-solid fa-triangle-exclamation text-red-500 mr-2 mt-0.5&quot; style&#x3D;&quot;font-size: 20px;&quot;&gt;&lt;/i&gt;
+            &lt;div&gt;
+                &lt;h3 class&#x3D;&quot;text-red-800 font-bold text-sm&quot;&gt;Impossible d&#x27;enregistrer :&lt;/h3&gt;
+                @if (apiError) { &lt;p class&#x3D;&quot;text-red-700 text-sm&quot;&gt;{{ apiError }}&lt;/p&gt; }
+                @if (validationErrors.length &gt; 0) {
+                    &lt;ul class&#x3D;&quot;list-disc list-inside mt-2 text-sm text-red-700&quot;&gt;
+                        @for (error of validationErrors; track $index) { &lt;li&gt;{{ error }}&lt;/li&gt; }
+                    &lt;/ul&gt;
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+  }
+
+  @if (loading) {
+    &lt;div class&#x3D;&quot;flex justify-center h-64 items-center&quot;&gt;
+        &lt;app-spinner&gt;&lt;/app-spinner&gt;
+    &lt;/div&gt;
+  } @else {
+    &lt;form [formGroup]&#x3D;&quot;mainForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
+      
+      &lt;div class&#x3D;&quot;bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8&quot;&gt;
+        &lt;div class&#x3D;&quot;grid gap-6&quot;&gt;
+          &lt;div&gt;
+            &lt;label for&#x3D;&quot;nom_formulaire&quot; class&#x3D;&quot;block text-sm font-semibold text-gray-700 mb-1&quot;&gt;Nom du formulaire&lt;/label&gt;
+            &lt;input id&#x3D;&quot;nom_formulaire&quot; formControlName&#x3D;&quot;nom_formulaire&quot; type&#x3D;&quot;text&quot; class&#x3D;&quot;w-full rounded-lg border-gray-300 shadow-sm px-4 py-2 border&quot;&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;label for&#x3D;&quot;desc_formulaire&quot; class&#x3D;&quot;block text-sm font-semibold text-gray-700 mb-1&quot;&gt;Description&lt;/label&gt;
+            &lt;textarea id&#x3D;&quot;desc_formulaire&quot; formControlName&#x3D;&quot;description&quot; rows&#x3D;&quot;2&quot; class&#x3D;&quot;w-full rounded-lg border-gray-300 shadow-sm px-4 py-2 border&quot;&gt;&lt;/textarea&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div formArrayName&#x3D;&quot;taches&quot; class&#x3D;&quot;space-y-8&quot;&gt;
+        @for (tache of taches.controls; track $index; let i &#x3D; $index) {
+          &lt;div [formGroupName]&#x3D;&quot;i&quot; class&#x3D;&quot;bg-white rounded-xl shadow-lg border-l-8 border-blue-500 overflow-hidden&quot;&gt;
+            &lt;div class&#x3D;&quot;bg-gray-50 p-5 border-b border-gray-200&quot;&gt;
+              &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;&gt;
+                &lt;div class&#x3D;&quot;md:col-span-2&quot;&gt;
+                  &lt;label [for]&#x3D;&quot;&#x27;nom_tache_&#x27; + i&quot; class&#x3D;&quot;text-xs font-bold text-gray-500 uppercase block mb-1&quot;&gt;Nom de la tâche&lt;/label&gt;
+                  &lt;input [id]&#x3D;&quot;&#x27;nom_tache_&#x27; + i&quot; formControlName&#x3D;&quot;nom_tache&quot; type&#x3D;&quot;text&quot; class&#x3D;&quot;w-full bg-white border border-gray-300 rounded px-3 py-2&quot;&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;label [for]&#x3D;&quot;&#x27;debut_globale_&#x27; + i&quot; class&#x3D;&quot;text-xs font-bold text-gray-500 uppercase block mb-1&quot;&gt;Début Global&lt;/label&gt;
+                    &lt;input [id]&#x3D;&quot;&#x27;debut_globale_&#x27; + i&quot; formControlName&#x3D;&quot;heure_debut_globale&quot; type&#x3D;&quot;time&quot; class&#x3D;&quot;w-full bg-white border border-gray-300 rounded px-2 py-1&quot;&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;label [for]&#x3D;&quot;&#x27;fin_globale_&#x27; + i&quot; class&#x3D;&quot;text-xs font-bold text-gray-500 uppercase block mb-1&quot;&gt;Fin Globale&lt;/label&gt;
+                    &lt;input [id]&#x3D;&quot;&#x27;fin_globale_&#x27; + i&quot; formControlName&#x3D;&quot;heure_fin_globale&quot; type&#x3D;&quot;time&quot; class&#x3D;&quot;w-full bg-white border border-gray-300 rounded px-2 py-1&quot;&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;removeTache(i)&quot; class&#x3D;&quot;mt-2 text-red-400 hover:text-red-600 text-sm&quot;&gt;Supprimer la tâche&lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;p-5 bg-blue-50/30&quot;&gt;
+              &lt;h4 class&#x3D;&quot;text-sm font-bold text-blue-900 mb-3&quot;&gt;Créneaux horaires &amp; Quotas&lt;/h4&gt;
+              &lt;div formArrayName&#x3D;&quot;creneaux&quot; class&#x3D;&quot;space-y-3&quot;&gt;
+                @for (creneau of getCreneaux(i).controls; track $index; let j &#x3D; $index) {
+                  &lt;div [formGroupName]&#x3D;&quot;j&quot; class&#x3D;&quot;flex flex-wrap items-center gap-3 bg-white p-3 rounded-lg border border-gray-200&quot;&gt;
+                    &lt;span class&#x3D;&quot;text-gray-400 text-xs font-mono&quot;&gt;#{{ j + 1 }}&lt;/span&gt;
+                    
+                    &lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+                        &lt;input [id]&#x3D;&quot;&#x27;debut_&#x27; + i + &#x27;_&#x27; + j&quot; formControlName&#x3D;&quot;heure_debut&quot; type&#x3D;&quot;time&quot; class&#x3D;&quot;border border-gray-300 rounded px-2 py-1 text-sm&quot;&gt;
+                        &lt;span&gt;à&lt;/span&gt;
+                        &lt;input [id]&#x3D;&quot;&#x27;fin_&#x27; + i + &#x27;_&#x27; + j&quot; formControlName&#x3D;&quot;heure_fin&quot; type&#x3D;&quot;time&quot; class&#x3D;&quot;border border-gray-300 rounded px-2 py-1 text-sm&quot;&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div class&#x3D;&quot;flex items-center gap-2 ml-auto&quot;&gt;
+                        &lt;label [for]&#x3D;&quot;&#x27;quota_&#x27; + i + &#x27;_&#x27; + j&quot; class&#x3D;&quot;text-xs font-bold text-gray-500 uppercase&quot;&gt;Places :&lt;/label&gt;
+                        &lt;input [id]&#x3D;&quot;&#x27;quota_&#x27; + i + &#x27;_&#x27; + j&quot; formControlName&#x3D;&quot;quota&quot; type&#x3D;&quot;number&quot; min&#x3D;&quot;1&quot; class&#x3D;&quot;w-16 border border-gray-300 rounded px-2 py-1 text-sm font-bold text-center&quot;&gt;
+                    &lt;/div&gt;
+
+                    &lt;button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;removeCreneau(i, j)&quot; class&#x3D;&quot;text-gray-400 hover:text-red-500 p-1&quot;&gt;X&lt;/button&gt;
+                  &lt;/div&gt;
+                }
+              &lt;/div&gt;
+              &lt;button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;addCreneau(i)&quot; class&#x3D;&quot;mt-4 text-sm text-blue-600 font-bold&quot;&gt;+ Ajouter un créneau&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        }
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;mt-10 flex gap-6 pb-10&quot;&gt;
+        &lt;button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;addTache()&quot; class&#x3D;&quot;px-6 py-4 bg-white border-2 border-dashed border-blue-400 text-blue-600 font-bold rounded-xl hover:bg-blue-50&quot;&gt;
+            + Ajouter une nouvelle Tâche
+        &lt;/button&gt;
+        &lt;button type&#x3D;&quot;submit&quot; [disabled]&#x3D;&quot;mainForm.invalid || saving&quot; class&#x3D;&quot;px-10 py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 shadow-xl disabled:opacity-50&quot;&gt;
+            {{ saving ? &#x27;Sauvegarde...&#x27; : &#x27;Enregistrer&#x27; }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  }
+&lt;/div&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="max-w-5xl mx-auto px-4 py-8">  <div class="flex justify-between items-center mb-6">    <h1 class="text-2xl font-bold text-gray-800">      {{ isEditMode ? \'Modifier le formulaire\' : \'Nouveau formulaire\' }}    </h1>    <button (click)="goBack()" class="text-gray-500 hover:text-gray-700">Annuler</button>  </div>  @if (validationErrors.length > 0 || apiError) {    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">        <div class="flex items-start">          <i class="fa-solid fa-triangle-exclamation text-red-500 mr-2 mt-0.5" style="font-size: 20px;"></i>            <div>                <h3 class="text-red-800 font-bold text-sm">Impossible d\'enregistrer :</h3>                @if (apiError) { <p class="text-red-700 text-sm">{{ apiError }}</p> }                @if (validationErrors.length > 0) {                    <ul class="list-disc list-inside mt-2 text-sm text-red-700">                        @for (error of validationErrors; track $index) { <li>{{ error }}</li> }                    </ul>                }            </div>        </div>    </div>  }  @if (loading) {    <div class="flex justify-center h-64 items-center">        <app-spinner></app-spinner>    </div>  } @else {    <form [formGroup]="mainForm" (ngSubmit)="onSubmit()">            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">        <div class="grid gap-6">          <div>            <label for="nom_formulaire" class="block text-sm font-semibold text-gray-700 mb-1">Nom du formulaire</label>            <input id="nom_formulaire" formControlName="nom_formulaire" type="text" class="w-full rounded-lg border-gray-300 shadow-sm px-4 py-2 border">          </div>          <div>            <label for="desc_formulaire" class="block text-sm font-semibold text-gray-700 mb-1">Description</label>            <textarea id="desc_formulaire" formControlName="description" rows="2" class="w-full rounded-lg border-gray-300 shadow-sm px-4 py-2 border"></textarea>          </div>        </div>      </div>      <div formArrayName="taches" class="space-y-8">        @for (tache of taches.controls; track $index; let i = $index) {          <div [formGroupName]="i" class="bg-white rounded-xl shadow-lg border-l-8 border-blue-500 overflow-hidden">            <div class="bg-gray-50 p-5 border-b border-gray-200">              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">                <div class="md:col-span-2">                  <label [for]="\'nom_tache_\' + i" class="text-xs font-bold text-gray-500 uppercase block mb-1">Nom de la tâche</label>                  <input [id]="\'nom_tache_\' + i" formControlName="nom_tache" type="text" class="w-full bg-white border border-gray-300 rounded px-3 py-2">                </div>                <div>                    <label [for]="\'debut_globale_\' + i" class="text-xs font-bold text-gray-500 uppercase block mb-1">Début Global</label>                    <input [id]="\'debut_globale_\' + i" formControlName="heure_debut_globale" type="time" class="w-full bg-white border border-gray-300 rounded px-2 py-1">                </div>                <div>                    <label [for]="\'fin_globale_\' + i" class="text-xs font-bold text-gray-500 uppercase block mb-1">Fin Globale</label>                    <input [id]="\'fin_globale_\' + i" formControlName="heure_fin_globale" type="time" class="w-full bg-white border border-gray-300 rounded px-2 py-1">                </div>              </div>              <button type="button" (click)="removeTache(i)" class="mt-2 text-red-400 hover:text-red-600 text-sm">Supprimer la tâche</button>            </div>            <div class="p-5 bg-blue-50/30">              <h4 class="text-sm font-bold text-blue-900 mb-3">Créneaux horaires & Quotas</h4>              <div formArrayName="creneaux" class="space-y-3">                @for (creneau of getCreneaux(i).controls; track $index; let j = $index) {                  <div [formGroupName]="j" class="flex flex-wrap items-center gap-3 bg-white p-3 rounded-lg border border-gray-200">                    <span class="text-gray-400 text-xs font-mono">#{{ j + 1 }}</span>                                        <div class="flex items-center gap-2">                        <input [id]="\'debut_\' + i + \'_\' + j" formControlName="heure_debut" type="time" class="border border-gray-300 rounded px-2 py-1 text-sm">                        <span>à</span>                        <input [id]="\'fin_\' + i + \'_\' + j" formControlName="heure_fin" type="time" class="border border-gray-300 rounded px-2 py-1 text-sm">                    </div>                                        <div class="flex items-center gap-2 ml-auto">                        <label [for]="\'quota_\' + i + \'_\' + j" class="text-xs font-bold text-gray-500 uppercase">Places :</label>                        <input [id]="\'quota_\' + i + \'_\' + j" formControlName="quota" type="number" min="1" class="w-16 border border-gray-300 rounded px-2 py-1 text-sm font-bold text-center">                    </div>                    <button type="button" (click)="removeCreneau(i, j)" class="text-gray-400 hover:text-red-500 p-1">X</button>                  </div>                }              </div>              <button type="button" (click)="addCreneau(i)" class="mt-4 text-sm text-blue-600 font-bold">+ Ajouter un créneau</button>            </div>          </div>        }      </div>      <div class="mt-10 flex gap-6 pb-10">        <button type="button" (click)="addTache()" class="px-6 py-4 bg-white border-2 border-dashed border-blue-400 text-blue-600 font-bold rounded-xl hover:bg-blue-50">            + Ajouter une nouvelle Tâche        </button>        <button type="submit" [disabled]="mainForm.invalid || saving" class="px-10 py-4 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 shadow-xl disabled:opacity-50">            {{ saving ? \'Sauvegarde...\' : \'Enregistrer\' }}        </button>      </div>    </form>  }</div></div>'
+    var COMPONENTS = [{'name': 'AccueilComponent', 'selector': 'app-accueil'},{'name': 'ActualiteCardComponent', 'selector': 'app-actualite-card'},{'name': 'ActualiteCreerComponent', 'selector': 'app-actualite-creer'},{'name': 'ActualiteDetailComponent', 'selector': 'app-actualite-detail'},{'name': 'ActualitePageComponent', 'selector': 'app-actualite-page'},{'name': 'AdminGestionUtilisateursComponent', 'selector': 'app-admin-utilisateurs'},{'name': 'AlertComponent', 'selector': 'app-alert'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CalendrierComponent', 'selector': 'app-calendrier'},{'name': 'CompteUtilisateurComponent', 'selector': 'app-compte-utilisateur'},{'name': 'EvenementCardComponent', 'selector': 'app-evenement-card'},{'name': 'EvenementDetailComponent', 'selector': 'app-evenement-detail'},{'name': 'EvenementEditComponent', 'selector': 'app-evenement-edit'},{'name': 'EvenementPageComponent', 'selector': 'app-evenement-page'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormInscriptionEvenementComponent', 'selector': 'app-form-inscription-evenement'},{'name': 'FormModifierPasswordComponent', 'selector': 'app-form-modifier-password'},{'name': 'FormulaireEditComponent', 'selector': 'app-formulaire-edit'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InscriptionEvenementComponent', 'selector': 'app-inscription-evenement'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewsletterPageComponent', 'selector': 'app-newsletter-page'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SpinnerComponent', 'selector': 'app-spinner'},{'name': 'TemplatePlaygroundComponent', 'selector': 'template-playground-root'},{'name': 'ToastComponent', 'selector': 'app-toast'},{'name': 'UserFormComponent', 'selector': 'app-user-form'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'FormulaireEditComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'FormulaireEditComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
