@@ -62,7 +62,7 @@ class InscriptionController extends Controller
     {
         $user = $request->user();
 
-        $inscriptions = Inscription::with(['creneau.tache.formulaire.evenement'])
+        $inscriptions = Inscription::with(['creneau.tache.formulaire.evenements'])
             ->where('id_utilisateur', $user->id_utilisateur)
             ->orderBy('created_at', 'desc')
             ->get();
