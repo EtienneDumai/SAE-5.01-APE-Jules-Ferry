@@ -23,7 +23,7 @@ class UtilisateurControllerTest extends TestCase
         $response = $this->getJson('/api/utilisateurs');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(4);
+            ->assertJsonCount(4);
     }
 
     public function test_show_retourne_un_utilisateur()
@@ -36,7 +36,7 @@ class UtilisateurControllerTest extends TestCase
         $response = $this->getJson("/api/utilisateurs/{$user->id_utilisateur}");
 
         $response->assertStatus(200)
-                 ->assertJson(['id_utilisateur' => $user->id_utilisateur]);
+            ->assertJson(['id_utilisateur' => $user->id_utilisateur]);
     }
 
     public function test_update_modifie_profil_utilisateur()
@@ -67,7 +67,7 @@ class UtilisateurControllerTest extends TestCase
         $response = $this->patchJson("/api/utilisateurs/{$user->id_utilisateur}/mot-de-passe", $data);
 
         $response->assertStatus(204);
-        
+
         $updatedUser = $user->fresh();
         $this->assertTrue(Hash::check('nouveauMotDePasse123', $updatedUser->mot_de_passe));
     }
@@ -75,11 +75,16 @@ class UtilisateurControllerTest extends TestCase
     public function test_destroy_supprime_utilisateur_fiablement()
     {
         $admin = Utilisateur::factory()->create();
-        
+
         $userToDelete = Utilisateur::factory()->create();
         $password = 'password';
         $userToDelete->update(['mot_de_passe' => Hash::make($password)]);
-        $this->actingAs($admin,'');
+
+        if (!Utilisateur::find(1)) {
+            Utilisateur::factory()->create(['id_utilisateur' => 1]);
+        }
+
+        $this->actingAs($admin, '');
         Evenement::factory()->create(['id_auteur' => $userToDelete->id_utilisateur]);
 
         $this->actingAs($admin, 'sanctum');
@@ -90,7 +95,7 @@ class UtilisateurControllerTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('utilisateurs', ['id_utilisateur' => $userToDelete->id_utilisateur]);
-        
+
         $this->assertDatabaseHas('evenements', ['id_auteur' => 1]);
     }
 }
