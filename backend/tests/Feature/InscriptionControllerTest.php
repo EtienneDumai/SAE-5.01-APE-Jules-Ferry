@@ -24,7 +24,7 @@ class InscriptionControllerTest extends TestCase
         $evenement = Evenement::factory()->create(['date_evenement' => now()->addDay()]);
         $formulaire = Formulaire::factory()->create();
         $evenement->update(['id_formulaire' => $formulaire->id_formulaire]);
-        
+
         $tache = Tache::factory()->create(['id_formulaire' => $formulaire->id_formulaire]);
         $creneau = Creneau::factory()->create(['id_tache' => $tache->id_tache, 'quota' => 5]);
 
@@ -50,7 +50,7 @@ class InscriptionControllerTest extends TestCase
         $evenement = Evenement::factory()->create(['date_evenement' => now()->subDay()]);
         $formulaire = Formulaire::factory()->create();
         $evenement->update(['id_formulaire' => $formulaire->id_formulaire]);
-        
+
         $tache = Tache::factory()->create(['id_formulaire' => $formulaire->id_formulaire]);
         $creneau = Creneau::factory()->create(['id_tache' => $tache->id_tache]);
 
@@ -59,7 +59,7 @@ class InscriptionControllerTest extends TestCase
         $response = $this->postJson('/api/inscriptions', $data);
 
         $response->assertStatus(422)
-                 ->assertJsonFragment(['message' => 'Impossible de s\'inscrire à un événement passé.']);
+            ->assertJsonFragment(['message' => 'Impossible de s\'inscrire à un événement passé.']);
     }
 
     public function test_store_fails_if_quota_ok()
@@ -82,7 +82,7 @@ class InscriptionControllerTest extends TestCase
         $response = $this->postJson('/api/inscriptions', $data);
 
         $response->assertStatus(422)
-                 ->assertJsonFragment(['message' => 'Ce créneau est complet.']);
+            ->assertJsonFragment(['message' => 'Ce créneau est complet.']);
     }
 
     public function test_store_fails_if_already_registered()
@@ -98,7 +98,7 @@ class InscriptionControllerTest extends TestCase
 
         // Register once
         Inscription::create([
-            'id_utilisateur' => $user->id_utilisateur, 
+            'id_utilisateur' => $user->id_utilisateur,
             'id_creneau' => $creneau->id_creneau
         ]);
 
@@ -107,7 +107,7 @@ class InscriptionControllerTest extends TestCase
         $response = $this->postJson('/api/inscriptions', $data);
 
         $response->assertStatus(409)
-                 ->assertJsonFragment(['message' => 'Vous êtes déjà inscrit à ce créneau.']);
+            ->assertJsonFragment(['message' => 'Vous êtes déjà inscrit à ce créneau.']);
     }
 
     public function test_mes_inscriptions_returns_list()
@@ -120,7 +120,7 @@ class InscriptionControllerTest extends TestCase
         $response = $this->getJson('/api/inscriptions/mes-inscriptions');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3);
+            ->assertJsonCount(3);
     }
 
     public function test_destroy_cancels_inscription()
@@ -137,5 +137,24 @@ class InscriptionControllerTest extends TestCase
             'id_utilisateur' => $user->id_utilisateur,
             'id_creneau' => $inscription->id_creneau
         ]);
+    }
+    public function test_store_validation_errors()
+    {
+        $user = Utilisateur::factory()->create(['role' => 'parent']);
+        $this->actingAs($user, 'sanctum');
+
+        $response = $this->postJson('/api/inscriptions', ['id_creneau' => 99999]);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['id_creneau']);
+        $creneau = Creneau::factory()->create();
+
+        $longComment = str_repeat('a', 501);
+        $response = $this->postJson('/api/inscriptions', [
+            'id_creneau' => $creneau->id_creneau,
+            'commentaire' => $longComment
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['commentaire']);
     }
 }
