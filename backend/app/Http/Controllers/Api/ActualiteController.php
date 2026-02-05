@@ -45,16 +45,16 @@ class ActualiteController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $validatedData = $request->validate([
-                'titre' => 'required|string|max:255',
-                'contenu' => 'required|string',
-                'date_publication' => 'required|date',
-                'statut' => 'required|in:brouillon,publie,archive',
-                'image' => 'nullable|image|max:2048',
-                'id_auteur' => 'nullable|integer'
-            ]);
+        $validatedData = $request->validate([
+            'titre' => 'required|string|max:255',
+            'contenu' => 'required|string',
+            'date_publication' => 'required|date',
+            'statut' => 'required|in:brouillon,publie,archive',
+            'image' => 'nullable|image|max:2048',
+            'id_auteur' => 'nullable|integer'
+        ]);
 
+        try {
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $imagePath = $this->processAndStoreImage($request->file('image'));
@@ -77,20 +77,20 @@ class ActualiteController extends Controller
 
     public function update(Request $request, $id)
     {
+        $actualite = Actualite::find($id);
+        if (!$actualite) {
+            return response()->json(['message' => 'Actualité non trouvée'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'titre' => 'required|string|max:255',
+            'contenu' => 'required|string',
+            'date_publication' => 'required|date',
+            'statut' => 'required|in:brouillon,publie,archive',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
         try {
-            $actualite = Actualite::find($id);
-            if (!$actualite) {
-                return response()->json(['message' => 'Actualité non trouvée'], 404);
-            }
-
-            $validatedData = $request->validate([
-                'titre' => 'required|string|max:255',
-                'contenu' => 'required|string',
-                'date_publication' => 'required|date',
-                'statut' => 'required|in:brouillon,publie,archive',
-                'image' => 'nullable|image|max:2048',
-            ]);
-
             if ($request->hasFile('image')) {
                 // Supprimer l'ancienne image si elle existe
                 $this->deleteOldImage($actualite->image_url);

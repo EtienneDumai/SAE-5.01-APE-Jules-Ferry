@@ -19,13 +19,12 @@ class Actualite extends Model
         'contenu',
         'image_url',
         'date_publication',
-        'date_creation',
         'statut',
         'id_auteur'
     ];
     
     protected $casts = [
-        'date_publication' => 'date',
+        'date_publication' => 'date:Y-m-d',
     ];
 
     public function auteur()

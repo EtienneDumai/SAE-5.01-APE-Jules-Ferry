@@ -35,6 +35,9 @@ Route::get('/evenements/{id}', [EvenementController::class, 'show']);
 // Actualités
 Route::get('/actualites', [ActualiteController::class, 'index']);
 Route::get('/actualites/{id}', [ActualiteController::class, 'show']);
+Route::post('/actualites', [ActualiteController::class, 'store']);
+Route::put('/actualites/{id}', [ActualiteController::class, 'update']);
+Route::delete('/actualites/{id}', [ActualiteController::class, 'destroy']);
 
 // Formulaires
 Route::get('/formulaires/{id}', [FormulaireController::class, 'show']);
