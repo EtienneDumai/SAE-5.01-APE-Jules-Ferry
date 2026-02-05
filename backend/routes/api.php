@@ -69,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/evenements/{evenement}', [EvenementController::class, 'destroy']);
 
     Route::apiResource('creneaux', CreneauController::class);
+    Route::get('/creneaux/tache/{tacheId}', [CreneauController::class, 'getCreneauxByTacheId']);
     Route::apiResource('formulaires', FormulaireController::class);
     Route::apiResource('taches', TacheController::class);
     Route::apiResource('utilisateurs', UtilisateurController::class);
