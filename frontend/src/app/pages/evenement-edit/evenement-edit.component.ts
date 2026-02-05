@@ -186,7 +186,7 @@ export class EvenementEditComponent implements OnInit {
     request$.subscribe({
       next: () => {
         this.saving = false;
-        this.toastService.show(
+        this.toastService.showWithTimeout(
           this.isEditMode ? 'Événement modifié avec succès.' : 'Événement créé avec succès.',
           TypeErreurToast.SUCCESS
         );

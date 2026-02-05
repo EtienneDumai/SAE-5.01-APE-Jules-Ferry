@@ -76,7 +76,7 @@ export class FormulaireEditComponent implements OnInit {
   removeTache(index: number) {
     if (confirm('Supprimer cette tâche ?')) {
           this.taches.removeAt(index);
-          this.toastService.show('Tâche supprimée avec succès.', TypeErreurToast.SUCCESS);
+          this.toastService.showWithTimeout('Tâche supprimée avec succès.', TypeErreurToast.SUCCESS);
     }
   }
 

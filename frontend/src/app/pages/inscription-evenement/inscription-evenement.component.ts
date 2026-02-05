@@ -29,7 +29,7 @@ export class InscriptionEvenementComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        this.toastService.show('Erreur lors du chargement des tâches de l\'événement', TypeErreurToast.ERROR);
+        this.toastService.showWithTimeout('Erreur lors du chargement des tâches de l\'événement', TypeErreurToast.ERROR);
       }
     });
     this.evenementService.getEvenementById(Number(id_evennement)).subscribe({

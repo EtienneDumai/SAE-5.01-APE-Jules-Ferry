@@ -74,7 +74,7 @@ export class EvenementCardComponent implements OnChanges {
     this.evenementService.deleteEvenement(this.id_evenement).subscribe({
       next: () => {
         this.eventDeleted.emit(this.id_evenement);
-        this.toastService.show('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
+        this.toastService.showWithTimeout('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
       },
       error: (err) => {
         console.error('Erreur lors de la suppression de l\'événement', err);

@@ -82,7 +82,7 @@ export class ActualiteDetailComponent implements OnInit {
   confirmerSuppression(): void {
     this.actualiteService.deleteActualite(this.actualite.id_actualite).subscribe({
       next: () => {
-        this.toastService.show('Actualité supprimée avec succès.', TypeErreurToast.SUCCESS);
+        this.toastService.showWithTimeout('Actualité supprimée avec succès.', TypeErreurToast.SUCCESS);
         this.router.navigate(['/actualites']);
       },
       error: (error) => {

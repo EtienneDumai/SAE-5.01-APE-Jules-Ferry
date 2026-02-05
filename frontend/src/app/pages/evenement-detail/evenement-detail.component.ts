@@ -154,10 +154,13 @@ export class EvenementDetailComponent implements OnInit {
     if (!this.evenement) return;
     this.evenementService.deleteEvenement(this.evenement.id_evenement).subscribe({
       next: () => {
-        this.toastService.show('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
+        this.toastService.showWithTimeout('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
         this.router.navigate(['/evenements']);
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+        this.toastService.showWithTimeout('Erreur lors de la suppression de l\'événement.', TypeErreurToast.ERROR);
+      }
     });
     this.showDeleteAlert = false;
   }

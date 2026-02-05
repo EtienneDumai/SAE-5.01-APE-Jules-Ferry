@@ -121,7 +121,7 @@ export class ActualiteCreerComponent implements OnInit {
 
     REQUEST.subscribe({
       next: () => {
-        this.toastService.show(
+        this.toastService.showWithTimeout(
           this.isEditMode ? 'Actualité modifiée avec succès.' : 'Actualité créée avec succès.',
           TypeErreurToast.SUCCESS
         );
@@ -130,7 +130,7 @@ export class ActualiteCreerComponent implements OnInit {
       error: (error) => {
         console.error('Erreur lors de la sauvegarde de l\'actualité:', error);
         const MESSAGE = this.isEditMode ? 'Erreur lors de la modification' : 'Erreur lors de la création';
-        this.toastService.show(MESSAGE + ' de l\'actualité. Veuillez réessayer.', TypeErreurToast.ERROR);
+        this.toastService.showWithTimeout(MESSAGE + ' de l\'actualité. Veuillez réessayer.', TypeErreurToast.ERROR);
         this.saving = false;
       }
     });
@@ -140,12 +140,12 @@ export class ActualiteCreerComponent implements OnInit {
     if (!this.idActualite) return;
     this.actualiteService.deleteActualite(this.idActualite).subscribe({
       next: () => {
-        this.toastService.show('Actualité supprimée avec succès.', TypeErreurToast.SUCCESS);
+        this.toastService.showWithTimeout('Actualité supprimée avec succès.', TypeErreurToast.SUCCESS);
         this.router.navigate(['/actualites']);
       },
       error: (error) => {
         console.error('Erreur lors de la suppression:', error);
-        this.toastService.show('Erreur lors de la suppression de l\'actualité.', TypeErreurToast.ERROR);
+        this.toastService.showWithTimeout('Erreur lors de la suppression de l\'actualité.', TypeErreurToast.ERROR);
       }
     });
   }

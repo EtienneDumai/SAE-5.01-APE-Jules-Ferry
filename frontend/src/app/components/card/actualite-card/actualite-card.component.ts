@@ -46,7 +46,7 @@ export class ActualiteCardComponent {
     this.actualiteService.deleteActualite(this.id_actualite).subscribe({
       next: () => {
         this.actualiteDeleted.emit(this.id_actualite);
-        this.toastService.show('Actualité supprimée avec succès.', TypeErreurToast.SUCCESS);
+        this.toastService.showWithTimeout('Actualité supprimée avec succès.', TypeErreurToast.SUCCESS);
       },
       error: (err) => {
         console.error('Erreur lors de la suppression de l\'actualité', err);
