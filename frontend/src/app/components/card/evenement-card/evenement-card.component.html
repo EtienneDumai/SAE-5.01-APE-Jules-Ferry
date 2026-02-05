@@ -24,6 +24,11 @@
                     <i class="fa-regular fa-trash-can"></i>
                 </button>
             </div>
+            @if (showDeleteAlert) {
+              <app-alert message="Voulez vous vraiment supprimer cet événement ?" texteBoutonValider="Supprimer"
+                texteBoutonAnnuler="Annuler" (valider)="confirmerSuppression()" (annuler)="annulerSuppression()">
+              </app-alert>
+            }
         }
     </div>
 

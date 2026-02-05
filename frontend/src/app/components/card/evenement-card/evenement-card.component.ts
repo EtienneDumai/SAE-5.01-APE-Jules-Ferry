@@ -5,14 +5,16 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { EvenementService } from '../../../services/Evenement/evenement.service';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 
+import { AlertComponent } from '../../../components/alert/alert.component';
 @Component({
   selector: 'app-evenement-card',
   standalone: true,
-  imports: [RouterLink, DatePipe, CommonModule],
+  imports: [RouterLink, DatePipe, CommonModule, AlertComponent],
   templateUrl: './evenement-card.component.html',
   styleUrl: './evenement-card.component.css'
 })
 export class EvenementCardComponent implements OnChanges {
+  showDeleteAlert = false;
   
   @Input() id_evenement!: number;
   @Input() titre = '';
@@ -62,16 +64,23 @@ export class EvenementCardComponent implements OnChanges {
 
   onDelete(event: Event): void {
     event.stopPropagation();
-    if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
-      this.evenementService.deleteEvenement(this.id_evenement).subscribe({
-        next: () => {
-          this.eventDeleted.emit(this.id_evenement);
-        },
-        error: (err) => {
-          console.error('Erreur lors de la suppression de l\'événement', err);
-        }
-      });
-    }
+    this.showDeleteAlert = true;
+  }
+
+  confirmerSuppression(): void {
+    this.evenementService.deleteEvenement(this.id_evenement).subscribe({
+      next: () => {
+        this.eventDeleted.emit(this.id_evenement);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression de l\'événement', err);
+      }
+    });
+    this.showDeleteAlert = false;
+  }
+
+  annulerSuppression(): void {
+    this.showDeleteAlert = false;
   }
 
   onEdit(event: Event): void {
