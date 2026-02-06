@@ -31,9 +31,7 @@
         @if(image_url) {
             <img [src]="getImageUrl(image_url)" [alt]="titre" class="w-full h-full object-cover" loading="lazy">
         } @else {
-            <div class="w-full h-full flex items-center justify-center bg-gray-100 opacity-50">
-                <i class="fa-solid fa-image text-gray-400" aria-hidden="true" style="font-size: 48px;"></i>
-            </div>
+            <img src="/imageDefaut/imageDefaut.png" [alt]="titre" class="w-full h-full object-cover" loading="lazy">
         }
     </div>
 
