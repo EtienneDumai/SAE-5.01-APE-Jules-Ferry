@@ -46,9 +46,9 @@ describe('InscriptionEvenementComponent', () => {
   ];
 
   beforeEach(async () => {
-     tacheServiceSpy = jasmine.createSpyObj('TacheService', ['getAlltachesByIdEvennement']);
-     evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getEvenementById']);
-     toastServiceSpy = jasmine.createSpyObj('ToastService', ['show', 'showWithTimeout']);
+    tacheServiceSpy = jasmine.createSpyObj('TacheService', ['getAlltachesByIdEvennement']);
+    evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getEvenementById']);
+    toastServiceSpy = jasmine.createSpyObj('ToastService', ['show']);
 
     tacheServiceSpy.getAlltachesByIdEvennement.and.returnValue(of(mockTaches));
     evenementServiceSpy.getEvenementById.and.returnValue(of(mockEvenement));
