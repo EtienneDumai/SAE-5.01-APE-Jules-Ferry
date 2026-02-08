@@ -17,7 +17,8 @@ class Formulaire extends Model
         'nom_formulaire',
         'description',
         'statut',
-        'id_createur'
+        'id_createur',
+        'is_template'
     ];
 
     public function createur()

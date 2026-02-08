@@ -1,16 +1,40 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router'; // RouterLink retiré si inutilisé
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { FormulaireService } from '../../services/Formulaire/formulaire.service';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 
+// On définit des types partiels pour éviter le 'any' lors de la copie
+interface TacheData {
+  nom_tache: string;
+  description?: string;
+  heure_debut_globale: string;
+  heure_fin_globale: string;
+  creneaux?: CreneauData[];
+}
+
+interface CreneauData {
+  heure_debut: string;
+  heure_fin: string;
+  quota: number;
+}
+
 @Component({
   selector: 'app-evenement-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './evenement-edit.component.html',
 })
 export class EvenementEditComponent implements OnInit {
@@ -18,9 +42,8 @@ export class EvenementEditComponent implements OnInit {
   selectedImageFile: File | null = null;
   previewImage: string | ArrayBuffer | null = null;
 
-  formulaires: Formulaire[] = [];
-  selectedFormulaire: Formulaire | null = null;
-
+  templates: Formulaire[] = [];
+  
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -34,6 +57,11 @@ export class EvenementEditComponent implements OnInit {
   isEditMode = false;
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadData();
+  }
+
+  private initForm(): void {
     this.evenementForm = this.fb.group({
       titre: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', [Validators.required]],
@@ -42,19 +70,79 @@ export class EvenementEditComponent implements OnInit {
       heure_fin: ['', [Validators.required]],
       lieu: ['', [Validators.required, Validators.maxLength(255)]],
       image_url: [''],
-      id_formulaire: [null] 
+      select_template_id: [null],
+      taches: this.fb.array([]) 
     }, { 
       validators: this.timeRangeValidator 
     });
 
-    this.evenementForm.get('id_formulaire')?.valueChanges.subscribe(() => {
-        this.onFormulaireChange(null); 
+    this.evenementForm.get('select_template_id')?.valueChanges.subscribe((id) => {
+        // Conversion explicite en number ou null pour éviter les soucis de type
+        this.applyTemplate(id ? Number(id) : null);
     });
-
-    this.loadData();
   }
 
-  // verif erreurs des heures
+  get taches(): FormArray {
+    return this.evenementForm.get('taches') as FormArray;
+  }
+
+  getCreneaux(tacheIndex: number): FormArray {
+    return this.taches.at(tacheIndex).get('creneaux') as FormArray;
+  }
+
+  // Remplacement de 'any' par 'TacheData | null'
+  addTache(data: TacheData | null = null) {
+    const tacheGroup = this.fb.group({
+      nom_tache: [data?.nom_tache || '', Validators.required],
+      description: [data?.description || ''],
+      heure_debut_globale: [data?.heure_debut_globale || '', Validators.required],
+      heure_fin_globale: [data?.heure_fin_globale || '', Validators.required],
+      creneaux: this.fb.array([])
+    });
+
+    this.taches.push(tacheGroup);
+
+    if (data && data.creneaux) {
+        const index = this.taches.length - 1;
+        data.creneaux.forEach((c) => this.addCreneau(index, c));
+    } else {
+        this.addCreneau(this.taches.length - 1);
+    }
+  }
+
+  removeTache(index: number) {
+    this.taches.removeAt(index);
+  }
+
+  // Remplacement de 'any' par 'CreneauData | null'
+  addCreneau(tacheIndex: number, data: CreneauData | null = null) {
+    const creneauxArray = this.getCreneaux(tacheIndex);
+    creneauxArray.push(this.fb.group({
+      heure_debut: [data?.heure_debut || '', Validators.required],
+      heure_fin: [data?.heure_fin || '', Validators.required],
+      quota: [data?.quota || 1, [Validators.required, Validators.min(1)]]
+    }));
+  }
+
+  removeCreneau(tacheIndex: number, creneauIndex: number) {
+    this.getCreneaux(tacheIndex).removeAt(creneauIndex);
+  }
+
+  // Typage strict de l'ID
+  applyTemplate(templateId: number | null) {
+    this.taches.clear();
+
+    if (!templateId) return;
+
+    const template = this.templates.find(t => t.id_formulaire == templateId);
+
+    if (template && template.taches) {
+        // TypeScript ne sait pas que tes taches modèles correspondent à TacheData
+        // On force le typage ici car on sait que la structure JSON est la même
+        (template.taches as unknown as TacheData[]).forEach(t => this.addTache(t));
+    }
+  }
+
   timeRangeValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
     const debut = group.get('heure_debut')?.value;
     const fin = group.get('heure_fin')?.value;
@@ -66,21 +154,22 @@ export class EvenementEditComponent implements OnInit {
 
   loadData() {
     this.formulaireService.getAllFormulaires().subscribe({
-        next: (forms: Formulaire[]) => {
-            this.formulaires = forms;
-            const id = this.route.snapshot.paramMap.get('id');
-            if (id && id !== 'new') {
-                this.idEvenement = Number(id);
-                this.isEditMode = true;
-                this.loadEvenement(this.idEvenement);
-            } else {
-                this.loading = false;
-            }
-        },
-        error: () => {
-            console.error('Erreur chargement formulaires');
-            this.loading = false;
+      next: (forms: Formulaire[]) => {
+        // Filtre strict
+        this.templates = forms.filter(f => f.is_template === true || f.is_template === 1);
+        
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id && id !== 'new') {
+          this.idEvenement = Number(id);
+          this.isEditMode = true;
+          this.loadEvenement(this.idEvenement);
+        } else {
+          this.loading = false;
         }
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
 
@@ -89,7 +178,7 @@ export class EvenementEditComponent implements OnInit {
       next: (evenement) => {
         let dateStr = '';
         if (evenement.date_evenement) {
-             dateStr = evenement.date_evenement.toString().split('T')[0];
+          dateStr = evenement.date_evenement.toString().split('T')[0];
         }
 
         this.evenementForm.patchValue({
@@ -100,27 +189,16 @@ export class EvenementEditComponent implements OnInit {
           heure_fin: evenement.heure_fin,
           lieu: evenement.lieu,
           image_url: evenement.image_url,
-          id_formulaire: evenement.id_formulaire || null 
+          select_template_id: null
         });
 
-        this.onFormulaireChange(null);
         this.loading = false;
       },
       error: () => {
-        alert('Erreur lors du chargement de l\'événement');
+        alert("Erreur lors du chargement de l'événement");
         this.router.navigate(['/evenements']);
       }
     });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-  onFormulaireChange(event: any = null): void {
-    const formId = this.evenementForm.get('id_formulaire')?.value;
-    if (formId && formId != 'null') {
-      this.selectedFormulaire = this.formulaires.find(f => f.id_formulaire == formId) || null;
-    } else {
-      this.selectedFormulaire = null;
-    }
   }
 
   onImageFileChange(event: Event): void {
@@ -131,54 +209,45 @@ export class EvenementEditComponent implements OnInit {
       this.previewImage = null;
       return;
     }
-    
     const file = input.files[0];
     if (!file.type.startsWith('image/')) {
       this.imageError = 'Seuls les fichiers images sont autorisés.';
-      this.selectedImageFile = null;
-      this.previewImage = null;
       return;
     }
-
     this.selectedImageFile = file;
-
     const reader = new FileReader();
-    reader.onload = () => {
-      this.previewImage = reader.result;
-    };
+    reader.onload = () => { this.previewImage = reader.result; };
     reader.readAsDataURL(file);
   }
 
   onSubmit(): void {
-    if (this.evenementForm.invalid) return;
+    if (this.evenementForm.invalid) {
+        this.evenementForm.markAllAsTouched();
+        return;
+    }
     this.saving = true;
     const formData = new FormData();
-    
-    Object.entries(this.evenementForm.value).forEach(([key, value]) => {
-      if (key === 'id_formulaire') return;
-      formData.append(key, value as string);
-    });
 
-    formData.append('statut', 'publie');
+    const val = this.evenementForm.value;
+    Object.keys(val).forEach(key => {
+        if (key !== 'taches' && key !== 'select_template_id') {
+            formData.append(key, val[key]);
+        }
+    });
 
     if (this.selectedImageFile) {
       formData.append('image', this.selectedImageFile);
     }
-
-    const formId = this.evenementForm.get('id_formulaire')?.value;
-    if(formId && formId != 'null') {
-        formData.append('id_formulaire', formId);
-    } else {
-        formData.append('id_formulaire', ''); 
-    }
+    formData.append('statut', 'publie');
+    formData.append('taches', JSON.stringify(val.taches));
 
     if (this.isEditMode) {
-        formData.append('_method', 'PUT');
+      formData.append('_method', 'PUT');
     }
 
-    const request$ = (this.isEditMode && this.idEvenement)
-      ? this.evenementService.updateEvenement(formData, this.idEvenement)
-      : this.evenementService.createEvenement(formData);
+    const request$ = this.isEditMode && this.idEvenement
+        ? this.evenementService.updateEvenement(formData, this.idEvenement)
+        : this.evenementService.createEvenement(formData);
 
     request$.subscribe({
       next: () => {
@@ -188,7 +257,7 @@ export class EvenementEditComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.saving = false;
-        alert('Erreur lors de l\'enregistrement');
+        alert("Erreur lors de l'enregistrement");
       }
     });
   }
