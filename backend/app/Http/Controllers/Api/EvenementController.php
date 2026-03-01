@@ -22,13 +22,26 @@ class EvenementController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Evenement::orderBy('date_evenement', 'desc');
+            $query = Evenement::select('evenements.*')
+                ->orderBy('date_evenement', 'desc')
+                ->with('auteur')
+                ->addSelect([
+                    'inscriptions_count' => \Illuminate\Support\Facades\DB::table('inscriptions')
+                        ->selectRaw('count(*)')
+                        ->join('creneaux', 'creneaux.id_creneau', '=', 'inscriptions.id_creneau')
+                        ->join('taches', 'taches.id_tache', '=', 'creneaux.id_tache')
+                        ->whereColumn('taches.id_formulaire', 'evenements.id_formulaire')
+                ]);
+
             if ($request->has('statut') && $request->statut !== 'tous') {
                 $query->where('statut', $request->statut);
             }
-            $evenements = $query->with('auteur')->get();
 
-            return response()->json($evenements);
+            if ($request->has('limit')) {
+                return response()->json($query->paginate((int) $request->limit));
+            }
+
+            return response()->json($query->get());
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -42,6 +55,23 @@ class EvenementController extends Controller
             if (!$evenement) {
                 return response()->json(['message' => 'Événement non trouvé'], 404);
             }
+            return response()->json($evenement);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getDetails($id)
+    {
+        try {
+            $evenement = Evenement::with([
+                'formulaire.taches.creneaux.inscriptions.utilisateur'
+            ])->find($id);
+
+            if (!$evenement) {
+                return response()->json(['message' => 'Événement non trouvé'], 404);
+            }
+
             return response()->json($evenement);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -68,7 +98,7 @@ class EvenementController extends Controller
                 'statut' => $validatedData['statut'],
                 'image_url' => $imagePath,
                 'id_formulaire' => $this->parseFormulaireId($request->id_formulaire),
-                'id_auteur' => Auth::id() ?? 1 
+                'id_auteur' => Auth::id() ?? 1
             ]);
 
             return response()->json($evenement, 201);
@@ -122,7 +152,7 @@ class EvenementController extends Controller
 
             $this->deleteOldImage($evenement->image_url);
             $evenement->delete();
-            
+
             return response()->json(['message' => 'Supprimé avec succès']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

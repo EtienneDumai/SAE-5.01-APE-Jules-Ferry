@@ -26,4 +26,14 @@ export class InscriptionService {
   deleteInscription(id_creneau: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id_creneau}`);
   }
+
+  deleteInscriptionAdmin(id_utilisateur: number, id_creneau: number, password: string): Observable<any> {
+    const body = { id_utilisateur, id_creneau, password };
+    return this.http.delete<any>(`${environment.apiUrl}/admin/inscriptions`, { body });
+  }
+
+  updateInscriptionAdmin(id_utilisateur: number, old_id_creneau: number, new_id_creneau: number, password: string): Observable<any> {
+    const body = { id_utilisateur, old_id_creneau, new_id_creneau, password };
+    return this.http.put<any>(`${environment.apiUrl}/admin/inscriptions`, body);
+  }
 }

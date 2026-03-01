@@ -16,6 +16,7 @@ import { Tache } from '../../../models/Tache/tache';
 import { Creneau } from '../../../models/Creneau/creneau';
 import { Inscription } from '../../../models/Inscription/inscription';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
+import { PasswordConfirmModalComponent } from '../../../components/password-confirm-modal/password-confirm-modal.component';
 
 interface ExtendedCreneau extends Creneau {
   filledInscriptions?: ExtendedInscription[];
@@ -29,6 +30,7 @@ interface ExtendedEvenement extends Evenement {
   extendedTaches?: ExtendedTache[];
   totalInscrits?: number;
   isExpanded?: boolean;
+  loadingDetails?: boolean;
 }
 
 interface ExtendedInscription extends Inscription {
@@ -39,7 +41,7 @@ interface ExtendedInscription extends Inscription {
 @Component({
   selector: 'app-admin-evenements',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PasswordConfirmModalComponent],
   templateUrl: './admin-evenements.component.html',
   styleUrl: './admin-evenements.component.css'
 })
@@ -51,147 +53,227 @@ export class AdminEvenementsComponent implements OnInit {
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly toastService = inject(ToastService);
 
-  events: Evenement[] = [];
-  taches: Tache[] = [];
-  creneaux: Creneau[] = [];
-  inscriptions: Inscription[] = [];
-  users: Map<number, Utilisateur> = new Map<number, Utilisateur>();
-
-  processedEvents: ExtendedEvenement[] = [];
-
-  loading = true;
+  events: ExtendedEvenement[] = [];
+  currentPage = 1;
+  limit = 5;
+  hasMore = true;
+  loading = false;
+  loadingMore = false;
   searchText = '';
 
+  showPasswordModal = false;
+  showMoveModal = false;
+
+  pendingAction: 'DELETE' | 'MOVE' | null = null;
+  selectedInscription: ExtendedInscription | null = null;
+  selectedCurrentCreneau: ExtendedCreneau | null = null;
+
+  selectedEvent: ExtendedEvenement | null = null;
+
+  availableSlots: ExtendedCreneau[] = [];
+  targetCreneauId: number | null = null;
+
   ngOnInit(): void {
-    this.loadAllData();
+    this.loadInitialEvents();
   }
 
-  loadAllData(): void {
-    this.loading = true;
-    forkJoin({
-      events: this.evenementService.getAllEvenements('tous'),
-      taches: this.tacheService.getAllTaches(),
-      creneaux: this.creneauService.getAllCreneaux(),
-      inscriptions: this.inscriptionService.getAllInscriptions(),
-      users: this.utilisateurService.getAllUtilisateurs()
-    }).subscribe({
-      next: (data) => {
-        this.events = data.events;
-        this.taches = data.taches;
-        this.creneaux = data.creneaux;
-        this.inscriptions = data.inscriptions;
+  loadInitialEvents(): void {
+    this.currentPage = 1;
+    this.events = [];
+    this.hasMore = true;
+    this.loadEvents();
+  }
 
-        this.users = new Map<number, Utilisateur>(data.users.map(u => [u.id_utilisateur, u]));
+  loadEvents(): void {
+    if (this.currentPage === 1) this.loading = true;
+    else this.loadingMore = true;
 
-        this.processData();
+    this.evenementService.getAllEvenements('tous', this.currentPage, this.limit).subscribe({
+      next: (response: any) => {
+        const newEvents: ExtendedEvenement[] = (response.data || []).map((e: any) => ({
+          ...e,
+          isExpanded: false,
+          totalInscrits: e.inscriptions_count || 0
+        }));
+
+        this.events = [...this.events, ...newEvents];
+        this.hasMore = !!response.next_page_url;
+        if (this.hasMore) this.currentPage++;
+
         this.loading = false;
+        this.loadingMore = false;
       },
       error: (err) => {
-        console.error('Erreur chargement données', err);
-        this.toastService.show('Erreur lors du chargement des données', TypeErreurToast.ERROR);
+        console.error('Erreur loading events', err);
+        this.toastService.show('Erreur chargement des événements', TypeErreurToast.ERROR);
         this.loading = false;
+        this.loadingMore = false;
       }
     });
   }
 
-  processData(): void {
-    const extendedInscriptions: ExtendedInscription[] = this.inscriptions.map(i => {
-      const user = this.users.get(i.id_utilisateur);
-      return {
-        ...i,
-        userNomComplet: user ? `${user.prenom} ${user.nom.toUpperCase()}` : 'Inconnu',
-        userEmail: user ? user.email : ''
-      };
-    });
+  loadMore(): void {
+    if (!this.loadingMore && this.hasMore) {
+      this.loadEvents();
+    }
+  }
 
-    const inscriptionsByCreneau = new Map<number, ExtendedInscription[]>();
-    extendedInscriptions.forEach(i => {
-      const existing = inscriptionsByCreneau.get(i.id_creneau) || [];
-      existing.push(i);
-      inscriptionsByCreneau.set(i.id_creneau, existing);
-    });
+  toggleExpand(event: ExtendedEvenement): void {
+    if (event.isExpanded) {
+      event.isExpanded = false;
+    } else {
+      event.isExpanded = true;
+      if (!event.extendedTaches && event.id_formulaire) {
+        this.loadEventDetails(event);
+      }
+    }
+  }
 
-    const extendedCreneaux: ExtendedCreneau[] = this.creneaux.map(c => ({
-      ...c,
-      filledInscriptions: inscriptionsByCreneau.get(c.id_creneau) || []
-    }));
+  loadEventDetails(event: ExtendedEvenement): void {
+    event.loadingDetails = true;
+    this.evenementService.getEvenementDetails(event.id_evenement).subscribe({
+      next: (details: any) => {
+        if (details.formulaire && details.formulaire.taches) {
+          event.extendedTaches = details.formulaire.taches.map((t: any) => {
+            const extTache: ExtendedTache = { ...t };
+            extTache.extendedCreneaux = (t.creneaux || []).map((c: any) => {
+              const extCreneau: ExtendedCreneau = { ...c };
+              extCreneau.filledInscriptions = (c.inscriptions || []).map((i: any) => ({
+                ...i,
+                userNomComplet: i.utilisateur ? `${i.utilisateur.prenom} ${i.utilisateur.nom.toUpperCase()}` : 'Inconnu',
+                userEmail: i.utilisateur ? i.utilisateur.email : ''
+              }));
+              return extCreneau;
+            });
+            return extTache;
+          });
 
-    const creneauxByTache = new Map<number, ExtendedCreneau[]>();
-    extendedCreneaux.forEach(c => {
-      const existing = creneauxByTache.get(c.id_tache) || [];
-      existing.push(c);
-      creneauxByTache.set(c.id_tache, existing);
-    });
-
-    const tachesByFormulaire = new Map<number, ExtendedTache[]>();
-    this.taches.forEach(t => {
-      const extTache: ExtendedTache = {
-        ...t,
-        extendedCreneaux: creneauxByTache.get(t.id_tache) || []
-      };
-
-      const formId = t.id_formulaire;
-      const existing = tachesByFormulaire.get(formId) || [];
-      existing.push(extTache);
-      tachesByFormulaire.set(formId, existing);
-    });
-
-    this.processedEvents = this.events.map(e => {
-      const taches = e.id_formulaire ? (tachesByFormulaire.get(e.id_formulaire) || []) : [];
-
-      let total = 0;
-      taches.forEach(t => {
-        t.extendedCreneaux?.forEach(c => {
-          total += c.filledInscriptions?.length || 0;
-        });
-      });
-
-      return {
-        ...e,
-        extendedTaches: taches,
-        totalInscrits: total
-      };
+          let total = 0;
+          event.extendedTaches?.forEach(t => {
+            t.extendedCreneaux?.forEach(c => {
+              total += c.filledInscriptions?.length || 0;
+            });
+          });
+          event.totalInscrits = total;
+        } else {
+          event.extendedTaches = [];
+          event.totalInscrits = 0;
+        }
+        event.loadingDetails = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.show('Erreur chargement détails', TypeErreurToast.ERROR);
+        event.loadingDetails = false;
+      }
     });
   }
 
   get filteredEvents(): ExtendedEvenement[] {
-    if (!this.searchText) return this.processedEvents;
+    if (!this.searchText) return this.events;
+    return this.events.filter(e => e.titre.toLowerCase().includes(this.searchText.toLowerCase()));
+  }
 
-    const lowerSearch = this.searchText.toLowerCase();
+  initiateDelete(inscription: ExtendedInscription, creneau: ExtendedCreneau, event: ExtendedEvenement): void {
+    this.selectedInscription = inscription;
+    this.selectedCurrentCreneau = creneau;
+    this.selectedEvent = event;
+    this.pendingAction = 'DELETE';
+    this.showPasswordModal = true;
+  }
 
-    return this.processedEvents.filter(e => {
-      if (e.titre.toLowerCase().includes(lowerSearch)) return true;
+  initiateMove(inscription: ExtendedInscription, currentCreneau: ExtendedCreneau, tache: ExtendedTache, event: ExtendedEvenement): void {
+    this.selectedInscription = inscription;
+    this.selectedCurrentCreneau = currentCreneau;
+    this.selectedEvent = event;
 
-      let hasUserMatch = false;
-      e.extendedTaches?.forEach(t => {
-        t.extendedCreneaux?.forEach(c => {
-          c.filledInscriptions?.forEach(i => {
-            if (i.userNomComplet?.toLowerCase().includes(lowerSearch) || i.userEmail?.toLowerCase().includes(lowerSearch)) {
-              hasUserMatch = true;
-            }
-          });
-        });
-      });
-      return hasUserMatch;
+    this.availableSlots = (tache.extendedCreneaux || [])
+      .filter(c => c.id_creneau !== currentCreneau.id_creneau);
+
+    this.targetCreneauId = null;
+    this.showMoveModal = true;
+  }
+
+  confirmMoveSelection(): void {
+    if (!this.targetCreneauId) return;
+    this.showMoveModal = false;
+    this.pendingAction = 'MOVE';
+    this.showPasswordModal = true;
+  }
+
+  onPasswordConfirmed(password: string): void {
+    this.showPasswordModal = false;
+
+    if (!this.selectedInscription || !this.selectedCurrentCreneau) return;
+
+    if (this.pendingAction === 'DELETE') {
+      this.executeDelete(password);
+    } else if (this.pendingAction === 'MOVE') {
+      this.executeMove(password);
+    }
+  }
+
+  closeModals(): void {
+    this.showPasswordModal = false;
+    this.showMoveModal = false;
+    this.pendingAction = null;
+    this.selectedInscription = null;
+    this.selectedCurrentCreneau = null;
+    this.targetCreneauId = null;
+    this.selectedEvent = null;
+  }
+
+  private executeDelete(password: string): void {
+    if (!this.selectedInscription || !this.selectedCurrentCreneau) return;
+
+    this.inscriptionService.deleteInscriptionAdmin(
+      this.selectedInscription.id_utilisateur,
+      this.selectedCurrentCreneau.id_creneau,
+      password
+    ).subscribe({
+      next: () => {
+        this.toastService.show('Désinscription réussie', TypeErreurToast.SUCCESS);
+        if (this.selectedEvent) {
+          this.loadEventDetails(this.selectedEvent);
+        }
+        this.closeModals();
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 403) {
+          this.toastService.show('Mot de passe incorrect', TypeErreurToast.ERROR);
+        } else {
+          this.toastService.show('Erreur lors de la désinscription', TypeErreurToast.ERROR);
+        }
+      }
     });
   }
 
-  desinscrire(inscription: ExtendedInscription): void {
-    if (!confirm(`Voulez-vous vraiment désinscrire ${inscription.userNomComplet} ?`)) return;
+  private executeMove(password: string): void {
+    if (!this.selectedInscription || !this.selectedCurrentCreneau || !this.targetCreneauId) return;
 
-    if (!inscription.id_inscription) {
-      this.toastService.show('Erreur: ID inscription manquant', TypeErreurToast.ERROR);
-      return;
-    }
-
-    this.inscriptionService.deleteInscription(inscription.id_inscription).subscribe({
+    this.inscriptionService.updateInscriptionAdmin(
+      this.selectedInscription.id_utilisateur,
+      this.selectedCurrentCreneau.id_creneau,
+      this.targetCreneauId,
+      password
+    ).subscribe({
       next: () => {
-        this.toastService.show('Désinscription réussie', TypeErreurToast.SUCCESS);
-        // Refresh data
-        this.loadAllData();
+        this.toastService.show('Déplacement réussi', TypeErreurToast.SUCCESS);
+        if (this.selectedEvent) {
+          this.loadEventDetails(this.selectedEvent);
+        }
+        this.closeModals();
       },
-      error: () => {
-        this.toastService.show('Erreur lors de la désinscription', TypeErreurToast.ERROR);
+      error: (err) => {
+        console.error(err);
+        if (err.status === 403) {
+          this.toastService.show('Mot de passe incorrect', TypeErreurToast.ERROR);
+        } else if (err.status === 409 || err.status === 422) {
+          this.toastService.show(err.error?.message || 'Erreur: Créneau invalide', TypeErreurToast.ERROR);
+        } else {
+          this.toastService.show('Erreur lors du déplacement', TypeErreurToast.ERROR);
+        }
       }
     });
   }

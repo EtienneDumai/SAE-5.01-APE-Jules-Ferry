@@ -1,8 +1,8 @@
 import { Component, ViewChild, ViewEncapsulation, OnInit, inject, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FullCalendarModule, FullCalendarComponent } from "@fullcalendar/angular"; 
-import { CalendarOptions, EventClickArg , CalendarApi} from '@fullcalendar/core';
+import { FullCalendarModule, FullCalendarComponent } from "@fullcalendar/angular";
+import { CalendarOptions, EventClickArg, CalendarApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -28,38 +28,38 @@ export class CalendrierComponent implements OnInit {
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
   @ViewChild('calendarContainer') calendarContainer: ElementRef | undefined;
   @ViewChild('eventDetails') eventDetails: ElementRef | undefined;
-  
+
   selectedEvent: Evenement | null = null;
   eventsList: Evenement[] = [];
   isLoading = true;
   errorMessage: string | null = null;
-  
+
   calendarState: 'compact' | 'expanded' | 'closed' = 'closed';
-  
+
   // Détection du mode mobile selon la largeur de la fenêtre
   private isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   //Fonction privée 
-  private scrollToCalendar(){
-      setTimeout(() => {
+  private scrollToCalendar() {
+    setTimeout(() => {
       this.calendarContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
   }
-  private scrollToEvent(){
-      setTimeout(() => {
-        this.eventDetails?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+  private scrollToEvent() {
+    setTimeout(() => {
+      this.eventDetails?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
   }
 
-  
+
   // Options du calendrier
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
-    initialView:'dayGridMonth',
+    initialView: 'dayGridMonth',
     locale: frLocale,
     height: 'auto',
     allDaySlot: false,
-    
+
     slotMinTime: '07:00:00',
     slotMaxTime: '20:00:00',
 
@@ -69,38 +69,38 @@ export class CalendrierComponent implements OnInit {
       }
     },
 
-    headerToolbar: this.isMobile 
+    headerToolbar: this.isMobile
       ? {
-          left: '',
-          center: 'title',
-          right: ''
-        }
+        left: '',
+        center: 'title',
+        right: ''
+      }
       : {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        },
-    footerToolbar: this.isMobile 
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+    footerToolbar: this.isMobile
       ? {
-          left: 'prev,next',
-          center: 'listWeek,dayGridMonth,timeGridDay today',
-          right: ''
-        }
+        left: 'prev,next',
+        center: 'listWeek,dayGridMonth,timeGridDay today',
+        right: ''
+      }
       : {
-          left: 'prevYear,nextYear'
-        },
-    
+        left: 'prevYear,nextYear'
+      },
+
     weekNumbers: true,
     weekText: '',
     weekends: true,
     eventDisplay: 'block',
     eventColor: '#9ae39cff',
     eventTextColor: '#000000',
-    
+
     windowResize: (arg) => {
       this.handleResize(arg.view.calendar);
     },
-    
+
     eventClick: (arg: EventClickArg) => {
       this.handleEventClick(arg);
     },
@@ -112,20 +112,20 @@ export class CalendrierComponent implements OnInit {
 
     events: []
   };
-  
+
   ngOnInit(): void {
     this.loadEvenements();
   }
-  
+
   loadEvenements(): void {
     this.isLoading = true;
     this.errorMessage = null;
-    
+
     // Récupération des événements depuis le service
     this.evenementService.getAllEvenements().subscribe({
       next: (evenements) => {
         this.eventsList = evenements;
-        this.calendarOptions.events = evenements.map(event => ({
+        this.calendarOptions.events = evenements.map((event: Evenement) => ({
           id: event.id_evenement.toString(),
           title: event.titre,
           start: this.formatEventDate(event.date_evenement, event.heure_debut),
@@ -143,15 +143,15 @@ export class CalendrierComponent implements OnInit {
       }
     });
   }
-  
+
   formatEventDate(date: string | Date, time: string): string {
-    const dateObj = new Date(date); 
+    const dateObj = new Date(date);
     if (isNaN(dateObj.getTime())) return '';
 
     const dateStr = dateObj.toISOString().split('T')[0];
     return `${dateStr}T${time}`;
   }
-  
+
   handleEventClick(arg: EventClickArg): void {
     const clickedEvent = this.eventsList.find(e => e.id_evenement.toString() === arg.event.id);
     if (clickedEvent) {
@@ -159,7 +159,7 @@ export class CalendrierComponent implements OnInit {
       this.scrollToEvent();
     }
   }
-  
+
   closeEventDetails(): void {
     this.selectedEvent = null;
     setTimeout(() => {
@@ -187,30 +187,30 @@ export class CalendrierComponent implements OnInit {
   handleResize(calendarApi: CalendarApi): void {
     const wasMobile = this.isMobile;
     this.isMobile = window.innerWidth < 768;
-    
+
     if (this.isMobile !== wasMobile) {
-      calendarApi.setOption('headerToolbar', this.isMobile 
+      calendarApi.setOption('headerToolbar', this.isMobile
         ? {
-            left: '',
-            center: 'title',
-            right: ''
-          }
+          left: '',
+          center: 'title',
+          right: ''
+        }
         : {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-          });
-      
-      calendarApi.setOption('footerToolbar', this.isMobile 
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        });
+
+      calendarApi.setOption('footerToolbar', this.isMobile
         ? {
-            left: 'prev,next',
-            center: 'listWeek,dayGridMonth',
-            right: ''
-          }
+          left: 'prev,next',
+          center: 'listWeek,dayGridMonth',
+          right: ''
+        }
         : {
-            left: 'prevYear,nextYear'
-          });
-      
+          left: 'prevYear,nextYear'
+        });
+
       if (this.isMobile) {
         if (calendarApi.view.type === 'timeGridWeek' || calendarApi.view.type === 'timeGridDay') {
           calendarApi.changeView('listWeek');

@@ -8,8 +8,9 @@
             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fa-solid fa-search text-gray-400"></i>
             </span>
-            <input type="text" [(ngModel)]="searchText" placeholder="Evènement, participant..."
-                class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 shadow-sm focus:border-[var(--primary-blue)] focus:ring-[var(--primary-blue)] sm:text-sm border">
+            <input type="text" [(ngModel)]="searchText" placeholder="Evènement, participant..." name="search_misc_off"
+                autocomplete="off" [disabled]="showPasswordModal || showMoveModal"
+                class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 shadow-sm focus:border-[var(--primary-blue)] focus:ring-[var(--primary-blue)] sm:text-sm border disabled:bg-gray-100 disabled:text-gray-400">
         </div>
     </div>
 
@@ -22,8 +23,7 @@
         @for (event of filteredEvents; track event.id_evenement) {
         <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
             <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center cursor-pointer hover:bg-gray-100 transition"
-                (click)="event['isExpanded'] = !event['isExpanded']"
-                (keyup.enter)="event['isExpanded'] = !event['isExpanded']" tabindex="0" role="button"
+                (click)="toggleExpand(event)" (keyup.enter)="toggleExpand(event)" tabindex="0" role="button"
                 [attr.aria-expanded]="event['isExpanded']">
                 <div>
                     <h3 class="text-lg leading-6 font-medium" style="color: var(--primary-dark-blue);">
@@ -42,6 +42,12 @@
 
             @if (event['isExpanded']) {
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+
+                @if (event.loadingDetails) {
+                <div class="flex justify-center py-4">
+                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--primary-blue)]"></div>
+                </div>
+                } @else {
 
                 @if (!event.extendedTaches || event.extendedTaches.length === 0) {
                 <p class="italic" style="color: var(--gray-text-color);">Aucune tâche ou créneau associé.</p>
@@ -69,7 +75,7 @@
                             </div>
 
                             <ul class="space-y-2 mt-2">
-                                @for (insc of creneau.filledInscriptions; track insc.id_inscription) {
+                                @for (insc of creneau.filledInscriptions; track $index) {
                                 <li class="flex justify-between items-start text-sm">
                                     <div class="flex flex-col">
                                         <span class="font-medium" style="color: var(--black-text-color);">{{
@@ -81,10 +87,17 @@
                                             insc.commentaire }}"</span>
                                         }
                                     </div>
-                                    <button (click)="desinscrire(insc); $event.stopPropagation()"
-                                        class="text-red-400 hover:text-red-600 ml-2" title="Désinscrire">
-                                        <i class="fa-solid fa-user-minus" style="color: var(--error-color);"></i>
-                                    </button>
+                                    <div class="flex items-center ml-2">
+                                        <button
+                                            (click)="initiateMove(insc, creneau, tache, event); $event.stopPropagation()"
+                                            class="text-blue-400 hover:text-blue-600 mr-3" title="Changer de créneau">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                        <button (click)="initiateDelete(insc, creneau, event); $event.stopPropagation()"
+                                            class="text-red-400 hover:text-red-600" title="Désinscrire">
+                                            <i class="fa-solid fa-user-minus"></i>
+                                        </button>
+                                    </div>
                                 </li>
                                 }
                                 @if (!creneau.filledInscriptions?.length) {
@@ -96,6 +109,7 @@
                     </div>
                 </div>
                 }
+                }
             </div>
             }
         </div>
@@ -105,6 +119,72 @@
             Aucun évènement trouvé (ou aucune tâche liée).
         </div>
         }
+
+        <!-- Load More -->
+        @if (hasMore && !searchText) {
+        <div class="flex justify-center mt-6">
+            <button (click)="loadMore()" [disabled]="loadingMore"
+                class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] w-full md:w-auto flex items-center justify-center min-w-[200px]">
+                @if (loadingMore) {
+                <span class="inline-block animate-spin mr-2 h-4 w-4 border-b-2 border-gray-700 rounded-full"></span>
+                Chargement...
+                } @else {
+                Voir plus d'événements
+                }
+            </button>
+        </div>
+        }
+    </div>
+    }
+
+    <!-- Modals -->
+    @if (showPasswordModal) {
+    <app-password-confirm-modal (confirm)="onPasswordConfirmed($event)" (cancel)="closeModals()">
+    </app-password-confirm-modal>
+    }
+
+    @if (showMoveModal) {
+    <div
+        class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Déplacer une inscription</h3>
+                <div class="mt-4 px-2">
+                    <p class="text-sm text-gray-500 mb-2">
+                        Utilisateur : <span class="font-semibold">{{ selectedInscription?.userNomComplet }}</span>
+                    </p>
+                    <p class="text-sm text-gray-500 mb-4">
+                        Créneau actuel : {{ selectedCurrentCreneau?.heure_debut }} - {{
+                        selectedCurrentCreneau?.heure_fin }}
+                    </p>
+
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nouveau créneau</label>
+                    <select [(ngModel)]="targetCreneauId"
+                        class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option [ngValue]="null" disabled>Sélectionner un créneau</option>
+                        @for (slot of availableSlots; track slot.id_creneau) {
+                        <option [ngValue]="slot.id_creneau">
+                            {{ slot.heure_debut }} - {{ slot.heure_fin }} ({{ slot.filledInscriptions?.length || 0 }}/{{
+                            slot.quota }})
+                        </option>
+                        }
+                        @if (availableSlots.length === 0) {
+                        <option disabled>Aucun autre créneau disponible</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex items-center justify-between mt-6 gap-3">
+                    <button (click)="closeModals()"
+                        class="px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md w-full shadow-sm border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        Annuler
+                    </button>
+                    <button (click)="confirmMoveSelection()" [disabled]="!targetCreneauId"
+                        class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Continuer
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     }
 </div>

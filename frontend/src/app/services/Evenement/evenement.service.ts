@@ -10,16 +10,23 @@ import { Evenement } from '../../models/Evenement/evenement';
 export class EvenementService {
   private readonly http = inject(HttpClient);
 
-  getAllEvenements(statut?: string): Observable<Evenement[]> {
-    let params = '';
+  getAllEvenements(statut?: string, page: number = 1, limit?: number): Observable<any> {
+    let params = `?page=${page}`;
     if (statut && statut !== 'tous') {
-        params = `?statut=${statut}`;
+      params += `&statut=${statut}`;
     }
-    return this.http.get<Evenement[]>(`${environment.apiUrl}/evenements${params}`);
+    if (limit) {
+      params += `&limit=${limit}`;
+    }
+    return this.http.get<any>(`${environment.apiUrl}/evenements${params}`);
   }
 
   getEvenementById(id: number): Observable<Evenement> {
     return this.http.get<Evenement>(`${environment.apiUrl}/evenements/${id}`);
+  }
+
+  getEvenementDetails(id: number): Observable<Evenement> {
+    return this.http.get<Evenement>(`${environment.apiUrl}/evenements/${id}/details`);
   }
 
   createEvenement(evenement: Evenement | FormData): Observable<Evenement> {
