@@ -122,11 +122,7 @@
         </div>
     </div>
     }
-    @if (idUtilisateurASupprimer !== null) {
-    <app-alert message="Voulez vous vraiment supprimer cet utilisateur ?" texteBoutonValider="Supprimer"
-        texteBoutonAnnuler="Annuler" (valider)="confirmerSuppression()" (annuler)="annulerSuppression()">
-    </app-alert>
-    }
+
 
     @if (showPasswordModal) {
     <app-password-confirm-modal (confirm)="onPasswordConfirmed($event)" (cancel)="closePasswordModal()">

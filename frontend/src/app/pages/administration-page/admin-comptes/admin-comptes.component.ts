@@ -175,21 +175,10 @@ export class AdminComptesComponent implements OnInit {
 
   demanderSuppression(id: number): void {
     if (this.idConnecte !== null && Number(id) === this.idConnecte) {
-      console.warn('Tentative de suppression de soi-même bloquée. id=', id);
+      this.toastService.show('Tu peux pas supprimer ton propre compte', TypeErreurToast.WARNING);
       return;
     }
     this.idUtilisateurASupprimer = id;
-  }
-
-  confirmerSuppression(): void {
-    if (this.idUtilisateurASupprimer === null) return;
-
-    if (this.idConnecte !== null && this.idUtilisateurASupprimer === this.idConnecte) {
-      this.toastService.show('Tu peux pas supprimer ton propre compte', TypeErreurToast.WARNING);
-      this.idUtilisateurASupprimer = null;
-      return;
-    }
-
     this.pendingAction = 'DELETE';
     this.showPasswordModal = true;
   }
@@ -217,9 +206,8 @@ export class AdminComptesComponent implements OnInit {
   }
 
 
-  annulerSuppression(): void {
-    this.idUtilisateurASupprimer = null;
-  }
+  // annulerSuppression is no longer needed since we use PasswordConfirmModal
+
 
   onPasswordConfirmed(password: string): void {
     if (this.pendingAction === 'CREATE') {
