@@ -127,5 +127,11 @@
         texteBoutonAnnuler="Annuler" (valider)="confirmerSuppression()" (annuler)="annulerSuppression()">
     </app-alert>
     }
+
+    @if (showPasswordModal) {
+    <app-password-confirm-modal (confirm)="onPasswordConfirmed($event)" (cancel)="closePasswordModal()">
+    </app-password-confirm-modal>
+    }
+
     <div #bottomAnchor></div>
 </div>

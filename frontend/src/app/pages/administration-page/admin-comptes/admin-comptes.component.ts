@@ -10,11 +10,12 @@ import { RoleUtilisateur } from '../../../enums/RoleUtilisateur/role-utilisateur
 import { StatutCompte } from '../../../enums/StatutCompte/statut-compte';
 import { AlertComponent } from '../../../components/alert/alert.component';
 import { UserFormComponent } from '../../../components/user-form/user-form.component';
+import { PasswordConfirmModalComponent } from '../../../components/password-confirm-modal/password-confirm-modal.component';
 
 @Component({
   selector: 'app-admin-comptes',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent],
+  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent, PasswordConfirmModalComponent],
   templateUrl: './admin-comptes.component.html',
   styleUrls: ['./admin-comptes.component.css']
 })
@@ -31,6 +32,10 @@ export class AdminComptesComponent implements OnInit {
   idUtilisateurASupprimer: number | null = null;
 
   modeCreation = false;
+
+  showPasswordModal = false;
+  pendingAction: 'CREATE' | 'UPDATE' | 'DELETE' | null = null;
+  pendingUserFormPayload: Utilisateur | null = null;
 
 
   roleUtilisateur = RoleUtilisateur;
@@ -95,14 +100,26 @@ export class AdminComptesComponent implements OnInit {
   }
 
   validerEdition(user: Utilisateur): void {
-    this.utilisateurService.updateUtilisateur(user, user.id_utilisateur).subscribe({
+    this.pendingUserFormPayload = user;
+    this.pendingAction = 'UPDATE';
+    this.showPasswordModal = true;
+  }
+
+  private executeEdition(password: string): void {
+    if (!this.pendingUserFormPayload) return;
+    this.utilisateurService.updateUtilisateur(this.pendingUserFormPayload, this.pendingUserFormPayload.id_utilisateur!, password).subscribe({
       next: () => {
         this.toastService.show('Utilisateur modifié', TypeErreurToast.SUCCESS);
         this.idEnEdition = null;
         this.utilisateurOriginal = null;
+        this.closePasswordModal();
       },
-      error: () => {
-        this.toastService.show('Erreur lors de la modification', TypeErreurToast.ERROR);
+      error: (err) => {
+        if (err.status === 403) {
+          this.toastService.show('Mot de passe administrateur incorrect', TypeErreurToast.ERROR);
+        } else {
+          this.toastService.show('Erreur lors de la modification', TypeErreurToast.ERROR);
+        }
       }
     });
   }
@@ -128,14 +145,26 @@ export class AdminComptesComponent implements OnInit {
   }
 
   validerCreation(nouvelUtilisateur: Utilisateur): void {
-    this.utilisateurService.createUtilisateur(nouvelUtilisateur).subscribe({
+    this.pendingUserFormPayload = nouvelUtilisateur;
+    this.pendingAction = 'CREATE';
+    this.showPasswordModal = true;
+  }
+
+  private executeCreation(password: string): void {
+    if (!this.pendingUserFormPayload) return;
+    this.utilisateurService.createUtilisateur(this.pendingUserFormPayload, password).subscribe({
       next: (userCree) => {
         this.toastService.show('Utilisateur créé !', TypeErreurToast.SUCCESS);
         this.utilisateurs.push(userCree);
         this.modeCreation = false;
+        this.closePasswordModal();
       },
-      error: () => {
-        this.toastService.show('Erreur création (Email pris ?)', TypeErreurToast.ERROR);
+      error: (err) => {
+        if (err.status === 403) {
+          this.toastService.show('Mot de passe administrateur incorrect', TypeErreurToast.ERROR);
+        } else {
+          this.toastService.show('Erreur création (Email pris ?)', TypeErreurToast.ERROR);
+        }
       }
     });
   }
@@ -161,17 +190,28 @@ export class AdminComptesComponent implements OnInit {
       return;
     }
 
+    this.pendingAction = 'DELETE';
+    this.showPasswordModal = true;
+  }
+
+  private executeSuppression(password: string): void {
+    if (this.idUtilisateurASupprimer === null) return;
     const id = this.idUtilisateurASupprimer;
 
-    this.utilisateurService.deleteUtilisateur(id).subscribe({
+    this.utilisateurService.deleteUtilisateur(id, password).subscribe({
       next: (data) => {
         this.utilisateurs = this.utilisateurs.filter(u => u.id_utilisateur !== id);
-        this.toastService.show(data.message, TypeErreurToast.SUCCESS); // Assuming delete endpoint returns { message: string } or similar
+        this.toastService.show(data.message, TypeErreurToast.SUCCESS);
         this.idUtilisateurASupprimer = null;
+        this.closePasswordModal();
       },
-      error: () => {
-        this.toastService.show('Erreur suppression', TypeErreurToast.ERROR);
-        this.idUtilisateurASupprimer = null;
+      error: (err) => {
+        if (err.status === 403) {
+          this.toastService.show('Mot de passe administrateur incorrect', TypeErreurToast.ERROR);
+        } else {
+          this.toastService.show('Erreur suppression', TypeErreurToast.ERROR);
+          this.idUtilisateurASupprimer = null;
+        }
       }
     });
   }
@@ -179,6 +219,22 @@ export class AdminComptesComponent implements OnInit {
 
   annulerSuppression(): void {
     this.idUtilisateurASupprimer = null;
+  }
+
+  onPasswordConfirmed(password: string): void {
+    if (this.pendingAction === 'CREATE') {
+      this.executeCreation(password);
+    } else if (this.pendingAction === 'UPDATE') {
+      this.executeEdition(password);
+    } else if (this.pendingAction === 'DELETE') {
+      this.executeSuppression(password);
+    }
+  }
+
+  closePasswordModal(): void {
+    this.showPasswordModal = false;
+    this.pendingAction = null;
+    this.pendingUserFormPayload = null;
   }
 
   get utilisateursFiltres(): Utilisateur[] {
