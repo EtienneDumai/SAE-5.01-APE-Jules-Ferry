@@ -1,0 +1,30 @@
+FROM composer:2 AS build
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+COPY . .
+RUN composer dump-autoload --optimize
+
+FROM php:8.3-fpm-alpine
+
+WORKDIR /var/www/html
+
+RUN apk add --no-cache \
+    bash \
+    curl \
+    icu-dev \
+    oniguruma-dev \
+    libpq-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install pdo pdo_pgsql intl mbstring
+
+COPY --from=build /app /var/www/html
+
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 storage bootstrap/cache
+
+CMD ["php-fpm"]
