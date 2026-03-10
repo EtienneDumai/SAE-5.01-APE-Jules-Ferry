@@ -8,7 +8,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import frLocale from '@fullcalendar/core/locales/fr';
-import { EvenementService } from '../../services/Evenement/evenement.service';
+import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { SpinnerComponent } from '../spinner/spinner.component';
 
@@ -123,8 +123,8 @@ export class CalendrierComponent implements OnInit {
 
     // Récupération des événements depuis le service
     this.evenementService.getAllEvenements().subscribe({
-      next: (response: any) => {
-        const evenements: Evenement[] = response.data || (Array.isArray(response) ? response : []);
+      next: (response: PaginatedEvenements | Evenement[]) => {
+        const evenements = Array.isArray(response) ? response : (response?.data || []);
         this.eventsList = evenements;
         this.calendarOptions.events = evenements.map((event: Evenement) => ({
           id: event.id_evenement.toString(),

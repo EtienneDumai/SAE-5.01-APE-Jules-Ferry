@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
-import { EvenementService } from '../../services/Evenement/evenement.service';
+import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteCardComponent } from '../../components/card/actualite-card/actualite-card.component';
@@ -27,7 +27,7 @@ export class AccueilComponent implements OnInit {
 
   private readonly actualiteService = inject(ActualiteService);
   private readonly evenementService = inject(EvenementService);
-  Date: Date = new Date();
+  date: Date = new Date();
 
   ngOnInit() {
     this.actualiteService.getAllActualites().subscribe({
@@ -44,8 +44,8 @@ export class AccueilComponent implements OnInit {
     });
 
     this.evenementService.getAllEvenements().subscribe({
-      next: (response: any) => {
-        this.listeEvenements = response.data || (Array.isArray(response) ? response : []);
+      next: (response: PaginatedEvenements | Evenement[]) => {
+        this.listeEvenements = Array.isArray(response) ? response : (response?.data || []);
         this.sortEvenementByDate();
         this.loadingEvents = false;
       },

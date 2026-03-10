@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { EvenementService } from '../../services/Evenement/evenement.service';
+import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { EvenementCardComponent } from "../../components/card/evenement-card/evenement-card.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
@@ -46,8 +46,8 @@ export class EvenementPageComponent implements OnInit {
     this.loadingEvenements = true;
 
     this.evenementService.getAllEvenements(statut).subscribe({
-      next: (response) => {
-        this.listeEvenements = response.data;
+      next: (response: PaginatedEvenements | Evenement[]) => {
+        this.listeEvenements = Array.isArray(response) ? response : (response?.data || []);
         this.sortEvenementByDate();
         this.loadingEvenements = false;
       },

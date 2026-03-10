@@ -6,16 +6,14 @@ import * as XLSX from 'xlsx';
 })
 export class ExportExcelService {
 
-  constructor() { }
-
-  exportAsExcelFile(json: any[], excelFileName: string): void {
+  exportAsExcelFile(json: unknown[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const excelBuffer: ArrayBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
 
-  private saveAsExcelFile(buffer: any, fileName: string): void {
+  private saveAsExcelFile(buffer: BlobPart, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
     });

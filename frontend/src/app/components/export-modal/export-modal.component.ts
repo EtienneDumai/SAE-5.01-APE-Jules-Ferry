@@ -10,13 +10,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './export-modal.component.css'
 })
 export class ExportModalComponent {
-  @Input() title: string = 'Exporter les données';
+  @Input() title = 'Exporter les données';
   @Input() availableColumns: { key: string; label: string; selected: boolean }[] = [];
   @Output() confirm = new EventEmitter<string[]>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>();
 
   onCancel() {
-    this.cancel.emit();
+    this.closeModal.emit();
   }
 
   onConfirm() {

@@ -246,7 +246,7 @@ export class AdminComptesComponent implements OnInit {
 
   exportData(selectedKeys: string[]): void {
     const dataToExport = this.utilisateursFiltres.map(user => {
-      const row: any = {};
+      const row: Record<string, string | undefined> = {};
       if (selectedKeys.includes('nom')) row['Nom'] = user.nom.toUpperCase();
       if (selectedKeys.includes('prenom')) row['Prénom'] = user.prenom;
       if (selectedKeys.includes('email')) row['E-mail'] = user.email;

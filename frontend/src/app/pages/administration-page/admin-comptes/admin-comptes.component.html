@@ -116,14 +116,14 @@
                         </td>
                     </tr>
                     }
-                    }
-
-                    @if (utilisateursFiltres.length === 0 && !modeCreation) {
+                    } @empty {
+                    @if (!modeCreation) {
                     <tr>
                         <td colspan="5" class="text-center py-10 text-gray-500">
                             Aucun utilisateur trouvé.
                         </td>
                     </tr>
+                    }
                     }
 
                     @if (modeCreation) {
@@ -148,7 +148,7 @@
 
     @if (showExportModal) {
     <app-export-modal title="Exporter les comptes utilisateurs" [availableColumns]="exportColumnsComptes"
-        (confirm)="exportData($event)" (cancel)="showExportModal = false">
+        (confirm)="exportData($event)" (closeModal)="showExportModal = false">
     </app-export-modal>
     }
 
