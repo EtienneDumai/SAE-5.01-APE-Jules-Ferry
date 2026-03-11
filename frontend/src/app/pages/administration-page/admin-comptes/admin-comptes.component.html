@@ -1,0 +1,134 @@
+<div class="space-y-6">
+    <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
+        <div class="relative max-w-sm w-full">
+            <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher..."
+                class="block w-full rounded-md border-gray-300 pl-3 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">
+        </div>
+
+        <button type="button" (click)="afficherLigneCreation()"
+            class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+            <i class="fa-regular fa-circle-check -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true"
+                style="font-size: 20px;"></i>
+            Ajouter un membre
+        </button>
+    </div>
+
+    @if (chargementEnCours) {
+    <div class="flex justify-center py-20">
+        <app-spinner></app-spinner>
+    </div>
+    } @else {
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 w-[25%]">
+                            Utilisateur</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[25%]">Email
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]">Rôle
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[15%]">Statut
+                        </th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 w-[15%]">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+
+                    @for (user of utilisateursFiltres; track user.id_utilisateur) {
+                    @if (idEnEdition === user.id_utilisateur) {
+                    <app-user-form [user]="user" (save)="validerEdition($event)" (cancelForm)="annulerEdition()">
+                    </app-user-form>
+                    } @else {
+                    <tr>
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                            <div class="font-medium text-gray-900">{{ user.prenom }} {{ user.nom | uppercase }}</div>
+                        </td>
+
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {{ user.email }}
+                        </td>
+
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <span
+                                class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
+                                [ngClass]="{
+                              'bg-purple-50 text-purple-700 ring-purple-700/10': user.role === roleUtilisateur.administrateur, 
+                              'bg-blue-50 text-blue-700 ring-blue-700/10': user.role === roleUtilisateur.membre_bureau,
+                              'bg-gray-50 text-gray-600 ring-gray-500/10': user.role === roleUtilisateur.parent
+                            }">
+                                {{ user.role }}
+                            </span>
+                        </td>
+
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <span
+                                class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset"
+                                [ngClass]="{
+                              'bg-green-100 text-green-700 ring-green-600/20': user.statut_compte === statutCompte.actif,
+                              'bg-orange-100 text-orange-700 ring-orange-600/20': user.statut_compte === statutCompte.suspendu,
+                              'bg-red-100 text-red-700 ring-red-600/20': user.statut_compte === statutCompte.desactive
+                            }">
+                                <i class="fa-solid fa-circle h-1.5 w-1.5" [ngClass]="{
+                               'text-green-500': user.statut_compte === statutCompte.actif,
+                               'text-orange-500': user.statut_compte === statutCompte.suspendu,
+                               'text-red-500': user.statut_compte === statutCompte.desactive
+                            }" aria-hidden="true" style="font-size: 6px;">
+                                </i>
+                                {{ user.statut_compte | titlecase }}
+                            </span>
+                        </td>
+
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <div class="flex justify-end gap-3">
+                                <button (click)="demarrerEdition(user)" class="text-indigo-600 hover:text-indigo-900"
+                                    title="Modifier">
+                                    <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"
+                                        style="font-size: 20px;"></i>
+                                </button>
+
+                                @if (idConnecte === null || user.id_utilisateur !== idConnecte) {
+                                <button (click)="demanderSuppression(user.id_utilisateur)"
+                                    class="text-red-600 hover:text-red-900" title="Supprimer">
+                                    <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
+                                        style="font-size: 20px;"></i>
+                                </button>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                    }
+
+                    @if (utilisateursFiltres.length === 0 && !modeCreation) {
+                    <tr>
+                        <td colspan="5" class="text-center py-10 text-gray-500">
+                            Aucun utilisateur trouvé.
+                        </td>
+                    </tr>
+                    }
+
+                    @if (modeCreation) {
+                    <app-user-form [isCreation]="true" (save)="validerCreation($event)" (cancelForm)="annulerCreation()"
+                        class="bg-indigo-50 border-t-2 border-indigo-200 animate-pulse-soft">
+                    </app-user-form>
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    }
+
+
+    @if (showPasswordModal) {
+    <app-password-confirm-modal (confirmPassword)="onPasswordConfirmed($event)"
+        (cancelModal)="showPasswordModal = false; pendingAction = null; pendingUserFormPayload = null;">
+    </app-password-confirm-modal>
+    }
+
+    <div #bottomAnchor></div>
+</div>

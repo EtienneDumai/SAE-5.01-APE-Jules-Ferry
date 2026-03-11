@@ -28,20 +28,22 @@ export class UtilisateurService {
     return this.http.get<Utilisateur>(`${environment.apiUrl}/utilisateurs/${id}`);
   }
 
-  createUtilisateur(utilisateur: Utilisateur): Observable<Utilisateur> {
-    return this.http.post<Utilisateur>(`${environment.apiUrl}/utilisateurs`, utilisateur);
+  createUtilisateur(utilisateur: Utilisateur, admin_password?: string): Observable<Utilisateur> {
+    const body = { ...utilisateur, admin_password };
+    return this.http.post<Utilisateur>(`${environment.apiUrl}/utilisateurs`, body);
   }
 
-  updateUtilisateur(utilisateur: Utilisateur, id: number): Observable<Utilisateur> {
-    return this.http.put<Utilisateur>(`${environment.apiUrl}/utilisateurs/${id}`, utilisateur);
+  updateUtilisateur(utilisateur: Utilisateur, id: number, admin_password?: string): Observable<Utilisateur> {
+    const body = { ...utilisateur, admin_password };
+    return this.http.put<Utilisateur>(`${environment.apiUrl}/utilisateurs/${id}`, body);
   }
 
-  deleteUtilisateur(id: number, password?: string): Observable<{ message: string }> {
-    const options = password ? { body: { password } } : {};
+  deleteUtilisateur(id: number, admin_password?: string): Observable<{ message: string }> {
+    const options = admin_password ? { body: { admin_password } } : {};
     return this.http.delete<{ message: string }>(`${environment.apiUrl}/utilisateurs/${id}`, options);
   }
 
   updatePassword(id: number, motDePasse: string): Observable<Utilisateur> {
-    return this.http.patch<Utilisateur>(`${environment.apiUrl}/utilisateurs/${id}/mot-de-passe`, { mot_de_passe : motDePasse });
+    return this.http.patch<Utilisateur>(`${environment.apiUrl}/utilisateurs/${id}/mot-de-passe`, { mot_de_passe: motDePasse });
   }
 }

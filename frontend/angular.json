@@ -21,6 +21,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/robot.txt",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -92,6 +93,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
+              "src/robot.txt",
               {
                 "glob": "**/*",
                 "input": "public"

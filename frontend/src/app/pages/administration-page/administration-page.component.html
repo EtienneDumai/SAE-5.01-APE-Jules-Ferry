@@ -1,0 +1,44 @@
+<main class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="sm:hidden">
+            <label for="tabs" class="sr-only">Select a tab</label>
+            <select id="tabs" name="tabs"
+                class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                [ngModel]="activeTab" (ngModelChange)="switchTab($event)">
+                <option value="comptes">Comptes</option>
+                <option value="evenements">Évènements</option>
+            </select>
+        </div>
+        <div class="hidden sm:block">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                    <button (click)="switchTab('comptes')" [class]="activeTab === 'comptes' 
+              ? 'border-indigo-500 text-indigo-600' 
+              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                        class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                        [attr.aria-current]="activeTab === 'comptes' ? 'page' : null">
+                        Comptes
+                    </button>
+
+                    <button (click)="switchTab('evenements')" [class]="activeTab === 'evenements' 
+              ? 'border-indigo-500 text-indigo-600' 
+              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                        class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                        [attr.aria-current]="activeTab === 'evenements' ? 'page' : null">
+                        Évènements
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            @if (activeTab === 'comptes') {
+            <app-admin-comptes></app-admin-comptes>
+            } @else if (activeTab === 'evenements') {
+            <app-admin-evenements></app-admin-evenements>
+            }
+        </div>
+
+    </div>
+</main>

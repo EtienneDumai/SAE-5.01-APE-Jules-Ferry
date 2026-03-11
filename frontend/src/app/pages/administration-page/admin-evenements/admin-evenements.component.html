@@ -1,0 +1,326 @@
+<div class="space-y-6">
+    <div class="mb-6">
+        <nav class="flex space-x-4 bg-gray-100 p-1 rounded-lg w-fit" aria-label="Tabs">
+            <button (click)="activeTab = 'MODIFICATIONS'" [class.bg-white]="activeTab === 'MODIFICATIONS'"
+                [class.shadow]="activeTab === 'MODIFICATIONS'" [class.text-blue-700]="activeTab === 'MODIFICATIONS'"
+                [class.text-gray-500]="activeTab !== 'MODIFICATIONS'"
+                [class.hover:text-gray-700]="activeTab !== 'MODIFICATIONS'"
+                class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
+                <i class="fa-solid fa-pen-to-square mr-2"></i>Modifications
+            </button>
+            <button (click)="activeTab = 'INSCRIPTIONS'" [class.bg-white]="activeTab === 'INSCRIPTIONS'"
+                [class.shadow]="activeTab === 'INSCRIPTIONS'" [class.text-blue-700]="activeTab === 'INSCRIPTIONS'"
+                [class.text-gray-500]="activeTab !== 'INSCRIPTIONS'"
+                [class.hover:text-gray-700]="activeTab !== 'INSCRIPTIONS'"
+                class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
+                <i class="fa-solid fa-users mr-2"></i>Inscriptions
+            </button>
+        </nav>
+    </div>
+
+    @if (activeTab === 'MODIFICATIONS') {
+    <div class="space-y-6">
+        <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
+            <div class="relative max-w-sm w-full">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-search text-gray-400"></i>
+                </span>
+                <input type="text" [(ngModel)]="searchText" placeholder="Evènement..." name="search_events_mod"
+                    autocomplete="off" [disabled]="showPasswordModal || showMoveModal"
+                    class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border disabled:bg-gray-100 disabled:text-gray-400">
+            </div>
+
+            <a routerLink="/evenements/new/edit"
+                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                <i class="fa-regular fa-calendar-plus -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true"
+                    style="font-size: 20px;"></i>
+                Créer un Événement
+            </a>
+        </div>
+
+        @if (loading) {
+        <div class="flex justify-center py-20">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
+        </div>
+        } @else {
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                Titre
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Date
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Inscrits
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Lieu
+                            </th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <span class="sr-only">Actions</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        @for (event of filteredEvents; track event.id_evenement) {
+                        <tr>
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 text-gray-900 font-medium">
+                                {{ event.titre }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ event.date_evenement | date:'dd/MM/yyyy' }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <span
+                                    class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset bg-blue-50 text-blue-700 ring-blue-700/10">
+                                    {{ event.totalInscrits }}
+                                </span>
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ event.lieu }}
+                            </td>
+                            <td
+                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <div class="flex justify-end gap-3">
+                                    <a [routerLink]="['/evenements', event.id_evenement, 'edit']"
+                                        class="text-indigo-600 hover:text-indigo-900" title="Modifier">
+                                        <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"
+                                            style="font-size: 20px;"></i>
+                                    </a>
+                                    <button (click)="demanderSuppressionEvenement(event.id_evenement!)"
+                                        class="text-red-600 hover:text-red-900" title="Supprimer">
+                                        <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
+                                            style="font-size: 20px;"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (filteredEvents.length === 0) {
+                <div class="text-center py-10 text-gray-500">
+                    Aucun évènement trouvé.
+                </div>
+                }
+            </div>
+
+            @if (hasMore && !searchText) {
+            <div class="flex justify-center my-6">
+                <button (click)="loadMore()" [disabled]="loadingMore"
+                    class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] w-full md:w-auto flex items-center justify-center min-w-[200px]">
+                    @if (loadingMore) {
+                    <span class="inline-block animate-spin mr-2 h-4 w-4 border-b-2 border-gray-700 rounded-full"></span>
+                    Chargement...
+                    } @else {
+                    Voir plus d'événements
+                    }
+                </button>
+            </div>
+            }
+        </div>
+        }
+    </div>
+    }
+
+    @if (activeTab === 'INSCRIPTIONS') {
+    <div class="space-y-6">
+        <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
+            <div class="min-w-0 flex-1">
+            </div>
+
+            <div class="relative max-w-sm w-full">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-search text-gray-400"></i>
+                </span>
+                <input type="text" [(ngModel)]="searchText" placeholder="Evènement..." name="search_misc_off"
+                    autocomplete="off" [disabled]="showPasswordModal || showMoveModal"
+                    class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 shadow-sm focus:border-[var(--primary-blue)] focus:ring-[var(--primary-blue)] sm:text-sm border disabled:bg-gray-100 disabled:text-gray-400">
+            </div>
+        </div>
+
+        @if (loading) {
+        <div class="flex justify-center py-20">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
+        </div>
+        } @else {
+        <div class="space-y-4">
+            @for (event of filteredEvents; track event.id_evenement) {
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
+                <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center cursor-pointer hover:bg-gray-100 transition"
+                    (click)="toggleExpand(event)" (keyup.enter)="toggleExpand(event)" tabindex="0" role="button"
+                    [attr.aria-expanded]="event['isExpanded']">
+                    <div>
+                        <h3 class="text-lg leading-6 font-medium" style="color: var(--primary-dark-blue);">
+                            {{ event.titre }}
+                        </h3>
+                        <p class="mt-1 max-w-2xl text-sm" style="color: var(--gray-text-color);">
+                            {{ event.date_evenement | date:'dd/MM/yyyy' }} - <span class="font-semibold"
+                                style="color: var(--primary-blue);">{{ event.totalInscrits }} inscrits</span>
+                        </p>
+                    </div>
+                    <div>
+                        <i class="fa-solid" [class.fa-chevron-down]="!event['isExpanded']"
+                            [class.fa-chevron-up]="event['isExpanded']"></i>
+                    </div>
+                </div>
+
+                @if (event['isExpanded']) {
+                <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+
+                    @if (event.loadingDetails) {
+                    <div class="flex justify-center py-4">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--primary-blue)]"></div>
+                    </div>
+                    } @else {
+
+                    @if (!event.extendedTaches || event.extendedTaches.length === 0) {
+                    <p class="italic" style="color: var(--gray-text-color);">Aucune tâche ou créneau associé.</p>
+                    }
+
+                    @for (tache of event.extendedTaches; track tache.id_tache) {
+                    <div class="mb-6 last:mb-0">
+                        <h4 class="font-semibold mb-2 border-l-4 pl-2"
+                            style="border-color: var(--primary-blue); color: var(--black-text-color);">
+                            {{ tache.nom_tache }}
+                        </h4>
+
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            @for (creneau of tache.extendedCreneaux; track creneau.id_creneau) {
+                            <div
+                                class="relative rounded-lg border border-gray-300 bg-white px-4 py-3 shadow-sm hover:border-[var(--primary-blue)] focus-within:ring-2 focus-within:ring-[var(--primary-blue)] focus-within:ring-offset-2">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium" style="color: var(--black-text-color);">
+                                        {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                                        style="background-color: var(--primary-light-blue); color: var(--primary-dark-blue);">
+                                        {{ creneau.filledInscriptions?.length }} / {{ creneau.quota }}
+                                    </span>
+                                </div>
+
+                                <ul class="space-y-2 mt-2">
+                                    @for (insc of creneau.filledInscriptions; track $index) {
+                                    <li class="flex justify-between items-start text-sm">
+                                        <div class="flex flex-col">
+                                            <span class="font-medium" style="color: var(--black-text-color);">{{
+                                                insc.userNomComplet }}</span>
+                                            <span class="text-xs" style="color: var(--gray-text-color);">{{
+                                                insc.userEmail
+                                                }}</span>
+                                            @if (insc.commentaire) {
+                                            <span class="text-xs italic" style="color: var(--gray-text-color);">"{{
+                                                insc.commentaire }}"</span>
+                                            }
+                                        </div>
+                                        <div class="flex items-center ml-2">
+                                            <button
+                                                (click)="initiateMove(insc, creneau, tache, event); $event.stopPropagation()"
+                                                class="text-blue-400 hover:text-blue-600 mr-3"
+                                                title="Changer de créneau">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                            <button
+                                                (click)="initiateDelete(insc, creneau, event); $event.stopPropagation()"
+                                                class="text-red-400 hover:text-red-600" title="Désinscrire">
+                                                <i class="fa-solid fa-user-minus"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    }
+                                    @if (!creneau.filledInscriptions?.length) {
+                                    <li class="text-xs text-gray-400 italic">Aucun inscrit</li>
+                                    }
+                                </ul>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                    }
+                </div>
+                }
+            </div>
+            }
+            @if (filteredEvents.length === 0) {
+            <div class="text-center py-10 text-gray-500">
+                Aucun évènement trouvé (ou aucune tâche liée).
+            </div>
+            }
+
+            @if (hasMore && !searchText) {
+            <div class="flex justify-center mt-6">
+                <button (click)="loadMore()" [disabled]="loadingMore"
+                    class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] w-full md:w-auto flex items-center justify-center min-w-[200px]">
+                    @if (loadingMore) {
+                    <span class="inline-block animate-spin mr-2 h-4 w-4 border-b-2 border-gray-700 rounded-full"></span>
+                    Chargement...
+                    } @else {
+                    Voir plus d'événements
+                    }
+                </button>
+            </div>
+            }
+        </div>
+        }
+
+    </div>
+    }
+
+    @if (showPasswordModal) {
+    <app-password-confirm-modal (confirmPassword)="onPasswordConfirmed($event)" (cancelModal)="closeModals()">
+    </app-password-confirm-modal>
+    }
+
+    @if (showMoveModal) {
+    <div
+        class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Déplacer une inscription</h3>
+                <div class="mt-4 px-2">
+                    <p class="text-sm text-gray-500 mb-2">
+                        Utilisateur : <span class="font-semibold">{{ selectedInscription?.userNomComplet }}</span>
+                    </p>
+                    <p class="text-sm text-gray-500 mb-4">
+                        Créneau actuel : {{ selectedCurrentCreneau?.heure_debut }} - {{
+                        selectedCurrentCreneau?.heure_fin }}
+                    </p>
+
+                    <label for="nouveauCreneau" class="block text-sm font-medium text-gray-700 mb-1">Nouveau
+                        créneau</label>
+                    <select id="nouveauCreneau" [(ngModel)]="targetCreneauId"
+                        class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option [ngValue]="null" disabled>Sélectionner un créneau</option>
+                        @for (slot of availableSlots; track slot.id_creneau) {
+                        <option [ngValue]="slot.id_creneau">
+                            {{ slot.heure_debut }} - {{ slot.heure_fin }} ({{ slot.filledInscriptions?.length || 0 }}/{{
+                            slot.quota }})
+                        </option>
+                        }
+                        @if (availableSlots.length === 0) {
+                        <option disabled>Aucun autre créneau disponible</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex items-center justify-between mt-6 gap-3">
+                    <button (click)="closeModals()"
+                        class="px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md w-full shadow-sm border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        Annuler
+                    </button>
+                    <button (click)="confirmMoveSelection()" [disabled]="!targetCreneauId"
+                        class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Continuer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

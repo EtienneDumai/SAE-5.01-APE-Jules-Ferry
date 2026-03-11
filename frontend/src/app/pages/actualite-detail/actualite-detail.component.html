@@ -19,11 +19,9 @@
             
             <div class="h-64 md:h-96 w-full relative overflow-hidden bg-gray-100">
                 @if(actualite.image_url) {
-                    <img [src]="getImageUrl(actualite.image_url)" [alt]="actualite.titre" class="w-full h-full object-cover">
+                    <img [src]="getImageUrl(actualite.image_url)" [alt]="actualite.titre" class="w-full h-full object-cover" loading="lazy">
                 } @else {
-                    <div class="flex items-center justify-center h-full text-gray-400">
-                        <span class="text-lg italic">Aucune image disponible</span>
-                    </div>
+                    <img src="/imageDefaut/imageDefaut.png" [alt]="actualite.titre" class="w-full h-full object-cover" loading="lazy">
                 }
             </div>
 

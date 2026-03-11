@@ -34,7 +34,7 @@ class EvenementControllerTest extends TestCase
         $response = $this->getJson('/api/evenements');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3);
+            ->assertJsonCount(3);
     }
 
     public function test_index_filtre_par_statut()
@@ -45,8 +45,8 @@ class EvenementControllerTest extends TestCase
         $response = $this->getJson('/api/evenements?statut=publie');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(1)
-                 ->assertJsonFragment(['statut' => 'publie']);
+            ->assertJsonCount(1)
+            ->assertJsonFragment(['statut' => 'publie']);
     }
 
     public function test_show_retourne_un_evenement()
@@ -56,7 +56,7 @@ class EvenementControllerTest extends TestCase
         $response = $this->getJson("/api/evenements/{$evenement->id_evenement}");
 
         $response->assertStatus(200)
-                 ->assertJson(['id_evenement' => $evenement->id_evenement]);
+            ->assertJson(['id_evenement' => $evenement->id_evenement]);
     }
 
     public function test_show_retourne_404_si_evenement_non_trouve()
@@ -113,11 +113,15 @@ class EvenementControllerTest extends TestCase
 
     public function test_destroy_supprime_un_evenement()
     {
-        $user = Utilisateur::factory()->create();
+        $user = Utilisateur::factory()->create([
+            'mot_de_passe' => \Illuminate\Support\Facades\Hash::make('password123'),
+        ]);
         $this->actingAs($user, 'sanctum');
         $evenement = Evenement::factory()->create();
 
-        $response = $this->deleteJson("/api/evenements/{$evenement->id_evenement}");
+        $response = $this->deleteJson("/api/evenements/{$evenement->id_evenement}", [
+            'admin_password' => 'password123'
+        ]);
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('evenements', ['id_evenement' => $evenement->id_evenement]);

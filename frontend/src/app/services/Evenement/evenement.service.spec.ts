@@ -68,35 +68,35 @@ describe('EvenementService', () => {
   describe('getAllEvenements', () => {
     it('devrait récupérer tous les événements', () => {
       service.getAllEvenements().subscribe({
-        next: (evenements) => {
-          expect(evenements).toEqual(mockEvenements);
-          expect(evenements.length).toBe(2);
+        next: (response) => {
+          expect(response.data).toEqual(mockEvenements);
+          expect(response.total).toBe(2);
         },
         error: () => fail('Expected successful response')
       });
 
-      const req = httpMock.expectOne(`${apiUrl}/evenements`);
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=1`);
       expect(req.request.method).toBe('GET');
-      req.flush(mockEvenements);
+      req.flush({ data: mockEvenements, current_page: 1, last_page: 1, total: 2 });
     });
 
     it('devrait retourner un tableau vide quand aucun événement n\'existe', () => {
       service.getAllEvenements().subscribe({
-        next: (evenements) => {
-          expect(evenements).toEqual([]);
-          expect(evenements.length).toBe(0);
+        next: (response) => {
+          expect(response.data).toEqual([]);
+          expect(response.total).toBe(0);
         },
         error: () => fail('Expected successful response')
       });
 
-      const req = httpMock.expectOne(`${apiUrl}/evenements`);
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=1`);
       expect(req.request.method).toBe('GET');
-      req.flush([]);
+      req.flush({ data: [], current_page: 1, last_page: 1, total: 0 });
     });
 
     it('devrait gérer les erreurs lors de la récupération des événements', () => {
       const errorMessage = 'Server error';
-      
+
       service.getAllEvenements().subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
@@ -105,7 +105,7 @@ describe('EvenementService', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${apiUrl}/evenements`);
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=1`);
       req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
     });
   });
@@ -278,7 +278,7 @@ describe('EvenementService', () => {
 
       const req = httpMock.expectOne(`${apiUrl}/evenements/${evenementId}`);
       expect(req.request.method).toBe('DELETE');
-      req.flush(null);
+      req.flush({ message: 'Deleted successfully' });
     });
 
     it('devrait gérer l\'erreur lors de la suppression d\'un événement inexistant', () => {

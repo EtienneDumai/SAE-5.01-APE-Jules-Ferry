@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
 describe('EvenementCardComponent', () => {
   let component: EvenementCardComponent;
   let fixture: ComponentFixture<EvenementCardComponent>;
-  
+
   // Services mockés
   let authService: jasmine.SpyObj<AuthService>;
   let evenementService: jasmine.SpyObj<EvenementService>;
@@ -22,7 +22,7 @@ describe('EvenementCardComponent', () => {
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser']);
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['deleteEvenement']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate', 'createUrlTree', 'serializeUrl']);
-    routerSpy.createUrlTree.and.returnValue({} as UrlTree); 
+    routerSpy.createUrlTree.and.returnValue({} as UrlTree);
     routerSpy.serializeUrl.and.returnValue('');
 
     await TestBed.configureTestingModule({
@@ -31,9 +31,9 @@ describe('EvenementCardComponent', () => {
         { provide: AuthService, useValue: authServiceSpy },
         { provide: EvenementService, useValue: evenementServiceSpy },
         { provide: Router, useValue: routerSpy },
-        { 
-          provide: ActivatedRoute, 
-          useValue: { snapshot: { paramMap: { get: () => null } } } 
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { paramMap: { get: () => null } } }
         }
       ]
     }).compileComponents();
@@ -56,7 +56,7 @@ describe('EvenementCardComponent', () => {
     component.lieu = 'Salle Test';
     component.statut = StatutEvenement.publie;
     component.image_url = 'test.jpg';
-    
+
     fixture.detectChanges();
   });
   describe('Initialisation du composant', () => {
@@ -75,14 +75,14 @@ describe('EvenementCardComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
       const buttons = compiled.querySelectorAll('button');
-      
+
       let inscriptionButton: Element | null = null;
       buttons.forEach(btn => {
         if (btn.textContent?.trim() === 'M\'inscrire') {
           inscriptionButton = btn;
         }
       });
-      
+
       expect(inscriptionButton).toBeTruthy();
     });
 
@@ -90,12 +90,12 @@ describe('EvenementCardComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
       const buttons = compiled.querySelectorAll('button');
-      
+
       const navigationButtons = Array.from(buttons).filter(btn => {
         const text = btn.textContent?.trim();
         return text === 'Voir plus' || text === 'M\'inscrire';
       });
-      
+
       expect(navigationButtons.length).toBeGreaterThanOrEqual(2);
     });
   });
@@ -146,7 +146,7 @@ describe('EvenementCardComponent', () => {
     it('devrait naviguer vers la page d\'edition lors de onEdit', () => {
       const event = new Event('click');
       spyOn(event, 'stopPropagation');
-      
+
       component.onEdit(event);
 
       expect(event.stopPropagation).toHaveBeenCalled();
@@ -158,7 +158,7 @@ describe('EvenementCardComponent', () => {
     it('ne devrait pas supprimer si l\'utilisateur annule la confirmation', () => {
       spyOn(window, 'confirm').and.returnValue(false);
       const event = new Event('click');
-      
+
       component.onDelete(event);
 
       expect(evenementService.deleteEvenement).not.toHaveBeenCalled();
@@ -170,7 +170,7 @@ describe('EvenementCardComponent', () => {
       spyOn(event, 'stopPropagation');
       spyOn(component.eventDeleted, 'emit');
 
-      evenementService.deleteEvenement.and.returnValue(of(void 0));
+      evenementService.deleteEvenement.and.returnValue(of({ message: 'Success' }));
 
       component.onDelete(event);
 
@@ -183,7 +183,7 @@ describe('EvenementCardComponent', () => {
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(console, 'error');
       const event = new Event('click');
-      
+
       evenementService.deleteEvenement.and.returnValue(throwError(() => new Error('Erreur API')));
 
       component.onDelete(event);

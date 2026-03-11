@@ -35,8 +35,15 @@ class UtilisateurController extends Controller
     {
         $request->validate([
             'mot_de_passe' => ['required', Password::min(8)],
+            'admin_password' => 'required|string',
         ]);
-        $donnees = $request->all();
+
+        $admin = $request->user();
+        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
+            return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
+        }
+
+        $donnees = $request->except(['admin_password']);
 
         $utilisateur = Utilisateur::create($donnees);
 
@@ -51,7 +58,16 @@ class UtilisateurController extends Controller
     {
         $utilisateur = Utilisateur::find($id);
         if ($utilisateur) {
-            $donnees = $request->all();
+            $request->validate([
+                'admin_password' => 'required|string',
+            ]);
+
+            $admin = $request->user();
+            if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
+                return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
+            }
+
+            $donnees = $request->except(['admin_password']);
             if (empty($donnees['mot_de_passe'])) {
                 unset($donnees['mot_de_passe']);
             }
@@ -70,30 +86,31 @@ class UtilisateurController extends Controller
         }
         //securité on verifie le mot de passe avant suppression
         $request->validate([
-            'password' => 'required|string'
+            'admin_password' => 'required|string'
         ]);
 
-        if (!Hash::check($request->password, $utilisateur->mot_de_passe)) {
+        $admin = $request->user();
+        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
             return response()->json([
-                'message' => 'Mot de passe incorrect. Suppression impossible.'
+                'message' => 'Mot de passe administrateur incorrect. Suppression impossible.'
             ], 403);
         }
 
         $adminId = 1; //re attribution des evenements et actualites a l'admin si le user en avait créé
         if (!Utilisateur::where('id_utilisateur', $adminId)->exists()) {
         }
-        
+
         if ($utilisateur->id_utilisateur !== $adminId) {
             Evenement::where('id_auteur', $utilisateur->id_utilisateur)
                 ->update(['id_auteur' => $adminId]);
-            
+
             Actualite::where('id_auteur', $utilisateur->id_utilisateur)
                 ->update(['id_auteur' => $adminId]);
 
             Formulaire::where('id_createur', $utilisateur->id_utilisateur)
                 ->update(['id_createur' => $adminId]);
         }
-        
+
         $utilisateur->inscriptions()->delete();
         $utilisateur->tokens()->delete();// suppression des tokens actifs (securité)
         $utilisateur->delete();
