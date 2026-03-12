@@ -20,7 +20,7 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
   styleUrl: './actualite-detail.component.css'
 })
 export class ActualiteDetailComponent implements OnInit {
-  showDeleteAlert = false;
+  showDeleteModal = false;
   actualite !: Actualite;
   loadingActualite = true;
   errorActualite = false;
@@ -76,7 +76,7 @@ export class ActualiteDetailComponent implements OnInit {
   }
 
   confirmDelete(): void {
-    this.showDeleteAlert = true;
+    this.showDeleteModal = true;
   }
 
   confirmerSuppression(): void {
@@ -90,10 +90,10 @@ export class ActualiteDetailComponent implements OnInit {
         alert('Erreur lors de la suppression de l\'actualité.');
       }
     });
-    this.showDeleteAlert = false;
+    this.showDeleteModal = false;
   }
 
   annulerSuppression(): void {
-    this.showDeleteAlert = false;
+    this.showDeleteModal = false;
   }
 }

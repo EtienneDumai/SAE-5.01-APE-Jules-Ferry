@@ -198,7 +198,7 @@ export class EvenementDetailComponent implements OnInit {
   }
 
   onDeleteEvent() {
-    this.showDeleteAlert = true;
+    this.showDeleteModal = true;
   }
 
   confirmerSuppression() {
@@ -213,11 +213,11 @@ export class EvenementDetailComponent implements OnInit {
         this.toastService.showWithTimeout('Erreur lors de la suppression de l\'événement.', TypeErreurToast.ERROR);
       }
     });
-    this.showDeleteAlert = false;
+    this.showDeleteModal = false;
   }
 
   annulerSuppression() {
-    this.showDeleteAlert = false;
+    this.showDeleteModal = false;
   }
 
   isEvenementTermine(): boolean {
