@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -9,6 +8,7 @@ import { LoginCredentials } from '../../models/Auth/login-credentials';
 import { RegisterData } from '../../models/Auth/register-data';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { environment } from '../../environments/environment.dev';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +54,22 @@ export class AuthService {
     );
   }
 
+  checkEmailType(email: string): Observable<{ action: string }> {
+    return this.http.post<{ action: string }>(`${this.apiUrl}/check-email`, { email });
+  }
+
+  requestMagicLink(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/magic-link`, { email });
+  }
+
+  verifyMagicLink(targetUrl: string): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(targetUrl).pipe(
+      tap(response => {
+        this.handleAuthResponse(response);
+      })
+    );
+  }
+
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
       tap({
@@ -62,7 +78,6 @@ export class AuthService {
           this.router.navigate(['/login']);
         },
         error: () => {
-          // même si le backend refuse, on déconnecte côté front
           this.clearAuthState();
           this.router.navigate(['/login']);
         }
@@ -80,22 +95,42 @@ export class AuthService {
 
   // helper save reponse
   private handleAuthResponse(response: AuthResponse) {
-    this.tokenService.saveToken(response.token);
-    console.log('User reçu du backend :', response.user);
-    localStorage.setItem('user', JSON.stringify(response.user));
-    if (response.user.id_utilisateur) {
-        localStorage.setItem('idConnecte', String(response.user.id_utilisateur));
+    if (response.token) {
+      this.tokenService.saveToken(response.token);
+    } else {
+      console.warn("Attenion le backend ne renvoi aucun token !");
     }
-    this.currentUserSubject.next(response.user);
+    if (response.user) {
+      localStorage.setItem('user', JSON.stringify(response.user));
+      
+      if (response.user.id_utilisateur) {
+          localStorage.setItem('idConnecte', String(response.user.id_utilisateur));
+      }
+      this.currentUserSubject.next(response.user);
+    }
   }
 
   loadCurrentUser(): void {
-    this.http.get<{ user: Utilisateur }>(`${this.apiUrl}/user`).subscribe({
+    const token = this.tokenService.getToken();
+    if (!token) {
+      this.logoutLocal();
+      return;
+    }
+
+    // On utilise la classe HttpHeaders d'Angular
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.get<{ user: Utilisateur }>(`${this.apiUrl}/user`, { headers: headers }).subscribe({
       next: (response) => {
         localStorage.setItem('user', JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
       },
-      error: () => {
+      error: (err) => {
+        console.error("Token invalide ou expiré :", err);
+        // Le token est invalide ou expiré on nettoie tout
         this.logoutLocal();
       }
     });
@@ -116,6 +151,8 @@ export class AuthService {
 
   private clearAuthState(): void {
     this.tokenService.removeToken();
+    localStorage.removeItem('user');
+    localStorage.removeItem('idConnecte');
     this.currentUserSubject.next(null);
   }
 }

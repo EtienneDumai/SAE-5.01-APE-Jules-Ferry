@@ -17,6 +17,11 @@ export const routes: Routes = [
         component: RegisterComponent,
         canActivate: [guestGuard]
     },
+    { 
+        path: 'verification-lien', 
+        loadComponent: () => import('./components/Auth/magic-link-verify/magic-link-verify.component').then(m => m.MagicLinkVerifyComponent),
+        canActivate: [guestGuard]
+    },
     
     { path: '', loadComponent: () => import('./pages/accueil/accueil.component').then(m => m.AccueilComponent) },
     { path: 'newsletter', loadComponent: () => import('./pages/newsletter-page/newsletter-page.component').then(m => m.NewsletterPageComponent) },
