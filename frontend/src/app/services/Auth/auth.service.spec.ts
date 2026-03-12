@@ -84,6 +84,7 @@ describe('AuthService', () => {
 
   describe('init', () => {
     it('devrait charger l\'utilisateur actuel quand un token existe', () => {
+      // MODIFICATION ICI: On force le Spy à dire "Oui, j'ai un token"
       tokenService.hasToken.and.returnValue(true);
       
       service.init();
@@ -267,6 +268,9 @@ describe('AuthService', () => {
 
   describe('loadCurrentUser', () => {
     it('devrait charger l\'utilisateur actuel avec succès', (done) => {
+      // MODIFICATION ICI: On force le Spy à dire "Oui, j'ai un token"
+      tokenService.hasToken.and.returnValue(true);
+
       service.loadCurrentUser();
 
       const req = httpMock.expectOne(`${apiUrl}/user`);
@@ -280,6 +284,9 @@ describe('AuthService', () => {
     });
 
     it('devrait gérer l\'erreur et nettoyer le token', (done) => {
+      // MODIFICATION ICI: On force le Spy à dire "Oui, j'ai un token"
+      tokenService.hasToken.and.returnValue(true);
+
       service.loadCurrentUser();
 
       const req = httpMock.expectOne(`${apiUrl}/user`);
