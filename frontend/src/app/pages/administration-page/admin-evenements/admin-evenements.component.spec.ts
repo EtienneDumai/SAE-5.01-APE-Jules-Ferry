@@ -4,24 +4,173 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 
 import { AdminEvenementsComponent } from './admin-evenements.component';
+import { EvenementService } from '../../../services/Evenement/evenement.service';
+import { UtilisateurService } from '../../../services/Utilisateur/utilisateur.service';
+import { InscriptionService } from '../../../services/Inscription/inscription.service';
+import { TacheService } from '../../../services/Tache/tache.service';
+import { CreneauService } from '../../../services/Creneau/creneau.service';
+import { ToastService } from '../../../services/Toast/toast.service';
+import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
+import { of, throwError } from 'rxjs';
+import { StatutEvenement } from '../../../enums/StatutEvenement/statut-evenement';
+import { Evenement } from '../../../models/Evenement/evenement';
 
 describe('AdminEvenementsComponent', () => {
   let component: AdminEvenementsComponent;
   let fixture: ComponentFixture<AdminEvenementsComponent>;
+  let evenementServiceSpy: jasmine.SpyObj<EvenementService>;
+  let utilisateurServiceSpy: jasmine.SpyObj<UtilisateurService>;
+  let inscriptionServiceSpy: jasmine.SpyObj<InscriptionService>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let exportExcelServiceSpy: jasmine.SpyObj<ExportExcelService>;
+
+  const mockEvenements: Evenement[] = [
+    {
+      id_evenement: 1, titre: 'Fête de l\'école', description: 'Desc 1',
+      date_evenement: new Date('2026-06-01'), heure_debut: '10:00', heure_fin: '18:00',
+      lieu: 'Gymnase', image_url: 'img1.jpg', statut: StatutEvenement.publie,
+      id_auteur: 1, id_formulaire: null
+    },
+    {
+      id_evenement: 2, titre: 'Réunion parents', description: 'Desc 2',
+      date_evenement: new Date('2026-07-01'), heure_debut: '18:00', heure_fin: '20:00',
+      lieu: 'Salle B', image_url: 'img2.jpg', statut: StatutEvenement.publie,
+      id_auteur: 1, id_formulaire: null
+    },
+  ];
+
+  const paginatedResponse = {
+    data: mockEvenements,
+    current_page: 1,
+    last_page: 1,
+    total: 2,
+  };
 
   beforeEach(async () => {
+    evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getAllEvenements', 'getEvenementDetails', 'deleteEvenement']);
+    utilisateurServiceSpy = jasmine.createSpyObj('UtilisateurService', ['getAllUtilisateurs']);
+    inscriptionServiceSpy = jasmine.createSpyObj('InscriptionService', [
+      'deleteInscriptionAdmin', 'createInscriptionAdmin', 'updateInscriptionAdmin'
+    ]);
+    toastServiceSpy = jasmine.createSpyObj('ToastService', ['show']);
+    exportExcelServiceSpy = jasmine.createSpyObj('ExportExcelService', ['exportAsExcelFile']);
+
+    evenementServiceSpy.getAllEvenements.and.returnValue(of(paginatedResponse));
+    utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(of([]));
+
     await TestBed.configureTestingModule({
       imports: [AdminEvenementsComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
-    })
-      .compileComponents();
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        { provide: EvenementService, useValue: evenementServiceSpy },
+        { provide: UtilisateurService, useValue: utilisateurServiceSpy },
+        { provide: InscriptionService, useValue: inscriptionServiceSpy },
+        { provide: TacheService, useValue: jasmine.createSpyObj('TacheService', ['getTachesByFormulaire']) },
+        { provide: CreneauService, useValue: jasmine.createSpyObj('CreneauService', ['getCreneauxByTache']) },
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: ExportExcelService, useValue: exportExcelServiceSpy },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AdminEvenementsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('devrait être créé', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('loadInitialEvents', () => {
+    it('devrait charger les événements au démarrage', () => {
+      expect(evenementServiceSpy.getAllEvenements).toHaveBeenCalled();
+      expect(component.events.length).toBe(2);
+      expect(component.loading).toBeFalse();
+    });
+
+    it('devrait gérer une erreur de chargement', () => {
+      evenementServiceSpy.getAllEvenements.and.returnValue(throwError(() => new Error('fail')));
+      component.loadInitialEvents();
+      expect(toastServiceSpy.show).toHaveBeenCalled();
+      expect(component.loading).toBeFalse();
+    });
+  });
+
+  describe('filteredEvents', () => {
+    it('devrait retourner tous les événements si searchText est vide', () => {
+      component.searchText = '';
+      expect(component.filteredEvents.length).toBe(2);
+    });
+
+    it('devrait filtrer les événements par titre', () => {
+      component.searchText = 'fête';
+      expect(component.filteredEvents.length).toBe(1);
+      expect(component.filteredEvents[0].titre).toBe('Fête de l\'école');
+    });
+
+    it('devrait retourner un tableau vide si aucun événement ne correspond', () => {
+      component.searchText = 'zzz_introuvable_zzz';
+      expect(component.filteredEvents.length).toBe(0);
+    });
+  });
+
+  describe('activeTab', () => {
+    it('devrait démarrer sur l\'onglet INSCRIPTIONS', () => {
+      expect(component.activeTab).toBe('INSCRIPTIONS');
+    });
+
+    it('devrait pouvoir changer d\'onglet', () => {
+      component.activeTab = 'MODIFICATIONS';
+      expect(component.activeTab).toBe('MODIFICATIONS');
+    });
+  });
+
+  describe('toggleExpand', () => {
+    it('devrait réduire un événement déjà étendu', () => {
+      const event = { ...mockEvenements[0], isExpanded: true };
+      component.toggleExpand(event);
+      expect(event.isExpanded).toBeFalse();
+    });
+
+    it('devrait étendre un événement non étendu sans formulaire', () => {
+      const event = { ...mockEvenements[0], isExpanded: false, id_formulaire: null };
+      component.toggleExpand(event);
+      expect(event.isExpanded).toBeTrue();
+    });
+  });
+
+  describe('loadMore', () => {
+    it('devrait appeler loadEvents si hasMore est true et pas de chargement en cours', () => {
+      component.hasMore = true;
+      component.loadingMore = false;
+      spyOn(component, 'loadEvents');
+      component.loadMore();
+      expect(component.loadEvents).toHaveBeenCalled();
+    });
+
+    it('ne devrait pas charger plus si hasMore est false', () => {
+      component.hasMore = false;
+      spyOn(component, 'loadEvents');
+      component.loadMore();
+      expect(component.loadEvents).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('hasMore pagination', () => {
+    it('devrait définir hasMore à true si des pages supplémentaires existent', () => {
+      evenementServiceSpy.getAllEvenements.and.returnValue(of({
+        data: mockEvenements, current_page: 1, last_page: 3, total: 6
+      }));
+      component.loadInitialEvents();
+      expect(component.hasMore).toBeTrue();
+    });
+
+    it('devrait définir hasMore à false sur la dernière page', () => {
+      evenementServiceSpy.getAllEvenements.and.returnValue(of(paginatedResponse));
+      component.loadInitialEvents();
+      expect(component.hasMore).toBeFalse();
+    });
   });
 });

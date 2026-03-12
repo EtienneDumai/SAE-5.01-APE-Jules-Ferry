@@ -13,6 +13,22 @@
         </button>
     </div>
 
+    <!-- Bannière d'exportation des comptes -->
+    <div
+        class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h3 class="text-sm font-medium text-gray-900"><i class="fa-solid fa-download mr-2 text-gray-500"></i>
+                Exportation des données</h3>
+            <p class="text-sm text-gray-500 mt-1">Téléchargez la liste de tous les comptes utilisateurs au format Excel
+                (.xlsx)</p>
+        </div>
+        <button type="button" (click)="showExportModal = true"
+            class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
+            Exporter en Excel
+        </button>
+    </div>
+
     @if (chargementEnCours) {
     <div class="flex justify-center py-20">
         <app-spinner></app-spinner>
@@ -100,14 +116,14 @@
                         </td>
                     </tr>
                     }
-                    }
-
-                    @if (utilisateursFiltres.length === 0 && !modeCreation) {
+                    } @empty {
+                    @if (!modeCreation) {
                     <tr>
                         <td colspan="5" class="text-center py-10 text-gray-500">
                             Aucun utilisateur trouvé.
                         </td>
                     </tr>
+                    }
                     }
 
                     @if (modeCreation) {
@@ -128,6 +144,12 @@
     <app-password-confirm-modal (confirmPassword)="onPasswordConfirmed($event)"
         (cancelModal)="showPasswordModal = false; pendingAction = null; pendingUserFormPayload = null;">
     </app-password-confirm-modal>
+    }
+
+    @if (showExportModal) {
+    <app-export-modal title="Exporter les comptes utilisateurs" [availableColumns]="exportColumnsComptes"
+        (confirm)="exportData($event)" (closeModal)="showExportModal = false">
+    </app-export-modal>
     }
 
     <div #bottomAnchor></div>

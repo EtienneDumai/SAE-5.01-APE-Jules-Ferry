@@ -11,17 +11,20 @@ import { StatutCompte } from '../../../enums/StatutCompte/statut-compte';
 import { AlertComponent } from '../../../components/alert/alert.component';
 import { UserFormComponent } from '../../../components/user-form/user-form.component';
 import { PasswordConfirmModalComponent } from '../../../components/password-confirm-modal/password-confirm-modal.component';
+import { ExportModalComponent } from '../../../components/export-modal/export-modal.component';
+import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
 
 @Component({
   selector: 'app-admin-comptes',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent, PasswordConfirmModalComponent],
+  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent, PasswordConfirmModalComponent, ExportModalComponent],
   templateUrl: './admin-comptes.component.html',
   styleUrls: ['./admin-comptes.component.css']
 })
 export class AdminComptesComponent implements OnInit {
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly toastService = inject(ToastService);
+  private readonly exportExcelService = inject(ExportExcelService);
   utilisateurs: Utilisateur[] = [];
   chargementEnCours = true;
   texteRecherche = '';
@@ -37,6 +40,14 @@ export class AdminComptesComponent implements OnInit {
   pendingAction: 'CREATE' | 'UPDATE' | 'DELETE' | null = null;
   pendingUserFormPayload: Utilisateur | null = null;
 
+  showExportModal = false;
+  exportColumnsComptes = [
+    { key: 'nom', label: 'Nom', selected: true },
+    { key: 'prenom', label: 'Prénom', selected: true },
+    { key: 'email', label: 'E-mail', selected: true },
+    { key: 'role', label: 'Rôle', selected: true },
+    { key: 'statut_compte', label: 'Statut', selected: true }
+  ];
 
   roleUtilisateur = RoleUtilisateur;
   statutCompte = StatutCompte;
@@ -231,5 +242,20 @@ export class AdminComptesComponent implements OnInit {
     return this.utilisateurs.filter(u =>
       u.nom.toLowerCase().includes(s) || u.prenom.toLowerCase().includes(s) || u.email.toLowerCase().includes(s)
     );
+  }
+
+  exportData(selectedKeys: string[]): void {
+    const dataToExport = this.utilisateursFiltres.map(user => {
+      const row: Record<string, string | undefined> = {};
+      if (selectedKeys.includes('nom')) row['Nom'] = user.nom.toUpperCase();
+      if (selectedKeys.includes('prenom')) row['Prénom'] = user.prenom;
+      if (selectedKeys.includes('email')) row['E-mail'] = user.email;
+      if (selectedKeys.includes('role')) row['Rôle'] = user.role;
+      if (selectedKeys.includes('statut_compte')) row['Statut'] = user.statut_compte;
+      return row;
+    });
+
+    this.exportExcelService.exportAsExcelFile(dataToExport, 'Comptes_Utilisateurs');
+    this.showExportModal = false;
   }
 }

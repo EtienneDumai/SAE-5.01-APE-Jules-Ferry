@@ -69,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
 
     // Admin Inscriptions
+    Route::post('/admin/inscriptions', [InscriptionController::class, 'storeAdmin']);
     Route::put('/admin/inscriptions', [InscriptionController::class, 'updateAdmin']);
     Route::delete('/admin/inscriptions', [InscriptionController::class, 'destroyAdmin']);
 
