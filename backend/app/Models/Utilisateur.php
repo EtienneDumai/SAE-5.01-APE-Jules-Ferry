@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Concerns\HasTokenPair;
 
 class Utilisateur extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasTokenPair;
 
     protected $table = 'utilisateurs';
     protected $primaryKey = 'id_utilisateur';
@@ -32,25 +33,6 @@ class Utilisateur extends Authenticatable
         'email_verified_at' => 'datetime',
         'mot_de_passe' => 'hashed',
     ];
-
-    /**
-     * Génère une paire de tokens sans expiration pour les parents.
-     * Basé sur ton ancienne logique mais simplifié pour ton projet APE.
-     */
-    public function createTokensWithoutExpiration(): array
-    {
-        // On définit les "abilities" (capacités) directement en chaînes de caractères
-        // pour éviter de devoir créer un fichier Enum.
-        $ability = ($this->role === 'admin') ? 'access-admin-api' : 'access-api';
-
-        // Création de l'access_token sans date d'expiration (null)
-        $accessToken = $this->createToken('access_token', [$ability], null)->plainTextToken;
-
-        // Création du refresh_token sans date d'expiration (null)
-        $refreshToken = $this->createToken('refresh_token', ['refresh-tokens'], null)->plainTextToken;
-
-        return [$accessToken, $refreshToken];
-    }
 
     public function getAuthPassword()
     {
