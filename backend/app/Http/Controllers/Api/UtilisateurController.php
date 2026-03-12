@@ -98,8 +98,6 @@ class UtilisateurController extends Controller
         }
 
         $adminId = 1; // réattribution des événements et actualités à l'admin si le user en avait créé
-        if (!Utilisateur::where('id_utilisateur', $adminId)->exists()) {
-        }
 
         if ($utilisateur->id_utilisateur !== $adminId) {
             Evenement::where('id_auteur', $utilisateur->id_utilisateur)
