@@ -10,8 +10,8 @@ import { AuthService } from '../../../services/Auth/auth.service';
   templateUrl: './magic-link-verify.component.html'
 })
 export class MagicLinkVerifyComponent implements OnInit {
-  message: string = 'Vérification de votre lien magique en cours...';
-  erreur: boolean = false;
+  message = 'Vérification de votre lien magique en cours...';
+  erreur = false;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -32,7 +32,7 @@ export class MagicLinkVerifyComponent implements OnInit {
 
   verifierLien(url: string) {
     this.authService.verifyMagicLink(url).subscribe({
-      next: (response) => {
+      next: () => {
         this.message = "Connexion réussie ! Redirection en cours...";
         
         setTimeout(() => {

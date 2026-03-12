@@ -57,7 +57,7 @@ export class LoginComponent {
           this.demanderLienMagique(emailSaisi);
         }
       },
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
         this.errorMessage = "Une erreur est survenue lors de la vérification de l'email.";
       }
@@ -88,7 +88,7 @@ export class LoginComponent {
     const credentials: LoginCredentials = this.loginForm.value;
 
     this.authService.login(credentials).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
       },
       error: (error) => {
