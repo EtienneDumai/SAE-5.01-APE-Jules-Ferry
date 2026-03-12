@@ -38,6 +38,22 @@
             </a>
         </div>
 
+        <!-- Bannière d'exportation des événements -->
+        <div
+            class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h3 class="text-sm font-medium text-gray-900"><i class="fa-solid fa-download mr-2 text-gray-500"></i>
+                    Exportation des données</h3>
+                <p class="text-sm text-gray-500 mt-1">Téléchargez la liste de tous les événements au format Excel
+                    (.xlsx)</p>
+            </div>
+            <button type="button" (click)="showExportEventsModal = true"
+                class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
+                Exporter les événements
+            </button>
+        </div>
+
         @if (loading) {
         <div class="flex justify-center py-20">
             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
@@ -100,14 +116,15 @@
                                 </div>
                             </td>
                         </tr>
+                        } @empty {
+                        <tr>
+                            <td colspan="5" class="text-center py-10 text-gray-500">
+                                Aucun évènement trouvé.
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
-                @if (filteredEvents.length === 0) {
-                <div class="text-center py-10 text-gray-500">
-                    Aucun évènement trouvé.
-                </div>
-                }
             </div>
 
             @if (hasMore && !searchText) {
@@ -179,6 +196,22 @@
                     </div>
                     } @else {
 
+                    <div
+                        class="mb-6 bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-900"><i
+                                    class="fa-solid fa-download mr-2 text-gray-500"></i> Exportation des participants
+                            </h4>
+                            <p class="text-sm text-gray-500 mt-1">Téléchargez la liste des inscrits à cet événement au
+                                format Excel (.xlsx)</p>
+                        </div>
+                        <button type="button" (click)="openExportParticipantsModal(event)"
+                            class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                            <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
+                            Exporter les participants
+                        </button>
+                    </div>
+
                     @if (!event.extendedTaches || event.extendedTaches.length === 0) {
                     <p class="italic" style="color: var(--gray-text-color);">Aucune tâche ou créneau associé.</p>
                     }
@@ -198,11 +231,17 @@
                                     <span class="text-sm font-medium" style="color: var(--black-text-color);">
                                         {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
                                     </span>
-                                    <span
-                                        class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                                        style="background-color: var(--primary-light-blue); color: var(--primary-dark-blue);">
-                                        {{ creneau.filledInscriptions?.length }} / {{ creneau.quota }}
-                                    </span>
+                                    <div class="flex items-center gap-2">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                                            style="background-color: var(--primary-light-blue); color: var(--primary-dark-blue);">
+                                            {{ creneau.filledInscriptions?.length }} / {{ creneau.quota }}
+                                        </span>
+                                        <button (click)="initiateAdd(creneau, event); $event.stopPropagation()"
+                                            class="text-green-500 hover:text-green-700" title="Ajouter un inscrit">
+                                            <i class="fa-solid fa-plus-circle"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <ul class="space-y-2 mt-2">
@@ -233,8 +272,7 @@
                                             </button>
                                         </div>
                                     </li>
-                                    }
-                                    @if (!creneau.filledInscriptions?.length) {
+                                    } @empty {
                                     <li class="text-xs text-gray-400 italic">Aucun inscrit</li>
                                     }
                                 </ul>
@@ -247,8 +285,7 @@
                 </div>
                 }
             </div>
-            }
-            @if (filteredEvents.length === 0) {
+            } @empty {
             <div class="text-center py-10 text-gray-500">
                 Aucun évènement trouvé (ou aucune tâche liée).
             </div>
@@ -279,9 +316,11 @@
     }
 
     @if (showMoveModal) {
-    <div
-        class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
-        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-4">
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity" (click)="closeModals()"
+            (keyup.enter)="closeModals()" tabindex="0" role="button">
+        </div>
+        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white z-10">
             <div class="mt-3">
                 <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Déplacer une inscription</h3>
                 <div class="mt-4 px-2">
@@ -303,8 +342,7 @@
                             {{ slot.heure_debut }} - {{ slot.heure_fin }} ({{ slot.filledInscriptions?.length || 0 }}/{{
                             slot.quota }})
                         </option>
-                        }
-                        @if (availableSlots.length === 0) {
+                        } @empty {
                         <option disabled>Aucun autre créneau disponible</option>
                         }
                     </select>
@@ -322,5 +360,97 @@
             </div>
         </div>
     </div>
+    }
+
+    @if (showAddModal) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-4">
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity" (click)="closeModals()"
+            (keyup.enter)="closeModals()" tabindex="0" role="button">
+        </div>
+        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white z-10">
+            <div class="mt-3">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Ajouter une inscription</h3>
+                <div class="mt-4 px-2">
+                    <p class="text-sm text-gray-500 mb-4">
+                        Créneau : {{ selectedAddCreneau?.heure_debut }} - {{ selectedAddCreneau?.heure_fin }}
+                    </p>
+
+                    <label for="userDropdownBtn"
+                        class="block text-sm font-medium text-gray-700 mb-1">Utilisateur</label>
+                    <div class="relative mb-3">
+                        <button id="userDropdownBtn" type="button" (click)="toggleUserDropdown()"
+                            class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <span class="block truncate" [class.text-gray-500]="!selectedAddUserId">
+                                {{ selectedUserName }}
+                            </span>
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                            </span>
+                        </button>
+
+                        @if (showUserDropdown) {
+                        <div
+                            class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                            <div class="px-2 pb-2 pt-1 sticky top-0 bg-white">
+                                <input type="text" [(ngModel)]="searchUserText"
+                                    placeholder="Rechercher un utilisateur..."
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2"
+                                    autocomplete="off">
+                            </div>
+                            <ul class="max-h-40 overflow-y-auto">
+                                @for (user of filteredUsersForSearch; track user.id_utilisateur) {
+                                <li>
+                                    <button type="button" (click)="selectAddUser(user)"
+                                        (keyup.enter)="selectAddUser(user)"
+                                        class="w-full text-left text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white focus:outline-none transition-colors duration-150 block">
+                                        <span class="font-normal block truncate">
+                                            {{ user.prenom }} <span class="uppercase">{{ user.nom }}</span>
+                                        </span>
+                                        <span class="text-xs opacity-75 block truncate">
+                                            {{ user.email }}
+                                        </span>
+                                    </button>
+                                </li>
+                                } @empty {
+                                <li
+                                    class="text-gray-500 cursor-default select-none relative py-2 pl-3 pr-9 text-sm italic">
+                                    Aucun utilisateur trouvé
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                        }
+                    </div>
+
+                    <label for="commentaire" class="block text-sm font-medium text-gray-700 mb-1">Commentaire
+                        (optionnel)</label>
+                    <textarea id="commentaire" [(ngModel)]="addCommentaire" rows="2"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                </div>
+                <div class="flex items-center justify-between mt-6 gap-3">
+                    <button (click)="closeModals()"
+                        class="px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md w-full shadow-sm border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        Annuler
+                    </button>
+                    <button (click)="confirmAddSelection()" [disabled]="!selectedAddUserId"
+                        class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Ajouter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (showExportEventsModal) {
+    <app-export-modal title="Exporter les événements" [availableColumns]="exportColumnsEvents"
+        (confirm)="exportEvents($event)" (closeModal)="showExportEventsModal = false">
+    </app-export-modal>
+    }
+
+    @if (showExportParticipantsModal) {
+    <app-export-modal title="Exporter les participants" [availableColumns]="exportColumnsParticipants"
+        (confirm)="exportParticipants($event)" (closeModal)="showExportParticipantsModal = false">
+    </app-export-modal>
     }
 </div>

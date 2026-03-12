@@ -6,6 +6,7 @@ export interface Formulaire {
     nom_formulaire: string;
     description: string;
     statut: StatutFormulaire;
+    is_template?: boolean | number;
     id_createur: number;
     created_at?: string;
     updated_at?: string;

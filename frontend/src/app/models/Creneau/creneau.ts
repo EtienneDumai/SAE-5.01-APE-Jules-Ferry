@@ -15,4 +15,5 @@ export interface Creneau {
   // logique des cases a coché pour créneaux pour front
   est_inscrit?: boolean;
   selected?: boolean;
+  nom_tache?: string;
 }

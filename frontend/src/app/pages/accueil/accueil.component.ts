@@ -27,7 +27,7 @@ export class AccueilComponent implements OnInit {
 
   private readonly actualiteService = inject(ActualiteService);
   private readonly evenementService = inject(EvenementService);
-  Date: Date = new Date();
+  date: Date = new Date();
 
   ngOnInit() {
     this.actualiteService.getAllActualites().subscribe({

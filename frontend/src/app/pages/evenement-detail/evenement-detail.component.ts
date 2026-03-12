@@ -1,7 +1,10 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { ToastService } from '../../services/Toast/toast.service';
-import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
-import { AlertComponent } from '../../components/alert/alert.component';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DatePipe, Location, CommonModule, AsyncPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
@@ -16,21 +19,31 @@ import { InscriptionService } from '../../services/Inscription/inscription.servi
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { AuthService } from '../../services/Auth/auth.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { ToastService } from '../../services/Toast/toast.service';
+import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 import { FormsModule } from '@angular/forms';
-import { FormInscriptionEvenementComponent, InscriptionSubmitPayload } from '../../components/forms/form-inscription-evenement/form-inscription-evenement.component';
+import {
+  FormInscriptionEvenementComponent,
+  InscriptionSubmitPayload,
+} from '../../components/forms/form-inscription-evenement/form-inscription-evenement.component';
 
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
-  imports: [SpinnerComponent, DatePipe, FormsModule, FormInscriptionEvenementComponent, AsyncPipe, RouterLink, CommonModule, AlertComponent],
+  imports: [
+    SpinnerComponent,
+    DatePipe,
+    FormsModule,
+    FormInscriptionEvenementComponent,
+    AsyncPipe,
+    RouterLink,
+    CommonModule,
+  ],
   templateUrl: './evenement-detail.component.html',
-  styleUrl: './evenement-detail.component.css'
+  styleUrl: './evenement-detail.component.css',
 })
 
 export class EvenementDetailComponent implements OnInit {
-  private readonly toastService = inject(ToastService);
-  showDeleteAlert = false;
-
   @ViewChild('inscriptionFormContainer') inscriptionFormContainer!: ElementRef;
   //Données pour le formulaire d'inscription
   mesCreneauxActuels: Creneau[] = [];
@@ -48,6 +61,9 @@ export class EvenementDetailComponent implements OnInit {
   showInscriptionForm = false;
   private shouldOpenForm = false;
 
+  showDeleteModal = false;
+  isDeleting = false;
+
   currentUser$: Observable<Utilisateur | null> | undefined;
 
   //injection de dependances
@@ -59,18 +75,19 @@ export class EvenementDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly location = inject(Location);
+  private readonly toastService = inject(ToastService);
 
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
     const ID = Number(this.route.snapshot.paramMap.get('id'));
-    
+
     // Vérifier si on doit ouvrir le formulaire d'inscription
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params['openForm'] === 'true') {
         this.shouldOpenForm = true;
       }
     });
-    
+
     this.loadEvenement(ID);
   }
 
@@ -81,10 +98,12 @@ export class EvenementDetailComponent implements OnInit {
         this.evenement = data;
         this.loadingEvenement = false;
         if (this.evenement.id_auteur) {
-          this.utilisateurService.getUtilisateurById(this.evenement.id_auteur).subscribe({
-            next: (u) => this.auteur = u,
-            error: () => this.errorAuteur = true
-          });
+          this.utilisateurService
+            .getUtilisateurById(this.evenement.id_auteur)
+            .subscribe({
+              next: (u) => (this.auteur = u),
+              error: () => (this.errorAuteur = true),
+            });
         }
         if (this.evenement.id_formulaire) {
           this.loadFormulaire(this.evenement.id_formulaire);
@@ -94,7 +113,7 @@ export class EvenementDetailComponent implements OnInit {
         console.error(err);
         this.loadingEvenement = false;
         this.errorEvenement = true;
-      }
+      },
     });
   }
 
@@ -111,20 +130,25 @@ export class EvenementDetailComponent implements OnInit {
         console.error(err);
         this.errorFormulaire = true;
         this.loadingFormulaire = false;
-      }
+      },
     });
   }
 
   private tryOpenFormIfRequested() {
-    if (this.shouldOpenForm && 
-        this.authService.isAuthenticated() && 
-        this.evenement?.id_formulaire &&
-        !this.isEvenementTermine() && 
-        this.isInscriptionOuverte()) {
+    if (
+      this.shouldOpenForm &&
+      this.authService.isAuthenticated() &&
+      this.evenement?.id_formulaire &&
+      !this.isEvenementTermine() &&
+      this.isInscriptionOuverte()
+    ) {
       setTimeout(() => {
         this.showInscriptionForm = true;
         setTimeout(() => {
-          this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          this.inscriptionFormContainer?.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
         }, 100);
       }, 300);
       this.shouldOpenForm = false;
@@ -133,7 +157,7 @@ export class EvenementDetailComponent implements OnInit {
 
   canManage(user: Utilisateur | null): boolean {
     if (!user || !this.evenement) return false;
-    
+
     const role = String(user.role).toLowerCase();
 
     if (role === 'administrateur') return true;
@@ -144,6 +168,33 @@ export class EvenementDetailComponent implements OnInit {
     }
 
     return false;
+  }
+
+  openDeleteModal() {
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+  }
+
+  confirmDelete() {
+    if (!this.evenement) return;
+    
+    this.isDeleting = true;
+    this.evenementService.deleteEvenement(this.evenement.id_evenement).subscribe({
+      next: () => {
+        this.isDeleting = false;
+        this.showDeleteModal = false;
+        this.toastService.show("Événement supprimé avec succès", TypeErreurToast.SUCCESS);
+        this.router.navigate(['/evenements']);
+      },
+      error: (err) => {
+        console.error(err);
+        this.isDeleting = false;
+        this.toastService.show("Erreur lors de la suppression de l'événement.", TypeErreurToast.ERROR);
+      },
+    });
   }
 
   onDeleteEvent() {
@@ -186,13 +237,19 @@ export class EvenementDetailComponent implements OnInit {
     const user = this.authService.getCurrentUser();
     // verif formulaire et tâches existent avant de continuer
     if (!user || !this.formulaire || !this.formulaire.taches) return;
+
     this.mesCreneauxActuels = [];
-    this.formulaire.taches.forEach(tache => {
-      tache.creneaux?.forEach(creneau => {
-        const estInscrit = creneau.inscriptions?.some(i => i.id_utilisateur === user.id_utilisateur);
+
+    this.formulaire.taches.forEach((tache) => {
+      tache.creneaux?.forEach((creneau) => {
+        const estInscrit = creneau.inscriptions?.some(
+          (i) => i.id_utilisateur === user.id_utilisateur,
+        );
         if (estInscrit) {
           creneau.est_inscrit = true;
           creneau.selected = true;
+          creneau.nom_tache = tache.nom_tache;
+
           this.mesCreneauxActuels.push(creneau);
         } else {
           creneau.est_inscrit = false;
@@ -205,18 +262,23 @@ export class EvenementDetailComponent implements OnInit {
   toggleInscriptionForm() {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login'], {
-        queryParams: { returnUrl: `/evenements/${this.evenement.id_evenement}` }
+        queryParams: {
+          returnUrl: `/evenements/${this.evenement.id_evenement}`,
+        },
       });
       return;
     }
     this.showInscriptionForm = !this.showInscriptionForm;
-    
+
     if (this.showInscriptionForm) {
       setTimeout(() => {
-        this.inscriptionFormContainer?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        this.inscriptionFormContainer?.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       }, 100);
     }
-        
+
     if (!this.showInscriptionForm) {
       this.inscriptionError = null;
       this.inscriptionSuccess = false;
@@ -241,8 +303,8 @@ export class EvenementDetailComponent implements OnInit {
     const selectedSet = new Set(payload.creneauxSelectionnes);
     const ajouts: number[] = [];
     const suppressions: number[] = [];
-    this.formulaire.taches.forEach(tache => {
-      tache.creneaux?.forEach(creneau => {
+    this.formulaire.taches.forEach((tache) => {
+      tache.creneaux?.forEach((creneau) => {
         const isSelected = selectedSet.has(creneau.id_creneau);
         const estInscrit = !!creneau.est_inscrit;
         // pas inscrit + sélectionné => ajout
@@ -256,28 +318,28 @@ export class EvenementDetailComponent implements OnInit {
       });
     });
     if (ajouts.length === 0 && suppressions.length === 0) {
-      this.inscriptionError = "Aucune modification détectée.";
+      this.inscriptionError = 'Aucune modification détectée.';
       return;
     }
     this.isSubmitting = true;
     this.inscriptionError = null;
     const requetes = [
-      ...ajouts.map(id =>
+      ...ajouts.map((id) =>
         this.inscriptionService.createInscription({
           id_creneau: id,
-          commentaire: payload.commentaire // commentaire qui vient du formulaire enfant de la page
-        })
+          commentaire: payload.commentaire, // commentaire qui vient du formulaire enfant de la page
+        }),
       ),
-      ...suppressions.map(id =>
-        this.inscriptionService.deleteInscription(id)
-      )
+      ...suppressions.map((id) =>
+        this.inscriptionService.deleteInscription(id),
+      ),
     ];
     forkJoin(requetes).subscribe({
       next: () => {
         // update local immédiatement pour une meilleure UX
         const selectedSet = new Set(payload.creneauxSelectionnes);
-        this.formulaire?.taches?.forEach(t => {
-          t.creneaux?.forEach(c => {
+        this.formulaire?.taches?.forEach((t) => {
+          t.creneaux?.forEach((c) => {
             const was = !!c.est_inscrit;
             const now = selectedSet.has(c.id_creneau);
             if (!was && now) {
@@ -288,7 +350,10 @@ export class EvenementDetailComponent implements OnInit {
             if (was && !now) {
               c.est_inscrit = false;
               c.selected = false;
-              c.inscriptions_count = Math.max(0, (c.inscriptions_count || 0) - 1);
+              c.inscriptions_count = Math.max(
+                0,
+                (c.inscriptions_count || 0) - 1,
+              );
             }
           });
         });
@@ -298,13 +363,15 @@ export class EvenementDetailComponent implements OnInit {
         this.showInscriptionForm = false;
         // refresh de la page pour refléter les changements
         this.loadFormulaire(this.evenement.id_formulaire!);
-        setTimeout(() => this.inscriptionSuccess = false, 2000);
+        setTimeout(() => (this.inscriptionSuccess = false), 2000);
       },
       error: (err) => {
         console.error(err);
-        this.inscriptionError = err.error?.message || "Erreur lors de la mise à jour des inscriptions.";
+        this.inscriptionError =
+          err.error?.message ||
+          'Erreur lors de la mise à jour des inscriptions.';
         this.isSubmitting = false;
-      }
+      },
     });
   }
 
