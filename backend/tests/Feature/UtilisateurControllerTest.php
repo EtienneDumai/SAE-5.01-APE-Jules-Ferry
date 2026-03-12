@@ -41,7 +41,9 @@ class UtilisateurControllerTest extends TestCase
 
     public function test_update_modifie_profil_utilisateur()
     {
-        $user = Utilisateur::factory()->create();
+        $user = Utilisateur::factory()->create([
+            'mot_de_passe' => Hash::make('password123')
+        ]);
         $this->actingAs($user, 'sanctum');
 
         $data = [
@@ -49,6 +51,7 @@ class UtilisateurControllerTest extends TestCase
             'prenom' => 'NouveauPrenom',
             'email' => $user->email,
             'role' => 'parent',
+            'admin_password' => 'password123',
         ];
 
         $response = $this->putJson("/api/utilisateurs/{$user->id_utilisateur}", $data);
@@ -74,11 +77,11 @@ class UtilisateurControllerTest extends TestCase
 
     public function test_destroy_supprime_utilisateur_fiablement()
     {
-        $admin = Utilisateur::factory()->create();
+        $admin = Utilisateur::factory()->create([
+            'mot_de_passe' => Hash::make('password123')
+        ]);
 
         $userToDelete = Utilisateur::factory()->create();
-        $password = 'password';
-        $userToDelete->update(['mot_de_passe' => Hash::make($password)]);
 
         if (!Utilisateur::find(1)) {
             Utilisateur::factory()->create(['id_utilisateur' => 1]);
@@ -89,7 +92,9 @@ class UtilisateurControllerTest extends TestCase
 
         $this->actingAs($admin, 'sanctum');
 
-        $data = ['password' => $password];
+        $data = [
+            'admin_password' => 'password123'
+        ];
 
         $response = $this->deleteJson("/api/utilisateurs/{$userToDelete->id_utilisateur}", $data);
 

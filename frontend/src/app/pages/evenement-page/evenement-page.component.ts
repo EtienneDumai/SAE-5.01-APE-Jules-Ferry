@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { EvenementService } from '../../services/Evenement/evenement.service';
+import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { EvenementCardComponent } from "../../components/card/evenement-card/evenement-card.component";
 import { SpinnerComponent } from "../../components/spinner/spinner.component";
-import { RouterLink } from '@angular/router'; 
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/Auth/auth.service';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ export class EvenementPageComponent implements OnInit {
   listeEvenements!: Evenement[];
   loadingEvenements = true;
   errorEvenements = false;
-  
+
   currentUser$: Observable<Utilisateur | null> | undefined;
   currentFilter = 'tous';
 
@@ -30,8 +30,8 @@ export class EvenementPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
 
   get canManage(): boolean {
-    return this.authService.hasRole(RoleUtilisateur.administrateur) || 
-           this.authService.hasRole(RoleUtilisateur.membre_bureau);
+    return this.authService.hasRole(RoleUtilisateur.administrateur) ||
+      this.authService.hasRole(RoleUtilisateur.membre_bureau);
   }
 
   ngOnInit() {
@@ -44,10 +44,10 @@ export class EvenementPageComponent implements OnInit {
   loadEvenements(statut: string) {
     this.currentFilter = statut;
     this.loadingEvenements = true;
-    
+
     this.evenementService.getAllEvenements(statut).subscribe({
-      next: (data) => {
-        this.listeEvenements = data;
+      next: (response: PaginatedEvenements | Evenement[]) => {
+        this.listeEvenements = Array.isArray(response) ? response : (response?.data || []);
         this.sortEvenementByDate();
         this.loadingEvenements = false;
       },
@@ -68,7 +68,7 @@ export class EvenementPageComponent implements OnInit {
     sortedList.sort((a, b) => {
       const dateA = new Date(a.date_evenement).getTime();
       const dateB = new Date(b.date_evenement).getTime();
-      return dateB - dateA; 
+      return dateB - dateA;
     });
     this.listeEvenements = sortedList;
   }

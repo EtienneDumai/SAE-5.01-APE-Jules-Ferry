@@ -81,7 +81,7 @@ describe('EvenementPageComponent', () => {
 
     evenementService = TestBed.inject(EvenementService) as jasmine.SpyObj<EvenementService>;
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
-    evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+    evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
     authService.hasRole.and.returnValue(false);
 
     fixture = TestBed.createComponent(EvenementPageComponent);
@@ -248,12 +248,12 @@ describe('EvenementPageComponent', () => {
       expect(component.listeEvenements.length).toBe(3);
       expect(component.loadingEvenements).toBe(false);
       expect(component.errorEvenements).toBe(false);
-      
+
       // Vérifier le tri
       const firstDate = new Date(component.listeEvenements[0].date_evenement).getTime();
       const secondDate = new Date(component.listeEvenements[1].date_evenement).getTime();
       const thirdDate = new Date(component.listeEvenements[2].date_evenement).getTime();
-      
+
       expect(firstDate).toBeGreaterThanOrEqual(secondDate);
       expect(secondDate).toBeGreaterThanOrEqual(thirdDate);
     });
@@ -265,7 +265,7 @@ describe('EvenementPageComponent', () => {
       component.handleEventDeleted(2);
 
       expect(component.listeEvenements.length).toBe(initialLength - 1);
-      
+
       // Vérifier que le tri est toujours maintenu
       if (component.listeEvenements.length > 1) {
         const firstDate = new Date(component.listeEvenements[0].date_evenement).getTime();

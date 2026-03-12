@@ -40,7 +40,7 @@ describe('AccueilComponent', () => {
     evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getAllEvenements']);
 
     actualiteServiceSpy.getAllActualites.and.returnValue(of([]));
-    evenementServiceSpy.getAllEvenements.and.returnValue(of([]));
+    evenementServiceSpy.getAllEvenements.and.returnValue(of({ data: [], current_page: 1, last_page: 1, total: 0 }));
 
     await TestBed.configureTestingModule({
       imports: [AccueilComponent],
@@ -66,13 +66,13 @@ describe('AccueilComponent', () => {
   describe('Initialisation et Chargement des données', () => {
     it('devrait charger et trier les actualités et événements à l\'initialisation', () => {
       actualiteServiceSpy.getAllActualites.and.returnValue(of(mockActualites));
-      evenementServiceSpy.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementServiceSpy.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
 
       component.ngOnInit();
-      
+
       expect(component.loadingActualites).toBeFalse();
       expect(component.loadingEvents).toBeFalse();
-      
+
       expect(component.listeActualites.length).toBe(4);
       expect(component.listeEvenements.length).toBe(4);
     });
@@ -80,7 +80,7 @@ describe('AccueilComponent', () => {
     it('devrait gérer les erreurs de chargement des actualités', () => {
       const error = new Error('Erreur API');
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => error));
-      evenementServiceSpy.getAllEvenements.and.returnValue(of([]));
+      evenementServiceSpy.getAllEvenements.and.returnValue(of({ data: [], current_page: 1, last_page: 1, total: 0 }));
 
       spyOn(console, 'error');
       component.ngOnInit();
@@ -106,12 +106,12 @@ describe('AccueilComponent', () => {
 
   describe('Affichage', () => {
     it('devrait afficher les spinners pendant le chargement', () => {
-        component.loadingActualites = true;
-        component.loadingEvents = true;
-        fixture.detectChanges();
+      component.loadingActualites = true;
+      component.loadingEvents = true;
+      fixture.detectChanges();
 
-        const spinners = fixture.debugElement.queryAll(By.directive(SpinnerComponent));
-        expect(spinners.length).toBe(2);
+      const spinners = fixture.debugElement.queryAll(By.directive(SpinnerComponent));
+      expect(spinners.length).toBe(2);
     });
 
     it('devrait afficher au maximum 3 cartes d\'actualités', () => {
@@ -136,17 +136,17 @@ describe('AccueilComponent', () => {
   });
 
   describe('Interaction', () => {
-      it('devrait supprimer un événement de la liste lors de la suppression', () => {
-          component.listeEvenements = [...mockEvenements];
-          fixture.detectChanges();
+    it('devrait supprimer un événement de la liste lors de la suppression', () => {
+      component.listeEvenements = [...mockEvenements];
+      fixture.detectChanges();
 
-          const initialCount = component.listeEvenements.length;
-          const idToDelete = 1;
+      const initialCount = component.listeEvenements.length;
+      const idToDelete = 1;
 
-          component.handleEventDeleted(idToDelete);
+      component.handleEventDeleted(idToDelete);
 
-          expect(component.listeEvenements.length).toBe(initialCount - 1);
-          expect(component.listeEvenements.find(e => e.id_evenement === idToDelete)).toBeUndefined();
-      });
+      expect(component.listeEvenements.length).toBe(initialCount - 1);
+      expect(component.listeEvenements.find(e => e.id_evenement === idToDelete)).toBeUndefined();
+    });
   });
 });

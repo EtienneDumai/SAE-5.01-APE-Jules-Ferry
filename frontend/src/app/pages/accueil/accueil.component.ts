@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActualiteService } from '../../services/Actualite/actualite.service';
-import { EvenementService } from '../../services/Evenement/evenement.service';
+import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteCardComponent } from '../../components/card/actualite-card/actualite-card.component';
@@ -19,11 +19,11 @@ import { CalendrierComponent } from '../../components/calendrier/calendrier.comp
 export class AccueilComponent implements OnInit {
   public listeActualites: Actualite[] = [];
   public listeEvenements: Evenement[] = [];
-  
+
   loadingEvents = true;
   loadingActualites = true;
   errorEvents = false;
-  errorActualites= false;
+  errorActualites = false;
 
   private readonly actualiteService = inject(ActualiteService);
   private readonly evenementService = inject(EvenementService);
@@ -44,8 +44,8 @@ export class AccueilComponent implements OnInit {
     });
 
     this.evenementService.getAllEvenements().subscribe({
-      next: (data) => {
-        this.listeEvenements = data;
+      next: (response: PaginatedEvenements | Evenement[]) => {
+        this.listeEvenements = Array.isArray(response) ? response : (response?.data || []);
         this.sortEvenementByDate();
         this.loadingEvents = false;
       },
@@ -63,13 +63,13 @@ export class AccueilComponent implements OnInit {
 
   public sortEvenementByDate(): void {
     this.listeEvenements.sort((a, b) => {
-        return new Date(a.date_evenement).getTime() - new Date(b.date_evenement).getTime();
+      return new Date(a.date_evenement).getTime() - new Date(b.date_evenement).getTime();
     });
   }
 
   public sortActualiteByDate(): void {
     this.listeActualites.sort((a, b) => {
-        return new Date(b.date_publication).getTime() - new Date(a.date_publication).getTime();
+      return new Date(b.date_publication).getTime() - new Date(a.date_publication).getTime();
     });
   }
 

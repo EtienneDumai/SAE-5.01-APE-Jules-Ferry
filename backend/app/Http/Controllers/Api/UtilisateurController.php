@@ -34,9 +34,20 @@ class UtilisateurController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+<<<<<<< HEAD
             'mot_de_passe' => ['nullable', Password::min(8)],
+=======
+            'mot_de_passe' => ['required', Password::min(8)],
+            'admin_password' => 'required|string',
+>>>>>>> e5bd1ee7605261ebca38d3b5b5a92371994721a8
         ]);
-        $donnees = $request->all();
+
+        $admin = $request->user();
+        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
+            return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
+        }
+
+        $donnees = $request->except(['admin_password']);
 
         $utilisateur = Utilisateur::create($donnees);
 
@@ -51,7 +62,16 @@ class UtilisateurController extends Controller
     {
         $utilisateur = Utilisateur::find($id);
         if ($utilisateur) {
-            $donnees = $request->all();
+            $request->validate([
+                'admin_password' => 'required|string',
+            ]);
+
+            $admin = $request->user();
+            if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
+                return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
+            }
+
+            $donnees = $request->except(['admin_password']);
             if (empty($donnees['mot_de_passe'])) {
                 unset($donnees['mot_de_passe']);
             }
@@ -68,6 +88,7 @@ class UtilisateurController extends Controller
         if (!$utilisateur) {
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
         }
+<<<<<<< HEAD
 
         // On vérifie le mot de passe uniquement si l'utilisateur en a un
         if (!empty($utilisateur->mot_de_passe)) {
@@ -80,23 +101,35 @@ class UtilisateurController extends Controller
                     'message' => 'Mot de passe incorrect. Suppression impossible.'
                 ], 403);
             }
+=======
+        //securité on verifie le mot de passe avant suppression
+        $request->validate([
+            'admin_password' => 'required|string'
+        ]);
+
+        $admin = $request->user();
+        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
+            return response()->json([
+                'message' => 'Mot de passe administrateur incorrect. Suppression impossible.'
+            ], 403);
+>>>>>>> e5bd1ee7605261ebca38d3b5b5a92371994721a8
         }
 
         $adminId = 1; // réattribution des événements et actualités à l'admin si le user en avait créé
         if (!Utilisateur::where('id_utilisateur', $adminId)->exists()) {
         }
-        
+
         if ($utilisateur->id_utilisateur !== $adminId) {
             Evenement::where('id_auteur', $utilisateur->id_utilisateur)
                 ->update(['id_auteur' => $adminId]);
-            
+
             Actualite::where('id_auteur', $utilisateur->id_utilisateur)
                 ->update(['id_auteur' => $adminId]);
 
             Formulaire::where('id_createur', $utilisateur->id_utilisateur)
                 ->update(['id_createur' => $adminId]);
         }
-        
+
         $utilisateur->inscriptions()->delete();
         $utilisateur->tokens()->delete();
         $utilisateur->delete();

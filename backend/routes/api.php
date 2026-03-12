@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\InscriptionController;
 use App\Http\Controllers\Api\FormulaireController;
 use App\Http\Controllers\Api\UtilisateurController;
 use App\Http\Controllers\Api\NewsletterController;
-use App\Http\Controllers\Api\CreneauController; 
+use App\Http\Controllers\Api\CreneauController;
 use App\Http\Controllers\Api\TacheController;
 use Illuminate\Http\Request;
 
@@ -37,6 +37,7 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'store']);
 // Événements
 Route::get('/evenements', [EvenementController::class, 'index']);
 Route::get('/evenements/{id}', [EvenementController::class, 'show']);
+Route::get('/evenements/{id}/details', [EvenementController::class, 'getDetails']);
 
 // Actualités
 Route::get('/actualites', [ActualiteController::class, 'index']);
@@ -68,9 +69,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('utilisateurs/{id}/mot-de-passe', [UtilisateurController::class, 'updatePassword']);
 
     // Inscriptions (CRUD)
+    Route::get('/inscriptions', [InscriptionController::class, 'index']);
     Route::post('/inscriptions', [InscriptionController::class, 'store']);
     Route::get('/inscriptions/mes-inscriptions', [InscriptionController::class, 'mesInscriptions']);
     Route::delete('/inscriptions/{id_creneau}', [InscriptionController::class, 'destroy']);
+
+    // Admin Inscriptions
+    Route::put('/admin/inscriptions', [InscriptionController::class, 'updateAdmin']);
+    Route::delete('/admin/inscriptions', [InscriptionController::class, 'destroyAdmin']);
 
 
     Route::post('/evenements', [EvenementController::class, 'store']);

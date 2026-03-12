@@ -13,7 +13,6 @@ describe('CalendrierComponent', () => {
   let fixture: ComponentFixture<CalendrierComponent>;
   let evenementService: jasmine.SpyObj<EvenementService>;
 
-  // Mock data
   const mockEvenements: Evenement[] = [
     {
       id_evenement: 1,
@@ -78,7 +77,7 @@ describe('CalendrierComponent', () => {
     });
 
     it('devrait charger les événements à l\'initialisation', () => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       fixture.detectChanges();
 
       expect(evenementService.getAllEvenements).toHaveBeenCalled();
@@ -90,7 +89,7 @@ describe('CalendrierComponent', () => {
   //Tests pour le chargement des événements et gestion des erreurs
   describe('Chargement des événements', () => {
     it('devrait charger les événements avec succès', (done) => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.loadEvenements();
 
       setTimeout(() => {
@@ -120,7 +119,7 @@ describe('CalendrierComponent', () => {
     });
 
     it('devrait définir isLoading à false après le chargement des événements', () => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.isLoading = true;
 
       component.loadEvenements();
@@ -130,7 +129,7 @@ describe('CalendrierComponent', () => {
 
     it('devrait effacer le message d\'erreur lors du chargement de nouveaux événements', () => {
       component.errorMessage = 'Previous error';
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
 
       component.loadEvenements();
 
@@ -138,7 +137,7 @@ describe('CalendrierComponent', () => {
     });
 
     it('devrait formater correctement les événements du calendrier', (done) => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.loadEvenements();
 
       setTimeout(() => {
@@ -182,7 +181,7 @@ describe('CalendrierComponent', () => {
   //Tests pour la gestion des clics sur les événements
   describe('Gestion des clics sur événements', () => {
     beforeEach(() => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.loadEvenements();
       fixture.detectChanges();
     });
@@ -342,7 +341,7 @@ describe('CalendrierComponent', () => {
       expect(component.calendarOptions.plugins).toBeTruthy();
       expect(
         (component.calendarOptions.locale as { code: string })?.code ||
-          component.calendarOptions.locale
+        component.calendarOptions.locale
       ).toBe('fr');
     });
 
@@ -366,7 +365,7 @@ describe('CalendrierComponent', () => {
   //Tests d'intégration complète
   describe('Intégration complète', () => {
     it('devrait charger les événements et afficher correctement le calendrier', (done) => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       fixture.detectChanges();
 
       setTimeout(() => {
@@ -378,7 +377,7 @@ describe('CalendrierComponent', () => {
     });
 
     it('devrait gérer le flux utilisateur complet', (done) => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.loadEvenements();
 
       setTimeout(() => {
@@ -411,26 +410,26 @@ describe('CalendrierComponent', () => {
 
   describe('Redirection vers formulaire d\'inscription', () => {
     it('devrait sélectionner un événement au clic', fakeAsync(() => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.loadEvenements();
       tick();
 
       expect(component.eventsList.length).toBe(2);
-      
+
       const mockEventClickArg: Partial<EventClickArg> = {
         event: { id: '1' } as EventClickArg['event'],
       };
       component.handleEventClick(mockEventClickArg as EventClickArg);
-      
+
       expect(component.selectedEvent).toBeTruthy();
       expect(component.selectedEvent?.id_evenement).toBe(1);
       expect(component.selectedEvent?.titre).toBe("Réunion d'équipe");
-      
+
       flush();
     }));
 
     it('devrait permettre de fermer les détails d\'un événement', fakeAsync(() => {
-      evenementService.getAllEvenements.and.returnValue(of(mockEvenements));
+      evenementService.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
       component.loadEvenements();
       tick();
 
@@ -438,13 +437,13 @@ describe('CalendrierComponent', () => {
         event: { id: '1' } as EventClickArg['event'],
       };
       component.handleEventClick(mockEventClickArg as EventClickArg);
-      
+
       expect(component.selectedEvent).toBeTruthy();
-      
+
       component.closeEventDetails();
-      
+
       expect(component.selectedEvent).toBeNull();
-      
+
       flush();
     }));
   });
