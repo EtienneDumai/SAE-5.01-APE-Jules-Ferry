@@ -10,6 +10,7 @@ import { of, throwError } from 'rxjs';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 import { RoleUtilisateur } from '../../../enums/RoleUtilisateur/role-utilisateur';
 import { StatutCompte } from '../../../enums/StatutCompte/statut-compte';
+import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';
 
 describe('AdminComptesComponent', () => {
   let component: AdminComptesComponent;
@@ -28,7 +29,7 @@ describe('AdminComptesComponent', () => {
     utilisateurServiceSpy = jasmine.createSpyObj('UtilisateurService', [
       'getAllUtilisateurs', 'createUtilisateur', 'updateUtilisateur', 'deleteUtilisateur'
     ]);
-    toastServiceSpy = jasmine.createSpyObj('ToastService', ['show']);
+  toastServiceSpy = jasmine.createSpyObj('ToastService', ['show', 'showWithTimeout']);
     exportExcelServiceSpy = jasmine.createSpyObj('ExportExcelService', ['exportAsExcelFile']);
 
     utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(of(mockUtilisateurs));
@@ -62,8 +63,8 @@ describe('AdminComptesComponent', () => {
 
     it('devrait afficher un toast d\'erreur si le chargement échoue', () => {
       utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(throwError(() => new Error('network error')));
-      component.chargerUtilisateurs();
-      expect(toastServiceSpy.show).toHaveBeenCalled();
+  component.chargerUtilisateurs();
+  expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith('Erreur chargement utilisateurs', TypeErreurToast.ERROR);
       expect(component.chargementEnCours).toBeFalse();
     });
   });

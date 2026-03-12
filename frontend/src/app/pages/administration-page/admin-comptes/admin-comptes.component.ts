@@ -17,7 +17,7 @@ import { ExportExcelService } from '../../../services/ExportExcel/export-excel.s
 @Component({
   selector: 'app-admin-comptes',
   standalone: true,
-  imports: [CommonModule, SpinnerComponent, FormsModule, AlertComponent, UserFormComponent, PasswordConfirmModalComponent, ExportModalComponent],
+  imports: [CommonModule, SpinnerComponent, FormsModule, UserFormComponent, PasswordConfirmModalComponent, ExportModalComponent],
   templateUrl: './admin-comptes.component.html',
   styleUrls: ['./admin-comptes.component.css']
 })

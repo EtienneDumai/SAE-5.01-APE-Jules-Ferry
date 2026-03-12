@@ -67,7 +67,7 @@
                                     <i class="fa-regular fa-trash-can"></i>
                                     Supprimer l'actualité
                                 </button>
-                            @if (showDeleteAlert) {
+                            @if (showDeleteModal) {
                                 <app-alert message="Voulez vous vraiment supprimer cette actualité ?" texteBoutonValider="Supprimer"
                                     texteBoutonAnnuler="Annuler" (valider)="confirmerSuppression()" (annuler)="annulerSuppression()">
                                 </app-alert>
