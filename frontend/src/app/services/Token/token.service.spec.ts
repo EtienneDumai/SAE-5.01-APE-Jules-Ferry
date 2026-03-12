@@ -34,9 +34,9 @@ describe('TokenService', () => {
       expect(localStorage.getItem(TOKEN_KEY)).toBe(TEST_TOKEN);
     });
 
-    it('devrait sauvegarder un token chaîne vide', () => {
+    it('ne devrait PAS sauvegarder un token chaîne vide', () => {
       service.saveToken('');
-      expect(localStorage.getItem(TOKEN_KEY)).toBe('');
+      expect(localStorage.getItem('token')).toBeNull();
     });
   });
 

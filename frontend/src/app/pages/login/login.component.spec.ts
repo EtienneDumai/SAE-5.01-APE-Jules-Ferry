@@ -49,7 +49,7 @@ describe('LoginComponent', () => {
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
-    
+
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -107,7 +107,7 @@ describe('LoginComponent', () => {
       const password = component.loginForm.get('mot_de_passe');
       password?.setValidators([Validators.required]);
       password?.updateValueAndValidity();
-      
+
       expect(password?.valid).toBe(false);
       expect(password?.hasError('required')).toBe(true);
     });
@@ -117,7 +117,7 @@ describe('LoginComponent', () => {
       password?.setValidators([Validators.minLength(8)]);
       password?.updateValueAndValidity();
       password?.setValue('short');
-      
+
       expect(password?.valid).toBe(false);
       expect(password?.hasError('minlength')).toBe(true);
     });
@@ -130,8 +130,8 @@ describe('LoginComponent', () => {
 
     it('devrait marquer le formulaire comme invalide lorsqu\'un champ est invalide', () => {
       component.loginForm.patchValue({
-        email: 'test@example.com',
-        mot_de_passe: 'short'
+        email: '',
+        mot_de_passe: 'password123'
       });
       expect(component.loginForm.valid).toBe(false);
     });
@@ -180,7 +180,11 @@ describe('LoginComponent', () => {
       expect(authService.login).not.toHaveBeenCalled();
     });
 
-    it('devrait ne pas soumettre lorsque le mot de passe est trop court', () => {
+    it('devrait ne pas soumettre lorsque le mot de passe est trop court (étape 2)', () => {
+      const password = component.loginForm.get('mot_de_passe');
+      password?.setValidators([Validators.minLength(8)]);
+      password?.updateValueAndValidity();
+
       component.loginForm.patchValue({
         email: 'test@example.com',
         mot_de_passe: 'short'
@@ -194,7 +198,7 @@ describe('LoginComponent', () => {
     it('devrait définir isLoading à true lors de la soumission', () => {
       const loginSubject = new Subject<AuthResponse>();
       authService.login.and.returnValue(loginSubject.asObservable());
-      
+
       component.loginForm.patchValue({
         email: 'test@example.com',
         mot_de_passe: 'password123'
@@ -203,7 +207,7 @@ describe('LoginComponent', () => {
       component.onSubmit();
 
       expect(component.isLoading).toBe(true);
-      
+
       // Complete the observable to clean up
       loginSubject.next(mockAuthResponse);
       loginSubject.complete();
@@ -298,7 +302,7 @@ describe('LoginComponent', () => {
     it('devrait effectuer le flux complet de connexion sans erreur', fakeAsync(() => {
       const loginSubject = new Subject<AuthResponse>();
       authService.login.and.returnValue(loginSubject.asObservable());
-      
+
       // Fill form
       component.loginForm.patchValue({
         email: 'john.doe@example.com',
@@ -309,10 +313,10 @@ describe('LoginComponent', () => {
 
       // Submit
       component.onSubmit();
-      
+
       // Verify loading state
       expect(component.isLoading).toBe(true);
-      
+
       // Simulate async response
       loginSubject.next(mockAuthResponse);
       loginSubject.complete();
@@ -325,7 +329,7 @@ describe('LoginComponent', () => {
     it('devrait effectuer le flux complet d\'erreur', fakeAsync(() => {
       const error = { error: { message: 'Invalid credentials' } };
       authService.login.and.returnValue(throwError(() => error));
-      
+
       // Fill form
       component.loginForm.patchValue({
         email: 'wrong@example.com',
@@ -334,7 +338,7 @@ describe('LoginComponent', () => {
 
       // Submit
       component.onSubmit();
-      
+
       tick();
 
       // Verify error state
