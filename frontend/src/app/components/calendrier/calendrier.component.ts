@@ -41,7 +41,7 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   private widgetResizeListener: ((e: Event) => void) | null = null;
   
   // Track timeouts to prevent execution on destroyed components
-  private resizeTimeouts: any[] = [];
+  private resizeTimeouts: (ReturnType<typeof setTimeout>)[] = [];
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],

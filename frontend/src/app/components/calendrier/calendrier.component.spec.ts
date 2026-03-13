@@ -103,7 +103,7 @@ describe('CalendrierComponent', () => {
 
     it('devrait sélectionner un événement lorsqu\'il est cliqué', fakeAsync(() => {
       const mockEventClickArg: Partial<EventClickArg> = {
-        event: { id: '1' } as any,
+        event: { id: '1' } as unknown as EventClickArg['event'],
       };
 
       component.handleEventClick(mockEventClickArg as EventClickArg);
@@ -135,7 +135,7 @@ describe('CalendrierComponent', () => {
 
       // Click event
       const mockEventClickArg: Partial<EventClickArg> = {
-        event: { id: '1' } as any,
+        event: { id: '1' } as unknown as EventClickArg['event'],
       };
       component.handleEventClick(mockEventClickArg as EventClickArg);
       tick(150);
@@ -160,7 +160,7 @@ describe('CalendrierComponent', () => {
 
         // Force 'isMobile' state to be mismatched with current window width to ensure update logic triggers
         const currentWindowIsMobile = window.innerWidth < 768;
-        (component as any).isMobile = !currentWindowIsMobile;
+        (component as unknown as { isMobile: boolean }).isMobile = !currentWindowIsMobile;
 
         component.handleResize(mockCalendarApi);
         expect(mockCalendarApi.setOption).toHaveBeenCalled();
