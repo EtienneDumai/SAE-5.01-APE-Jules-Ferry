@@ -24,7 +24,6 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly evenementService = inject(EvenementService);
 
-  //Références aux éléments du template
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
   @ViewChild('calendarContainer') calendarContainer: ElementRef | undefined;
   @ViewChild('eventDetails') eventDetails: ElementRef | undefined;
@@ -34,74 +33,46 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = true;
   errorMessage: string | null = null;
   
-  calendarState: 'compact' | 'expanded' | 'closed' = 'expanded'; // Ouvert par défaut
-  
-  // Détection du mode mobile selon la largeur de la fenêtre
+  calendarState: 'compact' | 'expanded' | 'closed' = 'expanded';
   private isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  // ResizeObserver pour détecter les changements de taille du conteneur
   private resizeObserver: ResizeObserver | null = null;
   private transitionEndListener: ((e: Event) => void) | null = null;
   private widgetResizeListener: ((e: Event) => void) | null = null;
+  
+  // Track timeouts to prevent execution on destroyed components
+  private resizeTimeouts: any[] = [];
 
-
-  // Options du calendrier
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
     locale: frLocale,
     height: 'auto',
     allDaySlot: false,
-
     slotMinTime: '07:00:00',
     slotMaxTime: '20:00:00',
-
     views: {
-      dayGridMonth: {
-        displayEventTime: false
-      }
+      dayGridMonth: { displayEventTime: false }
     },
-
     headerToolbar: this.isMobile
-      ? {
-        left: '',
-        center: 'title',
-        right: ''
-      }
-      : {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-      },
+      ? { left: '', center: 'title', right: '' }
+      : { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' },
     footerToolbar: this.isMobile
-      ? {
-        left: 'prev,next',
-        center: 'listWeek,dayGridMonth,timeGridDay today',
-        right: ''
-      }
-      : {
-        left: 'prevYear,nextYear'
-      },
-
+      ? { left: 'prev,next', center: 'listWeek,dayGridMonth,timeGridDay today', right: '' }
+      : { left: 'prevYear,nextYear' },
     weekNumbers: true,
     weekText: '',
     weekends: true,
     eventDisplay: 'block',
     eventColor: '#9ae39cff',
     eventTextColor: '#000000',
-
     windowResize: (arg) => {
-      this.handleResize(arg.view.calendar);
+        if(arg && arg.view && arg.view.calendar) {
+            this.handleResize(arg.view.calendar);
+        }
     },
-
-    eventClick: (arg: EventClickArg) => {
-      this.handleEventClick(arg);
-    },
-
-    datesSet: () => {
-      this.selectedEvent = null;
-    },
-
+    eventClick: (arg: EventClickArg) => this.handleEventClick(arg),
+    datesSet: () => { this.selectedEvent = null; },
     events: []
   };
 
@@ -110,26 +81,36 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngAfterViewInit(): void {
-    setTimeout(() => {
+    const t = setTimeout(() => {
       this.setupResizeObserver();
       this.forceCalendarResize();
     }, 200);
+    this.resizeTimeouts.push(t);
   }
   
   public forceCalendarResize(): void {
-    if (this.calendarComponent) {
-      const calendarApi = this.calendarComponent.getApi();
-      setTimeout(() => {
-        calendarApi.updateSize();
-        setTimeout(() => calendarApi.updateSize(), 100);
-      }, 50);
-    }
+    if (!this.calendarComponent) return;
+    
+    // Safely check and update inside timeouts
+    const t1 = setTimeout(() => {
+      if (this.calendarComponent) {
+          const api = this.calendarComponent.getApi();
+          if (api) api.updateSize();
+      }
+      
+      const t2 = setTimeout(() => {
+        if (this.calendarComponent) {
+            const api = this.calendarComponent.getApi();
+            if (api) api.updateSize();
+        }
+      }, 100);
+      this.resizeTimeouts.push(t2);
+    }, 50);
+    this.resizeTimeouts.push(t1);
   }
   
   private setupResizeObserver(): void {
-    if (typeof ResizeObserver === 'undefined' || typeof document === 'undefined') {
-      return;
-    }
+    if (typeof ResizeObserver === 'undefined' || typeof document === 'undefined') return;
     
     const widgetContent = this.calendarContainer?.nativeElement?.closest('.widget-content');
     
@@ -141,36 +122,31 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       });
-      
       this.resizeObserver.observe(widgetContent);
-    }
-    
-    if (widgetContent) {
+      
       this.transitionEndListener = (e: Event) => {
-        const transitionEvent = e as TransitionEvent;
-        if (transitionEvent.propertyName === 'width') {
+        if ((e as TransitionEvent).propertyName === 'width') {
           this.forceCalendarResize();
         }
       };
-      
       widgetContent.addEventListener('transitionend', this.transitionEndListener);
     }
     
-    this.widgetResizeListener = () => {
-      this.forceCalendarResize();
-    };
-    
+    this.widgetResizeListener = () => this.forceCalendarResize();
     document.addEventListener('widgetResized', this.widgetResizeListener);
   }
   
   ngOnDestroy(): void {
-    // Nettoyer le ResizeObserver
+    // 1. Clear all pending timeouts immediately
+    this.resizeTimeouts.forEach(t => clearTimeout(t));
+    this.resizeTimeouts = [];
+
+    // 2. Disconnect observers and listeners
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
     }
     
-    // Nettoyer le listener transitionend
     if (this.transitionEndListener && typeof document !== 'undefined') {
       const widgetContent = this.calendarContainer?.nativeElement?.closest('.widget-content');
       if (widgetContent) {
@@ -179,7 +155,6 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
       this.transitionEndListener = null;
     }
     
-    // Nettoyer le listener événement personnalisé
     if (this.widgetResizeListener && typeof document !== 'undefined') {
       document.removeEventListener('widgetResized', this.widgetResizeListener);
       this.widgetResizeListener = null;
@@ -190,7 +165,6 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     this.errorMessage = null;
 
-    // Récupération des événements depuis le service
     this.evenementService.getAllEvenements().subscribe({
       next: (response: PaginatedEvenements | Evenement[]) => {
         const evenements = Array.isArray(response) ? response : (response?.data || []);
@@ -200,13 +174,12 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
           title: event.titre,
           start: this.formatEventDate(event.date_evenement, event.heure_debut),
           end: this.formatEventDate(event.date_evenement, event.heure_fin),
-          extendedProps: {
-            lieu: event.lieu
-          }
+          extendedProps: { lieu: event.lieu }
         }));
         this.isLoading = false;
-        // Forcer une mise à jour du calendrier après le chargement des événements
-        setTimeout(() => this.forceCalendarResize(), 300);
+        
+        const t = setTimeout(() => this.forceCalendarResize(), 300);
+        this.resizeTimeouts.push(t);
       },
       error: (err) => {
         console.error('Erreur', err);
@@ -219,79 +192,44 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   formatEventDate(date: string | Date, time: string): string {
     const dateObj = new Date(date);
     if (isNaN(dateObj.getTime())) return '';
-
-    const dateStr = dateObj.toISOString().split('T')[0];
-    return `${dateStr}T${time}`;
+    return `${dateObj.toISOString().split('T')[0]}T${time}`;
   }
 
   handleEventClick(arg: EventClickArg): void {
     const clickedEvent = this.eventsList.find(e => e.id_evenement.toString() === arg.event.id);
     if (clickedEvent) {
       this.selectedEvent = clickedEvent;
-      // Scroll simple après affichage
-      setTimeout(() => {
+      const t = setTimeout(() => {
         if (this.eventDetails?.nativeElement) {
-          this.eventDetails.nativeElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'nearest' 
-          });
+          this.eventDetails.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       }, 100);
+      this.resizeTimeouts.push(t);
     }
   }
 
-  closeEventDetails(): void {
-    this.selectedEvent = null;
-  }
+  closeEventDetails(): void { this.selectedEvent = null; }
+  expandCalendar(): void { this.calendarState = 'expanded'; }
+  collapseCalendar(): void { this.calendarState = 'compact'; }
+  closeCalendar(): void { this.calendarState = 'closed'; }
+  openCalendar(): void { this.calendarState = 'expanded'; }
 
-  expandCalendar(): void {
-    this.calendarState = 'expanded';
-  }
-
-  collapseCalendar(): void {
-    this.calendarState = 'compact';
-  }
-
-  closeCalendar(): void {
-    this.calendarState = 'closed';
-  }
-
-  openCalendar(): void {
-    this.calendarState = 'expanded';
-  }
-
-  // Gestion du redimensionnement de la fenêtre
   handleResize(calendarApi: CalendarApi): void {
+    if (!calendarApi) return;
     const wasMobile = this.isMobile;
     this.isMobile = window.innerWidth < 768;
 
     if (this.isMobile !== wasMobile) {
       calendarApi.setOption('headerToolbar', this.isMobile
-        ? {
-          left: '',
-          center: 'title',
-          right: ''
-        }
-        : {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        });
+        ? { left: '', center: 'title', right: '' }
+        : { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' });
 
       calendarApi.setOption('footerToolbar', this.isMobile
-        ? {
-          left: 'prev,next',
-          center: 'listWeek,dayGridMonth',
-          right: ''
-        }
-        : {
-          left: 'prevYear,nextYear'
-        });
+        ? { left: 'prev,next', center: 'listWeek,dayGridMonth', right: '' }
+        : { left: 'prevYear,nextYear' });
 
-      if (this.isMobile) {
-        if (calendarApi.view.type === 'timeGridWeek' || calendarApi.view.type === 'timeGridDay') {
-          calendarApi.changeView('listWeek');
-        }
+      if (this.isMobile && (calendarApi.view.type === 'timeGridWeek' || calendarApi.view.type === 'timeGridDay')) {
+        calendarApi.changeView('listWeek');
       }
     }
   }
