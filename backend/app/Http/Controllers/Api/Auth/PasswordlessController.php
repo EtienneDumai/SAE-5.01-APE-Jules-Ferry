@@ -34,7 +34,7 @@ class PasswordlessController extends Controller
         );
 
         // On récupère la racine de l'url du front
-        $frontendUrl = env('FRONTEND_URL', 'http://localhost:4200');
+        $frontendUrl = env('FRONTEND_URL', 'http://localhost');
 
         // On construit le lien complet
         $urlPourEmail = $frontendUrl . "/verification-lien?cible=" . urlencode($urlApi);
