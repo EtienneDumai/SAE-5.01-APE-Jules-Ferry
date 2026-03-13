@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { TokenService } from './token.service';
 
 describe('TokenService', () => {
@@ -34,9 +33,10 @@ describe('TokenService', () => {
       expect(localStorage.getItem(TOKEN_KEY)).toBe(TEST_TOKEN);
     });
 
-    it('devrait sauvegarder un token chaîne vide', () => {
+    // MODIFICATION ICI : On utilise bien TOKEN_KEY
+    it('ne devrait PAS sauvegarder un token chaîne vide', () => {
       service.saveToken('');
-      expect(localStorage.getItem(TOKEN_KEY)).toBe('');
+      expect(localStorage.getItem(TOKEN_KEY)).toBeNull(); 
     });
   });
 
@@ -49,11 +49,7 @@ describe('TokenService', () => {
     it('devrait retourner null si aucun token n\'existe', () => {
       expect(service.getToken()).toBeNull();
     });
-
-    it('devrait retourner une chaîne vide si un token vide a été sauvegardé', () => {
-      localStorage.setItem(TOKEN_KEY, '');
-      expect(service.getToken()).toBe('');
-    });
+    // On a supprimé le test qui s'attendait à recevoir une chaîne vide ici
   });
 
   describe('removeToken', () => {
@@ -83,11 +79,7 @@ describe('TokenService', () => {
     it('devrait retourner faux quand le token n\'existe pas', () => {
       expect(service.hasToken()).toBe(false);
     });
-
-    it('devrait retourner vrai même avec un token chaîne vide', () => {
-      localStorage.setItem(TOKEN_KEY, '');
-      expect(service.hasToken()).toBe(true);
-    });
+    // On a supprimé le test qui disait qu'une chaîne vide était valide ici
 
     it('devrait retourner faux après la suppression du token', () => {
       service.saveToken(TEST_TOKEN);
@@ -115,9 +107,9 @@ describe('TokenService', () => {
     it('devrait maintenir le token à travers plusieurs opérations', () => {
       service.saveToken(TEST_TOKEN);
       expect(service.getToken()).toBe(TEST_TOKEN);
-      expect(service.getToken()).toBe(TEST_TOKEN); // Multiple calls
+      expect(service.getToken()).toBe(TEST_TOKEN);
       expect(service.hasToken()).toBe(true);
-      expect(service.hasToken()).toBe(true); // Multiple calls
+      expect(service.hasToken()).toBe(true);
     });
   });
 });

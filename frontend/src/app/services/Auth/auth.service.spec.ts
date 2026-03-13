@@ -84,8 +84,11 @@ describe('AuthService', () => {
 
   describe('init', () => {
     it('devrait charger l\'utilisateur actuel quand un token existe', () => {
+      // MODIF: On force le Spy à dire "Oui, j'ai un token"
       tokenService.hasToken.and.returnValue(true);
-      
+      // MODIF: Il faut AUSSI lui donner un faux token, sinon l'intercepteur bloque !
+      tokenService.getToken.and.returnValue('fake-token');
+
       service.init();
 
       const req = httpMock.expectOne(`${apiUrl}/user`);
@@ -99,7 +102,7 @@ describe('AuthService', () => {
 
     it('ne devrait pas charger l\'utilisateur actuel quand aucun token n\'existe', () => {
       tokenService.hasToken.and.returnValue(false);
-      
+
       service.init();
 
       httpMock.expectNone(`${apiUrl}/user`);
@@ -121,7 +124,7 @@ describe('AuthService', () => {
         next: (response) => {
           expect(response).toEqual(mockAuthResponse);
           expect(tokenService.saveToken).toHaveBeenCalledWith(mockAuthResponse.token);
-          
+
           service.currentUser$.subscribe(user => {
             expect(user).toEqual(mockUtilisateur);
             done();
@@ -169,7 +172,7 @@ describe('AuthService', () => {
           expect(response).toEqual(mockAuthResponse);
           expect(tokenService.saveToken).toHaveBeenCalledWith(mockAuthResponse.token);
           expect(router.navigate).toHaveBeenCalledWith(['/']);
-          
+
           service.currentUser$.subscribe(user => {
             expect(user).toEqual(mockUtilisateur);
             done();
@@ -195,7 +198,7 @@ describe('AuthService', () => {
           expect(response).toEqual(mockAdminAuthResponse);
           expect(tokenService.saveToken).toHaveBeenCalledWith(mockAdminAuthResponse.token);
           expect(router.navigate).toHaveBeenCalledWith(['/evenements']);
-          
+
           service.currentUser$.subscribe(user => {
             expect(user).toEqual(mockAdminUtilisateur);
             done();
@@ -231,12 +234,12 @@ describe('AuthService', () => {
     it('devrait déconnecter l\'utilisateur, supprimer le token et naviguer vers login', (done) => {
       // D'abord on se connecte pour avoir un utilisateur
       service['currentUserSubject'].next(mockUtilisateur);
-      
+
       service.logout().subscribe({
         next: () => {
           expect(tokenService.removeToken).toHaveBeenCalled();
           expect(router.navigate).toHaveBeenCalledWith(['/login']);
-          
+
           // On vérifie que l'utilisateur est maintenant null
           const currentUser = service.getCurrentUser();
           expect(currentUser).toBeNull();
@@ -266,6 +269,12 @@ describe('AuthService', () => {
   });
 
   describe('loadCurrentUser', () => {
+    beforeEach(() => {
+      // On force le service à croire qu'il a un token valide
+      tokenService.hasToken.and.returnValue(true);
+      tokenService.getToken.and.returnValue('fake-token-pour-le-test');
+    });
+
     it('devrait charger l\'utilisateur actuel avec succès', (done) => {
       service.loadCurrentUser();
 
@@ -298,13 +307,13 @@ describe('AuthService', () => {
   describe('isAuthenticated', () => {
     it('devrait retourner vrai quand un token existe', () => {
       tokenService.hasToken.and.returnValue(true);
-      
+
       expect(service.isAuthenticated()).toBe(true);
     });
 
     it('devrait retourner faux quand aucun token n\'existe', () => {
       tokenService.hasToken.and.returnValue(false);
-      
+
       expect(service.isAuthenticated()).toBe(false);
     });
   });
@@ -312,7 +321,7 @@ describe('AuthService', () => {
   describe('getCurrentUser', () => {
     it('devrait retourner l\'utilisateur actuel', (done) => {
       service['currentUserSubject'].next(mockUtilisateur);
-      
+
       const currentUser = service.getCurrentUser();
       expect(currentUser).toEqual(mockUtilisateur);
       done();
@@ -320,7 +329,7 @@ describe('AuthService', () => {
 
     it('devrait retourner null quand aucun utilisateur n\'est connecté', () => {
       service['currentUserSubject'].next(null);
-      
+
       const currentUser = service.getCurrentUser();
       expect(currentUser).toBeNull();
     });
@@ -329,25 +338,25 @@ describe('AuthService', () => {
   describe('hasRole', () => {
     it('devrait retourner vrai quand l\'utilisateur a le rôle spécifié', () => {
       service['currentUserSubject'].next(mockUtilisateur);
-      
+
       expect(service.hasRole('parent')).toBe(true);
     });
 
     it('devrait retourner faux quand l\'utilisateur n\'a pas le rôle spécifié', () => {
       service['currentUserSubject'].next(mockUtilisateur);
-      
+
       expect(service.hasRole('administrateur')).toBe(false);
     });
 
     it('devrait retourner faux quand aucun utilisateur n\'est connecté', () => {
       service['currentUserSubject'].next(null);
-      
+
       expect(service.hasRole('benevole')).toBe(false);
     });
 
     it('devrait retourner vrai quand l\'utilisateur admin a le rôle admin', () => {
       service['currentUserSubject'].next(mockAdminUtilisateur);
-      
+
       expect(service.hasRole('administrateur')).toBe(true);
     });
   });
@@ -356,12 +365,12 @@ describe('AuthService', () => {
     it('devrait émettre les changements d\'utilisateur', (done) => {
       // Réinitialiser à null avant de commencer
       service['currentUserSubject'].next(null);
-      
+
       const users: (Utilisateur | null)[] = [];
-      
+
       const subscription = service.currentUser$.subscribe(user => {
         users.push(user);
-        
+
         if (users.length === 3) {
           expect(users[0]).toBeNull(); // Initial value
           expect(users[1]).toEqual(mockUtilisateur);

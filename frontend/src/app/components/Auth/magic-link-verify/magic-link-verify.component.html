@@ -1,0 +1,27 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--primary-blue)] to-[var(--primary-dark-blue)] px-4">
+    <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center">
+      
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        <i class="fa-regular fa-compass"></i> Espace Parent
+      </h2>
+      
+      @if (!erreur) {
+        <div class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-4 rounded-lg flex items-center justify-center">
+          <i class="fa-regular fa-clock fa-spin text-xl mr-3"></i> 
+          <span>{{ message }}</span>
+        </div>
+      }
+  
+      @if (erreur) {
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-4 rounded-lg">
+          <i class="fa-regular fa-circle-xmark text-2xl mb-2 block"></i>
+          <span>{{ message }}</span>
+          <br><br>
+          <button class="mt-4 w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition" routerLink="/login">
+            Retour à la connexion
+          </button>
+        </div>
+      }
+  
+    </div>
+  </div>

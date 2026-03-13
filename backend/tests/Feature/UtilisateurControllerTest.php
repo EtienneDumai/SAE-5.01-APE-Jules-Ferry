@@ -81,7 +81,9 @@ class UtilisateurControllerTest extends TestCase
             'mot_de_passe' => Hash::make('password123')
         ]);
 
-        $userToDelete = Utilisateur::factory()->create();
+        $userToDelete = Utilisateur::factory()->create([
+            'mot_de_passe' => Hash::make('motdepassedelete')
+        ]);
 
         if (!Utilisateur::find(1)) {
             Utilisateur::factory()->create(['id_utilisateur' => 1]);
@@ -93,7 +95,7 @@ class UtilisateurControllerTest extends TestCase
         $this->actingAs($admin, 'sanctum');
 
         $data = [
-            'admin_password' => 'password123'
+            'password' => 'motdepassedelete' 
         ];
 
         $response = $this->deleteJson("/api/utilisateurs/{$userToDelete->id_utilisateur}", $data);

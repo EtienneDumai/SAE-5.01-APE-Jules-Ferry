@@ -34,8 +34,7 @@ class UtilisateurController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mot_de_passe' => ['required', Password::min(8)],
-            'admin_password' => 'required|string',
+            'mot_de_passe' => ['nullable', Password::min(8)],
         ]);
 
         $admin = $request->user();
@@ -84,21 +83,21 @@ class UtilisateurController extends Controller
         if (!$utilisateur) {
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
         }
-        //securité on verifie le mot de passe avant suppression
-        $request->validate([
-            'admin_password' => 'required|string'
-        ]);
 
-        $admin = $request->user();
-        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
-            return response()->json([
-                'message' => 'Mot de passe administrateur incorrect. Suppression impossible.'
-            ], 403);
+        // On vérifie le mot de passe uniquement si l'utilisateur en a un
+        if (!empty($utilisateur->mot_de_passe)) {
+            $request->validate([
+                'password' => 'required|string'
+            ]);
+
+            if (!Hash::check($request->password, $utilisateur->mot_de_passe)) {
+                return response()->json([
+                    'message' => 'Mot de passe incorrect. Suppression impossible.'
+                ], 403);
+            }
         }
 
-        $adminId = 1; //re attribution des evenements et actualites a l'admin si le user en avait créé
-        if (!Utilisateur::where('id_utilisateur', $adminId)->exists()) {
-        }
+        $adminId = 1; // réattribution des événements et actualités à l'admin si le user en avait créé
 
         if ($utilisateur->id_utilisateur !== $adminId) {
             Evenement::where('id_auteur', $utilisateur->id_utilisateur)
@@ -112,7 +111,7 @@ class UtilisateurController extends Controller
         }
 
         $utilisateur->inscriptions()->delete();
-        $utilisateur->tokens()->delete();// suppression des tokens actifs (securité)
+        $utilisateur->tokens()->delete();
         $utilisateur->delete();
         return response()->json(['message' => 'Compte supprimé avec succès']);
     }

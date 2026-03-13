@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\Auth\PasswordlessController;
 use App\Http\Controllers\Api\EvenementController;
 use App\Http\Controllers\Api\ActualiteController;
 use App\Http\Controllers\Api\InscriptionController;
@@ -24,6 +25,11 @@ use Illuminate\Http\Request;
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login'])
     ->middleware('throttle:10,1'); // Limite à 10 tentatives par minute
+
+Route::post('/check-email', [PasswordlessController::class, 'checkEmail']);
+Route::post('/magic-link', [PasswordlessController::class, 'requestLink']);
+Route::get('/verify-link/{id_utilisateur}', [PasswordlessController::class, 'verifyLink'])
+    ->name('auth.magic.verify');
 
 
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store']);

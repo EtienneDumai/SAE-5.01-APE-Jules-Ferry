@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Concerns\HasTokenPair;
 
 class Utilisateur extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasTokenPair;
 
     protected $table = 'utilisateurs';
     protected $primaryKey = 'id_utilisateur';
@@ -24,12 +25,10 @@ class Utilisateur extends Authenticatable
         'statut_compte'
     ];
 
-    // Cacher le mot de passe dans les réponses JSON
     protected $hidden = [
         'mot_de_passe',
     ];
 
-    // Cast automatique
     protected $casts = [
         'email_verified_at' => 'datetime',
         'mot_de_passe' => 'hashed',

@@ -10,7 +10,10 @@ export class TokenService {
    * save token dans localStorage
    */
   saveToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    // On ne sauvegarde que si c'est un vrai token
+    if (token && token !== 'undefined') {
+      localStorage.setItem(this.TOKEN_KEY, token);
+    }
   }
 
   /**
