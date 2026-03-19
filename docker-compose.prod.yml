@@ -38,6 +38,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
     container_name: app_angular_build
+    restart: unless-stopped
     volumes:
       - angular_dist:/output/dist
 
