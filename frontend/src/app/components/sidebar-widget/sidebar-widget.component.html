@@ -60,4 +60,17 @@
       <ng-content></ng-content>
     </div>
   </div>
+  
+  <!-- Overlay -->
+  <div 
+    class="widget-overlay"
+    [class.show]="isOpen"
+    (click)="toggleWidget()"
+    (keydown.enter)="toggleWidget()"
+    (keydown.space)="toggleWidget()"
+    [attr.tabindex]="isOpen ? 0 : -1"
+    role="button"
+    [attr.aria-label]="'Fermer ' + title"
+    (click)="toggleWidget()">
+  </div>
 </div>
