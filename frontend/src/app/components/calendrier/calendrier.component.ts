@@ -184,11 +184,9 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    // 1. Clear all pending timeouts immediately
     this.resizeTimeouts.forEach(t => clearTimeout(t));
     this.resizeTimeouts = [];
 
-    // 2. Disconnect observers and listeners
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;

@@ -14,13 +14,7 @@
   }
   
   @if (!isLoading && !errorMessage) {
-    <div #calendarContainer class="main-calendar bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden"> 
-      <div class="flex items-center justify-between p-3 bg-gray-50 border-b border-gray-100">
-        <span class="font-medium text-gray-700">
-          {{ calendarState === 'compact' ? 'Aperçu du calendrier' : 'Calendrier complet' }}
-        </span>
-      </div>
-      
+    <div #calendarContainer class="main-calendar bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">   
       <!-- Calendrier -->
       <div class="p-4 sm:p-2.5">
         <full-calendar #calendar [options]="calendarOptions"></full-calendar>
