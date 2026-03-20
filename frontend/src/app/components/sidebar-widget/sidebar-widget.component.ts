@@ -33,13 +33,13 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   //Inputs 
-  @Input() title = '';
-  @Input() icon = 'fa-solid fa-widget';
+  @Input() title: string = '';
+  @Input() icon: string = 'fa-solid fa-widget';
   @Input() position: 'left' | 'right' = 'right';
-  @Input() defaultOpen = false;
-  @Input() topOffset = 100;
-  @Input() smallWidth = 320;
-  @Input() largeWidth = 600;
+  @Input() defaultOpen: boolean = false;
+  @Input() topOffset: number = 100;
+  @Input() smallWidth: number = 320;
+  @Input() largeWidth: number = 600;
   
   //States
   isOpen = false;
