@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarWidgetService } from '../../services/sidebar-widget.service';
 import { Subscription } from 'rxjs';
@@ -49,6 +49,13 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
   // Unique ID for widgets
   private widgetId = '';
   private subscription: Subscription = new Subscription();
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKey() {
+    if (this.isOpen) {
+      this.toggleWidget();
+    }
+  }
 
   get contentHeight(): string {
     return `calc(100vh - ${this.topOffset}px)`;

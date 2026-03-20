@@ -5,6 +5,18 @@
   [class.right]="position === 'right'"
   [style.top.px]="topOffset">
   
+  <!-- Overlay -->
+  <div 
+    class="widget-overlay"
+    [class.show]="isOpen"
+    (click)="toggleWidget()"
+    (keydown.enter)="toggleWidget()"
+    (keydown.space)="toggleWidget()"
+    [attr.tabindex]="isOpen ? 0 : -1"
+    role="button"
+    [attr.aria-label]="'Fermer ' + title">
+  </div>
+
   <!-- Toggle Button -->
   <button 
     class="widget-toggle"
@@ -47,17 +59,5 @@
     <div class="widget-body">
       <ng-content></ng-content>
     </div>
-  </div>
-  
-  <!-- Overlay -->
-  <div 
-    class="widget-overlay"
-    [class.show]="isOpen"
-    (click)="toggleWidget()"
-    (keydown.enter)="toggleWidget()"
-    (keydown.space)="toggleWidget()"
-    [attr.tabindex]="isOpen ? 0 : -1"
-    role="button"
-    [attr.aria-label]="'Fermer ' + title">
   </div>
 </div>
