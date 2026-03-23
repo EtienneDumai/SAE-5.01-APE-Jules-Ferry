@@ -1,15 +1,26 @@
 @if (toast(); as toast) {
-<div class="flex flex-wrap justify-between fixed bottom-4 right-4 z-50 rounded w-fit max-w-sm items-center shadow-2xl transition-shadow" [class]="toast.type">
-  @if (toast.type === 'error') {
-  <div class="text-white rounded-lg px-4 py-3 flex items-center gap-3">
-    <p class="text-sm leading-snug break-all">{{ toast.message }}</p>
-    <button class="close" (click)="close()"><p class="text-sm">x</p></button>
-  </div>
-  } @else {
-  <div class="text-black rounded-lg px-4 py-3 flex items-center gap-3">
-    <p class="text-sm leading-snug break-all">{{ toast.message }}</p>
-    <button class="close" (click)="close()"><p class="text-sm">x</p></button>
-  </div>
-    }
-</div>
+    <div class="fixed bottom-6 right-6 z-[100] w-fit max-w-sm animate-fade-up">
+        
+        <div class="flex items-center gap-4 px-5 py-4 rounded-[4px] border-[1.5px] shadow-[4px_4px_0_var(--primary-green)]"
+             [class.bg-[#FFF5F5]]="toast.type === 'error'"
+             [class.border-red-500]="toast.type === 'error'"
+             [class.text-red-800]="toast.type === 'error'"
+             [class.bg-[var(--bg-creme)]]="toast.type !== 'error'"
+             [class.border-[var(--primary-green)]]="toast.type !== 'error'"
+             [class.text-[var(--primary-green)]]="toast.type !== 'error'">
+            
+            @if (toast.type === 'error') {
+                <i class="fa-solid fa-circle-exclamation text-lg"></i>
+            } @else {
+                <i class="fa-regular fa-circle-check text-lg text-[var(--accent-orange)]"></i>
+            }
+
+            <p class="font-dm text-sm font-medium leading-snug flex-1">{{ toast.message }}</p>
+            
+            <button class="text-current opacity-50 hover:opacity-100 transition-opacity" (click)="close()">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+    </div>
 }

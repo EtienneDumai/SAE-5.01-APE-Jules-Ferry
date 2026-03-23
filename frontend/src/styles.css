@@ -1,43 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{
-    --primary-blue: #2D7DD2;
-    --primary-light-blue: #A4D2F1;
-    --primary-dark-blue: #1C4F80;
-    --secondary-green: #4CAF50;
-    --secondary-light-green: #C8E6C9;
-    --background-color: #F3F4F6;
-    --secondary-background-color: #3B82F6;
-    --primary-text-color: #FFF8E6;
-    --success-color:#4CAF50;
-    --warning-color:#FFC107;
-    --error-color:#D32F2F;
-    --error-dark-color:#B71C1C;
-    --black-text-color:#1F2937;
-    --gray-text-color: #6B7280;
-    --modal-overlay: #4b5563;
+
+:root {
+    --bg-creme: #F5F0E8;
+    --primary-green: #1B4332;
+    --accent-orange: #E76F51;
+    --white-cards: #FFFFFF;
+    --text-secondary: #7A7060;
+    --border-light: #E4DDD0;
+    --footer-dark: #16352A;
+    
+    --success-color: #4CAF50;
+    --warning-color: #FFC107;
+    --error-color: #D32F2F;
+    --modal-overlay: rgba(27, 67, 50, 0.5);
 }
-
-
 
 @layer base {
-  app-root {
-    background-color: var(--background-color);
-  }
-  h1 { @apply text-3xl font-bold; }
-  h2 { @apply text-2xl font-semibold; }
-  h3 { @apply text-xl font-semibold; }
-  footer{
-        background-color: var(--primary-light-blue);
+    body, app-root {
+        background-color: var(--bg-creme);
+        color: var(--text-secondary);
+        font-family: 'DM Sans', sans-serif;
     }
-    a{
-        cursor: pointer;
+
+    /* typo titres */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Abril Fatface', serif;
+        color: var(--primary-green);
+        font-weight: 400;
+    }
+
+    h1 { @apply text-4xl sm:text-5xl uppercase tracking-wide; }
+    h2 { @apply text-3xl sm:text-4xl; }
+    h3 { @apply text-2xl sm:text-3xl; }
+
+    a { 
+        cursor: pointer; 
+        transition: all 0.3s ease; 
     }
 }
 
+@layer components {
+    .btn-primary {
+        @apply bg-[var(--primary-green)] text-[var(--bg-creme)] font-['Josefin_Sans'] text-[10px] uppercase font-bold tracking-[0.08em] px-6 py-3 rounded hover:bg-[var(--accent-orange)] transition-colors duration-300;
+    }
 
+    .btn-secondary {
+        @apply bg-transparent text-[var(--text-secondary)] border-[1.5px] border-[#C5BEB0] font-['Josefin_Sans'] text-[10px] uppercase font-bold tracking-[0.08em] px-6 py-3 rounded hover:bg-[var(--bg-creme)] hover:border-[var(--primary-green)] transition-all duration-300;
+    }
+}
+
+@layer utilities {
+    .font-abril { font-family: 'Abril Fatface', serif; }
+    .font-josefin { font-family: 'Josefin Sans', sans-serif; }
+    .font-dm { font-family: 'DM Sans', sans-serif; }
+    
+    .animate-fade-up {
+        animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+}
+
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
 
 app-user-form {
     display: table-row;

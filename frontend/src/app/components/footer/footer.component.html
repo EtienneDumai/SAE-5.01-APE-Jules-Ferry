@@ -1,20 +1,31 @@
-<footer>
-  <div class="flex flex-col md:flex-row justify-between items-center p-2 gap-4 md:gap-0">
-    <div class="flex flex-col items-center md:items-start">
-      <p class="mx-4 color-[var(--black-text-color)] text-center md:text-left">
-        apejf.anglet&#64;gmail.com
-      </p>
-      <p class="mx-4 color-[var(--black-text-color)] text-center md:text-left">
-        3 rue Jules Ferry Anglet
-      </p>
-    </div>
-    <div class="w-16 h-16 my-2 md:my-0">
-      <img src="/logo/logo.webp" alt="logo APE" class="mx-auto" />
-    </div>
-    <div class="w-full md:w-64">
-      <p class="color-[var(--black-text-color)] text-center text-sm md:text-base">
-        © 2026 – Association des Parents d’Élèves de l’école Jules Ferry
-      </p>
+<footer class="bg-[var(--footer-dark)] border-t-[3px] border-[var(--accent-orange)] text-[var(--bg-creme)] py-12 mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center md:items-start text-center md:text-left">
+      
+      <div class="flex flex-col gap-3">
+        <h3 class="font-abril text-2xl text-[var(--accent-orange)] mb-1">Nous contacter</h3>
+        <a href="mailto:apejf.anglet@gmail.com" class="font-josefin text-xs uppercase tracking-widest opacity-80 hover:opacity-100 hover:text-[var(--accent-orange)] transition-colors">
+          apejf.anglet&#64;gmail.com
+        </a>
+        <p class="font-josefin text-xs uppercase tracking-widest opacity-50">
+          3 rue Jules Ferry<br>64600 Anglet
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center justify-center gap-4">
+        <div class="w-16 h-16 bg-[var(--bg-creme)] rounded-full border-2 border-[var(--accent-orange)] flex items-center justify-center p-2 shadow-lg">
+          <img src="/logo/logo.webp" alt="Logo APE" class="w-full h-full object-contain" />
+        </div>
+        <span class="font-abril text-xl tracking-widest opacity-90">A.P.E. JULES FERRY</span>
+      </div>
+
+      <div class="flex flex-col justify-end h-full md:text-right mt-6 md:mt-0">
+        <p class="font-josefin text-[10px] uppercase tracking-[0.12em] opacity-40 leading-relaxed">
+          © 2026 – Association des Parents d'Élèves<br>de l'école Jules Ferry
+        </p>
+      </div>
+
     </div>
   </div>
 </footer>
