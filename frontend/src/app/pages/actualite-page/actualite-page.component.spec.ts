@@ -105,7 +105,7 @@ describe('ActualitePageComponent', () => {
       expect(spinner).toBeTruthy();
     });
 
-    xit('devrait afficher un message d\'erreur si le chargement échoue', () => {
+    it('devrait afficher un message d\'erreur si le chargement échoue', () => {
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => new Error('Oups')));
       fixture.detectChanges();
 

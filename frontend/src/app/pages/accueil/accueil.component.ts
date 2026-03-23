@@ -8,11 +8,14 @@ import { ActualiteCardComponent } from '../../components/card/actualite-card/act
 import { EvenementCardComponent } from "../../components/card/evenement-card/evenement-card.component";
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CalendrierComponent } from '../../components/calendrier/calendrier.component';
-
+import { InstagramViewComponent } from '../../components/instagram-view/instagram-view.component';
+import { SidebarWidgetComponent } from '../../components/sidebar-widget/sidebar-widget.component';
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [ActualiteCardComponent, EvenementCardComponent, SpinnerComponent, RouterLink, CalendrierComponent],
+  imports: [ActualiteCardComponent, EvenementCardComponent, 
+    SpinnerComponent, RouterLink, CalendrierComponent,
+    InstagramViewComponent, SidebarWidgetComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css'
 })

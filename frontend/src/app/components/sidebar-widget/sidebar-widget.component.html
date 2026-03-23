@@ -1,0 +1,63 @@
+<div 
+  class="sidebar-widget"
+  [class.open]="isOpen"
+  [class.left]="position === 'left'"
+  [class.right]="position === 'right'"
+  [style.top.px]="topOffset">
+  
+  <!-- Overlay -->
+  <div 
+    class="widget-overlay"
+    [class.show]="isOpen"
+    (click)="toggleWidget()"
+    (keydown.enter)="toggleWidget()"
+    (keydown.space)="toggleWidget()"
+    [attr.tabindex]="isOpen ? 0 : -1"
+    role="button"
+    [attr.aria-label]="'Fermer ' + title">
+  </div>
+
+  <!-- Toggle Button -->
+  <button 
+    class="widget-toggle"
+    [class.open]="isOpen"
+    [class.hidden-toggle]="isOtherWidgetOpen"
+    [style.transform]="isOpen ? 'translateX(' + toggleTransform + ')' : 'translateX(0)'"
+    (click)="toggleWidget()"
+    [attr.aria-label]="isOpen ? 'Fermer ' + title : 'Ouvrir ' + title">
+    <i [class]="icon" aria-hidden="true"></i>
+    @if (title) {
+      <span class="widget-toggle-text">{{ title }}</span>
+    }
+  </button>
+  
+  <!-- Widget Content -->
+  <div class="widget-content" 
+       [class.show]="isOpen" 
+       [style.top.px]="topOffset"
+       [style.width]="widthPx"
+       [style.height]="contentHeight">
+    
+    <div class="widget-header">
+      <h3>{{ title }}</h3>
+      <div class="header-actions">
+        <button 
+          class="size-btn"
+          (click)="toggleSize()"
+          [attr.aria-label]="isExpanded ? 'Réduire' : 'Agrandir'">
+          <i [class]="isExpanded ? 'fa-solid fa-compress' : 'fa-solid fa-expand'" aria-hidden="true"></i>
+        </button>
+        <button 
+          class="close-btn"
+          (click)="toggleWidget()"
+          aria-label="Fermer">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="widget-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

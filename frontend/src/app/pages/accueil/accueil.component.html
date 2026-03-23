@@ -1,5 +1,28 @@
-<app-calendrier></app-calendrier>
 
+<!-- Widgets latéraux -->
+<app-sidebar-widget 
+  title="Calendrier"
+  icon="fa-regular fa-calendar-days"
+  position="right"
+  [topOffset]="140"
+  [smallWidth]="450"
+  [largeWidth]="800"
+  [defaultOpen]="false">
+  <app-calendrier></app-calendrier>
+</app-sidebar-widget>
+
+<app-sidebar-widget 
+  title="Instagram"
+  icon="fa-brands fa-instagram"
+  position="right"
+  [topOffset]="270"
+  [smallWidth]="350"
+  [largeWidth]="600"
+  [defaultOpen]="false">
+  <app-instagram-view></app-instagram-view>
+</app-sidebar-widget>
+
+<!-- Contenu principal -->
 <div class="flex justify-between items-center my-6 mx-3">
     <h2>Les actualités</h2>
     <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/actualites']">Voir toutes les actualités</button>

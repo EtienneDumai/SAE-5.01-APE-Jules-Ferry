@@ -145,6 +145,7 @@ export class AdminEvenementsComponent implements OnInit {
 
         this.events = [...this.events, ...newEvents];
         this.hasMore = response.current_page < response.last_page;
+        this.currentPage = response.current_page + 1;
         this.loading = false;
         this.loadingMore = false;
       },

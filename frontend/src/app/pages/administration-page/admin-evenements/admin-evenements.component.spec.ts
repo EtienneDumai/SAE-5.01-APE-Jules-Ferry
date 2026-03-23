@@ -156,6 +156,32 @@ describe('AdminEvenementsComponent', () => {
       component.loadMore();
       expect(component.loadEvents).not.toHaveBeenCalled();
     });
+
+    it('devrait charger la page suivante au lieu de recharger la même page', () => {
+      evenementServiceSpy.getAllEvenements.calls.reset();
+      evenementServiceSpy.getAllEvenements.and.returnValues(
+        of({
+          data: [mockEvenements[0]],
+          current_page: 1,
+          last_page: 2,
+          total: 2,
+        }),
+        of({
+          data: [mockEvenements[1]],
+          current_page: 2,
+          last_page: 2,
+          total: 2,
+        })
+      );
+
+      component.loadInitialEvents();
+      component.loadMore();
+
+      expect(evenementServiceSpy.getAllEvenements.calls.argsFor(0)).toEqual(['tous', 1, 5]);
+      expect(evenementServiceSpy.getAllEvenements.calls.argsFor(1)).toEqual(['tous', 2, 5]);
+      expect(component.events.map(event => event.id_evenement)).toEqual([1, 2]);
+      expect(component.hasMore).toBeFalse();
+    });
   });
 
   describe('hasMore pagination', () => {
