@@ -77,6 +77,8 @@ class PasswordlessController extends Controller
             'refresh_token' => $refreshToken,
             'user' => [
                 'id_utilisateur' => $user->id_utilisateur,
+                'nom' => $user->nom,
+                'prenom' => $user->prenom,
                 'email' => $user->email,
                 'role' => $user->role,
             ]
