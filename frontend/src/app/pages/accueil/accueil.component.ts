@@ -32,11 +32,14 @@ export class AccueilComponent implements OnInit {
   ngOnInit() {
     this.actualiteService.getAllActualites().subscribe({
       next: (data) => {
-        console.log('ACTUALITES API =', data);
         this.listeActualites = data;
+        this.sortActualiteByDate();
+        this.loadingActualites = false;
       },
       error: (err) => {
         console.error(err);
+        this.loadingActualites = false;
+        this.errorActualites = true;
       }
     });
 

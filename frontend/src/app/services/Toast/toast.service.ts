@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
@@ -13,5 +14,16 @@ export class ToastService {
   }
   clear(): void {
     this.toastSubject.next(null);
+  }
+
+  private toastTimeout: ReturnType<typeof setTimeout> | null = null;
+  showWithTimeout(message: string, type: TypeErreurToast = TypeErreurToast.SUCCESS, timeout = 5000): void {
+    this.toastSubject.next({message, type});
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+    this.toastTimeout = setTimeout(() => {
+      this.clear();
+    }, timeout);
   }
 }

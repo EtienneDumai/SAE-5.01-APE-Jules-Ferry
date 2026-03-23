@@ -141,4 +141,56 @@ describe('ToastService', () => {
       service.clear();
     });
   });
+
+  describe('showWithTimeout', () => {
+    it('devrait émettre un toast puis le supprimer après le timeout', (done) => {
+      const message = 'Toast temporaire';
+      const type = TypeErreurToast.SUCCESS;
+      const timeout = 100; 
+      let step = 0;
+      service.toast.subscribe((toast) => {
+        if (step === 0) {
+          step++;
+          return;
+        }
+        if (step === 1) {
+          expect(toast).toEqual({ message, type });
+        } else if (step === 2) {
+          expect(toast).toBeNull();
+          done();
+        }
+        step++;
+      });
+      service.showWithTimeout(message, type, timeout);
+    });
+
+    it('devrait réinitialiser le timeout si showWithTimeout est rappelé', (done) => {
+      const message1 = 'Premier toast';
+      const message2 = 'Second toast';
+      const type = TypeErreurToast.SUCCESS;
+      const timeout = 100;
+      const emissions: (TypeToast | null)[] = [];
+      let step = 0;
+      service.toast.subscribe((toast) => {
+        // Ignorer la première émission (null initial)
+        if (step === 0) {
+          step++;
+          return;
+        }
+        emissions.push(toast);
+        if (emissions.length === 1) {
+          expect(toast).toEqual({ message: message1, type });
+          setTimeout(() => {
+            service.showWithTimeout(message2, type, timeout);
+          }, 50); // avant la fin du premier timeout
+        } else if (emissions.length === 2) {
+          expect(toast).toEqual({ message: message2, type });
+        } else if (emissions.length === 3) {
+          expect(toast).toBeNull();
+          done();
+        }
+      });
+      service.showWithTimeout(message1, type, timeout);
+    });
+  });
 });
