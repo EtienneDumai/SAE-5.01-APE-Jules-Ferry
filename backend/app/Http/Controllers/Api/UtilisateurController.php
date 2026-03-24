@@ -84,7 +84,7 @@ class UtilisateurController extends Controller
         $utilisateur->inscriptions()->delete();
         $utilisateur->tokens()->delete();
         $utilisateur->delete();
-        return response()->json(['message' => 'Compte supprimé avec succés']);
+        return response()->json(['message' => 'Compte supprimé avec succès']);
     }
 
     public function updatePassword(Request $request, $id)

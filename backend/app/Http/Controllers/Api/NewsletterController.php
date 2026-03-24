@@ -76,7 +76,7 @@ class NewsletterController extends Controller
 
         $abonne->delete();
 
-        return response()->json(['message' => 'Abonné supprimé avec succés']);
+        return response()->json(['message' => 'Abonné supprimé avec succès']);
     }
 
     private function ensureAdmin(Request $request): ?JsonResponse

@@ -197,7 +197,7 @@ class EvenementController extends Controller
             $this->deleteOldImage($evenement->image_url);
             $evenement->delete();
 
-            return response()->json(['message' => 'Supprimé avec succés']);
+            return response()->json(['message' => 'Supprimé avec succès']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

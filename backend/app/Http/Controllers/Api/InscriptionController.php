@@ -153,7 +153,7 @@ class InscriptionController extends Controller
                 'commentaire' => $request->commentaire
             ]);
 
-            return response()->json(['message' => 'Inscription ajoutée avec succés !'], 201);
+            return response()->json(['message' => 'Inscription ajoutée avec succès !'], 201);
         });
     }
 
@@ -194,7 +194,7 @@ class InscriptionController extends Controller
             $inscription->id_creneau = $request->new_id_creneau;
             $inscription->save();
 
-            return response()->json(['message' => 'Inscription modifiée avec succés.']);
+            return response()->json(['message' => 'Inscription modifiée avec succès.']);
         });
     }
 }
