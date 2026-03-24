@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Actualite } from '../../models/Actualite/actualite';
-import { environment }  from '../../environments/environment.dev';
+import { environment }  from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { environment }  from '../../environments/environment.dev';
 export class ActualiteService {
   private readonly http = inject(HttpClient);
   getAllActualites(): Observable<Actualite[]> {
+    console.log('environnement'+ environment.apiUrl + 'prod : '+environment.production);
     return this.http.get<Actualite[]>(`${environment.apiUrl}/actualites`);
   }
   getActualiteById(id: number): Observable<Actualite> {

@@ -7,7 +7,7 @@ import { AuthResponse } from '../../models/Auth/auth-response';
 import { LoginCredentials } from '../../models/Auth/login-credentials';
 import { RegisterData } from '../../models/Auth/register-data';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({

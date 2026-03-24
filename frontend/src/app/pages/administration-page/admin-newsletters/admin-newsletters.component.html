@@ -127,7 +127,7 @@
 
     @if (showExportModal) {
     <app-export-modal title="Exporter les abonnés newsletters" [availableColumns]="exportColumnsNewsletters"
-        (confirm)="exporterExcel($event)" (closeModal)="showExportModal = false">
+        (confirm)="exporterCsv($event)" (closeModal)="showExportModal = false">
     </app-export-modal>
     }
 

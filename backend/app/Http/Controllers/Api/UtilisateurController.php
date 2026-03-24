@@ -37,14 +37,7 @@ class UtilisateurController extends Controller
             'mot_de_passe' => ['nullable', Password::min(8)],
         ]);
 
-        $admin = $request->user();
-        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
-            return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
-        }
-
-        $donnees = $request->except(['admin_password']);
-
-        $utilisateur = Utilisateur::create($donnees);
+        $utilisateur = Utilisateur::create($request->all());
 
         if ($utilisateur) {
             return response()->json($utilisateur, 201);
@@ -57,16 +50,7 @@ class UtilisateurController extends Controller
     {
         $utilisateur = Utilisateur::find($id);
         if ($utilisateur) {
-            $request->validate([
-                'admin_password' => 'required|string',
-            ]);
-
-            $admin = $request->user();
-            if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
-                return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
-            }
-
-            $donnees = $request->except(['admin_password']);
+            $donnees = $request->all();
             if (empty($donnees['mot_de_passe'])) {
                 unset($donnees['mot_de_passe']);
             }
@@ -84,20 +68,7 @@ class UtilisateurController extends Controller
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
         }
 
-        // On vérifie le mot de passe uniquement si l'utilisateur en a un
-        if (!empty($utilisateur->mot_de_passe)) {
-            $request->validate([
-                'password' => 'required|string'
-            ]);
-
-            if (!Hash::check($request->password, $utilisateur->mot_de_passe)) {
-                return response()->json([
-                    'message' => 'Mot de passe incorrect. Suppression impossible.'
-                ], 403);
-            }
-        }
-
-        $adminId = 1; // réattribution des événements et actualités à l'admin si le user en avait créé
+        $adminId = 1;
 
         if ($utilisateur->id_utilisateur !== $adminId) {
             Evenement::where('id_auteur', $utilisateur->id_utilisateur)

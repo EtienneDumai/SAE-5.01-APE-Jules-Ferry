@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { EvenementService } from './evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 describe('EvenementService', () => {
   let service: EvenementService;

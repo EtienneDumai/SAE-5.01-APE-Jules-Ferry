@@ -10,7 +10,7 @@ import { InscriptionService } from '../../../services/Inscription/inscription.se
 import { TacheService } from '../../../services/Tache/tache.service';
 import { CreneauService } from '../../../services/Creneau/creneau.service';
 import { ToastService } from '../../../services/Toast/toast.service';
-import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
+import { ExportCsvService } from '../../../services/ExportCsv/export-csv.service';
 import { of, throwError } from 'rxjs';
 import { StatutEvenement } from '../../../enums/StatutEvenement/statut-evenement';
 import { Evenement } from '../../../models/Evenement/evenement';
@@ -22,7 +22,7 @@ describe('AdminEvenementsComponent', () => {
   let utilisateurServiceSpy: jasmine.SpyObj<UtilisateurService>;
   let inscriptionServiceSpy: jasmine.SpyObj<InscriptionService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
-  let exportExcelServiceSpy: jasmine.SpyObj<ExportExcelService>;
+  let exportCsvServiceSpy: jasmine.SpyObj<ExportCsvService>;
 
   const mockEvenements: Evenement[] = [
     {
@@ -53,7 +53,7 @@ describe('AdminEvenementsComponent', () => {
       'deleteInscriptionAdmin', 'createInscriptionAdmin', 'updateInscriptionAdmin'
     ]);
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['show']);
-    exportExcelServiceSpy = jasmine.createSpyObj('ExportExcelService', ['exportAsExcelFile']);
+    exportCsvServiceSpy = jasmine.createSpyObj('ExportCsvService', ['exportAsCsvFile']);
 
     evenementServiceSpy.getAllEvenements.and.returnValue(of(paginatedResponse));
     utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(of([]));
@@ -70,7 +70,7 @@ describe('AdminEvenementsComponent', () => {
         { provide: TacheService, useValue: jasmine.createSpyObj('TacheService', ['getTachesByFormulaire']) },
         { provide: CreneauService, useValue: jasmine.createSpyObj('CreneauService', ['getCreneauxByTache']) },
         { provide: ToastService, useValue: toastServiceSpy },
-        { provide: ExportExcelService, useValue: exportExcelServiceSpy },
+        { provide: ExportCsvService, useValue: exportCsvServiceSpy },
       ],
     }).compileComponents();
 

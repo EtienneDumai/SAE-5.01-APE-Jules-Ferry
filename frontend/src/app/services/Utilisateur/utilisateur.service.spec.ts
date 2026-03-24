@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { UtilisateurService } from './utilisateur.service';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 describe('UtilisateurService', () => {
   let service: UtilisateurService;

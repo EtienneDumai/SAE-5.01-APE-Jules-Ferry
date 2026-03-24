@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarWidgetService } from '../../services/sidebar-widget.service';
+import { SidebarWidgetService } from '../../services/SidebarWidget/sidebar-widget.service';
 import { Subscription } from 'rxjs';
 
 /**

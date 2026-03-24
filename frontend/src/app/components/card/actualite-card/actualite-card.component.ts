@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/Auth/auth.service';
 import { ActualiteService } from '../../../services/Actualite/actualite.service';
 
 import { AlertComponent } from '../../../components/alert/alert.component';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-actualite-card',
   standalone: true,
@@ -64,9 +65,8 @@ export class ActualiteCardComponent {
     event.stopPropagation();
     this.router.navigate(['/actualites', this.id_actualite, 'edit']);
   }
-  getImageUrl(url: string | null): string {
-    if (!url) return '';
-    if (url.startsWith('http')) return url;
-    return 'http://localhost:8000' + url;
+  getImageUrl(image_url: string): string {
+    if (!image_url) return '';
+    return `${environment.apiImage}/${image_url}`;
   }
 }

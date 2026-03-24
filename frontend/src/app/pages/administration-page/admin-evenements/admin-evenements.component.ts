@@ -17,7 +17,7 @@ import { Inscription } from '../../../models/Inscription/inscription';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 import { PasswordConfirmModalComponent } from '../../../components/password-confirm-modal/password-confirm-modal.component';
 import { ExportModalComponent } from '../../../components/export-modal/export-modal.component';
-import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
+import { ExportCsvService } from '../../../services/ExportCsv/export-csv.service';
 
 interface ExtendedCreneau extends Creneau {
   filledInscriptions?: ExtendedInscription[];
@@ -55,7 +55,7 @@ export class AdminEvenementsComponent implements OnInit {
   private readonly inscriptionService = inject(InscriptionService);
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly toastService = inject(ToastService);
-  private readonly exportExcelService = inject(ExportExcelService);
+  private readonly exportCsvService = inject(ExportCsvService);
 
   events: ExtendedEvenement[] = [];
   currentPage = 1;
@@ -469,7 +469,7 @@ export class AdminEvenementsComponent implements OnInit {
       if (selectedKeys.includes('lieu')) row['Lieu'] = event.lieu;
       return row;
     });
-    this.exportExcelService.exportAsExcelFile(dataToExport, 'Evenements');
+    this.exportCsvService.exportAsCsvFile(dataToExport, 'Evenements');
     this.showExportEventsModal = false;
   }
 
@@ -499,7 +499,7 @@ export class AdminEvenementsComponent implements OnInit {
     });
 
     const fileName = this.selectedEventForExport.titre.replace(/\s+/g, '_');
-    this.exportExcelService.exportAsExcelFile(dataToExport, fileName);
+    this.exportCsvService.exportAsCsvFile(dataToExport, fileName);
     this.showExportParticipantsModal = false;
     this.selectedEventForExport = null;
   }
