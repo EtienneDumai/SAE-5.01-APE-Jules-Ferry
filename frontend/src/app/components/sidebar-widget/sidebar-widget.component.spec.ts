@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { SidebarWidgetComponent } from './sidebar-widget.component';
-import { SidebarWidgetService } from '../../services/rn/sidebar-widget.service';
+import { SidebarWidgetService } from '../../services/SidebarWidget/sidebar-widget.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 describe('SidebarWidgetComponent', () => {
