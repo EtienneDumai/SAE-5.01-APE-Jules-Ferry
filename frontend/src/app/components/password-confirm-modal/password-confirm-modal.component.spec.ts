@@ -16,7 +16,7 @@ describe('PasswordConfirmModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('devrait creer le composant', () => {
+  it('devrait créer le composant', () => {
     expect(component).toBeTruthy();
   });
 

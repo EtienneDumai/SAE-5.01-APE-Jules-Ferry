@@ -85,7 +85,7 @@ class NewsletterController extends Controller
         $user = $request->user();
 
         if (!$user || $user->role !== 'administrateur') {
-            return response()->json(['message' => 'Accés réservé aux administrateurs'], 403);
+            return response()->json(['message' => 'Accès réservé aux administrateurs'], 403);
         }
 
         return null;
