@@ -18,10 +18,10 @@
   }
 
   @if (!isLoading && !errorMessage) {
-    @if (calendarState === "closed") {
+    @if (calendarState === "compact") {
       <div class="flex justify-center w-full">
         <button
-          (click)="openCalendar()"
+          (click)="expandCalendar()"
           class="btn-secondary w-fit !border-[var(--bg-creme)] !text-[var(--bg-creme)] hover:!bg-[var(--bg-creme)] hover:!text-[var(--primary-green)] shadow-xl bg-[var(--primary-green)]/50 backdrop-blur-sm"
         >
           <i class="fa-regular fa-calendar-days text-lg"></i>
@@ -30,7 +30,7 @@
       </div>
     }
 
-    @if (calendarState !== "closed") {
+    @if (calendarState !== "compact") {
       <div
         class="bg-[var(--bg-creme)] rounded-[8px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden w-full text-left animate-fade-up border-[1.5px] border-[var(--border-light)]"
       >
@@ -43,7 +43,7 @@
             Le Programme
           </h2>
           <button
-            (click)="closeCalendar()"
+            (click)="collapseCalendar()"
             class="w-8 h-8 flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--text-secondary)] hover:bg-[var(--accent-orange)] hover:text-white hover:border-[var(--accent-orange)] transition-colors"
             title="Refermer le calendrier"
           >
@@ -57,7 +57,6 @@
       </div>
     }
   }
-
   @if (selectedEvent) {
     <div
       #eventDetails

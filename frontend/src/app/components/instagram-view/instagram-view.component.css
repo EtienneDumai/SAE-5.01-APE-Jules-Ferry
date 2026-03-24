@@ -1,0 +1,29 @@
+.igwrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+::ng-deep .instagram-media {
+  background: #FFFFFF !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  box-shadow: none !important;
+}
+
+/* Adaptation pour le widget sidebar */
+:host-context(.widget-body) .igwrapper {
+  max-width: 100%;
+  min-width: auto;
+  margin: 0;
+}
+
+:host-context(.widget-body) ::ng-deep .instagram-media {
+  min-width: auto !important;
+}

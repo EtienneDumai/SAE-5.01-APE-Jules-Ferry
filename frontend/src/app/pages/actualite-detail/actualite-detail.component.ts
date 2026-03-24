@@ -10,6 +10,7 @@ import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { Location, DatePipe } from '@angular/common';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ActualiteDetailComponent implements OnInit {
   actualite !: Actualite;
   loadingActualite = true;
   errorActualite = false;
-  errorAuteur= false;
+  errorAuteur = false;
   auteur !: Utilisateur;
   isAdmin =false;
   private readonly utilisateurService : UtilisateurService = inject(UtilisateurService);
@@ -36,14 +37,14 @@ export class ActualiteDetailComponent implements OnInit {
   private readonly router: Router = inject(Router);
   private location: Location = inject(Location);
 
-  ngOnInit() : void{
+  ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.actualiteService.getActualiteById(Number(id)).subscribe({
       next: (data) => {
         this.actualite = data;
         this.loadingActualite = false;
         this.utilisateurService.getUtilisateurById(this.actualite.id_auteur).subscribe({
-          next : (data) =>{
+          next: (data) => {
             this.auteur = data;
             this.isAdmin = this.authService.hasRole('administrateur');
           },
@@ -60,16 +61,16 @@ export class ActualiteDetailComponent implements OnInit {
       }
     });
   }
-    public convertDateToString(date: Date| string): string {
+  public convertDateToString(date: Date | string): string {
     return new Date(date).toLocaleDateString('fr-FR');
   }
   goBack(): void {
     this.location.back();
   }
-  getImageUrl(url: string | null): string {
-    if (!url) return '';
-    if (url.startsWith('http')) return url;
-    return 'http://localhost:8000' + url;
+  getImageUrl(image_url: string | null): string {
+    if (!image_url) return '';
+    if (image_url.startsWith('http')) return image_url;
+    return `${environment.apiUrl}/${image_url}`;
   }
   editActualite(): void {
     this.router.navigate([`/actualites/${this.actualite.id_actualite}/edit`]);

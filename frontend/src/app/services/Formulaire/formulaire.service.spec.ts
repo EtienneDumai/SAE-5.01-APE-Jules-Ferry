@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { FormulaireService } from './formulaire.service';
 import { Formulaire } from '../../models/Formulaire/formulaire';
 import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 describe('FormulaireService', () => {
   let service: FormulaireService;

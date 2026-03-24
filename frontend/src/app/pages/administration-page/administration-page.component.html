@@ -8,6 +8,7 @@
                 [ngModel]="activeTab" (ngModelChange)="switchTab($event)">
                 <option value="comptes">Comptes</option>
                 <option value="evenements">Évènements</option>
+                <option value="newsletters">Newsletters</option>
             </select>
         </div>
         <div class="hidden sm:block">
@@ -28,6 +29,14 @@
                         [attr.aria-current]="activeTab === 'evenements' ? 'page' : null">
                         Évènements
                     </button>
+
+                    <button (click)="switchTab('newsletters')" [class]="activeTab === 'newsletters' 
+              ? 'border-indigo-500 text-indigo-600' 
+              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                        class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                        [attr.aria-current]="activeTab === 'newsletters' ? 'page' : null">
+                        Newsletters
+                    </button>
                 </nav>
             </div>
         </div>
@@ -37,6 +46,8 @@
             <app-admin-comptes></app-admin-comptes>
             } @else if (activeTab === 'evenements') {
             <app-admin-evenements></app-admin-evenements>
+            } @else if (activeTab === 'newsletters') {
+            <app-admin-newsletters></app-admin-newsletters>
             }
         </div>
 

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PasswordConfirmModalComponent } from './password-confirm-modal.component';
-import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { PasswordConfirmModalComponent } from './password-confirm-modal.component';
 
 describe('PasswordConfirmModalComponent', () => {
   let component: PasswordConfirmModalComponent;
@@ -9,9 +8,8 @@ describe('PasswordConfirmModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PasswordConfirmModalComponent, FormsModule]
-    })
-      .compileComponents();
+      imports: [PasswordConfirmModalComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PasswordConfirmModalComponent);
     component = fixture.componentInstance;
@@ -23,75 +21,44 @@ describe('PasswordConfirmModalComponent', () => {
   });
 
   describe('Logique du composant', () => {
-    it('devrait avoir un mot de passe vide à l\'initialisation', () => {
-      expect(component.password).toBe('');
-    });
-
-    it('ne devrait pas émettre d\'événement confirm si le mot de passe est vide', () => {
+    it('devrait emettre une confirmation vide lors du oui', () => {
       spyOn(component.confirmPassword, 'emit');
-      component.password = '';
 
       component.onConfirm();
 
-      expect(component.confirmPassword.emit).not.toHaveBeenCalled();
+      expect(component.confirmPassword.emit).toHaveBeenCalledWith('');
     });
 
-    it('devrait émettre l\'événement confirm avec le mot de passe s\'il n\'est pas vide, puis le réinitialiser', () => {
-      spyOn(component.confirmPassword, 'emit');
-      component.password = 'monMotDePasseSecret';
-
-      component.onConfirm();
-
-      expect(component.confirmPassword.emit).toHaveBeenCalledWith('monMotDePasseSecret');
-      expect(component.password).toBe('');
-    });
-
-    it('devrait émettre l\'événement cancel et réinitialiser le mot de passe lors de l\'annulation', () => {
+    it('devrait emettre l evenement cancel lors de l annulation', () => {
       spyOn(component.cancelModal, 'emit');
-      component.password = 'test';
 
       component.onCancel();
 
       expect(component.cancelModal.emit).toHaveBeenCalled();
-      expect(component.password).toBe('');
     });
   });
 
   describe('Interactions avec le DOM', () => {
-    it('devrait mettre à jour la propriété password quand l\'utilisateur tape dans l\'input', async () => {
-      const inputElement = fixture.debugElement.query(By.css('input[type="password"]')).nativeElement;
+    it('devrait afficher le texte de confirmation', () => {
+      const text = fixture.debugElement.query(By.css('p')).nativeElement.textContent;
 
-      inputElement.value = 'nouveauMotDePasse';
-      inputElement.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(component.password).toBe('nouveauMotDePasse');
+      expect(text).toContain('Etes-vous sur');
     });
 
-    it('devrait appeler onConfirm quand on appuie sur Entrée dans l\'input', () => {
-      spyOn(component, 'onConfirm');
-      const inputElement = fixture.debugElement.query(By.css('input[type="password"]'));
-
-      inputElement.triggerEventHandler('keyup.enter', {});
-
-      expect(component.onConfirm).toHaveBeenCalled();
-    });
-
-    it('devrait appeler onConfirm lors du clic sur le bouton Confirmer', () => {
+    it('devrait appeler onConfirm lors du clic sur le bouton Oui', () => {
       spyOn(component, 'onConfirm');
       const buttons = fixture.debugElement.queryAll(By.css('button'));
-      const confirmButton = buttons.find(b => b.nativeElement.textContent.trim() === 'Confirmer');
+      const confirmButton = buttons.find((button) => button.nativeElement.textContent.trim() === 'Oui');
 
       confirmButton?.triggerEventHandler('click', null);
 
       expect(component.onConfirm).toHaveBeenCalled();
     });
 
-    it('devrait appeler onCancel lors du clic sur le bouton Annuler', () => {
+    it('devrait appeler onCancel lors du clic sur le bouton Non', () => {
       spyOn(component, 'onCancel');
       const buttons = fixture.debugElement.queryAll(By.css('button'));
-      const cancelButton = buttons.find(b => b.nativeElement.textContent.trim() === 'Annuler');
+      const cancelButton = buttons.find((button) => button.nativeElement.textContent.trim() === 'Non');
 
       cancelButton?.triggerEventHandler('click', null);
 

@@ -7,8 +7,8 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EvenementService } from '../../../services/Evenement/evenement.service';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
-import { environment } from '../../../environments/environment.dev';
-
+import { AlertComponent } from '../../../components/alert/alert.component';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-evenement-card',
   standalone: true,
@@ -17,11 +17,12 @@ import { environment } from '../../../environments/environment.dev';
   styleUrl: './evenement-card.component.css'
 })
 export class EvenementCardComponent implements OnChanges {
-  
+
   showDeleteModal = false;
   deletePassword = '';
   isDeleting = false;
-  
+
+  showDeleteAlert = false;
   @Input() id_evenement!: number;
   @Input() titre = '';
   @Input() description!: string;
@@ -31,7 +32,7 @@ export class EvenementCardComponent implements OnChanges {
   @Input() lieu!: string;
   @Input() image_url!: string;
   @Input() statut!: StatutEvenement;
-  @Input() id_auteur!: number; 
+  @Input() id_auteur!: number;
   @Input() currentUser: Utilisateur | null = null;
   @Input() id_formulaire?: number | null;
 
@@ -44,7 +45,7 @@ export class EvenementCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['currentUser']) {
-        this.cdr.markForCheck();
+      this.cdr.markForCheck();
     }
   }
 
@@ -62,12 +63,12 @@ export class EvenementCardComponent implements OnChanges {
     const aujourdhui = new Date();
     dateEvent.setHours(0, 0, 0, 0);
     aujourdhui.setHours(0, 0, 0, 0);
-    
-    return this.statut !== StatutEvenement.termine && 
-           this.statut !== StatutEvenement.annule && 
-           aujourdhui.getTime() <= dateEvent.getTime();
+
+    return this.statut !== StatutEvenement.termine &&
+      this.statut !== StatutEvenement.annule &&
+      aujourdhui.getTime() <= dateEvent.getTime();
   }
-  
+
   getImageUrl(image_url: string): string {
     if (!image_url) return '';
     if (image_url.startsWith('http')) return image_url;
@@ -104,7 +105,7 @@ export class EvenementCardComponent implements OnChanges {
       error: (err) => {
         this.isDeleting = false;
         console.error(err);
-        
+
         if (err.status === 403 || err.status === 422) {
           this.toastService.showWithTimeout("Mot de passe administrateur incorrect.", TypeErreurToast.ERROR);
         } else {

@@ -1,0 +1,139 @@
+<div class="space-y-6">
+    <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
+        <div class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+            <div class="relative max-w-sm w-full">
+                <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher un e-mail..."
+                    class="block w-full rounded-md border-gray-300 pl-3 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">
+            </div>
+
+            <button type="button" (click)="ouvrirAjout()"
+                class="inline-flex items-center justify-center rounded-md bg-[var(--primary-blue)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90">
+                <i class="fa-solid fa-plus mr-2"></i>
+                Ajouter un e-mail
+            </button>
+        </div>
+
+        <button type="button" (click)="showExportModal = true" [disabled]="abonnes.length === 0"
+            class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 enabled:hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50">
+            <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
+            Exporter en Excel
+        </button>
+    </div>
+
+    <div
+        class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h3 class="text-sm font-medium text-gray-900"><i class="fa-solid fa-envelope mr-2 text-gray-500"></i>
+                Abonnés à la newsletter</h3>
+            <p class="text-sm text-gray-500 mt-1">Consultez les e-mails inscrits, supprimez un abonnement et exportez
+                la liste au format Excel (.xlsx).</p>
+        </div>
+        <div class="text-sm text-gray-600">
+            {{ abonnesFiltres.length }} abonné{{ abonnesFiltres.length > 1 ? 's' : '' }}
+        </div>
+    </div>
+
+    @if (showAddForm) {
+    <div class="rounded-lg border border-blue-200 bg-blue-50 p-4">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end">
+            <div class="flex-1">
+                <label for="newsletter-email-ajout" class="mb-1 block text-sm font-medium text-gray-700">
+                    Adresse e-mail à ajouter
+                </label>
+                <input id="newsletter-email-ajout" type="email" [(ngModel)]="emailAAjouter"
+                    placeholder="nouvel-abonne@example.com"
+                    class="block w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">
+            </div>
+            <div class="flex gap-2">
+                <button type="button" (click)="demanderAjout()"
+                    class="inline-flex items-center rounded-md bg-[var(--primary-blue)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90">
+                    Confirmer l'ajout
+                </button>
+                <button type="button" (click)="annulerAjout()"
+                    class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (chargementEnCours) {
+    <div class="flex justify-center py-20">
+        <app-spinner></app-spinner>
+    </div>
+    } @else {
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 w-[45%]">
+                            E-mail
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]">
+                            Statut
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]">
+                            Inscription
+                        </th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 w-[15%]">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    @for (abonne of abonnesFiltres; track abonne.id_abonne) {
+                    <tr>
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 text-gray-900">
+                            {{ abonne.email }}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <span
+                                class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset"
+                                [ngClass]="{
+                                    'bg-green-100 text-green-700 ring-green-600/20': abonne.statut === 'actif',
+                                    'bg-gray-100 text-gray-700 ring-gray-600/20': abonne.statut === 'desinscrit'
+                                }">
+                                {{ abonne.statut }}
+                            </span>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {{ abonne.created_at | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <button type="button" (click)="demanderSuppression(abonne)"
+                                [disabled]="suppressionEnCoursId === abonne.id_abonne"
+                                class="text-red-600 hover:text-red-900 disabled:cursor-not-allowed disabled:opacity-50"
+                                title="Supprimer">
+                                <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
+                                    style="font-size: 20px;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="text-center py-10 text-gray-500">
+                            Aucun abonnement newsletter trouvé.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+
+    @if (showExportModal) {
+    <app-export-modal title="Exporter les abonnés newsletters" [availableColumns]="exportColumnsNewsletters"
+        (confirm)="exporterCsv($event)" (closeModal)="showExportModal = false">
+    </app-export-modal>
+    }
+
+    @if (showPasswordModal) {
+    <app-password-confirm-modal (confirmPassword)="onPasswordConfirmed($event)"
+        (cancelModal)="closePasswordModal()">
+    </app-password-confirm-modal>
+    }
+</div>

@@ -42,6 +42,56 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+.main-calendar {
+  width: 100%;
+}
+
+.main-calendar .fc {
+  width: 100%;
+}
+
+:host-context(.widget-body) h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+:host-context(.widget-body) .p-5 {
+  padding: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+:host-context(.widget-body) .main-calendar {
+  width: 100%;
+}
+
+:host-context(.widget-body) .main-calendar .fc {
+  width: 100% !important;
+}
+
+:host-context(.widget-body) .main-calendar .fc-toolbar-title {
+  font-size: 1rem;
+}
+
+:host-context(.widget-body) .main-calendar .fc-button {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+:host-context(.widget-body) .main-calendar .fc-event {
+  font-size: 0.75rem;
+}
+
+:host-context(.widget-body) #eventDetails {
+  margin-top: 1rem;
+  padding: 1rem;
+  max-width: 100%;
+}
+
+:host-context(.widget-body) #eventDetails h3 {
+  font-size: 1.125rem;
+}
+
 @media (max-width: 768px) {
   .main-calendar .fc-toolbar-title {
     font-size: 1.125rem;

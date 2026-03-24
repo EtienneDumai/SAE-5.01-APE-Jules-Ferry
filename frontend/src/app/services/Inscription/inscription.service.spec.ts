@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { InscriptionService } from './inscription.service';
 import { Inscription } from '../../models/Inscription/inscription';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 describe('InscriptionService', () => {
   let service: InscriptionService;
