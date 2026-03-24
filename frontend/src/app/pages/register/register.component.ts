@@ -22,6 +22,17 @@ export class RegisterComponent {
   errorMessage!: string;
   isLoading = false;
 
+  showPassword1 = false;
+  showPassword2 = false;
+
+  togglePassword1(): void {
+    this.showPassword1 = !this.showPassword1;
+  }
+
+  togglePassword2(): void {
+    this.showPassword2 = !this.showPassword2;
+  }
+
   constructor() {
     this.registerForm = this.fb.group({
       nom: ['', [Validators.required, Validators.maxLength(50)]],

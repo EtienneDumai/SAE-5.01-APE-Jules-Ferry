@@ -93,7 +93,12 @@ class ResetPasswordController extends Controller
         $request->validate([
             'email' => 'required|email',
             'token' => 'required',
-            'password' => 'required|min:8|confirmed'
+            'password' => [
+                'required',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/'
+            ]
         ]);
 
         // On cherche un matching (email + token)

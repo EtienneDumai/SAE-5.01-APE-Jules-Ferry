@@ -25,6 +25,11 @@ export class LoginComponent implements OnInit {
 
   // Indique si on doit afficher le champ mot de passe (true = admin et false = saisie email)
   loginMdp = false;
+  showPassword = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({

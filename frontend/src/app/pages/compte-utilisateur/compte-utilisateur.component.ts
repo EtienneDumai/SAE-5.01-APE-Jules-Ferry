@@ -29,6 +29,11 @@ export class CompteUtilisateurComponent implements OnInit {
   showDeleteModal = false;
   deletePassword = '';
   deleteLoading = false;
+  showDeletePassword = false;
+
+  toggleDeletePassword(): void {
+    this.showDeletePassword = !this.showDeletePassword;
+  }
 
   private readonly utilisateurService = inject(UtilisateurService);
   private readonly authService = inject(AuthService);

@@ -14,6 +14,11 @@ export class PasswordConfirmModalComponent {
   @Output() cancelModal = new EventEmitter<void>();
 
   password = '';
+  showPassword = false;
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   onConfirm() {
     if (this.password) {

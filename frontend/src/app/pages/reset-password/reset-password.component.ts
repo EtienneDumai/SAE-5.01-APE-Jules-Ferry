@@ -25,6 +25,17 @@ export class ResetPasswordComponent implements OnInit {
   token: string = '';
   emailFromUrl: string = '';
 
+  showPassword1 = false;
+  showPassword2 = false;
+
+  togglePassword1(): void {
+    this.showPassword1 = !this.showPassword1;
+  }
+
+  togglePassword2(): void {
+    this.showPassword2 = !this.showPassword2;
+  }
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.token = params['token'] || '';
@@ -32,7 +43,7 @@ export class ResetPasswordComponent implements OnInit {
     });
 
     this.resetPasswordForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)]],
       password_confirmation: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
   }

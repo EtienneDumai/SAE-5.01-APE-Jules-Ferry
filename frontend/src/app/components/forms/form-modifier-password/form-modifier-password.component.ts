@@ -1,9 +1,11 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-form-modifier-password',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './form-modifier-password.component.html',
   styleUrl: './form-modifier-password.component.css'
 })
@@ -14,6 +16,14 @@ export class FormModifierPasswordComponent implements OnInit, OnChanges {
   @Output() cancelled = new EventEmitter<void>();
 
   modificationMdpForm!: FormGroup;
+
+  showPassword1 = false;
+  showPassword2 = false;
+  showPassword3 = false;
+
+  togglePassword1(): void { this.showPassword1 = !this.showPassword1; }
+  togglePassword2(): void { this.showPassword2 = !this.showPassword2; }
+  togglePassword3(): void { this.showPassword3 = !this.showPassword3; }
 
   private readonly fb = inject(FormBuilder);
 

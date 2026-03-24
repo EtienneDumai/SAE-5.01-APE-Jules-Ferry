@@ -20,6 +20,9 @@ export class UserFormComponent implements OnInit {
     private fb = inject(FormBuilder);
     userForm!: FormGroup;
 
+    showPassword = false;
+    togglePassword() { this.showPassword = !this.showPassword; }
+
     // Enums
     roleUtilisateur = RoleUtilisateur;
     statutCompte = StatutCompte;
