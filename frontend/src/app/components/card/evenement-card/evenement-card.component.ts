@@ -7,7 +7,6 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EvenementService } from '../../../services/Evenement/evenement.service';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
-import { AlertComponent } from '../../../components/alert/alert.component';
 import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-evenement-card',
