@@ -41,7 +41,7 @@ export class ActualitePageComponent implements OnInit {
   get filteredActualites(): Actualite[] {
     if (!this.listeActualites) return [];
 
-    let filtered = this.listeActualites.filter(actu => {
+    const filtered = this.listeActualites.filter(actu => {
       const qs = this.searchQuery.toLowerCase();
       return (actu.titre && actu.titre.toLowerCase().includes(qs)) || 
              (actu.contenu && actu.contenu.toLowerCase().includes(qs));

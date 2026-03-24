@@ -69,7 +69,7 @@ export class EvenementPageComponent implements OnInit {
   get filteredEvenements(): Evenement[] {
     if (!this.listeEvenements) return [];
 
-    let filtered = this.listeEvenements.filter(evt => {
+    const filtered = this.listeEvenements.filter(evt => {
       const qs = this.searchQuery.toLowerCase();
       return (evt.titre && evt.titre.toLowerCase().includes(qs)) ||
              (evt.description && evt.description.toLowerCase().includes(qs)) ||
