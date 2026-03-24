@@ -13,7 +13,6 @@
         }
     </div>
 
-    <!-- NOUVEAU BLOC DE RECHERCHE ET TRI -->
     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
         <div class="relative w-full sm:w-96">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -27,8 +26,8 @@
             <label for="sort" class="text-sm text-gray-600 font-medium whitespace-nowrap">Trier par :</label>
             <select id="sort" [(ngModel)]="sortOrder"
                 class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[var(--primary-blue)] focus:border-[var(--primary-blue)] sm:text-sm rounded-lg border bg-white cursor-pointer transition-colors">
-                <option value="desc">Plus récentes en premier</option>
-                <option value="asc">Plus anciennes en premier</option>
+                <option value="desc">Du plus récent au plus ancien</option>
+                <option value="asc">Du plus ancien au plus récent</option>
             </select>
         </div>
     </div>
