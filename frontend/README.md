@@ -1,38 +1,95 @@
-# Frontend
+# APE Jules Ferry App Front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
+## 🏗️ Architecture des dossiers et fichiers
 
-## Development server
+- `public` 🎨 : contient les images et documents statiques qui sont envoyés en même temps que l'interface de l'application aux clients (ordinateurs).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Dans le dossier `src`, vous trouverez l'ensemble de l'application.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- `src/app` 📁 : contient les composants, pipes, directives, animations et services utilisés par l'application.
 
-## Build
+### Le dossier 'app'
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Le dossier `app` contient le code principal de l'application.
 
-## Running unit tests
+#### Composants
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- `src/app/authentication` 🎨 : Dossier comprenants les composants personnalisés utilisé par l'application.
 
-## Running end-to-end tests
+### Enumérations
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- `src/app/enums` 🔧 : contient les type énumérés de l'application utilisés au travers des types (models) de l'application.
 
-## Further help
+### Environnements
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `src/environments` ⚙️ : stocke les environnements de développement et de production.
+- 
+### Guards
 
-## Utiliser compodoc 
+- `src/app/guards` 👥 : contient les guards de l'application, utilisés empecher l'accès à certaines parties de l'application si l'utilisateur n'a pas de compte avec un rôle pouvant y accèder.
 
-Genérer la documentation du projet avec la commande suivante :
+### Interceptors
 
-```npx compodoc -p tsconfig.json```
+- `src/app/interceptors` 📡 : contient les intercepteurs de l'application, utilisés pour ne pas afficher de page d'erreur par défaut du moteur web.
 
-La documentation sera disponible dans le dossier "documentation" à la racine du projet.
-Pour lancer un serveur local et visualiser la documentation, utilisez la commande suivante :
+### Models
 
-```npx compodoc -s```
+- `src/app/models` 🏷️ : contient les models représentant les données transmises par le backend de l'application, utilisés pour utiliser le typage fort de TypeScript.
+
+### Pages
+
+- `src/app/pages` 🖥️ : contient les pages de l'application, basées sur les maquettes de l'application (ensuite soumisent à une refonte graphique).
+
+### Services
+
+- `src/app/services` 🛠️ : contient les services qui récupèrent, modifient ou met a jour les données en contactant une ou plusieurs API.
+
+### Ressources partagées
+
+- `src/app/shared` 👥 : contient les composants partagés de l'application, tels que la sidebar de navigation.
+
+## 🚀 Lancer l'application
+
+Avant toute chose, consultez le dépôt [start-n-go](https://github.com/Inviseo/start-and-go) pour vous lancer.
+
+Assurez-vous d'avoir les droits d'accès, sinon vous ne pourrez pas cloner les dépôts.
+
+### Clonez le dépôt de la solution :
+
+#### HTTP : 
+
+```bash
+    git clone https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry.git
+```
+#### SSH : 
+
+```bash
+    git clone git@github.com:EtienneDumai/SAE-5.01-APE-Jules-Ferry.git
+```
+
+Déplacez-vous dans le front :
+
+```bash
+    cd SAE-5.01-APE-Jules-Ferry/frontend
+```
+
+Installez les packages node :
+
+```bash
+    npm install
+```
+
+Lancer le serveur : 
+[documentation du repo](https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry/blob/master/README.md) 
+
+
+L'application devrait s'ouvrir dans votre navigateur par défaut à l'adresse http://localhost:4200.
+
+## 🔄 Mise à jour après git pull
+
+Après chaque `git pull` effectué sur le front, lancez l'installation des packages npm.
+
+```bash
+    npm install
+```

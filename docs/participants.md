@@ -1,4 +1,4 @@
-# Participants du projet inviseo
+# Participants du projet APE-Jules-Ferry
 
 ## participants internes
 
