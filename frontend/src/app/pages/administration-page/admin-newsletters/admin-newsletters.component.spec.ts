@@ -6,7 +6,7 @@ import { of, throwError } from 'rxjs';
 import { AdminNewslettersComponent } from './admin-newsletters.component';
 import { NewsletterService } from '../../../services/Newsletter/newsletter.service';
 import { ToastService } from '../../../services/Toast/toast.service';
-import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
+import { ExportCsvService } from '../../../services/ExportCsv/export-csv.service';
 import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';
 
 describe('AdminNewslettersComponent', () => {
@@ -20,7 +20,7 @@ describe('AdminNewslettersComponent', () => {
     newsletterServiceSpy.getAllSubscribers.and.returnValue(of([]));
 
     const toastServiceSpy = jasmine.createSpyObj('ToastService', ['showWithTimeout']);
-    const exportExcelServiceSpy = jasmine.createSpyObj('ExportExcelService', ['exportAsExcelFile']);
+    const exportCsvServiceSpy = jasmine.createSpyObj('ExportCsvService', ['exportAsCsvFile']);
 
     await TestBed.configureTestingModule({
       imports: [AdminNewslettersComponent],
@@ -29,7 +29,7 @@ describe('AdminNewslettersComponent', () => {
         provideHttpClientTesting(),
         { provide: NewsletterService, useValue: newsletterServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
-        { provide: ExportExcelService, useValue: exportExcelServiceSpy }
+        { provide: ExportCsvService, useValue: exportCsvServiceSpy }
       ]
     }).compileComponents();
 

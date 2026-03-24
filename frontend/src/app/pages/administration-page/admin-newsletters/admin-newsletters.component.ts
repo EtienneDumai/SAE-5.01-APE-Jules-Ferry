@@ -5,7 +5,7 @@ import { NewsletterService } from '../../../services/Newsletter/newsletter.servi
 import { NewsletterSubscriber } from '../../../models/Newsletter/newsletter.model';
 import { ToastService } from '../../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';
-import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
+import { ExportCsvService } from '../../../services/ExportCsv/export-csv.service';
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
 import { ExportModalComponent } from '../../../components/export-modal/export-modal.component';
 import { PasswordConfirmModalComponent } from '../../../components/password-confirm-modal/password-confirm-modal.component';
@@ -20,7 +20,7 @@ import { PasswordConfirmModalComponent } from '../../../components/password-conf
 export class AdminNewslettersComponent implements OnInit {
   private readonly newsletterService = inject(NewsletterService);
   private readonly toastService = inject(ToastService);
-  private readonly exportExcelService = inject(ExportExcelService);
+  private readonly exportCsvService = inject(ExportCsvService);
 
   abonnes: NewsletterSubscriber[] = [];
   chargementEnCours = true;
@@ -159,14 +159,14 @@ export class AdminNewslettersComponent implements OnInit {
     return !Validators.email({ value: email } as never) && email.length <= 100;
   }
 
-  exporterExcel(selectedKeys: string[]): void {
+  exporterCsv(selectedKeys: string[]): void {
     const donnees = this.abonnesFiltres.map((abonne) => ({
       ...(selectedKeys.includes('email') ? { 'E-mail': abonne.email } : {}),
       ...(selectedKeys.includes('statut') ? { 'Statut': abonne.statut } : {}),
       ...(selectedKeys.includes('created_at') ? { 'Date d\'inscription': this.formaterDate(abonne.created_at) } : {}),
     }));
 
-    this.exportExcelService.exportAsExcelFile(donnees, 'Newsletters');
+    this.exportCsvService.exportAsCsvFile(donnees, 'Newsletters');
     this.showExportModal = false;
   }
 

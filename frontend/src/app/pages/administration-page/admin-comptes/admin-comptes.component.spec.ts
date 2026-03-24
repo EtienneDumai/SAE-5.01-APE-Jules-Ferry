@@ -5,7 +5,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AdminComptesComponent } from './admin-comptes.component';
 import { UtilisateurService } from '../../../services/Utilisateur/utilisateur.service';
 import { ToastService } from '../../../services/Toast/toast.service';
-import { ExportExcelService } from '../../../services/ExportExcel/export-excel.service';
+import { ExportCsvService } from '../../../services/ExportCsv/export-csv.service';
 import { of, throwError } from 'rxjs';
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 import { RoleUtilisateur } from '../../../enums/RoleUtilisateur/role-utilisateur';
@@ -23,7 +23,7 @@ describe('AdminComptesComponent', () => {
   let fixture: ComponentFixture<AdminComptesComponent>;
   let utilisateurServiceSpy: jasmine.SpyObj<UtilisateurService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
-  let exportExcelServiceSpy: jasmine.SpyObj<ExportExcelService>;
+  let exportCsvServiceSpy: jasmine.SpyObj<ExportCsvService>;
   let mockUtilisateurs: Utilisateur[];
 
   beforeEach(async () => {
@@ -32,7 +32,7 @@ describe('AdminComptesComponent', () => {
       'getAllUtilisateurs', 'createUtilisateur', 'updateUtilisateur', 'deleteUtilisateur'
     ]);
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['show', 'showWithTimeout']);
-    exportExcelServiceSpy = jasmine.createSpyObj('ExportExcelService', ['exportAsExcelFile']);
+    exportCsvServiceSpy = jasmine.createSpyObj('ExportCsvService', ['exportAsCsvFile']);
 
     utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(of(mockUtilisateurs.map(user => ({ ...user }))));
 
@@ -43,7 +43,7 @@ describe('AdminComptesComponent', () => {
         provideHttpClientTesting(),
         { provide: UtilisateurService, useValue: utilisateurServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
-        { provide: ExportExcelService, useValue: exportExcelServiceSpy },
+        { provide: ExportCsvService, useValue: exportCsvServiceSpy },
       ],
     }).compileComponents();
 
@@ -65,8 +65,8 @@ describe('AdminComptesComponent', () => {
 
     it('devrait afficher un toast d\'erreur si le chargement échoue', () => {
       utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(throwError(() => new Error('network error')));
-  component.chargerUtilisateurs();
-  expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith('Erreur chargement utilisateurs', TypeErreurToast.ERROR);
+      component.chargerUtilisateurs();
+      expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith('Erreur chargement utilisateurs', TypeErreurToast.ERROR);
       expect(component.chargementEnCours).toBeFalse();
     });
   });
@@ -160,10 +160,10 @@ describe('AdminComptesComponent', () => {
   });
 
   describe('exportData', () => {
-    it('devrait appeler exportAsExcelFile avec les colonnes sélectionnées', () => {
+    it('devrait appeler exportAsCsvFile avec les colonnes sélectionnées', () => {
       component.utilisateurs = [...mockUtilisateurs];
       component.exportData(['nom', 'email']);
-      expect(exportExcelServiceSpy.exportAsExcelFile).toHaveBeenCalledWith(
+      expect(exportCsvServiceSpy.exportAsCsvFile).toHaveBeenCalledWith(
         jasmine.arrayContaining([jasmine.objectContaining({ 'Nom': 'DUPONT', 'E-mail': 'jean@test.com' })]),
         'Comptes_Utilisateurs'
       );
@@ -173,7 +173,7 @@ describe('AdminComptesComponent', () => {
     it('devrait exporter uniquement les colonnes sélectionnées', () => {
       component.utilisateurs = [mockUtilisateurs[0]];
       component.exportData(['nom']);
-      const call = exportExcelServiceSpy.exportAsExcelFile.calls.mostRecent();
+      const call = exportCsvServiceSpy.exportAsCsvFile.calls.mostRecent();
       const firstRow = (call.args[0] as Record<string, string>[])[0];
       expect(firstRow['Nom']).toBeDefined();
       expect(firstRow['E-mail']).toBeUndefined();
