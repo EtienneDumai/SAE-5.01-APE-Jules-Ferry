@@ -91,6 +91,13 @@ class ResetPasswordController extends Controller
             return response()->json(['message' => 'Utilisateur introuvable.'], 404);
         }
 
+        // Vérifier que le nouveau mot de passe n'est pas identique à l'actuel
+        if (Hash::check($request->password, $user->mot_de_passe)) {
+            return response()->json([
+                'message' => 'Le nouveau mot de passe ne peut pas être identique à l\'ancien.'
+            ], 400);
+        }
+
         $user->mot_de_passe = Hash::make($request->password);
         $user->save();
 
