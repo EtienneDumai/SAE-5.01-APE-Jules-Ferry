@@ -10,7 +10,7 @@ import { SpinnerComponent } from "../../components/spinner/spinner.component";
 import { Location, DatePipe } from '@angular/common';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 
 @Component({

@@ -26,7 +26,7 @@ import {
   FormInscriptionEvenementComponent,
   InscriptionSubmitPayload,
 } from '../../components/forms/form-inscription-evenement/form-inscription-evenement.component';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,

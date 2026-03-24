@@ -8,7 +8,7 @@ import { EvenementService } from '../../../services/Evenement/evenement.service'
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 
 import { AlertComponent } from '../../../components/alert/alert.component';
-import { environment } from '../../../environments/environment.dev';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-evenement-card',
   standalone: true,

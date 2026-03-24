@@ -8,7 +8,7 @@ import { AuthService } from '../../../services/Auth/auth.service';
 import { ActualiteService } from '../../../services/Actualite/actualite.service';
 
 import { AlertComponent } from '../../../components/alert/alert.component';
-import { environment } from '../../../environments/environment.dev';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-actualite-card',
   standalone: true,
