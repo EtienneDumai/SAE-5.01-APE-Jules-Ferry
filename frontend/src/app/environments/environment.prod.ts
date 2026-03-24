@@ -2,4 +2,5 @@
 const environment = {
     production: true,
     apiUrl: 'https://api.productionserver.com/api',
+    apiImage:'https://api.productionserver.com'
 }

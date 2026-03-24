@@ -22,7 +22,7 @@
     <div class="p-4 flex flex-col flex-grow bg-[var(--white-cards)]">
         
         <div class="font-josefin text-[10px] uppercase text-[var(--accent-orange)] tracking-[0.08em] mb-2 flex items-center flex-wrap gap-x-2 gap-y-1">
-            <span><i class="fa-regular fa-calendar mr-1"></i> {{ date_evenement | date:'dd MMMM yyyy' }}</span>
+            <span><i class="fa-regular fa-calendar mr-1"></i> {{ date_evenement | date:'dd/MM/yyyy' }}</span>
             <span class="text-[var(--border-light)]">|</span>
             <span><i class="fa-regular fa-clock mr-1"></i> {{ heure_debut }} - {{ heure_fin }}</span>
         </div>
@@ -53,4 +53,38 @@
             }
         </div>
     </div>
+
+    @if (showDeleteModal) {
+        <div class="absolute inset-0 z-20 flex items-center justify-center p-3 bg-white/95 backdrop-blur-sm">
+            
+            <div class="bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-5 w-full max-w-[95%] text-center flex flex-col gap-4 animate-fade-up">
+                
+                <h4 class="font-abril text-[18px] text-[var(--primary-green)] leading-tight m-0">
+                    Supprimer cet événement ?
+                </h4>
+                
+                <div class="w-full text-left">
+                    <label for="pwd-{{id_evenement}}" class="sr-only">Mot de passe</label>
+                    <input type="password" id="pwd-{{id_evenement}}" [(ngModel)]="deletePassword" placeholder="Mot de passe admin"
+                           class="w-full px-3 py-2.5 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--accent-orange)] transition-colors text-center">
+                </div>
+
+                <div class="flex w-full gap-3 mt-1">
+                    <button (click)="closeDeleteModal()" class="flex-1 py-2.5 bg-transparent border-[1.5px] border-[var(--border-light)] rounded-[4px] font-josefin text-[10px] uppercase font-bold text-[var(--text-secondary)] hover:text-[var(--primary-green)] transition-colors">
+                        Annuler
+                    </button>
+                    <button (click)="confirmerSuppression()" [disabled]="isDeleting || !deletePassword"
+                            class="flex-1 py-2.5 bg-[#DC2626] text-white rounded-[4px] font-josefin text-[10px] uppercase font-bold hover:bg-red-700 disabled:opacity-50 transition-colors">
+                        @if(isDeleting) { 
+                            <i class="fa-solid fa-spinner fa-spin"></i> 
+                        } @else { 
+                            Supprimer 
+                        }
+                    </button>
+                </div>
+
+            </div>
+            
+        </div>
+    }
 </div>
