@@ -104,16 +104,6 @@ describe('EvenementCardComponent', () => {
     it('devrait retourner une chaîne vide si aucune url', () => {
       expect(component.getImageUrl('')).toBe('');
     });
-
-    it('devrait retourner l\'url originale si elle commence par http', () => {
-      const url = 'http://example.com/image.jpg';
-      expect(component.getImageUrl(url)).toBe(url);
-    });
-
-    it('devrait préfixer localhost si l\'url est relative', () => {
-      const url = '/uploads/image.jpg';
-      expect(component.getImageUrl(url)).toBe('http://localhost:8000/uploads/image.jpg');
-    });
   });
 
   describe('Gestion des permissions (canManage)', () => {

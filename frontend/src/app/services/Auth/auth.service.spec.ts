@@ -10,7 +10,7 @@ import { RegisterData } from '../../models/Auth/register-data';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { StatutCompte } from '../../enums/StatutCompte/statut-compte';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 describe('AuthService', () => {
   let service: AuthService;

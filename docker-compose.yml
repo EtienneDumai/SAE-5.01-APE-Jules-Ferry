@@ -14,7 +14,9 @@ services:
       - ./db-data:/var/lib/postgresql/data
 
   laravel:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile : Dockerfile
     container_name: ape_laravel
     restart: always
     ports:
@@ -42,7 +44,9 @@ services:
       "
 
   angular:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: ape_angular
     restart: always
     ports:

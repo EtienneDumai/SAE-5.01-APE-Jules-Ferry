@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { CreneauService } from './creneau.service';
 import { Creneau } from '../../models/Creneau/creneau';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 
 describe('CreneauService', () => {
   let service: CreneauService;

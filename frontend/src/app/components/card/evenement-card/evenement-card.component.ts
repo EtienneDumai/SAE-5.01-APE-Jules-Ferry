@@ -8,6 +8,7 @@ import { EvenementService } from '../../../services/Evenement/evenement.service'
 import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
 
 import { AlertComponent } from '../../../components/alert/alert.component';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-evenement-card',
   standalone: true,
@@ -17,7 +18,6 @@ import { AlertComponent } from '../../../components/alert/alert.component';
 })
 export class EvenementCardComponent implements OnChanges {
   showDeleteAlert = false;
-  
   @Input() id_evenement!: number;
   @Input() titre = '';
   @Input() description!: string;
@@ -27,7 +27,7 @@ export class EvenementCardComponent implements OnChanges {
   @Input() lieu!: string;
   @Input() image_url!: string;
   @Input() statut!: StatutEvenement;
-  @Input() id_auteur!: number; 
+  @Input() id_auteur!: number;
   @Input() currentUser: Utilisateur | null = null;
 
   @Output() eventDeleted = new EventEmitter<number>();
@@ -39,7 +39,7 @@ export class EvenementCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['currentUser']) {
-        this.cdr.markForCheck();
+      this.cdr.markForCheck();
     }
   }
 
@@ -61,28 +61,27 @@ export class EvenementCardComponent implements OnChanges {
 
   getImageUrl(image_url: string): string {
     if (!image_url) return '';
-    if (image_url.startsWith('http')) return image_url;
-    return 'http://localhost:8000' + image_url;
+    return `${environment.apiImage}/${image_url}`;
   }
 
-onDeletes(event: Event): void {
+  onDeletes(event: Event): void {
     event.stopPropagation();
     this.showDeleteAlert = true;
   }
-onDelete(event: Event): void {
-  event.stopPropagation();
-  if (window.confirm('Voulez-vous vraiment supprimer cet événement ?')) {
-    this.evenementService.deleteEvenement(this.id_evenement).subscribe({
-      next: () => {
-        this.eventDeleted.emit(this.id_evenement);
-        this.toastService.showWithTimeout('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la suppression de l\'événement', err);
-      }
-    });
+  onDelete(event: Event): void {
+    event.stopPropagation();
+    if (window.confirm('Voulez-vous vraiment supprimer cet événement ?')) {
+      this.evenementService.deleteEvenement(this.id_evenement).subscribe({
+        next: () => {
+          this.eventDeleted.emit(this.id_evenement);
+          this.toastService.showWithTimeout('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la suppression de l\'événement', err);
+        }
+      });
+    }
   }
-}
   confirmerSuppression(): void {
     this.evenementService.deleteEvenement(this.id_evenement).subscribe({
       next: () => {
@@ -95,7 +94,6 @@ onDelete(event: Event): void {
     });
     this.showDeleteAlert = false;
   }
-
   annulerSuppression(): void {
     this.showDeleteAlert = false;
   }
