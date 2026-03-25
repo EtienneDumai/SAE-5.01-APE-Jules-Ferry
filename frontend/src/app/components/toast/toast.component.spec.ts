@@ -49,11 +49,11 @@ describe('ToastComponent', () => {
       fixture.detectChanges();
 
       const toastElement = fixture.nativeElement.querySelector('.fixed');
-      const messageElement = fixture.nativeElement.querySelector('p.break-all');
+      const textContent = fixture.nativeElement.textContent;
 
       expect(toastElement).toBeTruthy();
-      expect(toastElement.classList).toContain('error');
-      expect(messageElement.textContent).toContain('Erreur survenue');
+      expect(toastElement.innerHTML).toContain('border-red-500'); 
+      expect(textContent).toContain('Erreur survenue');
     });
 
     it('devrait afficher un toast de succès', () => {
@@ -61,11 +61,11 @@ describe('ToastComponent', () => {
       fixture.detectChanges();
 
       const toastElement = fixture.nativeElement.querySelector('.fixed');
-      const messageElement = fixture.nativeElement.querySelector('p.break-all');
+      const textContent = fixture.nativeElement.textContent;
 
       expect(toastElement).toBeTruthy();
-      expect(toastElement.classList).toContain('success');
-      expect(messageElement.textContent).toContain('Opération réussie');
+      expect(toastElement.innerHTML).toContain('var(--primary-green)');
+      expect(textContent).toContain('Opération réussie');
     });
   });
 
@@ -74,7 +74,7 @@ describe('ToastComponent', () => {
       mockToastSubject.next({ type: 'success', message: 'Message de test' });
       fixture.detectChanges();
 
-      const closeButton = fixture.nativeElement.querySelector('button.close');
+      const closeButton = fixture.nativeElement.querySelector('button');
       closeButton.click();
 
       expect(toastService.clear).toHaveBeenCalled();

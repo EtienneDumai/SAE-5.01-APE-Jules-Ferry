@@ -16,7 +16,7 @@
         <button type="button" (click)="showExportModal = true" [disabled]="abonnes.length === 0"
             class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 enabled:hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50">
             <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
-            Exporter en Excel
+            Exporter les abonnés
         </button>
     </div>
 
@@ -26,7 +26,7 @@
             <h3 class="text-sm font-medium text-gray-900"><i class="fa-solid fa-envelope mr-2 text-gray-500"></i>
                 Abonnés à la newsletter</h3>
             <p class="text-sm text-gray-500 mt-1">Consultez les e-mails inscrits, supprimez un abonnement et exportez
-                la liste au format Excel (.xlsx).</p>
+                la liste.</p>
         </div>
         <div class="text-sm text-gray-600">
             {{ abonnesFiltres.length }} abonné{{ abonnesFiltres.length > 1 ? 's' : '' }}
@@ -132,8 +132,7 @@
     }
 
     @if (showPasswordModal) {
-    <app-password-confirm-modal (confirmPassword)="onPasswordConfirmed($event)"
-        (cancelModal)="closePasswordModal()">
+    <app-password-confirm-modal (confirmPassword)="onPasswordConfirmed($event)" (cancelModal)="closePasswordModal()">
     </app-password-confirm-modal>
     }
 </div>

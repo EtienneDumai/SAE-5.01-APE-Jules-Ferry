@@ -57,7 +57,7 @@ class ActualiteController extends Controller
         try {
             $imagePath = null;
             if ($request->hasFile('image')) {
-                $imagePath = $this->processAndStoreImage($request->file('image'));
+                $imagePath = $this->processAndStoreImage($request->file('image'), $validatedData['titre']);
             }
 
             $actualite = Actualite::create([
@@ -92,10 +92,8 @@ class ActualiteController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                // Supprimer l'ancienne image si elle existe
                 $this->deleteOldImage($actualite->image_url);
-                // Traiter la nouvelle
-                $actualite->image_url = $this->processAndStoreImage($request->file('image'));
+                $actualite->image_url = $this->processAndStoreImage($request->file('image'), $validatedData['titre']);
             }
 
             $actualite->update([
@@ -132,19 +130,17 @@ class ActualiteController extends Controller
     /**
      * Gère la conversion et le stockage de l'image
      */
-    private function processAndStoreImage($file): string
+    private function processAndStoreImage($file, string $titre): string
     {
-        $fileName = Str::random(20) . '.webp';
+        $slug = Str::slug($titre, '_');
+        $fileName = $slug . '_' . Str::random(5) . '.webp'; 
+        
         $destinationPath = storage_path('app/public/actualites/' . $fileName);
 
-        // Assurer que le dossier existe
         if (!Storage::disk('public')->exists('actualites')) {
             Storage::disk('public')->makeDirectory('actualites');
         }
-
-        // Conversion en WebP via le service
         $this->imageConverter->convertImageToWebp($file->getRealPath(), $destinationPath, 80);
-
         return '/storage/actualites/' . $fileName;
     }
 

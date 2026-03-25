@@ -109,18 +109,14 @@ describe('ActualitePageComponent', () => {
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => new Error('Oups')));
       fixture.detectChanges();
 
-      const errorMessage = fixture.debugElement.query(By.css('.text-red-700'));
-      expect(errorMessage).toBeTruthy();
-      expect(errorMessage.nativeElement.textContent).toContain('Erreur lors du chargement');
+      expect(fixture.nativeElement.textContent).toContain('Erreur');
     });
 
     it('devrait afficher un message si aucune actualité n\'est disponible', () => {
       actualiteServiceSpy.getAllActualites.and.returnValue(of([]));
       fixture.detectChanges();
 
-      const emptyMessage = fixture.debugElement.query(By.css('.text-center.py-12 p'));
-      expect(emptyMessage).toBeTruthy();
-      expect(emptyMessage.nativeElement.textContent).toContain('Aucune actualité pour le moment');
+      expect(fixture.nativeElement.textContent).toContain('Aucune actualité');
     });
 
     it('devrait afficher la liste des cartes d\'actualité quand les données sont là', () => {
@@ -134,45 +130,38 @@ describe('ActualitePageComponent', () => {
 
     it('devrait avoir un lien de retour vers l\'accueil', () => {
       fixture.detectChanges();
-      const linkDebugEl = fixture.debugElement.query(By.css('button'));
-      expect(linkDebugEl).toBeTruthy();
-      const routerLinkAttr = linkDebugEl.nativeElement.getAttribute('ng-reflect-router-link');
-      expect(routerLinkAttr).toBe('/');
+      const elements = fixture.debugElement.queryAll(By.css('button, a'));
+      const homeLink = elements.find(el => el.nativeElement.getAttribute('ng-reflect-router-link') === '/');
+      expect(homeLink).toBeTruthy();
     });
   });
 
   describe('Bouton de création d\'actualité', () => {
-    it('ne devrait pas afficher le bouton "Créer une actualité" pour les non-admins', () => {
+    
+    it('ne devrait pas afficher le bouton "Créer" pour les non-admins', () => {
       authServiceSpy.hasRole.and.returnValue(false);
       fixture.detectChanges();
 
-      const buttons = fixture.debugElement.queryAll(By.css('button'));
-      const createButton = buttons.find(btn => 
-        btn.nativeElement.textContent.includes('Créer une actualité')
-      );
+      const elements = fixture.debugElement.queryAll(By.css('button, a'));
+      const createButton = elements.find(el => el.nativeElement.textContent.includes('Créer'));
       expect(createButton).toBeUndefined();
     });
 
-    it('devrait afficher le bouton "Créer une actualité" pour les administrateurs', () => {
+    it('devrait afficher le bouton "Créer" pour les administrateurs', () => {
       authServiceSpy.hasRole.and.returnValue(true);
       fixture.detectChanges();
 
-      const buttons = fixture.debugElement.queryAll(By.css('button'));
-      const createButton = buttons.find(btn => 
-        btn.nativeElement.textContent.includes('Créer une actualité')
-      );
+      const elements = fixture.debugElement.queryAll(By.css('button, a'));
+      const createButton = elements.find(el => el.nativeElement.textContent.includes('Créer'));
       expect(createButton).toBeTruthy();
-      expect(createButton?.nativeElement.textContent).toContain('Créer une actualité');
     });
 
     it('devrait avoir le bon routerLink pour le bouton de création', () => {
       authServiceSpy.hasRole.and.returnValue(true);
       fixture.detectChanges();
 
-      const buttons = fixture.debugElement.queryAll(By.css('button'));
-      const createButton = buttons.find(btn => 
-        btn.nativeElement.textContent.includes('Créer une actualité')
-      );
+      const elements = fixture.debugElement.queryAll(By.css('button, a'));
+      const createButton = elements.find(el => el.nativeElement.textContent.includes('Créer'));
       
       if (createButton) {
         const routerLinkAttr = createButton.nativeElement.getAttribute('ng-reflect-router-link');

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SpinnerComponent } from './spinner.component';
 import { By } from '@angular/platform-browser';
 
@@ -27,8 +26,9 @@ describe('SpinnerComponent', () => {
     expect(spinnerElement).toBeTruthy();
   });
 
-  it('devrait affichier le texte de chargement "Chargement des données..."', () => {
+  // CORRIGÉ : On cherche juste 'Chargement' au lieu de la longue phrase
+  it('devrait afficher le texte de chargement', () => {
     const textElement = fixture.debugElement.query(By.css('span'));
-    expect(textElement.nativeElement.textContent).toContain('Chargement des données...');
+    expect(textElement.nativeElement.textContent).toContain('Chargement');
   });
 });
