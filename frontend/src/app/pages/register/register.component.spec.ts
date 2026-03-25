@@ -7,7 +7,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError, Subject } from 'rxjs';
-import { AuthResponse } from '../../models/Auth/auth-response';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
 import { StatutCompte } from '../../enums/StatutCompte/statut-compte';
@@ -27,14 +26,15 @@ describe('RegisterComponent', () => {
     statut_compte: StatutCompte.actif
   };
 
-  const mockAuthResponse: AuthResponse = {
-    message: 'Registration successful',
-    user: mockUser,
-    token: 'fake-jwt-token-789'
+  const mockRegisterResponse = {
+    message: 'Inscription réussie',
+    user: mockUser
   };
 
+  const mockMagicLinkResponse = { message: 'Lien envoyé' };
+
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['register']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['register', 'requestMagicLink']);
 
     await TestBed.configureTestingModule({
       imports: [RegisterComponent, ReactiveFormsModule],
@@ -60,21 +60,17 @@ describe('RegisterComponent', () => {
   });
 
   describe('Initialisation du formulaire', () => {
-    it('devrait initialiser le formulaire d\'inscription avec des champs vides', () => {
+    it('devrait initialiser le formulaire avec des champs vides', () => {
       expect(component.registerForm).toBeTruthy();
       expect(component.registerForm.get('nom')?.value).toBe('');
       expect(component.registerForm.get('prenom')?.value).toBe('');
       expect(component.registerForm.get('email')?.value).toBe('');
-      expect(component.registerForm.get('mot_de_passe')?.value).toBe('');
-      expect(component.registerForm.get('mot_de_passe_confirmation')?.value).toBe('');
     });
 
-    it('devrait avoir tous les contrôles requis', () => {
+    it('devrait avoir les contrôles nom, prenom et email', () => {
       expect(component.registerForm.contains('nom')).toBe(true);
       expect(component.registerForm.contains('prenom')).toBe(true);
       expect(component.registerForm.contains('email')).toBe(true);
-      expect(component.registerForm.contains('mot_de_passe')).toBe(true);
-      expect(component.registerForm.contains('mot_de_passe_confirmation')).toBe(true);
     });
 
     it('devrait initialiser isLoading à false', () => {
@@ -92,8 +88,6 @@ describe('RegisterComponent', () => {
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
       expect(component.registerForm.valid).toBeTruthy();
     });
@@ -160,92 +154,8 @@ describe('RegisterComponent', () => {
 
     it('devrait refuser un email trop long (> 100 caractères)', () => {
       const email = component.registerForm.get('email');
-      const longEmail = 'a'.repeat(95) + '@test.com'; // 105 caractères
-      email?.setValue(longEmail);
+      email?.setValue('a'.repeat(95) + '@test.com');
       expect(email?.hasError('maxlength')).toBe(true);
-    });
-  });
-
-  describe('Validation du champ mot_de_passe', () => {
-    it('devrait être requis', () => {
-      const password = component.registerForm.get('mot_de_passe');
-      password?.setValue('');
-      expect(password?.hasError('required')).toBe(true);
-    });
-
-    it('devrait exiger au moins 8 caractères', () => {
-      const password = component.registerForm.get('mot_de_passe');
-      password?.setValue('Short1!');
-      expect(password?.hasError('minlength')).toBe(true);
-    });
-
-    it('devrait exiger une majuscule, un chiffre et un caractère spécial', () => {
-      const password = component.registerForm.get('mot_de_passe');
-      
-      password?.setValue('password123!'); // Pas de majuscule
-      expect(password?.hasError('pattern')).toBe(true);
-      
-      password?.setValue('Password!'); // Pas de chiffre
-      expect(password?.hasError('pattern')).toBe(true);
-      
-      password?.setValue('Password123'); // Pas de caractère spécial
-      expect(password?.hasError('pattern')).toBe(true);
-    });
-
-    it('devrait accepter un mot de passe valide', () => {
-      const password = component.registerForm.get('mot_de_passe');
-      password?.setValue('Password123!');
-      expect(password?.valid).toBe(true);
-    });
-  });
-
-  describe('Validation du champ mot_de_passe_confirmation', () => {
-    it('devrait être requis', () => {
-      const confirmation = component.registerForm.get('mot_de_passe_confirmation');
-      confirmation?.setValue('');
-      expect(confirmation?.hasError('required')).toBe(true);
-    });
-
-    it('devrait correspondre au mot de passe', () => {
-      component.registerForm.patchValue({
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
-      });
-      component.registerForm.updateValueAndValidity();
-      
-      const confirmation = component.registerForm.get('mot_de_passe_confirmation');
-      expect(confirmation?.hasError('passwordMismatch')).toBeFalsy();
-    });
-
-    it('devrait invalider si les mots de passe ne correspondent pas', () => {
-      component.registerForm.patchValue({
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Different123!'
-      });
-      component.registerForm.updateValueAndValidity();
-      
-      const confirmation = component.registerForm.get('mot_de_passe_confirmation');
-      expect(confirmation?.hasError('passwordMismatch')).toBe(true);
-    });
-
-    it('devrait nettoyer l\'erreur quand les mots de passe correspondent', () => {
-      // D'abord définir des mots de passe différents
-      component.registerForm.patchValue({
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Different123!'
-      });
-      component.registerForm.updateValueAndValidity();
-      
-      const confirmation = component.registerForm.get('mot_de_passe_confirmation');
-      expect(confirmation?.hasError('passwordMismatch')).toBe(true);
-      
-      // Ensuite les faire correspondre
-      component.registerForm.patchValue({
-        mot_de_passe_confirmation: 'Password123!'
-      });
-      component.registerForm.updateValueAndValidity();
-      
-      expect(confirmation?.hasError('passwordMismatch')).toBeFalsy();
     });
   });
 
@@ -261,187 +171,90 @@ describe('RegisterComponent', () => {
     it('devrait retourner le contrôle email', () => {
       expect(component.email).toBe(component.registerForm.get('email'));
     });
-
-    it('devrait retourner le contrôle mot_de_passe', () => {
-      expect(component.mot_de_passe).toBe(component.registerForm.get('mot_de_passe'));
-    });
-
-    it('devrait retourner le contrôle mot_de_passe_confirmation', () => {
-      expect(component.mot_de_passe_confirmation).toBe(component.registerForm.get('mot_de_passe_confirmation'));
-    });
-
-    it('devrait retourner true pour passwordMismatch quand les mots de passe ne correspondent pas et que le champ est touché', () => {
-      component.registerForm.patchValue({
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Different123!'
-      });
-      component.registerForm.updateValueAndValidity();
-      component.mot_de_passe_confirmation?.markAsTouched();
-      
-      expect(component.passwordMismatch).toBe(true);
-    });
-
-    it('devrait retourner false pour passwordMismatch quand le champ n\'est pas touché', () => {
-      component.registerForm.patchValue({
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Different123!'
-      });
-      component.registerForm.updateValueAndValidity();
-      
-      expect(component.passwordMismatch).toBeFalsy();
-    });
   });
 
   describe('onSubmit', () => {
     it('ne devrait pas soumettre si le formulaire est invalide', () => {
-      component.registerForm.patchValue({
-        nom: '',
-        prenom: '',
-        email: '',
-        mot_de_passe: '',
-        mot_de_passe_confirmation: ''
-      });
-
+      component.registerForm.patchValue({ nom: '', prenom: '', email: '' });
       component.onSubmit();
-
       expect(authService.register).not.toHaveBeenCalled();
     });
 
     it('devrait définir isLoading à true lors de la soumission', () => {
-      const registerSubject = new Subject<AuthResponse>();
+      const registerSubject = new Subject<{ message: string; user: Utilisateur }>();
       authService.register.and.returnValue(registerSubject.asObservable());
-      
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
-
       expect(component.isLoading).toBe(true);
-      
-      registerSubject.next(mockAuthResponse);
+
+      registerSubject.next(mockRegisterResponse);
       registerSubject.complete();
     });
 
     it('devrait effacer le message d\'erreur lors de la soumission', () => {
-      authService.register.and.returnValue(of(mockAuthResponse));
+      authService.register.and.returnValue(of(mockRegisterResponse));
+      authService.requestMagicLink.and.returnValue(of(mockMagicLinkResponse));
       component.errorMessage = 'Erreur précédente';
-      
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
-
       expect(component.errorMessage).toBe('');
     });
 
-    it('devrait appeler authService.register avec les bonnes données', () => {
-      authService.register.and.returnValue(of(mockAuthResponse));
-      
-      const formData = {
-        nom: 'Dupont',
-        prenom: 'Jean',
-        email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
-      };
-      
-      component.registerForm.patchValue(formData);
+    it('devrait envoyer le magic link après inscription réussie', fakeAsync(() => {
+      authService.register.and.returnValue(of(mockRegisterResponse));
+      authService.requestMagicLink.and.returnValue(of(mockMagicLinkResponse));
 
-      component.onSubmit();
-
-      expect(authService.register).toHaveBeenCalledWith(formData);
-    });
-
-    it('devrait naviguer vers la page d\'accueil en cas de succès', fakeAsync(() => {
-      const registerSubject = new Subject<AuthResponse>();
-      authService.register.and.returnValue(registerSubject.asObservable());
-      spyOn(console, 'log');
-      
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
-      });
-
-      component.onSubmit();
-      
-      registerSubject.next(mockAuthResponse);
-      registerSubject.complete();
-      tick();
-
-      expect(console.log).toHaveBeenCalledWith('Inscription réussie', mockAuthResponse);
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
-    }));
-
-    it('devrait mettre isLoading à false en cas de succès', fakeAsync(() => {
-      authService.register.and.returnValue(of(mockAuthResponse));
-      
-      component.registerForm.patchValue({
-        nom: 'Dupont',
-        prenom: 'Jean',
-        email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
       tick();
 
+      expect(authService.requestMagicLink).toHaveBeenCalledWith('jean.dupont@example.com');
+      expect(component.successMessage).toBeTruthy();
       expect(component.isLoading).toBe(false);
     }));
 
     it('devrait gérer les erreurs de validation du serveur', () => {
-      const error = {
-        error: {
-          errors: {
-            email: ['L\'email est déjà utilisé']
-          }
-        }
-      };
+      const error = { error: { errors: { email: ['L\'email est déjà utilisé'] } } };
       authService.register.and.returnValue(throwError(() => error));
       spyOn(console, 'error');
-      
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
 
       expect(component.errorMessage).toBe('L\'email est déjà utilisé');
       expect(component.isLoading).toBe(false);
-      expect(console.error).toHaveBeenCalled();
     });
 
     it('devrait gérer un message d\'erreur générique du serveur', () => {
-      const error = {
-        error: {
-          message: 'Erreur serveur'
-        }
-      };
+      const error = { error: { message: 'Erreur serveur' } };
       authService.register.and.returnValue(throwError(() => error));
-      
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
@@ -453,13 +266,11 @@ describe('RegisterComponent', () => {
     it('devrait afficher un message d\'erreur par défaut si aucun message n\'est fourni', () => {
       const error = { error: {} };
       authService.register.and.returnValue(throwError(() => error));
-      
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
@@ -470,51 +281,37 @@ describe('RegisterComponent', () => {
 
     it('devrait mettre isLoading à false en cas d\'erreur', () => {
       authService.register.and.returnValue(throwError(() => new Error('Erreur réseau')));
-      
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       component.onSubmit();
-
       expect(component.isLoading).toBe(false);
     });
   });
 
   describe('Intégration', () => {
     it('devrait effectuer le flux complet d\'inscription', fakeAsync(() => {
-      const registerSubject = new Subject<AuthResponse>();
-      authService.register.and.returnValue(registerSubject.asObservable());
-      
-      // Remplir le formulaire
+      authService.register.and.returnValue(of(mockRegisterResponse));
+      authService.requestMagicLink.and.returnValue(of(mockMagicLinkResponse));
+
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
-        mot_de_passe: 'Password123!',
-        mot_de_passe_confirmation: 'Password123!'
       });
 
       expect(component.registerForm.valid).toBe(true);
 
-      // Soumettre
       component.onSubmit();
-      
-      // Vérifier l'état de chargement
-      expect(component.isLoading).toBe(true);
-      
-      // Simuler la réponse asynchrone
-      registerSubject.next(mockAuthResponse);
-      registerSubject.complete();
       tick();
 
-      // Vérifier l'état final
       expect(component.isLoading).toBe(false);
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
+      expect(component.successMessage).toBeTruthy();
+      expect(authService.requestMagicLink).toHaveBeenCalled();
     }));
   });
 });
