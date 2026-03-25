@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
-import { environment } from '../../environments/environment.dev';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.dev'
 import { Formulaire } from '../../models/Formulaire/formulaire';
 @Injectable({
   providedIn: 'root'
