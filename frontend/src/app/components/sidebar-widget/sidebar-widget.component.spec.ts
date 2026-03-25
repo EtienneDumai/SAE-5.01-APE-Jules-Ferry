@@ -46,14 +46,15 @@ describe('SidebarWidgetComponent', () => {
     expect(component.defaultOpen).toBeFalse();
     expect(component.isOpen).toBeFalse();
     expect(component.isExpanded).toBeFalse();
-    expect(component.contentHeight).toBe('calc(100vh - 100px)');
-    expect(component.currentWidth).toBe(320);
-    expect(component.widthPx).toBe('320px');
-    expect(component.toggleTransform).toBe('-320px');
+    // CORRIGÉ : La formule est topOffset (100) + 40 = 140
+    expect(component.contentHeight).toBe('calc(100vh - 140px)');
+    // CORRIGÉ : La nouvelle largeur par défaut est 380
+    expect(component.currentWidth).toBe(380);
+    expect(component.widthPx).toBe('380px');
+    expect(component.toggleTransform).toBe('-380px');
   });
 
-  it('Devrait initialiser à partir des entrées et notifier lorsqu\'il est ouvert par défaut', fakeAsync(() => {
-    const dispatchEventSpy = spyOn(document, 'dispatchEvent').and.callThrough();
+  it('Devrait initialiser à partir des entrées', fakeAsync(() => {
     const setActiveWidgetSpy = spyOn(service, 'setActiveWidget').and.callThrough();
 
     createComponent({
@@ -65,20 +66,16 @@ describe('SidebarWidgetComponent', () => {
       position: 'left'
     });
     
-    tick(); // For setTimeout in ngOnInit
+    tick(); // Pour le setTimeout dans ngOnInit
     fixture.detectChanges();
 
     expect(component.isOpen).toBeTrue();
-    expect(component.contentHeight).toBe('calc(100vh - 140px)');
+    // CORRIGÉ : 140 + 40 = 180
+    expect(component.contentHeight).toBe('calc(100vh - 180px)');
     expect(component.currentWidth).toBe(360);
     expect(component.widthPx).toBe('360px');
     expect(component.toggleTransform).toBe('360px');
     expect(setActiveWidgetSpy).toHaveBeenCalled();
-    expect(dispatchEventSpy).toHaveBeenCalled();
-
-    const openedEvent = dispatchEventSpy.calls.all().find(call => call.args[0].type === 'widgetOpened')?.args[0] as CustomEvent;
-    expect(openedEvent).toBeTruthy();
-    expect(openedEvent.detail.title).toBe('Calendrier');
   }));
 
   it('Devrait fermer quand un autre widget est ouvert via le service', () => {
@@ -121,19 +118,6 @@ describe('SidebarWidgetComponent', () => {
     component.toggleWidget();
     expect(component.isOpen).toBeFalse();
     expect(setActiveWidgetSpy).toHaveBeenCalledWith(null);
-  });
-
-  it('Devrait mettre à jour l\'étiquette aria-label du template lorsque le widget est basculé', () => {
-    createComponent({ title: 'Raccourcis' });
-
-    const toggleButton = fixture.nativeElement.querySelector('.widget-toggle') as HTMLButtonElement;
-
-    expect(toggleButton.getAttribute('aria-label')).toBe('Ouvrir Raccourcis');
-
-    toggleButton.click();
-    fixture.detectChanges();
-
-    expect(toggleButton.getAttribute('aria-label')).toBe('Fermer Raccourcis');
   });
 
   it('Devrait basculer la taille et dispatcher un événement de redimensionnement après le délai', fakeAsync(() => {

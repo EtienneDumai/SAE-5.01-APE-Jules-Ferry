@@ -31,6 +31,8 @@ function createMockActivatedRoute(queryParams: Record<string, string>): Partial<
 
     return {
         queryParams: of(queryParams),
+        // CORRIGÉ : Ajout de paramMap en Observable pour le test
+        paramMap: of(mockParamMap),
         snapshot: {
             paramMap: mockParamMap
         } as ActivatedRoute['snapshot']
@@ -113,7 +115,7 @@ describe('EvenementDetailComponent', () => {
     };
 
     beforeEach(async () => {
-        evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getEvenementById']);
+        evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getEvenementById', 'deleteEvenement']);
         utilisateurServiceSpy = jasmine.createSpyObj('UtilisateurService', ['getUtilisateurById']);
         formulaireServiceSpy = jasmine.createSpyObj('FormulaireService', ['getFormulaireById']);
         inscriptionServiceSpy = jasmine.createSpyObj('InscriptionService', ['createInscription', 'deleteInscription']);
@@ -126,6 +128,8 @@ describe('EvenementDetailComponent', () => {
         formulaireServiceSpy.getFormulaireById.and.returnValue(of(JSON.parse(JSON.stringify(mockFormulaire))));
         authServiceSpy.getCurrentUser.and.returnValue(currentUser);
         authServiceSpy.isAuthenticated.and.returnValue(true);
+
+        const mockRoute = createMockActivatedRoute({});
 
         await TestBed.configureTestingModule({
             imports: [EvenementDetailComponent],
@@ -143,10 +147,7 @@ describe('EvenementDetailComponent', () => {
                 { provide: Location, useValue: locationSpy },
                 {
                     provide: ActivatedRoute,
-                    useValue: {
-                        snapshot: { paramMap: { get: () => '1' } },
-                        queryParams: of({})
-                    }
+                    useValue: mockRoute
                 }
             ],
         }).compileComponents();

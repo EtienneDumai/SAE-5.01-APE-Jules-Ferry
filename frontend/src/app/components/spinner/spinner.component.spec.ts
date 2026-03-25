@@ -26,7 +26,6 @@ describe('SpinnerComponent', () => {
     expect(spinnerElement).toBeTruthy();
   });
 
-  // CORRIGÉ : On cherche juste 'Chargement' au lieu de la longue phrase
   it('devrait afficher le texte de chargement', () => {
     const textElement = fixture.debugElement.query(By.css('span'));
     expect(textElement.nativeElement.textContent).toContain('Chargement');
