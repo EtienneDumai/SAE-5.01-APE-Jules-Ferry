@@ -26,8 +26,8 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
-          <input type="text" formControlName="nom" placeholder="Dupont"
+          <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
+          <input type="text" id="nom" formControlName="nom" placeholder="Dupont"
             class="w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-[var(--primary-blue)] outline-none transition"
             [class.border-red-500]="nom?.invalid && nom?.touched"
             [class.border-gray-300]="!nom?.invalid || !nom?.touched"
@@ -38,8 +38,8 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
-          <input type="text" formControlName="prenom" placeholder="Marie"
+          <label for="prenom" class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
+          <input type="text" id="prenom" formControlName="prenom" placeholder="Marie"
             class="w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-[var(--primary-blue)] outline-none transition"
             [class.border-red-500]="prenom?.invalid && prenom?.touched"
             [class.border-gray-300]="!prenom?.invalid || !prenom?.touched"
@@ -50,8 +50,8 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-          <input type="email" formControlName="email" placeholder="marie.dupont@exemple.fr"
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" id="email" formControlName="email" placeholder="marie.dupont@exemple.fr"
             class="w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-[var(--primary-blue)] outline-none transition"
             [class.border-red-500]="email?.invalid && email?.touched"
             [class.border-gray-300]="!email?.invalid || !email?.touched"
