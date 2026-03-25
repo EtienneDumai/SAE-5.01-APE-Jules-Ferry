@@ -1,19 +1,99 @@
-<footer>
-  <div class="flex flex-col md:flex-row justify-between items-center p-2 gap-4 md:gap-0">
-    <div class="flex flex-col items-center md:items-start">
-      <p class="mx-4 color-[var(--black-text-color)] text-center md:text-left">
-        apejf.anglet&#64;gmail.com
-      </p>
-      <p class="mx-4 color-[var(--black-text-color)] text-center md:text-left">
-        3 rue Jules Ferry Anglet
-      </p>
+<footer class="bg-[var(--footer-dark)] border-t-[5px] border-[var(--accent-orange)] text-[var(--bg-creme)] pt-16 pb-8 mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row justify-between items-start gap-12 border-b border-white/10 pb-12 mb-8">
+      
+      <div class="max-w-sm">
+        <h3 class="font-abril text-3xl text-[var(--bg-creme)] mb-4 tracking-wide">
+          A.P.E. Jules Ferry
+        </h3>
+        <p class="font-josefin text-[11px] uppercase tracking-widest opacity-60 leading-relaxed mb-6">
+          Association des Parents d'Élèves<br />
+          3 rue Jules Ferry<br />
+          64600 Anglet
+        </p>
+      </div>
+
+      <div class="w-full md:w-1/2 lg:w-5/12 bg-white/5 border border-white/10 rounded-[8px] p-6 backdrop-blur-sm">
+        <h4 class="font-josefin text-[11px] uppercase tracking-widest text-[var(--accent-orange)] font-bold mb-2">
+          <i class="fa-regular fa-envelope mr-1.5"></i> La Newsletter
+        </h4>
+        <p class="font-dm text-sm opacity-80 mb-5 leading-relaxed">
+          Restez informés des prochains événements et des actualités de l'école directement par mail.
+        </p>
+
+        <form (ngSubmit)="onSubscribe()" class="flex flex-col gap-3">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              name="emailNewsletter"
+              [(ngModel)]="emailNewsletter"
+              placeholder="votre.email@exemple.fr"
+              class="w-full bg-[var(--footer-dark)] border border-white/20 rounded-[4px] px-4 py-2.5 text-sm font-dm text-[var(--bg-creme)] placeholder:text-white/30 focus:outline-none focus:border-[var(--accent-orange)] transition-colors"
+              required
+            />
+            <button
+              type="submit"
+              [disabled]="isSubmitting"
+              class="bg-[var(--accent-orange)] text-white px-6 py-2.5 rounded-[4px] font-josefin text-[10px] uppercase font-bold tracking-widest hover:bg-[#d96a36] transition-colors shrink-0 disabled:opacity-50"
+            >
+              @if (isSubmitting) {
+                <i class="fa-solid fa-spinner fa-spin"></i>
+              } @else {
+                S'inscrire
+              }
+            </button>
+          </div>
+
+          <div class="flex items-start gap-2 mt-1">
+            <input
+              type="checkbox"
+              id="rgpd_consent"
+              name="rgpdAccepted"
+              [(ngModel)]="rgpdAccepted"
+              class="mt-1 shrink-0 w-3 h-3 bg-transparent border-white/30 rounded-[2px] text-[var(--accent-orange)] focus:ring-[var(--accent-orange)] focus:ring-offset-0 cursor-pointer"
+            />
+            <label
+              for="rgpd_consent"
+              class="font-dm text-[10px] opacity-60 leading-tight cursor-pointer"
+            >
+              En renseignant mon email, j'accepte de recevoir les actualités de
+              l'APE et je reconnais avoir pris connaissance de la
+              <a
+                routerLink="/politique-confidentialite"
+                class="underline hover:text-[var(--accent-orange)] transition-colors"
+                >politique de confidentialité</a
+              >.
+            </label>
+          </div>
+        </form>
+      </div>
+
     </div>
-    <div class="w-16 h-16 my-2 md:my-0">
-      <img src="/logo/logo.webp" alt="logo APE" class="mx-auto" />
-    </div>
-    <div class="w-full md:w-64">
-      <p class="color-[var(--black-text-color)] text-center text-sm md:text-base">
-        © 2026 – Association des Parents d’Élèves de l’école Jules Ferry
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left mt-8">
+      <div class="flex flex-wrap justify-center md:justify-start gap-6 font-josefin text-[9px] uppercase font-bold tracking-widest opacity-70">
+        <a
+          href="mailto:apejf.anglet@gmail.com"
+          class="hover:text-[var(--accent-orange)] hover:opacity-100 transition-colors"
+        >
+          Nous contacter
+        </a>
+        <a
+          routerLink="/mentions-legales"
+          class="hover:text-[var(--accent-orange)] hover:opacity-100 transition-colors"
+        >
+          Mentions légales
+        </a>
+        <a
+          routerLink="/politique-confidentialite"
+          class="hover:text-[var(--accent-orange)] hover:opacity-100 transition-colors"
+        >
+          Politique de confidentialité
+        </a>
+      </div>
+
+      <p class="font-josefin text-[9px] uppercase tracking-[0.1em] opacity-40 m-0">
+        © 2026 – A.P.E. École Jules Ferry
       </p>
     </div>
   </div>

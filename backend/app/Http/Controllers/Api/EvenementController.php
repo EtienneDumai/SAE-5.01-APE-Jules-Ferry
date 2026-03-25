@@ -94,7 +94,7 @@ class EvenementController extends Controller
 
             $imagePath = null;
             if ($request->hasFile('image')) {
-                $imagePath = $this->processAndStoreImage($request->file('image'));
+                $imagePath = $this->processAndStoreImage($request->file('image'), $validatedData['titre']);
             }
 
             $formulaire = Formulaire::create([
@@ -154,12 +154,11 @@ class EvenementController extends Controller
             if (!$evenement) {
                 return response()->json(['message' => 'Non trouvé'], 404);
             }
-
             $validatedData = $this->validateEvenement($request);
 
             if ($request->hasFile('image')) {
-                $this->deleteOldImage($evenement->image_url);
-                $evenement->image_url = $this->processAndStoreImage($request->file('image'));
+                $this->deleteOldImage($evenement->image_url);                
+                $evenement->image_url = $this->processAndStoreImage($request->file('image'), $validatedData['titre']);
             }
 
             $evenement->update([
@@ -171,7 +170,7 @@ class EvenementController extends Controller
                 'lieu' => $validatedData['lieu'],
                 'statut' => $validatedData['statut'],
                 'id_formulaire' => $this->parseFormulaireId($request->id_formulaire),
-                'image_url' => $evenement->image_url
+                'image_url' => $evenement->image_url 
             ]);
 
             return response()->json($evenement);
@@ -224,9 +223,11 @@ class EvenementController extends Controller
     /**
      * Traite l'image, la convertit en WebP et la stocke
      */
-    private function processAndStoreImage($file): string
+    private function processAndStoreImage($file, string $titre): string
     {
-        $fileName = Str::random(20) . '.webp';
+        $slug = Str::slug($titre, '_');
+        $fileName = $slug . '_' . Str::random(5) . '.webp';
+
         $destinationPath = storage_path('app/public/evenements/' . $fileName);
 
         if (!Storage::disk('public')->exists('evenements')) {

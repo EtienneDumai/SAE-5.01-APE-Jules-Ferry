@@ -1,93 +1,84 @@
-<header class="sticky top-0 z-50 bg-[var(--primary-light-blue)] text-gray-800 shadow-sm">
-
-  <div class="relative mx-auto w-full max-w-7xl px-4 py-3 flex items-center justify-between">
-
-    <div class="flex items-center gap-4">
-
-      <button type="button"
-        class="lg:hidden p-2 text-[var(--black-text-color)] hover:bg-white/50 rounded transition-colors"
-        (click)="toggleMenu()" aria-label="Ouvrir le menu">
-        <i class="fa-solid fa-bars w-8 h-8" aria-hidden="true" style="font-size: 32px;"></i>
+<header class="sticky top-0 z-50 bg-[var(--primary-green)] text-[var(--bg-creme)] shadow-md border-b-[3px] border-[var(--accent-orange)] h-[60px]">
+  <div class="relative mx-auto w-full max-w-7xl px-4 h-full flex items-center justify-between">
+    
+    <div class="flex items-center gap-6 h-full">
+      <button type="button" class="lg:hidden text-[var(--bg-creme)] hover:text-[var(--accent-orange)] transition-colors" (click)="toggleMenu()" aria-label="Ouvrir le menu">
+        <i class="fa-solid fa-bars text-xl"></i>
       </button>
 
-      <a routerLink="/" class="flex-shrink-0">
-        <img src="/logo/logo.webp" alt="Logo APE" class="h-10 w-auto md:h-12" />
+      <a routerLink="/" class="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[var(--bg-creme)] rounded-full border-2 border-[var(--accent-orange)] overflow-hidden hover:scale-105 transition-transform">
+        <img src="/logo/logo.webp" alt="Logo APE" class="h-6 w-auto object-contain" />
       </a>
 
-      <nav class="hidden lg:flex items-center gap-6 ml-6">
-        <a routerLink="/actualites" class="text-[var(--black-text-color)]"
-          routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">Actualités</a>
-        <a routerLink="/evenements" class="text-[var(--black-text-color)]"
-          routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">Événements</a>
-        <a routerLink="/newsletter" class="text-[var(--black-text-color)]"
-          routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">Newsletter</a>
-        @if(isAuthenticated && currentUser?.role === roleUtilisateur.administrateur) {
-        <a routerLink="/admin/utilisateurs" class="text-[var(--black-text-color)]"
-          routerLinkActive="font-bold underline underline-offset-4 text-[var(--black-text-color)]">
-          Administration
+      <nav class="hidden lg:flex items-center gap-8 ml-4 h-full">
+        <a routerLink="/actualites" class="font-josefin text-[11px] uppercase tracking-[0.09em] font-bold text-[var(--bg-creme)] opacity-80 hover:opacity-100 hover:text-[var(--accent-orange)] transition-all h-full flex items-center border-b-2 border-transparent" routerLinkActive="!opacity-100 !border-[var(--accent-orange)] text-[var(--accent-orange)]">
+          Actualités
         </a>
+
+        <a routerLink="/evenements" class="font-josefin text-[11px] uppercase tracking-[0.09em] font-bold text-[var(--bg-creme)] opacity-80 hover:opacity-100 hover:text-[var(--accent-orange)] transition-all h-full flex items-center border-b-2 border-transparent" routerLinkActive="!opacity-100 !border-[var(--accent-orange)] text-[var(--accent-orange)]">
+          Événements
+        </a>
+
+        @if (isAuthenticated && currentUser?.role === roleUtilisateur.administrateur) {
+          <a routerLink="/admin/utilisateurs" class="font-josefin text-[11px] uppercase tracking-[0.09em] font-bold text-[var(--bg-creme)] opacity-80 hover:opacity-100 hover:text-[var(--accent-orange)] transition-all h-full flex items-center border-b-2 border-transparent" routerLinkActive="!opacity-100 !border-[var(--accent-orange)] text-[var(--accent-orange)]">
+            Administration
+          </a>
         }
       </nav>
     </div>
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-4">
       @if (!isAuthenticated) {
-      <button routerLink="/login"
-        class="bg-white text-[var(--primary-blue)] border border-[var(--primary-blue)] font-bold py-1.5 px-4 rounded-full text-sm hover:bg-blue-50 transition-colors">
-        Connexion
-      </button>
+        <button routerLink="/login" class="btn-secondary !text-[var(--bg-creme)] !border-[var(--bg-creme)] hover:!bg-[var(--bg-creme)] hover:!text-[var(--primary-green)] !py-1.5 !px-4">
+          Connexion
+        </button>
       }
-      @if(isAuthenticated && currentUser) {
-        <span class="hidden md:inline text-sm font-medium mr-2 text-gray-700">
-          {{ currentUser.prenom }}
-        </span>
 
-        <button class="bg-white text-[var(--primary-blue)] border border-[var(--primary-blue)] font-bold py-1.5 px-4 rounded-full text-sm hover:bg-blue-50 transition-colors mr-2" 
-                title="Mon Compte" 
-                [routerLink]="'/compte'">
-            Compte
+      @if (isAuthenticated && currentUser) {
+        <button [routerLink]="'/compte'" title="Mon Compte" class="font-josefin text-[10px] uppercase font-bold tracking-[0.08em] text-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded px-4 py-1.5 hover:bg-[var(--bg-creme)] hover:text-[var(--primary-green)] transition-colors">
+          Mon Compte
         </button>
 
-        <button (click)="logout()"
-          class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-full shadow-sm transition-colors" title="Déconnexion">
-          <i class="fa-solid fa-right-from-bracket w-5 h-5" aria-hidden="true" style="font-size: 20px;"></i>
+        <button (click)="logout()" title="Déconnexion" class="text-[var(--bg-creme)] opacity-70 hover:opacity-100 hover:text-[var(--accent-orange)] transition-colors p-1">
+          <i class="fa-solid fa-power-off text-lg"></i>
         </button>
       }
     </div>
   </div>
 
   @if (menuOpen) {
-    <button class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden" (click)="closeMenu()">&#8203;</button>
+    <div class="fixed inset-0 z-40 bg-[var(--modal-overlay)] backdrop-blur-sm lg:hidden" (click)="closeMenu()" (keydown.enter)="closeMenu()" tabindex="0" role="button" aria-label="Fermer le menu"></div>
 
-  <aside
-    class="fixed top-0 left-0 z-50 h-full w-72 bg-[var(--primary-light-blue)] text-gray-800 shadow-2xl flex flex-col lg:hidden transform transition-transform">
+    <aside class="fixed top-0 left-0 z-50 h-full w-72 bg-[var(--primary-green)] text-[var(--bg-creme)] shadow-2xl flex flex-col lg:hidden transform transition-transform border-r-4 border-[var(--accent-orange)]">
+      <div class="flex items-center justify-between p-6 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-8 h-8 bg-[var(--bg-creme)] rounded-full border border-[var(--accent-orange)]">
+            <img src="/logo/logo.webp" alt="Logo" class="h-4 w-auto object-contain" />
+          </div>
+          <span class="font-abril text-xl tracking-wider text-[var(--bg-creme)]">MENU</span>
+        </div>
 
-    <div class="flex items-center justify-between p-4 border-b border-gray-100 bg-[var(--primary-light-blue)]">
-      <span class="font-bold text-lg text-[var(--black-text-color)]">Menu</span>
+        <button type="button" class="text-[var(--bg-creme)] opacity-70 hover:opacity-100 hover:text-[var(--accent-orange)] transition-colors" (click)="closeMenu()" aria-label="Fermer">
+          <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+      </div>
 
-      <button type="button" class="p-2 text-gray-600 hover:bg-red-50 hover:text-red-500 rounded-full transition-colors"
-        (click)="closeMenu()" aria-label="Fermer">
-        <i class="fa-solid fa-xmark w-6 h-6" aria-hidden="true" style="font-size: 24px;"></i>
-      </button>
-    </div>
+      <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+        <a routerLink="/actualites" (click)="closeMenu()" class="block px-4 py-4 font-josefin text-[12px] uppercase tracking-[0.09em] font-bold text-[var(--bg-creme)] rounded hover:bg-white/10 transition-all border-l-2 border-transparent" routerLinkActive="!border-[var(--accent-orange)] bg-white/5 text-[var(--accent-orange)]">
+          Actualités
+        </a>
 
-    <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-      <a routerLink="/actualites" (click)="closeMenu()"
-        routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"
-        class="block px-4 py-3 rounded-r-lg hover:bg-gray-50 transition-all">Actualités</a>
-      <a routerLink="/evenements" (click)="closeMenu()"
-        routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"
-        class="block px-4 py-3 rounded-r-lg hover:bg-gray-50 transition-all">Événements</a>
-      <a routerLink="/newsletter" (click)="closeMenu()"
-        routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"
-        class="block px-4 py-3 rounded-r-lg hover:bg-gray-50 transition-all">Newsletter</a>
-      @if(isAuthenticated && currentUser?.role === roleUtilisateur.administrateur) {
-      <a routerLink="/admin/utilisateurs" (click)="closeMenu()"
-        routerLinkActive="bg-blue-50 text-[var(--black-text-color)] font-bold border-l-4 border-[var(--primary-blue)]"
-        class="block px-4 py-3 rounded-r-lg hover:bg-gray-50 transition-all">Administration</a>
-      }
-    </nav>
+        <a routerLink="/evenements" (click)="closeMenu()" class="block px-4 py-4 font-josefin text-[12px] uppercase tracking-[0.09em] font-bold text-[var(--bg-creme)] rounded hover:bg-white/10 transition-all border-l-2 border-transparent" routerLinkActive="!border-[var(--accent-orange)] bg-white/5 text-[var(--accent-orange)]">
+          Événements
+        </a>
 
-  </aside>
+        @if (isAuthenticated && currentUser?.role === roleUtilisateur.administrateur) {
+          <div class="my-4 border-t border-white/10 pt-4"></div>
+          <a routerLink="/admin/utilisateurs" (click)="closeMenu()" class="block px-4 py-4 font-josefin text-[12px] uppercase tracking-[0.09em] font-bold text-[var(--bg-creme)] rounded hover:bg-white/10 transition-all border-l-2 border-transparent" routerLinkActive="!border-[var(--accent-orange)] bg-white/5 text-[var(--accent-orange)]">
+            Administration
+          </a>
+        }
+      </nav>
+    </aside>
   }
 </header>
