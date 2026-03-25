@@ -308,13 +308,13 @@ describe('AuthService', () => {
     it('devrait retourner vrai quand un token existe', () => {
       tokenService.hasToken.and.returnValue(true);
 
-      expect(service.isAuthenticated()).toBe(true);
+      expect(service.isAuthenticatedStatus()).toBe(true);
     });
 
     it('devrait retourner faux quand aucun token n\'existe', () => {
       tokenService.hasToken.and.returnValue(false);
 
-      expect(service.isAuthenticated()).toBe(false);
+      expect(service.isAuthenticatedStatus()).toBe(false);
     });
   });
 

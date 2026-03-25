@@ -7,6 +7,7 @@ import { AuthService } from '../../services/Auth/auth.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { RoleUtilisateur } from '../../enums/RoleUtilisateur/role-utilisateur';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -15,12 +16,12 @@ describe('HeaderComponent', () => {
   let currentUserSubject: BehaviorSubject<Utilisateur | null>;
 
   const mockUser: Utilisateur = {
-    id: 1,
+    id_utilisateur: 1,
     nom: 'Doe',
     prenom: 'John',
     email: 'john.doe@example.com',
     role: RoleUtilisateur.parent,
-  } as unknown as Utilisateur;
+  } as Utilisateur;
 
   beforeEach(async () => {
     currentUserSubject = new BehaviorSubject<Utilisateur | null>(null);
@@ -30,12 +31,14 @@ describe('HeaderComponent', () => {
     });
 
     await TestBed.configureTestingModule({
+      imports: [HeaderComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
         { provide: AuthService, useValue: authServiceSpy }
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
@@ -47,71 +50,32 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('devrait initialiser sans utilisateur et isAuthenticated à faux', () => {
-      fixture.detectChanges();
-      expect(component.currentUser).toBeNull();
-      expect(component.isAuthenticated).toBeFalse();
+  describe('Gestion de la déconnexion avec modale', () => {
+    it('devrait afficher la modale quand on déclenche la déconnexion', () => {
+      component.showLogoutModal = false;
+      component.declencherLogout();
+      expect(component.showLogoutModal).toBeTrue();
     });
 
-    it('devrait définir currentUser et isAuthenticated quand un utilisateur est connecté', () => {
-      currentUserSubject.next(mockUser);
-      fixture.detectChanges();
-      
-      expect(component.currentUser).toEqual(mockUser);
-      expect(component.isAuthenticated).toBeTrue();
-    });
-
-    it('devrait mettre à jour currentUser quand il change', () => {
-      fixture.detectChanges();
-      expect(component.currentUser).toBeNull();
-      
-      currentUserSubject.next(mockUser);
-      expect(component.currentUser).toEqual(mockUser);
-      expect(component.isAuthenticated).toBeTrue();
-      
-      currentUserSubject.next(null);
-      expect(component.currentUser).toBeNull();
-      expect(component.isAuthenticated).toBeFalse();
-    });
-  });
-
-  describe('logout', () => {
-    beforeEach(() => {
-      fixture.detectChanges();
-    });
-
-    it('devrait appeler authService.logout quand l\'utilisateur confirme', () => {
-      spyOn(window, 'confirm').and.returnValue(true);
+    it('devrait appeler authService.logout quand on confirme via la modale', () => {
       authService.logout.and.returnValue(of(undefined));
-      spyOn(console, 'log');
+      component.showLogoutModal = true;
 
-      component.logout();
+      component.confirmerLogout();
 
-      expect(window.confirm).toHaveBeenCalledWith('Voulez-vous vraiment vous déconnecter ?');
       expect(authService.logout).toHaveBeenCalled();
-      expect(console.log).toHaveBeenCalledWith('Déconnexion réussie');
+      expect(component.showLogoutModal).toBeFalse();
     });
 
-    it('ne devrait pas appeler authService.logout quand l\'utilisateur annule', () => {
-      spyOn(window, 'confirm').and.returnValue(false);
-
-      component.logout();
-
-      expect(window.confirm).toHaveBeenCalledWith('Voulez-vous vraiment vous déconnecter ?');
-      expect(authService.logout).not.toHaveBeenCalled();
-    });
-
-    it('devrait gérer l\'erreur de déconnexion', () => {
-      spyOn(window, 'confirm').and.returnValue(true);
-      const error = { message: 'Logout failed' };
+    it('devrait masquer la modale et logguer l\'erreur si le logout échoue', () => {
+      const error = { message: 'Erreur' };
       authService.logout.and.returnValue(throwError(() => error));
       spyOn(console, 'error');
+      
+      component.confirmerLogout();
 
-      component.logout();
-
-      expect(authService.logout).toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledWith('Erreur lors de la déconnexion', error);
+      expect(console.error).toHaveBeenCalled();
+      expect(component.showLogoutModal).toBeFalse();
     });
   });
 

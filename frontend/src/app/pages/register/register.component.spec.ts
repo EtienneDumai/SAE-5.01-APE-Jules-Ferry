@@ -28,7 +28,8 @@ describe('RegisterComponent', () => {
 
   const mockRegisterResponse = {
     message: 'Inscription réussie',
-    user: mockUser
+    user: mockUser,
+    token: 'fake-jwt-token'
   };
 
   const mockMagicLinkResponse = { message: 'Lien envoyé' };
