@@ -46,6 +46,13 @@ class PasswordlessController extends Controller
         
         $user = Utilisateur::where('email', $request->email)->first();
 
+        if ($user->statut_compte === 'desactive') {
+            return response()->json([
+                'action' => 'deactivated',
+                'message' => 'Votre compte a été rendu inactif par l\'APE. Veuillez nous contacter pour plus d\'informations.'
+            ]);
+        }
+        
         // Si l'utilisateur existe ET qu'il est admin ou membre du bureau
         if ($user && in_array(strtolower($user->role), ['administrateur', 'membre_bureau'])) {
             return response()->json(['action' => 'require_password']);

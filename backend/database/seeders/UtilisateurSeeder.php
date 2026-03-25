@@ -97,7 +97,7 @@ class UtilisateurSeeder extends Seeder
                 'email' => 'emma.simon@example.com',
                 'mot_de_passe' => Hash::make('password123'),
                 'role' => 'parent',
-                'statut_compte' => 'suspendu',
+                'statut_compte' => 'desactive',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

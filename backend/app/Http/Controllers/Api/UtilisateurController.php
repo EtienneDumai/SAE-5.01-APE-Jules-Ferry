@@ -52,17 +52,14 @@ class UtilisateurController extends Controller
 
     public function update(Request $request, $id)
     {
-        $utilisateur = Utilisateur::find($id);
+        $utilisateur = Utilisateur::findOrFail($id);
         $ancienRole = $utilisateur->role;
-        $donnees = $request->all();
-
-        if (empty($donnees['mot_de_passe'])) {
-            unset($donnees['mot_de_passe']);
-        }
+        $donnees = $request->except(['mot_de_passe']);
 
         $utilisateur->update($donnees);
 
         $nouveauRole = $donnees['role'] ?? null;
+        
         if ($nouveauRole === 'membre_bureau' && $ancienRole === 'parent') {
             $token = Str::random(64);
             Cache::put('set_password_' . $utilisateur->id_utilisateur, $token, now()->addHours(2));
@@ -81,6 +78,17 @@ class UtilisateurController extends Controller
 
         if (!$utilisateur) {
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
+        }
+
+        $currentUser = auth()->user();
+
+        if ($currentUser && $currentUser->id_utilisateur == $id) {
+            
+            if ($currentUser->role !== 'parent') {
+                if (!$request->has('mot_de_passe') || !Hash::check($request->mot_de_passe, $currentUser->mot_de_passe)) {
+                    return response()->json(['message' => 'Mot de passe incorrect ou manquant'], 403);
+                }
+            }
         }
 
         $adminId = 1;
