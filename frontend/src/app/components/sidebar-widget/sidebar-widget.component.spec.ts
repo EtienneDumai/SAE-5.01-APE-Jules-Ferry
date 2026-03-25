@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { SidebarWidgetComponent } from './sidebar-widget.component';
 import { SidebarWidgetService } from '../../services/SidebarWidget/sidebar-widget.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -12,12 +17,13 @@ describe('SidebarWidgetComponent', () => {
   };
 
   beforeEach(async () => {
+    spyOnProperty(window, 'innerWidth').and.returnValue(1024);
+
     await TestBed.configureTestingModule({
       imports: [SidebarWidgetComponent],
-      providers: [SidebarWidgetService, ChangeDetectorRef]
-    })
-    .compileComponents();
-    
+      providers: [SidebarWidgetService, ChangeDetectorRef],
+    }).compileComponents();
+
     service = TestBed.inject(SidebarWidgetService);
   });
 
@@ -55,7 +61,10 @@ describe('SidebarWidgetComponent', () => {
   });
 
   it('Devrait initialiser à partir des entrées', fakeAsync(() => {
-    const setActiveWidgetSpy = spyOn(service, 'setActiveWidget').and.callThrough();
+    const setActiveWidgetSpy = spyOn(
+      service,
+      'setActiveWidget',
+    ).and.callThrough();
 
     createComponent({
       title: 'Calendrier',
@@ -63,9 +72,9 @@ describe('SidebarWidgetComponent', () => {
       topOffset: 140,
       smallWidth: 360,
       largeWidth: 720,
-      position: 'left'
+      position: 'left',
     });
-    
+
     tick(); // Pour le setTimeout dans ngOnInit
     fixture.detectChanges();
 
@@ -82,7 +91,7 @@ describe('SidebarWidgetComponent', () => {
     createComponent({ title: 'Agenda', defaultOpen: false });
     component.toggleWidget();
     fixture.detectChanges();
-    
+
     expect(component.isOpen).toBeTrue();
 
     service.setActiveWidget('widget-other');
@@ -92,11 +101,11 @@ describe('SidebarWidgetComponent', () => {
     expect(component.isOtherWidgetOpen).toBeTrue();
   });
 
-  it('Devrait ignorer son propre changement d\'ID dans le service', () => {
+  it("Devrait ignorer son propre changement d'ID dans le service", () => {
     createComponent({ title: 'Agenda', defaultOpen: false });
     component.toggleWidget();
     fixture.detectChanges();
-    
+
     expect(component.isOpen).toBeTrue();
 
     service.setActiveWidget(internalComponent.widgetId);
@@ -109,7 +118,10 @@ describe('SidebarWidgetComponent', () => {
   it('Devrait basculer le widget et mettre à jour le service', () => {
     createComponent({ title: 'Notifications' });
 
-    const setActiveWidgetSpy = spyOn(service, 'setActiveWidget').and.callThrough();
+    const setActiveWidgetSpy = spyOn(
+      service,
+      'setActiveWidget',
+    ).and.callThrough();
 
     component.toggleWidget();
     expect(component.isOpen).toBeTrue();
@@ -128,10 +140,13 @@ describe('SidebarWidgetComponent', () => {
 
     expect(component.isExpanded).toBeTrue();
     expect(component.currentWidth).toBe(640);
-    
+
     tick(350);
-    
-    const resizeEvent = dispatchEventSpy.calls.all().find(call => call.args[0].type === 'widgetResized')?.args[0] as CustomEvent;
+
+    const resizeEvent = dispatchEventSpy.calls
+      .all()
+      .find((call) => call.args[0].type === 'widgetResized')
+      ?.args[0] as CustomEvent;
     expect(resizeEvent).toBeTruthy();
     expect(resizeEvent.detail).toEqual({ width: 640, isExpanded: true });
   }));
