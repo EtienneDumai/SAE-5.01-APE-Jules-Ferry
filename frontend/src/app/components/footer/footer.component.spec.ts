@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FooterComponent } from './footer.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router'; 
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { BehaviorSubject } from 'rxjs';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
@@ -36,6 +37,7 @@ describe('FooterComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([]), // NOUVEAU : On fournit un faux routeur au test !
         { provide: UtilisateurService, useValue: utilisateurServiceSpy }
       ],
     }).compileComponents();

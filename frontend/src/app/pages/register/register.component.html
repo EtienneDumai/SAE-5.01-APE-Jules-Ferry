@@ -1,14 +1,18 @@
-<div class="h-screen flex items-center justify-center bg-gradient-to-br from-[var(--primary-blue)] to-[var(--primary-dark-blue)] px-4 overflow-hidden">
-  <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+<div class="min-h-screen flex items-center justify-center bg-[var(--bg-creme)] px-4 py-12 relative overflow-hidden">
+  
+  <div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full border-[1px] border-[var(--primary-green)] opacity-5 pointer-events-none"></div>
+
+  <div class="relative z-10 bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-8 sm:p-10 w-full max-w-md animate-fade-up">
     
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800 mb-2">Inscription</h1>
-      <p class="text-gray-600 text-sm">Créez votre compte APE Jules Ferry</p>
+      <h1 class="font-abril text-4xl text-[var(--primary-green)] mb-2 tracking-wide">INSCRIPTION</h1>
+      <p class="font-josefin text-[11px] uppercase tracking-[0.1em] text-[var(--text-secondary)]">Création de compte parent</p>
     </div>
 
     @if (errorMessage) {
-      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
-        {{ errorMessage }}
+      <div class="bg-[#FFF5F5] border-[1.5px] border-red-200 text-red-700 px-4 py-3 rounded-[4px] mb-6 font-dm text-sm flex items-start gap-3">
+        <i class="fa-solid fa-circle-exclamation mt-1"></i>
+        <span>{{ errorMessage }}</span>
       </div>
     }
 

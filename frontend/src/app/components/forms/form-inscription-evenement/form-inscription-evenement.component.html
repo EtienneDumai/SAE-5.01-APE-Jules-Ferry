@@ -1,122 +1,109 @@
-<form
-  (ngSubmit)="onSubmit()"
-  class="mt-10 p-6 bg-gray-50 rounded-xl border border-gray-200 animate-fade-in"
->
-  <h2 class="text-2xl font-bold text-gray-900 mb-6">
-    @if (mesCreneauxActuels.length > 0) { Modifier mes choix } @else { Inscription }
+<form (ngSubmit)="onSubmit()" class="bg-[var(--bg-creme)] rounded-[8px] border-[1.5px] border-[var(--border-light)] p-6 md:p-10 shadow-[4px_4px_0_var(--primary-green)] animate-fade-up mt-8">
+  
+  <h2 class="font-abril text-2xl md:text-3xl text-[var(--primary-green)] mb-8">
+    @if (mesCreneauxActuels.length > 0) { Modifier mes choix } @else { Formulaire d'inscription }
   </h2>
 
   @if (loadingFormulaire) {
-    <div class="flex justify-center py-8">
+    <div class="flex justify-center py-12">
       <app-spinner></app-spinner>
     </div>
   }
   @else if (errorFormulaire) {
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-      Erreur formulaire
+    <div class="bg-[#FFF5F5] border-[1.5px] border-red-200 text-red-700 px-4 py-4 rounded-[4px] font-dm text-sm flex items-center gap-3 mb-6">
+      <i class="fa-solid fa-circle-exclamation text-lg"></i> Erreur lors du chargement du formulaire.
     </div>
   }
   @else {
 
-    @for (tache of formulaire.taches; track tache.id_tache) {
-      <div class="mb-8">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">
-          {{ tache.nom_tache }}
-        </h3>
-
-        @if (tache.description) {
-          <p class="text-gray-600 mb-4 text-sm">
-            {{ tache.description }}
-          </p>
-        }
-
-        <div class="space-y-3">
-          @for (creneau of tache.creneaux; track creneau.id_creneau) {
-            <label
-              [class.opacity-50]="isCreneauComplet(creneau)"
-              [class.cursor-not-allowed]="isCreneauComplet(creneau)"
-              class="flex items-center justify-between p-4 bg-white border rounded-lg hover:border-[var(--primary-blue)] transition-colors cursor-pointer"
-            >
-              <div class="flex items-center">
-                <input
-                  type="checkbox"
-                  [(ngModel)]="creneau.selected"
-                  name="creneau-{{ creneau.id_creneau }}"
-                  [disabled]="isCreneauComplet(creneau)"
-                  class="w-5 h-5 text-[var(--primary-blue)] border-gray-300 rounded focus:ring-[var(--primary-blue)]"
-                />
-
-                <div class="ml-4">
-                  <p class="font-medium text-gray-900">
-                    {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
-                  </p>
-                </div>
-              </div>
-
-              <div class="text-right">
-                @if (creneau.est_inscrit) {
-                  <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase">
-                    Inscrit
-                  </span>
-                }
-                @else if (isCreneauComplet(creneau)) {
-                  <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold uppercase">
-                    Complet
-                  </span>
-                }
-                @else {
-                  <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
-                    {{ getPlacesRestantes(creneau) }}/{{ creneau.quota }} places
-                  </span>
-                }
-              </div>
-            </label>
+    <div class="space-y-10">
+      @for (tache of formulaire.taches; track tache.id_tache) {
+        <div>
+          <h3 class="font-abril text-2xl text-[var(--primary-green)] mb-2">{{ tache.nom_tache }}</h3>
+          
+          @if (tache.description) {
+            <p class="font-dm text-sm text-[var(--text-secondary)] mb-5">{{ tache.description }}</p>
           }
-        </div>
-      </div>
-    }
 
-    <div class="mt-6">
-      <label class="block text-sm font-medium text-gray-700 mb-2" for="commentaire">
+          <div class="grid grid-cols-1 gap-3">
+            @for (creneau of tache.creneaux; track creneau.id_creneau) {
+              
+              <label class="flex flex-row items-center justify-between p-4 border-[1.5px] rounded-[4px] transition-all gap-3 
+                            {{ creneau.selected ? 'border-[var(--primary-green)] bg-[var(--primary-green)]/5' : 'border-[var(--border-light)] bg-white' }}
+                            {{ (isCreneauComplet(creneau) && !creneau.est_inscrit) ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-[var(--primary-green)]' }}">
+                
+                <div class="flex items-center gap-4">
+                  <input type="checkbox" [(ngModel)]="creneau.selected" name="creneau-{{ creneau.id_creneau }}" [disabled]="isCreneauComplet(creneau) && !creneau.est_inscrit" class="w-5 h-5 text-[var(--primary-green)] bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] focus:ring-[var(--primary-green)] focus:ring-offset-0 transition-colors cursor-pointer" />
+                  <span class="font-dm text-base font-medium text-[var(--primary-green)]">
+                    {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
+                  </span>
+                </div>
+
+                <div class="flex justify-end shrink-0">
+                  @if (creneau.est_inscrit) {
+                    <span class="bg-[var(--primary-green)] text-[var(--bg-creme)] font-josefin text-[10px] uppercase font-bold tracking-widest px-3 py-1.5 rounded-full shadow-sm">
+                      Inscrit
+                    </span>
+                  }
+                  @else if (isCreneauComplet(creneau)) {
+                    <span class="bg-red-50 border border-red-200 text-red-600 font-josefin text-[10px] uppercase font-bold tracking-widest px-3 py-1.5 rounded-full">
+                      Complet
+                    </span>
+                  }
+                  @else {
+                    <span class="bg-[var(--accent-orange)]/10 border border-[var(--accent-orange)]/30 text-[var(--accent-orange)] font-josefin text-[10px] uppercase font-bold tracking-widest px-3 py-1.5 rounded-full">
+                      {{ getPlacesRestantes(creneau) }}/{{ creneau.quota }} places
+                    </span>
+                  }
+                </div>
+              </label>
+
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="mt-10 pt-8 border-t-[1.5px] border-[var(--border-light)]">
+      <label class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-3 block" for="commentaire">
         Commentaire (optionnel)
       </label>
       <textarea
-      id="commentaire"
+        id="commentaire"
         [(ngModel)]="commentaire"
         name="commentaire"
         rows="3"
-        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-blue)]"
+        placeholder="Une précision à ajouter ?"
+        class="w-full px-4 py-3 bg-white border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
       ></textarea>
     </div>
 
-    <div class="flex justify-end gap-4 mt-6">
-      <button
-        type="button"
-        (click)="onCancel()"
-        [disabled]="isSubmitting"
-        class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-      >
+    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8">
+      
+      <button type="button" (click)="onCancel()" [disabled]="isSubmitting" 
+              class="w-full sm:w-auto px-6 py-2.5 bg-white border-[1.5px] border-[var(--border-light)] text-[var(--text-secondary)] font-josefin text-[11px] uppercase font-bold tracking-widest rounded-[4px] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-colors disabled:opacity-50">
         Annuler
       </button>
 
-      <button
-        type="submit"
-        [disabled]="isSubmitting"
-        class="px-6 py-2 bg-[var(--primary-blue)] text-white rounded-lg hover:bg-[var(--primary-dark-blue)] disabled:opacity-50 transition-colors"
-      >
-        @if (isSubmitting) { Traitement... } @else { Enregistrer }
+      <button type="submit" [disabled]="isSubmitting" 
+              class="w-full sm:w-auto px-6 py-2.5 bg-[var(--primary-green)] border-[1.5px] border-[var(--primary-green)] text-[var(--bg-creme)] font-josefin text-[11px] uppercase font-bold tracking-widest rounded-[4px] hover:bg-transparent hover:text-[var(--primary-green)] transition-colors disabled:opacity-50 disabled:hover:bg-[var(--primary-green)] disabled:hover:text-[var(--bg-creme)]">
+        @if (isSubmitting) { 
+          <i class="fa-solid fa-spinner fa-spin mr-2"></i> Traitement... 
+        } @else { 
+          Enregistrer 
+        }
       </button>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-6">
       @if (inscriptionSuccess) {
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded text-center animate-pulse">
-          Modifications enregistrées avec succès !
+        <div class="bg-green-50 border-[1.5px] border-green-200 text-green-700 px-4 py-3 rounded-[4px] text-center font-dm text-sm font-medium animate-fade-up">
+          <i class="fa-regular fa-circle-check mr-2"></i> Modifications enregistrées avec succès !
         </div>
       }
       @if (inscriptionError) {
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-center">
-          {{ inscriptionError }}
+        <div class="bg-[#FFF5F5] border-[1.5px] border-red-200 text-red-700 px-4 py-3 rounded-[4px] text-center font-dm text-sm font-medium animate-fade-up">
+          <i class="fa-solid fa-circle-exclamation mr-2"></i> {{ inscriptionError }}
         </div>
       }
     </div>

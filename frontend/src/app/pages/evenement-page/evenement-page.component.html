@@ -1,95 +1,97 @@
-<div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-up">
     
-    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/']">
-            ← Retour à l'accueil
-        </button>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b-[1.5px] border-[var(--border-light)] pb-6 gap-6">
+        <div>
+            <a routerLink="/" class="inline-flex items-center gap-2 font-josefin text-[10px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition-colors mb-4">
+                <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+            </a>
+            <h1 class="font-abril text-4xl md:text-5xl text-[var(--primary-green)] m-0 tracking-wide">
+                Tous les événements
+            </h1>
+        </div>
 
         @if(canManage) {
-            <a [routerLink]="['/evenements', 'new', 'edit']" 
-               class="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition-colors font-bold shadow-md inline-flex items-center w-fit">
-               <i class="fa-solid fa-plus w-5 h-5 mr-2" aria-hidden="true" style="font-size: 20px;"></i>
-               Créer un événement
+            <a [routerLink]="['/evenements', 'new', 'edit']" class="btn-primary shrink-0 cursor-pointer">
+                <i class="fa-solid fa-plus"></i> Créer un événement
             </a>
         }
     </div>
 
     @if(canManage) {
-        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+        <div class="flex flex-wrap gap-3 mb-10 pb-2">
             <button (click)="loadEvenements('tous')" 
-                    [class]="currentFilter === 'tous' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
-                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                    [class.bg-[var(--primary-green)]]="currentFilter === 'tous'"
+                    [class.text-[var(--bg-creme)]]="currentFilter === 'tous'"
+                    [class.bg-transparent]="currentFilter !== 'tous'"
+                    [class.text-[var(--primary-green)]]="currentFilter !== 'tous'"
+                    class="font-josefin text-[10px] uppercase font-bold tracking-widest px-5 py-2 rounded-[4px] border-[1.5px] border-[var(--primary-green)] transition-colors hover:bg-[var(--primary-green)] hover:text-[var(--bg-creme)]">
                 Tous
             </button>
+            
             <button (click)="loadEvenements('publie')" 
-                    [class]="currentFilter === 'publie' ? 'bg-green-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
-                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                    [class.bg-[var(--primary-green)]]="currentFilter === 'publie'"
+                    [class.text-[var(--bg-creme)]]="currentFilter === 'publie'"
+                    [class.bg-transparent]="currentFilter !== 'publie'"
+                    [class.text-[var(--primary-green)]]="currentFilter !== 'publie'"
+                    class="font-josefin text-[10px] uppercase font-bold tracking-widest px-5 py-2 rounded-[4px] border-[1.5px] border-[var(--primary-green)] transition-colors hover:bg-[var(--primary-green)] hover:text-[var(--bg-creme)]">
                 Publiés
             </button>
+            
             <button (click)="loadEvenements('brouillon')" 
-                    [class]="currentFilter === 'brouillon' ? 'bg-gray-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
-                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                    [class.bg-[var(--text-secondary)]]="currentFilter === 'brouillon'"
+                    [class.text-[var(--bg-creme)]]="currentFilter === 'brouillon'"
+                    [class.bg-transparent]="currentFilter !== 'brouillon'"
+                    [class.text-[var(--text-secondary)]]="currentFilter !== 'brouillon'"
+                    class="font-josefin text-[10px] uppercase font-bold tracking-widest px-5 py-2 rounded-[4px] border-[1.5px] border-[var(--text-secondary)] transition-colors hover:bg-[var(--text-secondary)] hover:text-[var(--bg-creme)]">
                 Brouillons
             </button>
+            
             <button (click)="loadEvenements('termine')" 
-                    [class]="currentFilter === 'termine' ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
-                    class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium transition-colors whitespace-nowrap">
+                    [class.bg-[var(--accent-orange)]]="currentFilter === 'termine'"
+                    [class.text-[var(--bg-creme)]]="currentFilter === 'termine'"
+                    [class.bg-transparent]="currentFilter !== 'termine'"
+                    [class.text-[var(--accent-orange)]]="currentFilter !== 'termine'"
+                    class="font-josefin text-[10px] uppercase font-bold tracking-widest px-5 py-2 rounded-[4px] border-[1.5px] border-[var(--accent-orange)] transition-colors hover:bg-[var(--accent-orange)] hover:text-[var(--bg-creme)]">
                 Terminés
             </button>
         </div>
     }
 
-    @if(this.loadingEvenements){
-        <div class="flex justify-center items-center h-64">
+    @if(loadingEvenements){
+        <div class="flex justify-center items-center py-20">
             <app-spinner></app-spinner>
         </div>
     }
-
-    @else if (this.errorEvenements) {
-        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm" role="alert">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <i class="fa-regular fa-circle-xmark h-5 w-5 text-red-400" aria-hidden="true" style="font-size: 20px;"></i>
-                </div>
-                <div class="ml-3">
-                    <p class="text-sm text-red-700">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>
-                </div>
-            </div>
+    @else if (errorEvenements) {
+        <div class="bg-[#FFF5F5] border-[1.5px] border-red-200 p-6 rounded-[8px] flex items-center gap-4 animate-fade-in">
+            <i class="fa-solid fa-circle-exclamation text-2xl text-red-500"></i>
+            <p class="font-dm text-sm text-red-800 m-0">Erreur lors du chargement des événements. Veuillez réessayer plus tard.</p>
         </div>
     }
-
-    @else if (this.listeEvenements.length === 0) {
-        <div class="text-center py-12 bg-gray-50 rounded-lg">
-            <p class="text-gray-500 text-lg">Aucun événement trouvé pour ce filtre.</p>
+    @else if (listeEvenements.length === 0) {
+        <div class="text-center py-20 bg-white/50 border-[1.5px] border-dashed border-[var(--border-light)] rounded-[8px]">
+            <i class="fa-regular fa-calendar-xmark text-4xl text-[var(--border-light)] mb-4"></i>
+            <p class="font-josefin text-xs uppercase tracking-widest text-[var(--text-secondary)] m-0">Aucun événement trouvé pour ce filtre.</p>
         </div>
     }
-
     @else {
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-           
-       @for(evenement of this.listeEvenements; track evenement.id_evenement){
-        
-        <app-evenement-card 
-            [id_evenement]="evenement.id_evenement"
-            [titre]="evenement.titre"
-            [image_url]="evenement.image_url"
-            [description]="evenement.description"
-            
-            [date_evenement]="getAsDate(evenement.date_evenement)"
-            
-            [heure_debut]="evenement.heure_debut"
-            [heure_fin]="evenement.heure_fin"
-            [lieu]="evenement.lieu"
-            
-            [id_auteur]="evenement.id_auteur" 
-            
-            [currentUser]="currentUser$ | async" 
-
-            (eventDeleted)="handleEventDeleted($event)">
-            
-            </app-evenement-card>
-
-       }
-      </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            @for(evenement of listeEvenements; track evenement.id_evenement){
+                <app-evenement-card 
+                    [id_evenement]="evenement.id_evenement"
+                    [titre]="evenement.titre"
+                    [image_url]="evenement.image_url"
+                    [description]="evenement.description"
+                    [date_evenement]="getAsDate(evenement.date_evenement)"
+                    [heure_debut]="evenement.heure_debut"
+                    [heure_fin]="evenement.heure_fin"
+                    [lieu]="evenement.lieu"
+                    [id_auteur]="evenement.id_auteur" 
+                    [currentUser]="currentUser$ | async" 
+                    [id_formulaire]="evenement.id_formulaire"
+                    (eventDeleted)="handleEventDeleted($event)">
+                </app-evenement-card>
+            }
+        </div>
     }
 </div>

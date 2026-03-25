@@ -1,81 +1,117 @@
-
 <!-- Widgets latéraux -->
 <app-sidebar-widget 
-  title="Calendrier"
-  icon="fa-regular fa-calendar-days"
-  position="right"
-  [topOffset]="140"
-  [smallWidth]="450"
-  [largeWidth]="800"
-  [defaultOpen]="false">
-  <app-calendrier></app-calendrier>
+    title="Calendrier"
+    icon="fa-regular fa-calendar-days"
+    position="right"
+    [topOffset]="140"
+    [smallWidth]="450"
+    [largeWidth]="800"
+    [defaultOpen]="false">
+    <app-calendrier></app-calendrier>
 </app-sidebar-widget>
 
 <app-sidebar-widget 
-  title="Instagram"
-  icon="fa-brands fa-instagram"
-  position="right"
-  [topOffset]="270"
-  [smallWidth]="350"
-  [largeWidth]="600"
-  [defaultOpen]="false">
-  <app-instagram-view></app-instagram-view>
+    title="Instagram"
+    icon="fa-brands fa-instagram"
+    position="right"
+    [topOffset]="270"
+    [smallWidth]="350"
+    [largeWidth]="600"
+    [defaultOpen]="false">
+    <app-instagram-view></app-instagram-view>
 </app-sidebar-widget>
-
-<!-- Contenu principal -->
-<div class="flex justify-between items-center my-6 mx-3">
-    <h2>Les actualités</h2>
-    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/actualites']">Voir toutes les actualités</button>
-</div>
-
-@if(this.loadingActualites){
-    <app-spinner></app-spinner>
-}
-@else if (this.errorActualites) {
-}
-@else {
-    <div class="mx-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
+<section class="w-full bg-[var(--primary-green)] pt-24 pb-16 border-b-[5px] border-[var(--accent-orange)] relative overflow-hidden">
         
-        @for(actualite of this.listeActualites.slice(0, 3); track actualite.id_actualite){
-            <app-actualite-card 
-                [id_actualite]="actualite.id_actualite"
-                [titre]="actualite.titre"
-                [image_url]="actualite.image_url"
-                [contenu]="actualite.contenu"
-                [datePublication]="actualite.date_publication"
-                [statut]="actualite.statut"
-                [disableEdit]="true"> </app-actualite-card>
-        } 
+    <div class="absolute top-[-40%] left-[-10%] w-[800px] h-[800px] rounded-full border-[1px] border-[var(--bg-creme)] opacity-5 pointer-events-none"></div>
+    <div class="absolute bottom-[-30%] right-[-5%] w-[600px] h-[600px] rounded-full border-[1px] border-[var(--bg-creme)] opacity-5 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 flex flex-col items-center text-center">
         
+        <div class="animate-fade-up">
+            <span class="font-josefin text-[10px] uppercase tracking-[0.12em] text-[var(--accent-orange)] border border-[var(--accent-orange)]/40 bg-[var(--accent-orange)]/10 px-4 py-1.5 rounded mb-6 backdrop-blur-sm inline-block">
+                Association des parents d'élèves
+            </span>
+
+            <h1 class="font-abril text-5xl md:text-6xl text-[var(--bg-creme)] mb-4">
+                Bienvenue
+            </h1>
+
+            <p class="font-josefin text-[11px] uppercase tracking-[0.1em] text-[var(--bg-creme)] opacity-70 mb-8">
+                École Jules Ferry · Anglet · Fondée en 1899
+            </p>
+
+            <a href="#" target="_blank" 
+               class="inline-block font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] border-b border-[var(--accent-orange)] pb-1 mb-12 hover:text-[var(--bg-creme)] hover:border-[var(--bg-creme)] transition-colors">
+                <i class="fa-solid fa-store mr-1"></i> Accéder à notre boutique
+            </a>
+        </div>
+
+        <div class="w-full max-w-4xl mx-auto">
+            <app-calendrier></app-calendrier>
+        </div>
     </div>
-}
+</section>
 
-<div class="flex justify-between items-center my-6 mx-3">
-    <h2>Les événements</h2>
-    <button class="bg-[var(--primary-blue)] text-white rounded hover:shadow p-2" [routerLink]="['/evenements']">Voir tous les événements</button>
-</div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20">
 
-@if(this.loadingEvents){
-    <app-spinner></app-spinner>
-}
-@else if (this.errorEvents) {
-}
-@else {
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mx-3">
-        
-        @for(evenement of this.listeEvenements.slice(0,3); track evenement.id_evenement){
-            <app-evenement-card
-                [id_evenement]="evenement.id_evenement"
-                [titre]="evenement.titre"
-                [image_url]="evenement.image_url"
-                [description]="evenement.description"
-                [date_evenement]="getAsDate(evenement.date_evenement)"
-                [heure_debut]="evenement.heure_debut"
-                [heure_fin]="evenement.heure_fin"
-                [lieu]="evenement.lieu"
-                (eventDeleted)="handleEventDeleted($event)">
-                </app-evenement-card>
+    <section class="animate-fade-up delay-100">
+        <div class="flex justify-between items-end mb-8 border-b border-[var(--border-light)] pb-4">
+            <h2 class="text-4xl text-[var(--primary-green)] flex items-center gap-3">
+                Actualités <span class="text-[var(--accent-orange)] text-2xl">•</span>
+            </h2>
+            <a routerLink="/actualites" class="font-josefin text-[11px] uppercase tracking-widest text-[var(--accent-orange)] font-bold hover:text-[var(--primary-green)] transition-colors">
+                Voir tout
+            </a>
+        </div>
+
+        @if(loadingActualites){
+            <div class="flex justify-center py-12"><app-spinner></app-spinner></div>
+        } @else if (!errorActualites) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                @for(actualite of listeActualites.slice(0, 3); track actualite.id_actualite){
+                    <app-actualite-card 
+                        [id_actualite]="actualite.id_actualite"
+                        [titre]="actualite.titre"
+                        [image_url]="actualite.image_url"
+                        [contenu]="actualite.contenu"
+                        [datePublication]="actualite.date_publication"
+                        [statut]="actualite.statut"
+                        [disableEdit]="true">
+                    </app-actualite-card>
+                }
+            </div>
         }
-        
-    </div>
-}
+    </section>
+
+    <section class="animate-fade-up delay-200">
+        <div class="flex justify-between items-end mb-8 border-b border-[var(--border-light)] pb-4">
+            <h2 class="text-4xl text-[var(--primary-green)] flex items-center gap-3">
+                Événements <span class="text-[var(--accent-orange)] text-2xl">•</span>
+            </h2>
+            <a routerLink="/evenements" class="font-josefin text-[11px] uppercase tracking-widest text-[var(--accent-orange)] font-bold hover:text-[var(--primary-green)] transition-colors">
+                Voir tout
+            </a>
+        </div>
+
+        @if(loadingEvents){
+            <div class="flex justify-center py-12"><app-spinner></app-spinner></div>
+        } @else if (!errorEvents) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                @for(evenement of listeEvenements.slice(0,3); track evenement.id_evenement){
+                    <app-evenement-card
+                        [id_evenement]="evenement.id_evenement"
+                        [titre]="evenement.titre"
+                        [image_url]="evenement.image_url"
+                        [description]="evenement.description"
+                        [date_evenement]="getAsDate(evenement.date_evenement)"
+                        [heure_debut]="evenement.heure_debut"
+                        [heure_fin]="evenement.heure_fin"
+                        [lieu]="evenement.lieu"
+                        [id_formulaire]="evenement.id_formulaire"
+                        (eventDeleted)="handleEventDeleted($event)">
+                    </app-evenement-card>
+                }
+            </div>
+        }
+    </section>
+</div>

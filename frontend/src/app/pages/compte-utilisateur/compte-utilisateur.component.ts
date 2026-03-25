@@ -3,6 +3,7 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { AuthService } from '../../services/Auth/auth.service';
 import { UtilisateurService } from '../../services/Utilisateur/utilisateur.service';
 import { FormModifierPasswordComponent } from "../../components/forms/form-modifier-password/form-modifier-password.component";
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 import { Router } from '@angular/router';
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-compte-utilisateur',
   standalone: true,
-  imports: [FormModifierPasswordComponent, CommonModule, FormsModule],
+  imports: [FormModifierPasswordComponent, CommonModule, FormsModule, SpinnerComponent],
   templateUrl: './compte-utilisateur.component.html',
   styleUrl: './compte-utilisateur.component.css'
 })

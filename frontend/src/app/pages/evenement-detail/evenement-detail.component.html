@@ -1,20 +1,31 @@
 @if (loadingEvenement) {
-  <div class="flex justify-center items-center h-64">
+  <div class="flex justify-center items-center py-20">
     <app-spinner></app-spinner>
   </div>
 } @else if (errorEvenement) {
-  <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm mx-auto max-w-4xl my-8">
-    <p class="text-red-700">Erreur lors du chargement de l'événement.</p>
+  <div
+    class="bg-[#FFF5F5] border-[1.5px] border-red-200 p-6 rounded-[8px] flex items-center gap-4 max-w-3xl mx-auto my-12 animate-fade-in"
+  >
+    <i class="fa-solid fa-circle-exclamation text-2xl text-red-500"></i>
+    <p class="font-dm text-sm text-red-800 m-0">
+      Erreur lors du chargement de l'événement.
+    </p>
   </div>
 } @else {
-  <div class="max-w-4xl mx-auto px-4 py-8">
-    <button (click)="goBack()" class="mb-6 flex items-center text-gray-600 hover:text-[var(--primary-blue)] transition-colors">
-      <i class="fa-solid fa-arrow-left w-4 h-4 mr-2" aria-hidden="true"></i>
-      Retour aux événements
+  <div class="max-w-3xl mx-auto px-4 py-8 animate-fade-up">
+    <button
+      (click)="goBack()"
+      class="inline-flex items-center gap-2 font-josefin text-[10px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition-colors mb-6"
+    >
+      <i class="fa-solid fa-arrow-left"></i> Retour aux événements
     </button>
 
-    <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div class="h-64 md:h-96 w-full relative overflow-hidden bg-gray-100">
+    <article
+      class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] overflow-hidden"
+    >
+      <div
+        class="h-[250px] md:h-[350px] w-full relative overflow-hidden bg-[var(--bg-creme)] border-b-[1.5px] border-[var(--border-light)]"
+      >
         @if (evenement.image_url) {
           <img
             [src]="getImageUrl(evenement.image_url)"
@@ -23,122 +34,116 @@
             loading="lazy"
           />
         } @else {
-          <img 
-            src="/imageDefaut/imageDefaut.png" 
-            [alt]="evenement.titre" 
-            class="w-full h-full object-cover" 
+          <img
+            src="/imageDefaut/imageDefaut.png"
+            [alt]="evenement.titre"
+            class="w-full h-full object-cover opacity-80"
             loading="lazy"
           />
         }
       </div>
 
-      <div class="p-8 md:p-12">
-        <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-6 items-center">
-          <div class="flex items-center">
-            <i class="fa-regular fa-calendar-days w-4 h-4 mr-2"></i>
-            {{ evenement.date_evenement | date: "dd/MM/yyyy" }}
+      <div class="p-6 md:p-10">
+        <h1
+          class="font-abril text-3xl md:text-4xl lg:text-[42px] text-[var(--primary-green)] mb-4 leading-tight"
+        >
+          {{ evenement.titre }}
+        </h1>
+
+        <div
+          class="flex flex-wrap items-center gap-x-5 gap-y-2 font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] mb-8 pb-4 border-b-[1.5px] border-[var(--border-light)]"
+        >
+          <div class="flex items-center gap-2">
+            <i class="fa-regular fa-calendar-days text-base"></i>
+            {{ evenement.date_evenement | date: "dd MMMM yyyy" }}
           </div>
-          <div class="flex items-center">
-            <i class="fa-regular fa-clock w-4 h-4 mr-2" aria-hidden="true"></i>
+          <div class="hidden sm:block text-[var(--border-light)]">|</div>
+          <div class="flex items-center gap-1.5">
+            <i class="fa-regular fa-clock text-sm"></i>
             {{ evenement.heure_debut }} - {{ evenement.heure_fin }}
           </div>
-          <div class="flex items-center">
-            <i class="fa-solid fa-location-dot w-4 h-4 mr-2 text-gray-500" aria-hidden="true"></i>
+          <div class="hidden sm:block text-[var(--border-light)]">|</div>
+          <div class="flex items-center gap-1.5 text-[var(--text-secondary)]">
+            <i
+              class="fa-solid fa-location-dot text-sm text-[var(--accent-orange)]"
+            ></i>
             {{ evenement.lieu }}
           </div>
         </div>
 
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight">
-          {{ evenement.titre }}
-        </h1>
-
-        <div class="prose max-w-none text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+        <div
+          class="font-dm text-[14px] md:text-[15px] text-[var(--text-secondary)] leading-relaxed whitespace-pre-line mb-10"
+        >
           {{ evenement.description }}
         </div>
 
-        <div class="mt-12 pt-6 border-t border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div class="flex items-center">
-            <div class="bg-blue-100 rounded-full p-3 mr-4">
-              <i class="fa-regular fa-user w-6 h-6 text-blue-600" aria-hidden="true"></i>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500">Publié par</p>
-              @if (!errorAuteur) {
-                @if ((currentUser$ | async)?.id_utilisateur === evenement.id_auteur) {
-                  <p class="text-lg font-medium">Vous</p>
-                } @else {
-                  <p class="text-lg font-medium">
-                    {{ auteur?.nom }} {{ auteur?.prenom }}
-                  </p>
-                }
-              } @else {
-                <p class="text-lg font-medium text-red-500">
-                  Utilisateur inconnu
-                </p>
-              }
-            </div>
-          </div>
-
-          @if (currentUser$ | async; as user) {
-            @if (canManage(user)) {
-              <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <a [routerLink]="['/evenements', evenement.id_evenement, 'edit']"
-                  class="bg-[var(--primary-blue)] text-white px-4 py-2 rounded hover:shadow transition-shadow text-center flex items-center justify-center gap-2">
-                  <i class="fa-regular fa-pen-to-square"></i> Modifier
-                </a>
-
-                <button (click)="openDeleteModal()"
-                  class="bg-red-600 text-white px-4 py-2 rounded hover:shadow transition-shadow flex items-center justify-center gap-2">
-                  <i class="fa-regular fa-trash-can"></i> Supprimer
-                </button>
-              </div>
-            }
-          }
-        </div>
-
         @if (evenement.id_formulaire) {
-          <div class="mt-8 pt-6 border-t border-gray-100">
+          <div
+            class="bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] p-5 md:p-6 mb-10"
+          >
             @if (!isEvenementTermine() && isInscriptionOuverte()) {
-              <div class="flex flex-col gap-4">
-                @if (mesCreneauxActuels.length > 0) {
-                  <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r">
-                    <h3 class="text-green-800 font-bold text-sm flex items-center">
-                      <i class="fa-regular fa-circle-check w-5 h-5 mr-2" aria-hidden="true"></i>
-                      Vous participez à cet événement :
-                    </h3>
-                    <ul class="list-disc list-inside mt-2 text-sm text-green-700 ml-6">
-                      @for (c of mesCreneauxActuels; track c.id_creneau) {
-                        <li>
-                          <strong>{{ c.nom_tache }}</strong> de {{ c.heure_debut }} à {{ c.heure_fin }}
-                        </li>
-                      }
-                    </ul>
-                  </div>
-                }
+              @if (mesCreneauxActuels.length > 0) {
+                <div class="mb-5">
+                  <h3
+                    class="font-abril text-lg text-[var(--primary-green)] mb-2 flex items-center gap-2"
+                  >
+                    <i
+                      class="fa-regular fa-circle-check text-[var(--accent-orange)]"
+                    ></i>
+                    Vous participez !
+                  </h3>
+                  <ul
+                    class="space-y-1.5 font-dm text-[13px] text-[var(--primary-green)]"
+                  >
+                    @for (c of mesCreneauxActuels; track c.id_creneau) {
+                      <li class="flex items-center gap-2">
+                        <div
+                          class="w-1.5 h-1.5 rounded-full bg-[var(--accent-orange)]"
+                        ></div>
+                        <strong>{{ c.nom_tache }}</strong> ·
+                        {{ c.heure_debut }} à {{ c.heure_fin }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
 
-                <button (click)="toggleInscriptionForm()"
-                  class="bg-[var(--primary-blue)] text-white px-6 py-3 rounded-full hover:shadow-xl transition-all hover:bg-[var(--primary-dark-blue)] flex items-center w-fit gap-2">
-                  @if (showInscriptionForm) {
-                    <i class="fa-solid fa-xmark w-5 h-5" aria-hidden="true"></i> Fermer
-                  } @else {
-                    <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"></i>
-                    {{ mesCreneauxActuels.length > 0 ? "Modifier mon inscription" : "Je m'inscris !" }}
-                  }
-                </button>
-              </div>
+              <button
+                (click)="toggleInscriptionForm()"
+                class="btn-primary w-full md:w-auto justify-center !py-2.5"
+              >
+                @if (showInscriptionForm) {
+                  <i class="fa-solid fa-xmark"></i> Fermer
+                } @else {
+                  <i class="fa-regular fa-pen-to-square"></i>
+                  {{
+                    mesCreneauxActuels.length > 0
+                      ? "Modifier mon inscription"
+                      : "Je m'inscris !"
+                  }}
+                }
+              </button>
             } @else {
-              <div class="bg-gray-100 border-l-4 border-gray-400 p-4 rounded-r flex items-start">
-                <i class="fa-solid fa-lock w-6 h-6 text-gray-500 mr-3 flex-shrink-0" aria-hidden="true"></i>
+              <div class="flex items-start gap-3">
+                <i
+                  class="fa-solid fa-lock text-xl text-[var(--text-secondary)]"
+                ></i>
                 <div>
-                  <h3 class="text-gray-800 font-bold text-sm">Inscriptions closes</h3>
-                  <p class="text-gray-600 text-sm mt-1">Cet événement est terminé ou les inscriptions sont fermées.</p>
+                  <h3
+                    class="font-abril text-lg text-[var(--primary-green)] mb-1"
+                  >
+                    Inscriptions closes
+                  </h3>
+                  <p class="font-dm text-xs text-[var(--text-secondary)] m-0">
+                    Cet événement est terminé ou les inscriptions sont fermées.
+                  </p>
                 </div>
               </div>
             }
           </div>
 
           @if (showInscriptionForm && formulaire) {
-            <div #inscriptionFormContainer>
+            <div #inscriptionFormContainer class="mb-10 animate-fade-up">
               <app-form-inscription-evenement
                 [mesCreneauxActuels]="mesCreneauxActuels"
                 [formulaire]="formulaire"
@@ -151,49 +156,126 @@
                 [getPlacesRestantes]="getPlacesRestantes.bind(this)"
                 (formCancelled)="handleCancel()"
                 (formSubmitted)="handleSubmit($event)"
-                (closeForm)="toggleInscriptionForm()">
+                (closeForm)="toggleInscriptionForm()"
+              >
               </app-form-inscription-evenement>
             </div>
           }
         } @else {
-          <div class="mt-8 pt-6 border-t border-gray-100">
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r flex items-start">
-              <i class="fa-solid fa-circle-info w-6 h-6 text-blue-500 mr-3 flex-shrink-0" aria-hidden="true"></i>
-              <div>
-                <h3 class="text-blue-800 font-bold text-sm">Entrée libre</h3>
-                <p class="text-blue-600 text-sm mt-1">Cet événement ne nécessite pas d'inscription en ligne.</p>
-              </div>
+          <div
+            class="bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] p-5 mb-10 flex items-start gap-3"
+          >
+            <i
+              class="fa-solid fa-door-open text-xl text-[var(--primary-green)]"
+            ></i>
+            <div>
+              <h3 class="font-abril text-lg text-[var(--primary-green)] mb-1">
+                Entrée libre
+              </h3>
+              <p class="font-dm text-xs text-[var(--text-secondary)] m-0">
+                Cet événement ne nécessite pas d'inscription en ligne.
+              </p>
             </div>
           </div>
         }
+
+        <div
+          class="pt-6 border-t-[1.5px] border-[var(--border-light)] flex flex-col md:flex-row md:items-center justify-between gap-6"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="w-10 h-10 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-full flex items-center justify-center text-[var(--primary-green)]"
+            >
+              <i class="fa-regular fa-user text-lg"></i>
+            </div>
+            <div>
+              <p
+                class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] mb-1"
+              >
+                Publié par
+              </p>
+              @if (!errorAuteur) {
+                <p
+                  class="font-abril text-lg text-[var(--primary-green)] m-0 leading-none"
+                >
+                  {{
+                    (currentUser$ | async)?.id_utilisateur ===
+                    evenement.id_auteur
+                      ? "Vous"
+                      : auteur?.nom + " " + auteur?.prenom
+                  }}
+                </p>
+              } @else {
+                <p class="font-dm text-xs text-red-500 m-0">Auteur inconnu</p>
+              }
+            </div>
+          </div>
+
+          @if (currentUser$ | async; as user) {
+            @if (canManage(user)) {
+              <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <a
+                  [routerLink]="['/evenements', evenement.id_evenement, 'edit']"
+                  class="btn-secondary justify-center !py-2"
+                >
+                  <i class="fa-regular fa-pen-to-square"></i> Modifier
+                </a>
+                <button
+                  (click)="openDeleteModal()"
+                  class="btn-primary !bg-red-600 !border-red-600 hover:!bg-red-700 justify-center !py-2"
+                >
+                  <i class="fa-regular fa-trash-can"></i> Supprimer
+                </button>
+              </div>
+            }
+          }
+        </div>
       </div>
     </article>
   </div>
 
   @if (showDeleteModal) {
-    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
-      <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-slide-up">
-        <div class="flex items-center justify-center w-16 h-16 mx-auto bg-red-100 rounded-full mb-4">
-          <i class="fa-solid fa-triangle-exclamation text-2xl text-red-600"></i>
-        </div>
-
-        <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Supprimer cet événement ?</h3>
-        <p class="text-center text-gray-600 mb-6">
-          Êtes-vous sûr de vouloir supprimer l'événement <strong>"{{ evenement.titre }}"</strong> ? <br />
-          <span class="text-red-500 font-medium">Cette action est définitive et supprimera toutes les inscriptions associées.</span>
+    <div
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--primary-green)]/90 backdrop-blur-sm p-4 animate-fade-in text-left"
+    >
+      <div
+        class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-8 max-w-sm w-full animate-fade-up"
+      >
+        <h3
+          class="font-abril text-xl text-[var(--primary-green)] mb-3 text-center"
+        >
+          Supprimer l'événement ?
+        </h3>
+        <p
+          class="font-dm text-[13px] text-[var(--text-secondary)] mb-6 text-center leading-relaxed"
+        >
+          Êtes-vous sûr de vouloir supprimer
+          <strong class="text-[var(--primary-green)]">{{
+            evenement.titre
+          }}</strong>
+          ?<br />
+          <span class="text-red-500 mt-2 block"
+            >Cette action est définitive.</span
+          >
         </p>
 
-        <div class="flex flex-col-reverse sm:flex-row gap-3">
-          <button (click)="closeDeleteModal()" [disabled]="isDeleting"
-            class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50">
+        <div class="flex flex-col-reverse sm:flex-row justify-center gap-3">
+          <button
+            (click)="closeDeleteModal()"
+            [disabled]="isDeleting"
+            class="flex-1 btn-secondary disabled:opacity-50"
+          >
             Annuler
           </button>
-          <button (click)="confirmDelete()" [disabled]="isDeleting"
-            class="flex-1 px-4 py-2 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50">
+          <button
+            (click)="confirmDelete()"
+            [disabled]="isDeleting"
+            class="flex-1 btn-primary !bg-red-600 !border-red-600 hover:!bg-red-700 disabled:opacity-50"
+          >
             @if (isDeleting) {
-              <i class="fa-solid fa-spinner fa-spin"></i> Suppression...
+              <i class="fa-solid fa-spinner fa-spin"></i>
             } @else {
-              <i class="fa-solid fa-trash-can"></i> Oui, supprimer
+              Supprimer
             }
           </button>
         </div>

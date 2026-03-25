@@ -10,11 +10,14 @@ import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { Actualite } from '../../models/Actualite/actualite';
 import { StatutActualite } from '../../enums/StatutActualite/statut-actualite';
+import { ToastService } from '../../services/Toast/toast.service';
+import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 
 describe('ActualiteCreerComponent', () => {
   let component: ActualiteCreerComponent;
   let fixture: ComponentFixture<ActualiteCreerComponent>;
   let actualiteService: jasmine.SpyObj<ActualiteService>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let router: Router;
   let location: Location;
 
@@ -30,6 +33,7 @@ describe('ActualiteCreerComponent', () => {
 
   beforeEach(async () => {
     const actualiteServiceSpy = jasmine.createSpyObj('ActualiteService', ['createActualite']);
+    toastServiceSpy = jasmine.createSpyObj('ToastService', ['show', 'showWithTimeout']);
 
     await TestBed.configureTestingModule({
       imports: [ActualiteCreerComponent, ReactiveFormsModule],
@@ -38,6 +42,7 @@ describe('ActualiteCreerComponent', () => {
         provideHttpClientTesting(),
         provideRouter([]),
         { provide: ActualiteService, useValue: actualiteServiceSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
       ],
     }).compileComponents();
 
@@ -147,7 +152,7 @@ describe('ActualiteCreerComponent', () => {
         titre: 'Titre',
         contenu: 'Contenu',
         date_publication: '2026-01-20',
-        statut: '' // Manquant
+        statut: ''
       });
       expect(component.actualiteForm.valid).toBe(false);
     });
@@ -224,9 +229,6 @@ describe('ActualiteCreerComponent', () => {
   });
 
   describe('Soumission du formulaire', () => {
-    beforeEach(() => {
-      spyOn(window, 'alert');
-    });
 
     it('ne devrait pas soumettre si le formulaire est invalide', () => {
       component.actualiteForm.patchValue({
@@ -332,7 +334,7 @@ describe('ActualiteCreerComponent', () => {
       tick();
 
       expect(console.error).toHaveBeenCalledWith('Erreur lors de la sauvegarde de l\'actualité:', error);
-      expect(window.alert).toHaveBeenCalledWith('Erreur lors de la création de l\'actualité. Veuillez réessayer.');
+      expect(toastServiceSpy.show).toHaveBeenCalledWith('Erreur lors de la création de l\'actualité. Veuillez réessayer.', TypeErreurToast.ERROR);
       expect(component.saving).toBe(false);
     }));
 
@@ -344,7 +346,7 @@ describe('ActualiteCreerComponent', () => {
         contenu: 'Contenu de test',
         date_publication: '2026-01-20',
         statut: 'publie',
-        image_url: '', // Vide
+        image_url: '',
         id_auteur: 1
       });
 

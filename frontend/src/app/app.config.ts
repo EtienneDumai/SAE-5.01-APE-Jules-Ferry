@@ -1,5 +1,5 @@
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID } from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -11,7 +11,7 @@ import { AuthService } from './services/Auth/auth.service';
 registerLocaleData(localeFr);
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
     provideHttpClient(
       withInterceptors([authInterceptor])
     ),
@@ -20,6 +20,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [AuthService],
       useFactory: (auth: AuthService) => () => auth.init()
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'fr-FR' }
   ]
 };
