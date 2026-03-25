@@ -51,6 +51,9 @@ export class LoginComponent implements OnInit {
           this.mot_de_passe?.setValidators([Validators.required, Validators.minLength(8)]);
           this.mot_de_passe?.updateValueAndValidity();
           this.isLoading = false;
+        } else if (response.action === 'not_found') {
+          this.isLoading = false;
+          this.errorMessage = "Aucun compte associé à cet email. Veuillez vous inscrire.";
         } else {
           // C'est un parent : on demande le lien magique
           this.demanderLienMagique(emailSaisi);

@@ -14,17 +14,11 @@ class PasswordlessController extends Controller
 {
     public function requestLink(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $request->validate([
+            'email' => 'required|email',
+        ]);
 
-        $user = Utilisateur::firstOrCreate(
-            ['email' => $request->email],
-            [
-                'nom' => 'Parent', 
-                'prenom' => 'Anonyme', 
-                'role' => 'parent',
-                'statut_compte' => 'actif'
-            ]
-        );
+        $user = Utilisateur::where('email', $request->email)->firstOrFail();
 
         // Crée une URL signée valable 2 heures (pour l'API)
         $urlApi = URL::temporarySignedRoute(
@@ -57,8 +51,13 @@ class PasswordlessController extends Controller
             return response()->json(['action' => 'require_password']);
         }
 
-        // Sinon (parent ou nouvel utilisateur)
-        return response()->json(['action' => 'send_magic_link']);
+        // Si le parent existe
+        if ($user && $user->role === 'parent') {
+            return response()->json(['action' => 'send_magic_link']);
+        }
+
+        // Si c'est un nouvel utilisateur on demande le nom et prénom
+        return response()->json(['action' => 'not_found','message' => 'Aucun compte associé à cet email. Veuillez vous inscrire.']);
     }
 
     public function verifyLink(Request $request, $id_utilisateur)
@@ -79,6 +78,8 @@ class PasswordlessController extends Controller
                 'id_utilisateur' => $user->id_utilisateur,
                 'email' => $user->email,
                 'role' => $user->role,
+                'nom'            => $user->nom,
+                'prenom'         => $user->prenom,
             ]
         ], 200);
     }

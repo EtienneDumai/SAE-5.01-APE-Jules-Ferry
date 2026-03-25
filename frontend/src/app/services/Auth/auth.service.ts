@@ -35,10 +35,8 @@ export class AuthService {
     }
   }
 
-  register(data: RegisterData): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data).pipe(
-      tap(response => this.handleAuthResponse(response))
-    );
+  register(data: RegisterData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, data);
   }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
@@ -58,8 +56,8 @@ export class AuthService {
     return this.http.post<{ action: string }>(`${this.apiUrl}/check-email`, { email });
   }
 
-  requestMagicLink(email: string): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.apiUrl}/magic-link`, { email });
+  requestMagicLink(email: string, nom?: string, prenom?: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/magic-link`, { email, nom, prenom });
   }
 
   verifyMagicLink(targetUrl: string): Observable<AuthResponse> {

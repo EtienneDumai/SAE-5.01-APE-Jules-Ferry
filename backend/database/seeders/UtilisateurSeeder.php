@@ -42,6 +42,16 @@ class UtilisateurSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'nom' => 'Lague',
+                'prenom' => 'Theo',
+                'email' => 'theolague64@gmail.com',
+                'mot_de_passe' => Hash::make('password123'),
+                'role' => 'parent',
+                'statut_compte' => 'actif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'nom' => 'Bernard',
                 'prenom' => 'Sophie',
                 'email' => 'sophie.bernard@example.com',
