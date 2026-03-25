@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\UtilisateurController;
 use App\Http\Controllers\Api\NewsletterController;
 use App\Http\Controllers\Api\CreneauController;
 use App\Http\Controllers\Api\TacheController;
+use App\Http\Controllers\Api\Auth\SetPasswordController;
 
 
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ Route::post('/login', [LoginController::class, 'login'])
 
 Route::post('/check-email', [PasswordlessController::class, 'checkEmail']);
 Route::post('/magic-link', [PasswordlessController::class, 'requestLink']);
+Route::post('/set-password', [SetPasswordController::class, 'store']);
 Route::get('/verify-link/{id_utilisateur}', [PasswordlessController::class, 'verifyLink'])
     ->name('auth.magic.verify');
 

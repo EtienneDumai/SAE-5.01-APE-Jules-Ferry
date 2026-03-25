@@ -10,6 +10,10 @@ use App\Models\Formulaire;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SetPasswordEmail;
 
 class UtilisateurController extends Controller
 {
@@ -49,16 +53,27 @@ class UtilisateurController extends Controller
     public function update(Request $request, $id)
     {
         $utilisateur = Utilisateur::find($id);
-        if ($utilisateur) {
-            $donnees = $request->all();
-            if (empty($donnees['mot_de_passe'])) {
-                unset($donnees['mot_de_passe']);
-            }
-            $utilisateur->update($donnees);
-            return response()->json($utilisateur);
-        } else {
-            return response()->json(['message' => 'Utilisateur non trouvé'], 404);
+        $ancienRole = $utilisateur->role;
+        $donnees = $request->all();
+
+        if (empty($donnees['mot_de_passe'])) {
+            unset($donnees['mot_de_passe']);
         }
+
+        $utilisateur->update($donnees);
+
+        $nouveauRole = $donnees['role'] ?? null;
+        if ($nouveauRole === 'membre_bureau' && $ancienRole === 'parent') {
+            $token = Str::random(64);
+            Cache::put('set_password_' . $utilisateur->id_utilisateur, $token, now()->addHours(2));
+
+            $frontendUrl = env('FRONTEND_URL', 'http://localhost');
+            $url = $frontendUrl . '/set-password?token=' . $token . '&id=' . $utilisateur->id_utilisateur;
+
+            Mail::to($utilisateur->email)->send(new SetPasswordEmail($url, $utilisateur->prenom));
+        }
+
+        return response()->json($utilisateur);
     }
     public function destroy(Request $request, $id)
     {

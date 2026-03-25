@@ -118,7 +118,11 @@ export class AdminComptesComponent implements OnInit {
   private executeEdition(password: string): void {
     if (!this.pendingUserFormPayload) return;
     this.utilisateurService.updateUtilisateur(this.pendingUserFormPayload, this.pendingUserFormPayload.id_utilisateur!, password).subscribe({
-      next: () => {
+      next: (userMisAJour) => {
+        const index = this.utilisateurs.findIndex(u => u.id_utilisateur === userMisAJour.id_utilisateur);
+        if (index !== -1) {
+          this.utilisateurs[index] = userMisAJour;
+        }
         this.toastService.showWithTimeout('Utilisateur modifié', TypeErreurToast.SUCCESS);
         this.idEnEdition = null;
         this.utilisateurOriginal = null;
