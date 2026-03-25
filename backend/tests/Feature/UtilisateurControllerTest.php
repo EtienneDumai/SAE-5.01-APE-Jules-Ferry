@@ -239,7 +239,7 @@ class UtilisateurControllerTest extends TestCase
         // When
         $response = $this->patchJson("/api/utilisateurs/{$user->id_utilisateur}/mot-de-passe", $data);
 
-        // Then
+        //Then
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['mot_de_passe']);
     }
