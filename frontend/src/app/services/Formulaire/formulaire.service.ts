@@ -11,6 +11,11 @@ export class FormulaireService {
   getAllFormulaires(): Observable<Formulaire[]> {
     return this.http.get<Formulaire[]>(`${environment.apiUrl}/formulaires`);
   }
+
+  getTemplates(): Observable<Formulaire[]> {
+    return this.http.get<Formulaire[]>(`${environment.apiUrl}/formulaires?is_template=1`);
+  }
+
   getFormulaireById(id: number): Observable<Formulaire> {
     return this.http.get<Formulaire>(`${environment.apiUrl}/formulaires/${id}`);
   }

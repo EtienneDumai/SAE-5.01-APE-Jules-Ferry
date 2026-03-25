@@ -21,6 +21,11 @@ class Formulaire extends Model
         'is_template'
     ];
 
+    # cast pour que is_template soit un boolean et non un int
+    protected $casts = [
+        'is_template' => 'boolean',
+    ];
+
     public function createur()
     {
         return $this->belongsTo(Utilisateur::class, 'id_createur', 'id_utilisateur');

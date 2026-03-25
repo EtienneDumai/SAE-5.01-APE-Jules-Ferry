@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\Auth;
 
 class FormulaireController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $formulaires = Formulaire::with('taches.creneaux')->get();
+        $query = Formulaire::with('taches.creneaux');
+        
+        if ($request->has('is_template')) {
+            $query->where('is_template', $request->boolean('is_template'));
+        }
+
+        $formulaires = $query->get();
         return response()->json($formulaires);
     }
     
@@ -43,7 +49,8 @@ class FormulaireController extends Controller
                 'nom_formulaire' => $request->nom_formulaire,
                 'description' => $request->description,
                 'statut' => $request->statut ?? 'actif',
-                'id_createur' => $userId
+                'id_createur' => $userId,
+                'is_template' => $request->boolean('is_template', false)
             ]);
 
             if ($request->has('taches')) {
@@ -80,7 +87,7 @@ class FormulaireController extends Controller
             $formulaire = Formulaire::find($id);
             if (!$formulaire) return response()->json(['message' => 'Non trouvé'], 404);
 
-            $formulaire->update($request->only(['nom_formulaire', 'description', 'statut']));
+            $formulaire->update($request->only(['nom_formulaire', 'description', 'statut', 'is_template']));
 
             // Reset des taches
             if ($request->has('taches')) {

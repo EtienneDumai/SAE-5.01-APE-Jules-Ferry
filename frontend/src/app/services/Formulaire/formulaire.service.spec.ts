@@ -119,6 +119,28 @@ describe('FormulaireService', () => {
     });
   });
 
+  describe('getTemplates', () => {
+    it('devrait retourner uniquement les modèles de formulaire', () => {
+      const mockTemplates: Formulaire[] = [
+        {
+          ...mockFormulaire,
+          id_formulaire: 3,
+          nom_formulaire: 'Modèle rentrée',
+          is_template: true
+        }
+      ];
+
+      service.getTemplates().subscribe(formulaires => {
+        expect(formulaires).toEqual(mockTemplates);
+        expect(formulaires[0].is_template).toBeTrue();
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/formulaires?is_template=1`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockTemplates);
+    });
+  });
+
   describe('getFormulaireById', () => {
     it('devrait retourner un formulaire unique par son id', () => {
       const formulaireId = 1;

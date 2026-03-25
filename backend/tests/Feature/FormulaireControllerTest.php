@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Formulaire;
 use App\Models\Utilisateur;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class FormulaireControllerTest extends TestCase
 {
@@ -15,15 +15,28 @@ class FormulaireControllerTest extends TestCase
     {
         Formulaire::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/formulaires');
-        
         $user = Utilisateur::factory()->create(['role' => 'administrateur']);
         $this->actingAs($user, 'sanctum');
-        
+
         $response = $this->getJson('/api/formulaires');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3);
+            ->assertJsonCount(3);
+    }
+
+    public function test_index_peut_filtrer_les_modeles_de_formulaire()
+    {
+        $user = Utilisateur::factory()->create(['role' => 'administrateur']);
+        $this->actingAs($user, 'sanctum');
+
+        Formulaire::factory()->create(['is_template' => true]);
+        Formulaire::factory()->count(2)->create(['is_template' => false]);
+
+        $response = $this->getJson('/api/formulaires?is_template=1');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(1)
+            ->assertJsonPath('0.is_template', true);
     }
 
     public function test_show_retourne_un_formulaire()
@@ -33,7 +46,7 @@ class FormulaireControllerTest extends TestCase
         $response = $this->getJson("/api/formulaires/{$formulaire->id_formulaire}");
 
         $response->assertStatus(200)
-                 ->assertJson(['id_formulaire' => $formulaire->id_formulaire]);
+            ->assertJson(['id_formulaire' => $formulaire->id_formulaire]);
     }
 
     public function test_show_retourne_404_si_formulaire_non_trouve()
@@ -52,6 +65,7 @@ class FormulaireControllerTest extends TestCase
             'nom_formulaire' => 'Nouveau Formulaire',
             'description' => 'Description du formulaire',
             'statut' => 'actif',
+            'is_template' => true,
             'taches' => [
                 [
                     'nom_tache' => 'Tache 1',
@@ -62,17 +76,17 @@ class FormulaireControllerTest extends TestCase
                         [
                             'heure_debut' => '08:00',
                             'heure_fin' => '10:00',
-                            'quota' => 5
-                        ]
-                    ]
-                ]
-            ]
+                            'quota' => 5,
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $response = $this->postJson('/api/formulaires', $data);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('formulaires', ['nom_formulaire' => 'Nouveau Formulaire']);
+        $this->assertDatabaseHas('formulaires', ['nom_formulaire' => 'Nouveau Formulaire', 'is_template' => 1]);
         $this->assertDatabaseHas('taches', ['nom_tache' => 'Tache 1']);
         $this->assertDatabaseHas('creneaux', ['quota' => 5]);
     }
@@ -84,15 +98,16 @@ class FormulaireControllerTest extends TestCase
         $formulaire = Formulaire::factory()->create();
 
         $data = [
-            'nom_formulaire' => 'Formulaire Modifié',
-            'description' => 'Description Modifiée',
-            'statut' => 'actif'
+            'nom_formulaire' => 'Formulaire Modifie',
+            'description' => 'Description Modifiee',
+            'statut' => 'actif',
+            'is_template' => true,
         ];
 
         $response = $this->putJson("/api/formulaires/{$formulaire->id_formulaire}", $data);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('formulaires', ['nom_formulaire' => 'Formulaire Modifié']);
+        $this->assertDatabaseHas('formulaires', ['nom_formulaire' => 'Formulaire Modifie', 'is_template' => 1]);
     }
 
     public function test_destroy_supprime_un_formulaire()

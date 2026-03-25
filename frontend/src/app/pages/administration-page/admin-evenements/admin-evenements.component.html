@@ -15,6 +15,12 @@
                 class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
                 <i class="fa-solid fa-users mr-2"></i>Inscriptions
             </button>
+            <button (click)="activeTab = 'MODELES'" [class.bg-white]="activeTab === 'MODELES'"
+                [class.shadow]="activeTab === 'MODELES'" [class.text-blue-700]="activeTab === 'MODELES'"
+                [class.text-gray-500]="activeTab !== 'MODELES'" [class.hover:text-gray-700]="activeTab !== 'MODELES'"
+                class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
+                <i class="fa-solid fa-file-lines mr-2"></i>Modèles de formulaire
+            </button>
         </nav>
     </div>
 
@@ -145,6 +151,92 @@
     </div>
     }
 
+    @if (activeTab === 'MODELES') {
+    <div class="space-y-6">
+        <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
+            <div class="flex-1">
+                <h2 class="text-xl font-semibold text-gray-900">Modèles de formulaire</h2>
+                <p class="text-sm text-gray-500">Gérez les modèles de formulaire réutilisables pour vos événements.</p>
+            </div>
+
+            <a routerLink="/admin/formulaires/new"
+                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                <i class="fa-solid fa-plus -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" style="font-size: 18px;"></i>
+                Créer un Modèle
+            </a>
+        </div>
+
+        @if (loadingTemplates) {
+        <div class="flex justify-center py-20">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
+        </div>
+        } @else {
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                Nom du modèle
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Statut
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                Créé le
+                            </th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <span class="sr-only">Actions</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        @for (template of templates; track template.id_formulaire) {
+                        <tr>
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 text-gray-900 font-medium">
+                                {{ template.nom_formulaire }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <span
+                                    class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset">
+                                    {{ template.statut | titlecase }}
+                                </span>
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ template.created_at | date:'dd/MM/yyyy' }}
+                            </td>
+                            <td
+                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <div class="flex justify-end gap-3">
+                                    <a [routerLink]="['/admin/formulaires', template.id_formulaire, 'edit']"
+                                        class="text-indigo-600 hover:text-indigo-900" title="Modifier">
+                                        <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"
+                                            style="font-size: 20px;"></i>
+                                    </a>
+                                    <button (click)="deleteTemplate(template.id_formulaire)"
+                                        class="text-red-600 hover:text-red-900" title="Supprimer">
+                                        <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
+                                            style="font-size: 20px;"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        } @empty {
+                        <tr>
+                            <td colspan="4" class="text-center py-10 text-gray-500">
+                                Aucun modèle de formulaire trouvé.
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        }
+    </div>
+    }
+
     @if (activeTab === 'INSCRIPTIONS') {
     <div class="space-y-6">
         <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
@@ -202,8 +294,7 @@
                             <h4 class="text-sm font-medium text-gray-900"><i
                                     class="fa-solid fa-download mr-2 text-gray-500"></i> Exportation des participants
                             </h4>
-                            <p class="text-sm text-gray-500 mt-1">Téléchargez la liste des inscrits à cet événement au
-                                format Excel (.xlsx)</p>
+                            <p class="text-sm text-gray-500 mt-1">Téléchargez la liste des inscrits à cet événement.</p>
                         </div>
                         <button type="button" (click)="openExportParticipantsModal(event)"
                             class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
