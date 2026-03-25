@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { inject } from '@angular/core';
 import { AuthService } from '../../services/Auth/auth.service';
 import { RegisterData } from '../../models/Auth/register-data';
 
@@ -13,17 +12,17 @@ import { RegisterData } from '../../models/Auth/register-data';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  registerForm: FormGroup;
+  registerForm!: FormGroup; // N'oublie pas le !
   errorMessage!: string;
   isLoading = false;
   successMessage!: string;
 
-  constructor() {
+  ngOnInit(): void {
     this.registerForm = this.fb.group({
       nom: ['', [Validators.required, Validators.maxLength(50)]],
       prenom: ['', [Validators.required, Validators.maxLength(50)]],
