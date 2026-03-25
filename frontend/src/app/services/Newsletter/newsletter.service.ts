@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.dev';
+import { environment } from '../../environments/environment';
 import { AdminNewsletterSubscription, NewsletterSubscription, NewsletterResponse, NewsletterSubscriber } from '../../models/Newsletter/newsletter.model';
 
 @Injectable({ providedIn: 'root' })

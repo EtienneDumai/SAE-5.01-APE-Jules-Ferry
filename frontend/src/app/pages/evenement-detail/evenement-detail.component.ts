@@ -26,7 +26,7 @@ import {
   FormInscriptionEvenementComponent,
   InscriptionSubmitPayload,
 } from '../../components/forms/form-inscription-evenement/form-inscription-evenement.component';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-evenement-detail',
   standalone: true,
@@ -388,9 +388,9 @@ export class EvenementDetailComponent implements OnInit {
     this.location.back();
   }
 
-  getImageUrl(image_url: string): string {
+  getImageUrl(image_url: string | null): string {
     if (!image_url) return '';
     if (image_url.startsWith('http')) return image_url;
-    return 'http://localhost:8000' + image_url;
+    return `${environment.apiUrl}/${image_url}`;
   }
 }

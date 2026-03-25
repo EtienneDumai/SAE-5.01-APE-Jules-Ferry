@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment.dev';
-import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
-import { Formulaire } from '../../models/Formulaire/formulaire';
 import { FormulaireService } from './formulaire.service';
+import { Formulaire } from '../../models/Formulaire/formulaire';
+import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
+import { environment } from '../../environments/environment';
 
 describe('FormulaireService', () => {
   let service: FormulaireService;

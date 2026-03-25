@@ -8,7 +8,6 @@ use App\Models\Utilisateur;
 use App\Services\NewsletterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
@@ -40,21 +39,9 @@ class NewsletterController extends Controller
         }
 
         $validator = $this->makeEmailValidator($request->all());
-        $validator->after(function ($validator) use ($request) {
-            if (!$request->filled('admin_password')) {
-                $validator->errors()->add('admin_password', 'Le mot de passe administrateur est obligatoire.');
-            }
-        });
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        /** @var Utilisateur $admin */
-        $admin = $request->user();
-
-        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
-            return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
         }
 
         $this->newsletterService->inscrire($request->email);
@@ -79,17 +66,6 @@ class NewsletterController extends Controller
     {
         if ($response = $this->ensureAdmin($request)) {
             return $response;
-        }
-
-        $request->validate([
-            'admin_password' => 'required|string',
-        ]);
-
-        /** @var Utilisateur $admin */
-        $admin = $request->user();
-
-        if (!Hash::check($request->admin_password, $admin->getAuthPassword())) {
-            return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
         }
 
         $abonne = AbonneNewsletter::find($id);
@@ -121,8 +97,8 @@ class NewsletterController extends Controller
             'email' => 'required|email|unique:abonnes_newsletter,email'
         ], [
             'email.required' => 'L\'adresse email est obligatoire.',
-            'email.email'    => 'Le format de l\'email n\'est pas valide.',
-            'email.unique'   => 'Cet email est déjà inscrit à notre newsletter !',
+            'email.email' => 'Le format de l\'email n\'est pas valide.',
+            'email.unique' => 'Cet email est déjà inscrit à notre newsletter !',
         ]);
     }
 }
