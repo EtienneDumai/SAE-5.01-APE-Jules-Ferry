@@ -1,5 +1,4 @@
 <div class="min-h-screen flex items-center justify-center bg-[var(--bg-creme)] px-4 py-12 relative overflow-hidden">
-  
   <div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full border-[1px] border-[var(--primary-green)] opacity-5 pointer-events-none"></div>
   <div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full border-[1px] border-[var(--primary-green)] opacity-5 pointer-events-none"></div>
 
@@ -28,9 +27,10 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
 
         <div>
-          <label class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Nom</label>
+          <label for="nom" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Nom</label>
           <input 
             type="text" 
+            id="nom"
             formControlName="nom" 
             placeholder="Dupont"
             class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
@@ -45,9 +45,10 @@
         </div>
 
         <div>
-          <label class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Prénom</label>
+          <label for="prenom" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Prénom</label>
           <input 
             type="text" 
+            id="prenom"
             formControlName="prenom" 
             placeholder="Marie"
             class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
@@ -62,9 +63,10 @@
         </div>
 
         <div>
-          <label class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Adresse Email</label>
+          <label for="email" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Adresse Email</label>
           <input 
             type="email" 
+            id="email"
             formControlName="email" 
             placeholder="marie.dupont@exemple.fr"
             class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"

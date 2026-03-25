@@ -21,7 +21,7 @@ export class AuthService {
 
   private getUserFromStorage(): Utilisateur | null {
     const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
+    return userStr ? JSON.parse(userStr) as Utilisateur : null;
   }
 
   private currentUserSubject = new BehaviorSubject<Utilisateur | null>(this.getUserFromStorage());
@@ -35,8 +35,8 @@ export class AuthService {
     }
   }
 
-  register(data: RegisterData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, data);
+  register(data: RegisterData): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data);
   }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
@@ -83,20 +83,18 @@ export class AuthService {
     );
   }
 
-  // helper nettoyage local
-  private logoutLocal() {
+  private logoutLocal(): void {
     this.tokenService.removeToken();
     localStorage.removeItem('user');
     localStorage.removeItem('idConnecte');
     this.currentUserSubject.next(null);
   }
 
-  // helper save reponse
-  private handleAuthResponse(response: AuthResponse) {
+  private handleAuthResponse(response: AuthResponse): void {
     if (response.token) {
       this.tokenService.saveToken(response.token);
     } else {
-      console.warn("Attenion le backend ne renvoi aucun token !");
+      console.warn("Attention le backend ne renvoi aucun token !");
     }
     if (response.user) {
       localStorage.setItem('user', JSON.stringify(response.user));
@@ -115,26 +113,24 @@ export class AuthService {
       return;
     }
 
-    // On utilise la classe HttpHeaders d'Angular
     const headers = new HttpHeaders({
       'Accept': 'application/json',
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.get<{ user: Utilisateur }>(`${this.apiUrl}/user`, { headers: headers }).subscribe({
+    this.http.get<{ user: Utilisateur }>(`${this.apiUrl}/user`, { headers }).subscribe({
       next: (response) => {
         localStorage.setItem('user', JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
       },
       error: (err) => {
         console.error("Token invalide ou expiré :", err);
-        // Le token est invalide ou expiré on nettoie tout
         this.logoutLocal();
       }
     });
   }
 
-  isAuthenticated(): boolean {
+  isAuthenticatedStatus(): boolean {
     return this.tokenService.hasToken();
   }
 

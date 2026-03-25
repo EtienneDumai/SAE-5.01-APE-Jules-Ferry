@@ -81,7 +81,7 @@
     </aside>
   }@if (showLogoutModal) {
     <app-confirmation-modal 
-      (confirm)="confirmerLogout()" 
+      (confirmAction)="confirmerLogout()" 
       (cancel)="showLogoutModal = false">
     </app-confirmation-modal>
   }
