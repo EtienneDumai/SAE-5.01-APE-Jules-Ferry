@@ -60,17 +60,28 @@
         </div>
 
         @if (loginMdp) {
-            <div class="animate-fade-up">
-            <label for="mot_de_passe" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Mot de passe</label>
-            <input 
-              type="password" 
-              id="mot_de_passe" 
-              formControlName="mot_de_passe"
-              placeholder="••••••••"
-              class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-              [class.border-red-500]="mot_de_passe?.invalid && mot_de_passe?.touched"
-              [class.border-[var(--border-light)]]="!mot_de_passe?.invalid || !mot_de_passe?.touched"
-            />
+          <div class="animate-fade-up">
+            <div class="flex items-center justify-between mb-2">
+              <label for="mot_de_passe" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold">Mot de passe</label>
+              <button type="button" (click)="motDePasseOublie()" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] font-bold hover:text-[var(--primary-green)] transition-colors">
+                Mot de passe oublié ?
+              </button>
+            </div>
+            <div class="relative">
+              <input 
+                [type]="showPassword ? 'text' : 'password'"
+                id="mot_de_passe" 
+                formControlName="mot_de_passe"
+                placeholder="••••••••"
+                class="w-full px-4 py-3 pr-12 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+                [class.border-red-500]="mot_de_passe?.invalid && mot_de_passe?.touched"
+                [class.border-[var(--border-light)]]="!mot_de_passe?.invalid || !mot_de_passe?.touched"
+              />
+              <button type="button" (click)="showPassword = !showPassword"
+                class="absolute right-3 top-3.5 text-gray-400 hover:text-[var(--primary-green)] transition-colors">
+                <i [class]="showPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'" style="font-size: 16px;"></i>
+              </button>
+            </div>
             @if (mot_de_passe?.invalid && mot_de_passe?.touched) {
               <div class="mt-1.5 font-dm text-xs text-red-500">
                 @if (mot_de_passe?.errors?.['required']) { <p>Le mot de passe est obligatoire</p> }

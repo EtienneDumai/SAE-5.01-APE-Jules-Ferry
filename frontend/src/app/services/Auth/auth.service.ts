@@ -151,6 +151,10 @@ export class AuthService {
     const user = this.getCurrentUser();
     return user ? String(user.role).toLowerCase() === role.toLowerCase() : false;
   }
+  
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
+  }
 
   private clearAuthState(): void {
     this.tokenService.removeToken();

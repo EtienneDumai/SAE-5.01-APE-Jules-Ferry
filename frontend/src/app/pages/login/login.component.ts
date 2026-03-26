@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   // Indique si on doit afficher le champ mot de passe (true = admin et false = saisie email)
   loginMdp = false;
+  showPassword = false; // l'oeil
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -102,10 +103,29 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-  // Permet à l'admin de revenir en arrière pour corriger son mail
+ 
+  motDePasseOublie(): void {
+    if (!this.email?.value) {
+      this.errorMessage = "Veuillez saisir votre email d'abord.";
+      return;
+    }
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.authService.forgotPassword(this.email?.value).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.successMessage = "Un lien pour réinitialiser votre mot de passe vous a été envoyé par email.";
+      },
+      error: () => {
+        this.isLoading = false;
+        this.errorMessage = "Impossible d'envoyer le lien. Veuillez réessayer.";
+      }
+    });
+  }
+ 
   retourEtape1(): void {
     this.loginMdp = false;
+    this.showPassword = false;
     this.mot_de_passe?.clearValidators();
     this.mot_de_passe?.updateValueAndValidity();
     this.mot_de_passe?.setValue('');
