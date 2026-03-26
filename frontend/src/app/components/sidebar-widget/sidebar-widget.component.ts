@@ -2,6 +2,8 @@ import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectorRef, HostLis
 import { CommonModule } from '@angular/common';
 import { SidebarWidgetService } from '../../services/SidebarWidget/sidebar-widget.service';
 import { Subscription } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 /**
  * Widget component to display content in a collapsible sidebar on the right or left of the screen.
@@ -25,12 +27,12 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './sidebar-widget.component.html',
-  styleUrls: ['./sidebar-widget.component.css']
 })
 export class SidebarWidgetComponent implements OnInit, OnDestroy {
   // Injections
   private sidebarWidgetService = inject(SidebarWidgetService);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   //Inputs 
   @Input() title = '';
@@ -38,7 +40,7 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
   @Input() position: 'left' | 'right' = 'right';
   @Input() defaultOpen = false;
   @Input() topOffset = 100;
-  @Input() smallWidth = 320;
+  @Input() smallWidth = 380;
   @Input() largeWidth = 600;
   
   //States
@@ -50,15 +52,15 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
   private widgetId = '';
   private subscription: Subscription = new Subscription();
 
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKey() {
-    if (this.isOpen) {
-      this.toggleWidget();
-    }
+  @HostListener('document:keydown.escape')
+onEscapeKey() {
+  if (this.isOpen) {
+    this.toggleWidget();
   }
+}
 
   get contentHeight(): string {
-    return `calc(100vh - ${this.topOffset}px)`;
+    return `calc(100vh - ${this.topOffset + 40}px)`;
   }
 
   get currentWidth(): number {
@@ -66,6 +68,9 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
   }
 
   get widthPx(): string {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return '100%'; 
+    }
     return `${this.currentWidth}px`;
   }
 
@@ -74,25 +79,31 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //Id generated based on title and timestamp
     this.widgetId = `widget-${this.title.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
     
-    // Subscribe to service to manage mutual exclusivity
     this.subscription.add(
       this.sidebarWidgetService.activeWidgetId$.subscribe(activeId => {
         this.isOtherWidgetOpen = activeId !== null && activeId !== this.widgetId;
-        
         if (activeId !== this.widgetId && this.isOpen) {
           this.isOpen = false;
         }
-        
-        // Force change detection since we're in a subscription
         this.cdr.markForCheck();
+      })
+    );
+
+    this.subscription.add(
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe(() => {
+        if (this.isOpen) {
+          this.isOpen = false;
+          this.sidebarWidgetService.setActiveWidget(null);
+          this.cdr.markForCheck();
+        }
       })
     );
     
     if (this.defaultOpen) {
-      // Small delay to ensure all widgets are initialized before setting active
       setTimeout(() => {
         this.toggleWidget();
       }, 0);
@@ -106,36 +117,29 @@ export class SidebarWidgetComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleWidget() {
-    this.isOpen = !this.isOpen;
+  toggleWidget(event?: Event) {
+    if (event) event.stopPropagation();
     
+    this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.sidebarWidgetService.setActiveWidget(this.widgetId);
-      this.notifyWidgetOpened();
     } else if (this.sidebarWidgetService.getActiveWidgetId() === this.widgetId) {
       this.sidebarWidgetService.setActiveWidget(null);
     }
   }
-  
-  private notifyWidgetOpened() {
-    if (typeof document !== 'undefined') {
-      const event = new CustomEvent('widgetOpened', {
-        detail: { widgetId: this.widgetId, title: this.title },
-        bubbles: true
-      });
-      document.dispatchEvent(event);
-    }
-  }
 
-  toggleSize() {
+  toggleSize(event?: Event) {
+    if (event) event.stopPropagation();
     this.isExpanded = !this.isExpanded;
     
     setTimeout(() => {
-      const event = new CustomEvent('widgetResized', { 
-        detail: { width: this.currentWidth, isExpanded: this.isExpanded },
-        bubbles: true 
-      });
-      document.dispatchEvent(event);
+      if (typeof document !== 'undefined') {
+        const customEvent = new CustomEvent('widgetResized', { 
+          detail: { width: this.currentWidth, isExpanded: this.isExpanded },
+          bubbles: true 
+        });
+        document.dispatchEvent(customEvent);
+      }
     }, 350);
   }
 }

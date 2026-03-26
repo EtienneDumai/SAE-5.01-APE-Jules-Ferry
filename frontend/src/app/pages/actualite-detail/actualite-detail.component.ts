@@ -67,11 +67,17 @@ export class ActualiteDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-  getImageUrl(image_url: string | null): string {
+  
+  getImageUrl(image_url: string | null | undefined): string {
     if (!image_url) return '';
     if (image_url.startsWith('http')) return image_url;
-    return `${environment.apiUrl}/${image_url}`;
+    const baseUrl = environment?.apiUrl ? environment.apiUrl.replace(/\/api$/, '') : 'http://localhost:8000';
+    const cleanBase = baseUrl.replace(/\/$/, '');
+    const cleanPath = image_url.replace(/^\//, '');
+    
+    return `${cleanBase}/${cleanPath}`;
   }
+
   editActualite(): void {
     this.router.navigate([`/actualites/${this.actualite.id_actualite}/edit`]);
   }

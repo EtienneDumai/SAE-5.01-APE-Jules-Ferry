@@ -7,4 +7,29 @@
 
   <app-footer></app-footer>
 </div>
+
+@if (showWidgets) {
+  <app-sidebar-widget 
+      title="Calendrier"
+      icon="fa-regular fa-calendar-days"
+      position="right"
+      [topOffset]="isMobile ? 120 : 140" 
+      [smallWidth]="450"
+      [largeWidth]="800"
+      [defaultOpen]="false">
+      <app-calendrier></app-calendrier>
+  </app-sidebar-widget>
+
+  <app-sidebar-widget 
+      title="Instagram"
+      icon="fa-brands fa-instagram"
+      position="right"
+      [topOffset]="isMobile ? 180 : 300"
+      [smallWidth]="350"
+      [largeWidth]="600"
+      [defaultOpen]="false">
+      <app-instagram-view></app-instagram-view>
+  </app-sidebar-widget>
+}
+
 <app-toast></app-toast>

@@ -1,63 +1,65 @@
-<div 
-  class="sidebar-widget"
-  [class.open]="isOpen"
-  [class.left]="position === 'left'"
-  [class.right]="position === 'right'"
-  [style.top.px]="topOffset">
-  
-  <!-- Overlay -->
-  <div 
-    class="widget-overlay"
-    [class.show]="isOpen"
-    (click)="toggleWidget()"
-    (keydown.enter)="toggleWidget()"
-    (keydown.space)="toggleWidget()"
-    [attr.tabindex]="isOpen ? 0 : -1"
-    role="button"
-    [attr.aria-label]="'Fermer ' + title">
-  </div>
+@if (isOpen) {
+    <div class="fixed inset-0 z-[90] bg-[var(--primary-green)]/20 backdrop-blur-sm transition-opacity outline-none" 
+         role="button"
+         tabindex="0"
+         (keydown.enter)="toggleWidget($event)"
+         (click)="toggleWidget($event)">
+    </div>
+}
 
-  <!-- Toggle Button -->
-  <button 
-    class="widget-toggle"
-    [class.open]="isOpen"
-    [class.hidden-toggle]="isOtherWidgetOpen"
-    [style.transform]="isOpen ? 'translateX(' + toggleTransform + ')' : 'translateX(0)'"
-    (click)="toggleWidget()"
-    [attr.aria-label]="isOpen ? 'Fermer ' + title : 'Ouvrir ' + title">
-    <i [class]="icon" aria-hidden="true"></i>
-    @if (title) {
-      <span class="widget-toggle-text">{{ title }}</span>
-    }
-  </button>
-  
-  <!-- Widget Content -->
-  <div class="widget-content" 
-       [class.show]="isOpen" 
-       [style.top.px]="topOffset"
-       [style.width]="widthPx"
-       [style.height]="contentHeight">
-    
-    <div class="widget-header">
-      <h3>{{ title }}</h3>
-      <div class="header-actions">
-        <button 
-          class="size-btn"
-          (click)="toggleSize()"
-          [attr.aria-label]="isExpanded ? 'Réduire' : 'Agrandir'">
-          <i [class]="isExpanded ? 'fa-solid fa-compress' : 'fa-solid fa-expand'" aria-hidden="true"></i>
-        </button>
-        <button 
-          class="close-btn"
-          (click)="toggleWidget()"
-          aria-label="Fermer">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
+<div class="fixed z-[100] transition-transform duration-500 ease-in-out flex drop-shadow-2xl"
+     [style.top.px]="topOffset"
+     [style.width.px]="currentWidth"
+     [style.height]="contentHeight"
+     [ngClass]="{
+        'right-0': position === 'right',
+        'left-0': position === 'left',
+        'translate-x-0': isOpen,
+        'translate-x-full': !isOpen && position === 'right',
+        '-translate-x-full': !isOpen && position === 'left'
+     }">
+
+    <button class="absolute top-4 w-12 md:w-14 py-3 md:py-4 bg-[var(--white-cards)] border-[1.5px] border-[var(--border-light)] flex flex-col items-center justify-center gap-2 md:gap-3 text-[var(--primary-green)] hover:text-[var(--accent-orange)] hover:bg-[var(--bg-creme)] transition-all group shadow-[0_4px_0_rgba(0,0,0,0.05)] cursor-pointer"
+            [ngClass]="{
+                '-left-12 md:-left-14 border-r-0 rounded-l-[8px]': position === 'right',
+                '-right-12 md:-right-14 border-l-0 rounded-r-[8px]': position === 'left',
+                'opacity-0 pointer-events-none': isOtherWidgetOpen && !isOpen
+            }"
+            (click)="toggleWidget($event)">
+        
+        <i [class]="icon + ' text-xl md:text-2xl group-hover:scale-110 transition-transform'"></i>
+        
+        <span class="hidden md:inline-block font-josefin text-[10px] uppercase font-bold tracking-widest" style="writing-mode: vertical-rl; text-orientation: mixed;">
+            {{ title }}
+        </span>
+    </button>
+
+    <div class="w-full h-full bg-[var(--white-cards)] border-[1.5px] border-[var(--border-light)] flex flex-col overflow-hidden"
+         [ngClass]="{
+             'border-r-0 rounded-l-[12px] shadow-[-8px_8px_0_var(--accent-orange)]': position === 'right',
+             'border-l-0 rounded-r-[12px] shadow-[8px_8px_0_var(--accent-orange)]': position === 'left'
+         }">
+         
+        <div class="px-6 py-5 bg-[var(--bg-creme)] border-b-[1.5px] border-[var(--border-light)] flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-white border-[1.5px] border-[var(--border-light)] flex items-center justify-center text-[var(--accent-orange)]">
+                    <i [class]="icon"></i>
+                </div>
+                <h3 class="font-abril text-2xl text-[var(--primary-green)] m-0">{{ title }}</h3>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button (click)="toggleSize()" class="w-8 h-8 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] bg-white text-[var(--text-secondary)] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-colors" [title]="isExpanded ? 'Réduire' : 'Agrandir'">
+                    <i [class]="isExpanded ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
+                </button>
+                <button (click)="toggleWidget()" class="w-8 h-8 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] bg-white text-[var(--text-secondary)] hover:text-red-500 hover:border-red-500 hover:bg-red-50 transition-colors" title="Fermer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto bg-white p-4">
+            <ng-content></ng-content>
+        </div>
     </div>
-    
-    <div class="widget-body">
-      <ng-content></ng-content>
-    </div>
-  </div>
 </div>

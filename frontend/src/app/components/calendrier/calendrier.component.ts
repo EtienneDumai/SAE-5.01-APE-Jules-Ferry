@@ -240,6 +240,18 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
     return `${dateObj.toISOString().split('T')[0]}T${time}`;
   }
 
+  isInscriptionOuverte(event: Evenement): boolean {
+    if (!event || !event.id_formulaire) return false;
+    if (!event.date_evenement) return false;
+    const dateEvent = new Date(event.date_evenement);
+    const aujourdhui = new Date();
+    
+    dateEvent.setHours(0, 0, 0, 0);
+    aujourdhui.setHours(0, 0, 0, 0);
+    
+    return aujourdhui.getTime() <= dateEvent.getTime();
+  }
+
   handleEventClick(arg: EventClickArg): void {
     const clickedEvent = this.eventsList.find(e => e.id_evenement.toString() === arg.event.id);
     if (clickedEvent) {

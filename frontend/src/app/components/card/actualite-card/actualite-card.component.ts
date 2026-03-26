@@ -65,8 +65,14 @@ export class ActualiteCardComponent {
     event.stopPropagation();
     this.router.navigate(['/actualites', this.id_actualite, 'edit']);
   }
-  getImageUrl(image_url: string): string {
+  
+  getImageUrl(image_url: string | null | undefined): string {
     if (!image_url) return '';
-    return `${environment.apiImage}/${image_url}`;
+    if (image_url.startsWith('http')) return image_url;
+    const baseUrl = environment?.apiUrl ? environment.apiUrl.replace(/\/api$/, '') : 'http://localhost:8000';
+    const cleanBase = baseUrl.replace(/\/$/, '');
+    const cleanPath = image_url.replace(/^\//, '');
+    
+    return `${cleanBase}/${cleanPath}`;
   }
 }

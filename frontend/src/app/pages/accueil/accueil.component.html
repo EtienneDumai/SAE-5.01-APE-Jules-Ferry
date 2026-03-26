@@ -1,25 +1,3 @@
-<!-- Widgets latéraux -->
-<app-sidebar-widget 
-    title="Calendrier"
-    icon="fa-regular fa-calendar-days"
-    position="right"
-    [topOffset]="140"
-    [smallWidth]="450"
-    [largeWidth]="800"
-    [defaultOpen]="false">
-    <app-calendrier></app-calendrier>
-</app-sidebar-widget>
-
-<app-sidebar-widget 
-    title="Instagram"
-    icon="fa-brands fa-instagram"
-    position="right"
-    [topOffset]="270"
-    [smallWidth]="350"
-    [largeWidth]="600"
-    [defaultOpen]="false">
-    <app-instagram-view></app-instagram-view>
-</app-sidebar-widget>
 <section class="w-full bg-[var(--primary-green)] pt-24 pb-16 border-b-[5px] border-[var(--accent-orange)] relative overflow-hidden">
         
     <div class="absolute top-[-40%] left-[-10%] w-[800px] h-[800px] rounded-full border-[1px] border-[var(--bg-creme)] opacity-5 pointer-events-none"></div>
@@ -44,10 +22,6 @@
                class="inline-block font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] border-b border-[var(--accent-orange)] pb-1 mb-12 hover:text-[var(--bg-creme)] hover:border-[var(--bg-creme)] transition-colors">
                 <i class="fa-solid fa-store mr-1"></i> Accéder à notre boutique
             </a>
-        </div>
-
-        <div class="w-full max-w-4xl mx-auto">
-            <app-calendrier></app-calendrier>
         </div>
     </div>
 </section>
