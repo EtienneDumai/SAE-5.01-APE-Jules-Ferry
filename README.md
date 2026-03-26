@@ -3,7 +3,7 @@ Solution de gestion d'évenements et d'actualités pour l'APE Jules Ferry Anglet
 
 ## 🌐 Contexte
 
-L'APE Jules Ferry a un besoin d'organiser la plannification de ses bénévoles sur les différentes tâches d'un événements, ainsi que faciliter la transmission d'informations aux parents d'élèves.
+L'APE Jules Ferry a un besoin d'organiser la planification de ses bénévoles sur les différentes tâches d'un événement, ainsi que faciliter la transmission d'informations aux parents d'élèves.
 
 ## 🏗️ Architecture du dépôt
 
@@ -20,7 +20,7 @@ Chaque partie contient sa documentation spécifique et sa procédure d'installat
 
 La solution `APE Jules Ferry` est conçue pour être déployée sur des serveurs GNU/Linux de type Debian. Elle utilise une architecture client-serveur avec communication par API Rest.
 
-![Inviseo Architecture](./docs/general/InfrastructureAPE.png "APE Jules Ferry Infrastructure")
+![APE Jules Ferry App Architecture](./docs/general/InfrastructureAPE.png "APE Jules Ferry Infrastructure")
 
 ## Developper en mode local : 
 - Activer l'extension php-pgsql dans le fichier php.ini

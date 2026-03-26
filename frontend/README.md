@@ -15,7 +15,7 @@ Le dossier `app` contient le code principal de l'application.
 
 #### Composants
 
-- `src/app/authentication` 🎨 : Dossier comprenants les composants personnalisés utilisé par l'application.
+- `src/app/authentication` 🎨 : Dossier comprenants les composants personnalisés utilisés par l'application.
 
 ### Enumérations
 
@@ -27,7 +27,7 @@ Le dossier `app` contient le code principal de l'application.
 
 ### Guards
 
-- `src/app/guards` 👥 : contient les guards de l'application, utilisés empecher l'accès à certaines parties de l'application si l'utilisateur n'a pas de compte avec un rôle pouvant y accèder.
+- `src/app/guards` 👥 : contient les guards de l'application, utilisés empecher l'accès à certaines parties de l'application si l'utilisateur n'a pas de compte avec un rôle pouvant y accéder.
 
 ### Interceptors
 
@@ -39,7 +39,7 @@ Le dossier `app` contient le code principal de l'application.
 
 ### Pages
 
-- `src/app/pages` 🖥️ : contient les pages de l'application, basées sur les maquettes de l'application (ensuite soumisent à une refonte graphique).
+- `src/app/pages` 🖥️ : contient les pages de l'application, basées sur les maquettes de l'application (ensuite soumises à une refonte graphique).
 
 ### Services
 
@@ -51,7 +51,7 @@ Le dossier `app` contient le code principal de l'application.
 
 ## 🚀 Lancer l'application
 
-- Pré-requis : avoir cloner le repository Github
+- Pré-requis : avoir cloné le repository Github
 
 Déplacez-vous dans le front :
 

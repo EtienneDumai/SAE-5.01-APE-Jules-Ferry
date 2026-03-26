@@ -2,21 +2,21 @@
 
 ## Ports ouverts
 
-Le serveur est configuré de sorte que seulement les ports utiles soit ouverts à l'exterieur, les ports utiles etant : 
+Le serveur est configuré de sorte que seulement les ports utiles soient ouverts à l'exterieur, les ports utiles etant : 
 - le port 80 (protocol HTTP)📡
 - le port 443 (protocol HTTPS)🔐 
 - le port 22 (protocol SSH )🔧
-Cette ouverture de port est faite avec un firewall plus particulierement ufw qui est une smplification des iptables. 
-Tous les autres ports refuse l'accès depuis l'exterieur.
+Cette ouverture de port est faite avec un firewall plus particulierement ufw qui est une simplification des iptables. 
+Tous les autres ports refusent l'accès depuis l'exterieur.
 
 ## Fail2ban
-Le serveur sur le port 22 est prtotégé par un fail2ban permettant de bannir une ip qui tente de se connecter au serveur via le port ssh.
+Le serveur sur le port 22 est protégé par un fail2ban permettant de bannir une ip qui tente de se connecter au serveur via le port ssh.
 
 Fail2ban a une configuration simple : 
 - 5 essais sur une période de 10 minutes
 - Bannissement d'une durée d'une heure
 
-Pour voir les statistique sur le port ssh : 
+Pour voir les statistiques sur le port ssh : 
 ```bash
     fail2ban-client status sshd
 ```
@@ -30,7 +30,7 @@ La connexion au serveur se fait par clé ssh, pour la configurer il faut qu'un o
 
 ### Générer une clé ssh
 
-Si vous n'avez pas encore de clé ssh générée sur votre ordinateur il faut en générée une.
+Si vous n'avez pas encore de clé ssh générée sur votre ordinateur il faut en générer une.
 
 #### Génération de clé ssh sur Windows : 
 
@@ -41,7 +41,7 @@ La clé qui sera générée sera à l'emplacement :
 ```bash
 C:\Users\VotreUser\.ssh\id_ed25519
 ```
-Une clé ssh fonctionne par paire, le contenu du fichier id_ed25519 ne doit **JAMAIS ETRE DIVULGUÉ** sur aucun canaux même à des proches car il s'agit la clé privée qui est personelle et peut permetrre de retrouver la clé publique avec un algorithme. A l'inverse le fichier id_ed25519.pub contient votre clé publique qui sera à renseigner sur le serveur et peut être divulguée car elle ne fontionnera jamais sans la clé privée lors d'une tenetative de connexion via le protocol ssh.
+Une clé ssh fonctionne par paire, le contenu du fichier id_ed25519 ne doit **JAMAIS ETRE DIVULGUÉ** sur aucun canaux même à des proches car il s'agit la clé privée qui est personnelle et peut permettre de retrouver la clé publique avec un algorithme. A l'inverse le fichier id_ed25519.pub contient votre clé publique qui sera à renseigner sur le serveur et peut être divulguée car elle ne fonctionnera jamais sans la clé privée lors d'une tentative de connexion via le protocol ssh.
 
 #### Génération d'une clé ssh sur Linux
 
@@ -60,7 +60,7 @@ L'email renseigné avec la clé n'affecte pas la connexion il s'agit simplement 
 
 Pour pouvoir copier la clé ssh sur le serveur il faut un ordinateur ayant déjà accès au serveur via ssh.
 
-Il faut ensuite copier la clé publique générée auparavant dans le fichier répértoriant les clé ssh, accessible ici : 
+Il faut ensuite copier la clé publique générée auparavant dans le fichier répertoriant les clé ssh, accessible ici : 
 ```bash
 ~/.ssh/authorized_keys
 ```
