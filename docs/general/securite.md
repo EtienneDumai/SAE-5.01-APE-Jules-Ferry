@@ -69,3 +69,9 @@ Pour que les modifications faites dans le fichier des clés ssh, il faut redéma
 ```bash
 systemctl restart ssh
 ```
+### Se connecter au serveur
+
+Une fois ces étapes faites vous pouvez vous connecter au serveur avec la commande : 
+```bash
+ssh debian@ADRESSE_SERVEUR
+```
