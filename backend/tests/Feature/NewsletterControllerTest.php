@@ -5,153 +5,176 @@ namespace Tests\Feature;
 use App\Models\AbonneNewsletter;
 use App\Models\Utilisateur;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class NewsletterControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_store_ajoute_email_valide()
+    #[Test]
+    public function should_add_email_for_store_endpoint_when_email_is_valid(): void
     {
+        // GIVEN
         $data = ['email' => 'test@example.com'];
 
+        // WHEN
         $response = $this->postJson('/api/newsletter/subscribe', $data);
 
+        // THEN
         $response->assertStatus(201)
             ->assertJson(['message' => 'Merci ! Ton inscription est bien prise en compte.']);
 
         $this->assertDatabaseHas('abonnes_newsletter', [
             'email' => 'test@example.com',
-            'statut' => 'actif'
+            'statut' => 'actif',
         ]);
     }
 
-    public function test_store_refuse_email_invalide()
+    #[Test]
+    public function should_return_validation_errors_for_store_endpoint_when_email_is_invalid(): void
     {
+        // GIVEN
         $data = ['email' => 'pasUnMail'];
 
+        // WHEN
         $response = $this->postJson('/api/newsletter/subscribe', $data);
 
+        // THEN
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJsonPath('errors.email.0', 'Le format de l\'email n\'est pas valide.');
     }
 
-    public function test_store_refuse_email_existant()
+    #[Test]
+    public function should_return_validation_errors_for_store_endpoint_when_email_already_exists(): void
     {
+        // GIVEN
         AbonneNewsletter::factory()->create(['email' => 'existing@example.com']);
 
-        $this->assertDatabaseHas('abonnes_newsletter', ['email' => 'existing@example.com']);
+        // WHEN
+        $response = $this->postJson('/api/newsletter/subscribe', [
+            'email' => 'existing@example.com',
+        ]);
 
-        $data = ['email' => 'existing@example.com'];
-
-        $response = $this->postJson('/api/newsletter/subscribe', $data);
-
+        // THEN
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJsonPath('errors.email.0', 'Cet email est déjà inscrit à notre newsletter !');
     }
 
-    public function test_store_refuse_sans_email()
+    #[Test]
+    public function should_return_validation_errors_for_store_endpoint_when_email_is_missing(): void
     {
-        $response = $this->postJson('/api/newsletter/subscribe', []);
+        // GIVEN
+        $payload = [];
 
+        // WHEN
+        $response = $this->postJson('/api/newsletter/subscribe', $payload);
+
+        // THEN
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJsonPath('errors.email.0', 'L\'adresse email est obligatoire.');
     }
 
-    public function test_index_retourne_la_liste_des_abonnes_pour_un_admin()
+    #[Test]
+    public function should_return_abonnes_for_index_endpoint_when_user_is_admin(): void
     {
+        // GIVEN
         $admin = Utilisateur::factory()->create(['role' => 'administrateur']);
         AbonneNewsletter::factory()->count(3)->create();
-
         $this->actingAs($admin, 'sanctum');
 
+        // WHEN
         $response = $this->getJson('/api/newsletters');
 
+        // THEN
         $response->assertStatus(200)
             ->assertJsonCount(3);
     }
 
-    public function test_index_refuse_un_utilisateur_non_admin()
+    #[Test]
+    public function should_return_forbidden_for_index_endpoint_when_user_is_not_admin(): void
     {
+        // GIVEN
         $user = Utilisateur::factory()->create(['role' => 'parent']);
-
         $this->actingAs($user, 'sanctum');
 
+        // WHEN
         $response = $this->getJson('/api/newsletters');
 
+        // THEN
         $response->assertStatus(403);
     }
 
-    public function test_store_admin_ajoute_un_abonne_pour_un_admin()
+    #[Test]
+    public function should_add_abonne_for_store_admin_endpoint_when_user_is_admin(): void
     {
-        $admin = Utilisateur::factory()->create([
-            'role' => 'administrateur',
-        ]);
-
+        // GIVEN
+        $admin = Utilisateur::factory()->create(['role' => 'administrateur']);
         $this->actingAs($admin, 'sanctum');
 
+        // WHEN
         $response = $this->postJson('/api/newsletters', [
             'email' => 'admin-ajout@example.com',
         ]);
 
+        // THEN
         $response->assertStatus(201);
-
         $this->assertDatabaseHas('abonnes_newsletter', [
             'email' => 'admin-ajout@example.com',
             'statut' => 'actif',
         ]);
     }
 
-    public function test_store_admin_refuse_un_utilisateur_non_admin()
+    #[Test]
+    public function should_return_forbidden_for_store_admin_endpoint_when_user_is_not_admin(): void
     {
-        $user = Utilisateur::factory()->create([
-            'role' => 'parent',
-        ]);
-
+        // GIVEN
+        $user = Utilisateur::factory()->create(['role' => 'parent']);
         $this->actingAs($user, 'sanctum');
 
+        // WHEN
         $response = $this->postJson('/api/newsletters', [
             'email' => 'admin-ajout@example.com',
         ]);
 
+        // THEN
         $response->assertStatus(403);
-
         $this->assertDatabaseMissing('abonnes_newsletter', [
             'email' => 'admin-ajout@example.com',
         ]);
     }
 
-    public function test_destroy_supprime_un_abonne_pour_un_admin()
+    #[Test]
+    public function should_delete_abonne_for_destroy_endpoint_when_user_is_admin(): void
     {
-        $admin = Utilisateur::factory()->create([
-            'role' => 'administrateur',
-        ]);
+        // GIVEN
+        $admin = Utilisateur::factory()->create(['role' => 'administrateur']);
         $abonne = AbonneNewsletter::factory()->create();
-
         $this->actingAs($admin, 'sanctum');
 
+        // WHEN
         $response = $this->deleteJson("/api/newsletters/{$abonne->id_abonne}");
 
+        // THEN
         $response->assertStatus(200);
-
         $this->assertDatabaseMissing('abonnes_newsletter', [
             'id_abonne' => $abonne->id_abonne,
         ]);
     }
 
-    public function test_destroy_refuse_un_utilisateur_non_admin()
+    #[Test]
+    public function should_return_forbidden_for_destroy_endpoint_when_user_is_not_admin(): void
     {
-        $user = Utilisateur::factory()->create([
-            'role' => 'parent',
-        ]);
+        // GIVEN
+        $user = Utilisateur::factory()->create(['role' => 'parent']);
         $abonne = AbonneNewsletter::factory()->create();
-
         $this->actingAs($user, 'sanctum');
 
+        // WHEN
         $response = $this->deleteJson("/api/newsletters/{$abonne->id_abonne}");
 
+        // THEN
         $response->assertStatus(403);
-
         $this->assertDatabaseHas('abonnes_newsletter', [
             'id_abonne' => $abonne->id_abonne,
         ]);
