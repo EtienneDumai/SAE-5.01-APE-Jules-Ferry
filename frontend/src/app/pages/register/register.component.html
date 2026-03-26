@@ -1,11 +1,11 @@
 <div class="min-h-screen flex items-center justify-center bg-[var(--bg-creme)] px-4 py-12 relative overflow-hidden">
-  
   <div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full border-[1px] border-[var(--primary-green)] opacity-5 pointer-events-none"></div>
+  <div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full border-[1px] border-[var(--primary-green)] opacity-5 pointer-events-none"></div>
 
-  <div class="relative z-10 bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-8 sm:p-10 w-full max-w-md animate-fade-up">
+  <div class="relative z-10 bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] p-8 sm:p-10 w-full max-w-md animate-fade-up">
     
     <div class="text-center mb-8">
-      <h1 class="font-abril text-4xl text-[var(--primary-green)] mb-2 tracking-wide">INSCRIPTION</h1>
+      <h1 class="font-abril text-4xl text-[var(--primary-green)] mb-2 tracking-wide">BIENVENUE</h1>
       <p class="font-josefin text-[11px] uppercase tracking-[0.1em] text-[var(--text-secondary)]">Création de compte parent</p>
     </div>
 
@@ -16,130 +16,94 @@
       </div>
     }
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
-      
-      <div class="flex flex-col sm:flex-row gap-5">
-        <div class="flex-1">
+    @if (successMessage) {
+      <div class="bg-green-50 border-[1.5px] border-green-200 text-green-700 px-4 py-6 rounded-[4px] mb-6 text-center">
+        <div class="flex flex-col items-center gap-2">
+          <i class="fa-regular fa-circle-check text-3xl text-[var(--primary-green)]"></i>
+          <span class="font-dm text-sm font-medium">{{ successMessage }}</span>
+        </div>
+      </div>
+    }
+
+    @if (!successMessage) {
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+        <div>
           <label for="nom" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Nom</label>
           <input 
             type="text" 
-            id="nom" 
-            formControlName="nom"
-            placeholder="votre nom"
-            class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors uppercase"
+            id="nom"
+            formControlName="nom" 
+            placeholder="Dupont"
+            class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
             [class.border-red-500]="nom?.invalid && nom?.touched"
             [class.border-[var(--border-light)]]="!nom?.invalid || !nom?.touched"
           />
           @if (nom?.invalid && nom?.touched) {
             <div class="mt-1.5 font-dm text-xs text-red-500">
-              @if (nom?.errors?.['required']) { <p>Obligatoire</p> }
-              @if (nom?.errors?.['maxlength']) { <p>Max 50 car.</p> }
+              <p>Le nom est obligatoire</p>
             </div>
           }
         </div>
 
-        <div class="flex-1">
+        <div>
           <label for="prenom" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Prénom</label>
           <input 
             type="text" 
-            id="prenom" 
-            formControlName="prenom"
-            placeholder="Votre prénom"
-            class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors capitalize"
+            id="prenom"
+            formControlName="prenom" 
+            placeholder="Marie"
+            class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
             [class.border-red-500]="prenom?.invalid && prenom?.touched"
             [class.border-[var(--border-light)]]="!prenom?.invalid || !prenom?.touched"
           />
           @if (prenom?.invalid && prenom?.touched) {
             <div class="mt-1.5 font-dm text-xs text-red-500">
-              @if (prenom?.errors?.['required']) { <p>Obligatoire</p> }
-              @if (prenom?.errors?.['maxlength']) { <p>Max 50 car.</p> }
+              <p>Le prénom est obligatoire</p>
             </div>
           }
         </div>
-      </div>
 
-      <div>
-        <label for="email" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          formControlName="email"
-          placeholder="votre.email@exemple.fr"
-          class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-          [class.border-red-500]="email?.invalid && email?.touched"
-          [class.border-[var(--border-light)]]="!email?.invalid || !email?.touched"
-        />
-        @if (email?.invalid && email?.touched) {
-          <div class="mt-1.5 font-dm text-xs text-red-500">
-            @if (email?.errors?.['required']) { <p>L'email est obligatoire</p> }
-            @if (email?.errors?.['email']) { <p>L'email doit être valide</p> }
-          </div>
-        }
-      </div>
+        <div>
+          <label for="email" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Adresse Email</label>
+          <input 
+            type="email" 
+            id="email"
+            formControlName="email" 
+            placeholder="marie.dupont@exemple.fr"
+            class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+            [class.border-red-500]="email?.invalid && email?.touched"
+            [class.border-[var(--border-light)]]="!email?.invalid || !email?.touched"
+          />
+          @if (email?.invalid && email?.touched) {
+            <div class="mt-1.5 font-dm text-xs text-red-500">
+              <p>L'email doit être valide</p>
+            </div>
+          }
+        </div>
 
-      <div>
-        <label for="mot_de_passe" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Mot de passe</label>
-        <input 
-          type="password" 
-          id="mot_de_passe" 
-          formControlName="mot_de_passe"
-          placeholder="••••••••"
-          class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-          [class.border-red-500]="mot_de_passe?.invalid && mot_de_passe?.touched"
-          [class.border-[var(--border-light)]]="!mot_de_passe?.invalid || !mot_de_passe?.touched"
-        />
-        @if (mot_de_passe?.invalid && mot_de_passe?.touched) {
-          <div class="mt-1.5 font-dm text-xs text-red-500 leading-snug">
-            @if (mot_de_passe?.errors?.['required']) { <p>Obligatoire</p> }
-            @if (mot_de_passe?.errors?.['minlength']) { <p>8 caractères minimum</p> }
-            @if(mot_de_passe?.errors?.['pattern']) { <p>Requis : 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial</p> }
-          </div>
-        }
-      </div>
+        <button 
+          type="submit" 
+          [disabled]="registerForm.invalid || isLoading"
+          class="w-full btn-primary !py-3 mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[var(--primary-green)]"
+        >
+          @if (!isLoading) { 
+            <span>S'inscrire</span> 
+          }
+          @if (isLoading) {
+            <span class="flex items-center justify-center gap-2">
+              <i class="fa-solid fa-spinner fa-spin text-lg"></i>
+              Inscription en cours...
+            </span>
+          }
+        </button>
 
-      <div>
-        <label for="mot_de_passe_confirmation" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Confirmer le mot de passe</label>
-        <input 
-          type="password" 
-          id="mot_de_passe_confirmation" 
-          formControlName="mot_de_passe_confirmation"
-          placeholder="••••••••"
-          class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] rounded-[4px] font-dm text-sm text-[var(--primary-green)] placeholder:text-gray-400 focus:outline-none focus:border-[var(--primary-green)] transition-colors"
-          [class.border-red-500]="(mot_de_passe_confirmation?.invalid && mot_de_passe_confirmation?.touched) || passwordMismatch"
-          [class.border-[var(--border-light)]]="(!mot_de_passe_confirmation?.invalid || !mot_de_passe_confirmation?.touched) && !passwordMismatch"
-        />
-        @if (mot_de_passe_confirmation?.invalid && mot_de_passe_confirmation?.touched) {
-          <div class="mt-1.5 font-dm text-xs text-red-500">
-            @if (mot_de_passe_confirmation?.errors?.['required']) { <p>La confirmation est obligatoire</p> }
-          </div>
-        }
-        @if (passwordMismatch) {
-          <div class="mt-1.5 font-dm text-xs text-red-500">
-            <p>Les mots de passe ne correspondent pas</p>
-          </div>
-        }
-      </div>
-
-      <button 
-        type="submit" 
-        [disabled]="registerForm.invalid || isLoading"
-        class="w-full btn-primary !py-3 mt-6 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[var(--primary-green)]"
-      >
-        @if (!isLoading) {
-          <span>S'inscrire</span>
-        }
-        @if (isLoading) {
-          <span class="flex items-center justify-center gap-2">
-            <i class="fa-solid fa-spinner fa-spin text-lg"></i>
-            Création en cours...
-          </span>
-        }
-      </button>
-    </form>
+      </form>
+    }
 
     <div class="mt-8 pt-6 border-t border-[var(--border-light)] text-center">
       <p class="font-dm text-sm text-[var(--text-secondary)]">
-        Déjà un compte ? 
+        Vous avez déjà un compte ? 
         <a routerLink="/login" class="font-josefin text-[11px] uppercase tracking-widest font-bold text-[var(--accent-orange)] hover:text-[var(--primary-green)] transition-colors ml-1">
           Se connecter
         </a>

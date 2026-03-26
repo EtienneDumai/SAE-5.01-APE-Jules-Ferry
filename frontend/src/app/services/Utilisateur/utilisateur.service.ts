@@ -38,8 +38,8 @@ export class UtilisateurService {
     return this.http.put<Utilisateur>(`${environment.apiUrl}/utilisateurs/${id}`, body);
   }
 
-  deleteUtilisateur(id: number, admin_password?: string): Observable<{ message: string }> {
-    const options = admin_password ? { body: { admin_password } } : {};
+  deleteUtilisateur(id: number, motDePasse?: string): Observable<{ message: string }> {
+    const options = motDePasse ? { body: { mot_de_passe: motDePasse } } : {};
     return this.http.delete<{ message: string }>(`${environment.apiUrl}/utilisateurs/${id}`, options);
   }
 

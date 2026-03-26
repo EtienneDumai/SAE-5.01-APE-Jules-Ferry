@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   // Indique si on doit afficher le champ mot de passe (true = admin et false = saisie email)
   loginMdp = false;
+  showPassword = false; // l'oeil
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -46,13 +47,19 @@ export class LoginComponent implements OnInit {
     this.authService.checkEmailType(emailSaisi).subscribe({
       next: (response) => {
         if (response.action === 'require_password') {
-          // C'est un admin : on affiche le champ mdp et on ajoute les validateurs
+          // C'est un admin on affiche le champ mdp et on ajoute les validateurs
           this.loginMdp = true;
           this.mot_de_passe?.setValidators([Validators.required, Validators.minLength(8)]);
           this.mot_de_passe?.updateValueAndValidity();
           this.isLoading = false;
-        } else {
-          // C'est un parent : on demande le lien magique
+        } else if (response.action === 'not_found') {
+          this.isLoading = false;
+          this.errorMessage = "Aucun compte associé à cet email. Veuillez vous inscrire.";
+        } else if (response.action === 'deactivated') {
+          this.isLoading = false;
+          this.errorMessage = "Votre compte a été désactivé. Veuillez contacter l'APE."; 
+        }else {
+          // C'est un parent alors on demande le lien magique
           this.demanderLienMagique(emailSaisi);
         }
       },
@@ -96,10 +103,29 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-  // Permet à l'admin de revenir en arrière pour corriger son mail
+ 
+  motDePasseOublie(): void {
+    if (!this.email?.value) {
+      this.errorMessage = "Veuillez saisir votre email d'abord.";
+      return;
+    }
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.authService.forgotPassword(this.email?.value).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.successMessage = "Un lien pour réinitialiser votre mot de passe vous a été envoyé par email.";
+      },
+      error: () => {
+        this.isLoading = false;
+        this.errorMessage = "Impossible d'envoyer le lien. Veuillez réessayer.";
+      }
+    });
+  }
+ 
   retourEtape1(): void {
     this.loginMdp = false;
+    this.showPassword = false;
     this.mot_de_passe?.clearValidators();
     this.mot_de_passe?.updateValueAndValidity();
     this.mot_de_passe?.setValue('');

@@ -31,18 +31,26 @@ export class UserFormComponent implements OnInit {
     }
 
     private initForm() {
+        // On crée la base du formulaire sans le mot de passe
         this.userForm = this.fb.group({
             nom: [this.user?.nom || '', [Validators.required, Validators.maxLength(50)]],
             prenom: [this.user?.prenom || '', [Validators.required, Validators.maxLength(50)]],
             email: [this.user?.email || '', [Validators.required, Validators.email, Validators.maxLength(100)]],
-            // Le mdp est optionnel en édition mais obligatoire en création
-            mot_de_passe: [
-                this.user?.mot_de_passe || '',
-                this.isCreation ? [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)] : []
-            ],
             role: [this.user?.role || RoleUtilisateur.parent, [Validators.required]],
             statut_compte: [this.user?.statut_compte || StatutCompte.actif, [Validators.required]]
         });
+
+        // Si c'est une création, on ajoute le contrôle du mot de passe dynamiquement
+        if (this.isCreation) {
+            this.userForm.addControl(
+                'mot_de_passe',
+                this.fb.control('', [
+                    Validators.required, 
+                    Validators.minLength(8), 
+                    Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)
+                ])
+            );
+        }
     }
 
     onSubmit() {

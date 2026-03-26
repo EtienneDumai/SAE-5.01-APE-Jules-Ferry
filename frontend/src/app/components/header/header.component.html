@@ -39,8 +39,7 @@
           Mon Compte
         </button>
 
-        <button (click)="logout()" title="Déconnexion" class="text-[var(--bg-creme)] opacity-70 hover:opacity-100 hover:text-[var(--accent-orange)] transition-colors p-1">
-          <i class="fa-solid fa-power-off text-lg"></i>
+        <button (click)="declencherLogout()" title="Déconnexion" class="text-[var(--bg-creme)] opacity-70 hover:opacity-100 hover:text-[var(--accent-orange)] transition-colors p-1">          <i class="fa-solid fa-power-off text-lg"></i>
         </button>
       }
     </div>
@@ -80,5 +79,10 @@
         }
       </nav>
     </aside>
+  }@if (showLogoutModal) {
+    <app-confirmation-modal 
+      (validateAction)="confirmerLogout()" 
+      (cancel)="showLogoutModal = false">
+    </app-confirmation-modal>
   }
 </header>

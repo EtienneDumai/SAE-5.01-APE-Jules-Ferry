@@ -35,19 +35,21 @@
             }
         </div>
 
-        <div>
-            <input formControlName="mot_de_passe" type="password"
-                [placeholder]="isCreation ? 'Mot de passe' : 'Nouveau mot de passe'"
-                class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500"
-                [class.border-red-500]="f['mot_de_passe'].invalid && f['mot_de_passe'].touched">
-            @if (f['mot_de_passe'].invalid && f['mot_de_passe'].touched) {
-            <div class="text-red-500 text-[10px]">
-                @if (f['mot_de_passe'].errors?.['required']) { Requis }
-                @else if (f['mot_de_passe'].errors?.['minlength']) { 8 car. min }
-                @else if (f['mot_de_passe'].errors?.['pattern']) { Trop faible }
+        @if (isCreation) {
+            <div>
+                <input formControlName="mot_de_passe" type="password"
+                    placeholder="Mot de passe (8 car. min)"
+                    class="w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500"
+                    [class.border-red-500]="f['mot_de_passe'].invalid && f['mot_de_passe'].touched">
+                @if (f['mot_de_passe'].invalid && f['mot_de_passe'].touched) {
+                <div class="text-red-500 text-[10px]">
+                    @if (f['mot_de_passe'].errors?.['required']) { Requis }
+                    @else if (f['mot_de_passe'].errors?.['minlength']) { 8 car. min }
+                    @else if (f['mot_de_passe'].errors?.['pattern']) { Trop faible }
+                </div>
+                }
             </div>
-            }
-        </div>
+        }
     </form>
 </td>
 

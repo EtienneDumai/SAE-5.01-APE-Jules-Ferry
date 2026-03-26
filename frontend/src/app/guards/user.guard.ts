@@ -7,7 +7,7 @@ export const userGuard: CanMatchFn = () => {
   const router = inject(Router);
 
   //si utilisateur connecté, redirect vers accueil
-  if (authService.isAuthenticated()) {
+  if (authService.isAuthenticatedStatus()) {
     return true;
   }
   else{

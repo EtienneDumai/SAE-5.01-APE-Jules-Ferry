@@ -127,10 +127,10 @@ export class CompteUtilisateurComponent implements OnInit {
   // 3. Action finale confirmée par la modale
   confirmDeleteAccount(): void {
     if (!this.currentUser?.id_utilisateur) return;
-    if (!this.deletePassword) {
-        this.toastService.showWithTimeout('Veuillez entrer votre mot de passe', TypeErreurToast.ERROR);
-        return;
-    }
+    if (this.currentUser.role !== 'parent' && !this.deletePassword) {
+      this.toastService.showWithTimeout('Veuillez entrer votre mot de passe', TypeErreurToast.ERROR);
+      return;
+  }
 
     this.deleteLoading = true;
 

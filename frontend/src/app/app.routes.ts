@@ -22,6 +22,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/Auth/magic-link-verify/magic-link-verify.component').then(m => m.MagicLinkVerifyComponent),
         canActivate: [guestGuard]
     },
+    { 
+        path: 'set-password', 
+        loadComponent: () => import('./pages/set-password/set-password.component').then(m => m.SetPasswordComponent),
+    },
     
     { path: '', loadComponent: () => import('./pages/accueil/accueil.component').then(m => m.AccueilComponent) },
 
