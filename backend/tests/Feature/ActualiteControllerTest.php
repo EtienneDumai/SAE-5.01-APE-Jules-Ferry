@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers\Api;
+namespace Tests\Feature;
+
 use App\Models\Actualite;
-use App\Models\User;
+use App\Models\Utilisateur;
 use App\Services\Image\ImageConverterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-
 
 class ActualiteControllerTest extends TestCase
 {
@@ -17,133 +18,164 @@ class ActualiteControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         Storage::fake('public');
     }
 
-    public function test_index_retoune_les_actualites_publiees_ordonnee_par_date()
+    #[Test]
+    public function should_return_published_actualites_ordered_by_date_for_index_endpoint(): void
     {
+        // GIVEN
         Actualite::factory()->create([
             'statut' => 'publie',
-            'date_publication' => '2024-01-01'
+            'date_publication' => '2024-01-01',
         ]);
         Actualite::factory()->create([
             'statut' => 'publie',
-            'date_publication' => '2024-01-02'
+            'date_publication' => '2024-01-02',
         ]);
         Actualite::factory()->create([
             'statut' => 'brouillon',
-            'date_publication' => '2024-01-03'
+            'date_publication' => '2024-01-03',
         ]);
 
+        // WHEN
         $response = $this->getJson('/api/actualites');
 
+        // THEN
         $response->assertStatus(200)
             ->assertJsonCount(2)
             ->assertJsonPath('0.date_publication', '2024-01-02');
     }
 
-    public function test_show_retourne_actualite_lorsqu_elle_existe()
+    #[Test]
+    public function should_return_actualite_for_show_endpoint_when_actualite_exists(): void
     {
-        $actualite = Actualite::factory()->create(['titre' => 'Test Actualité']);
+        // GIVEN
+        $actualite = Actualite::factory()->create(['titre' => 'Test Actualite']);
 
+        // WHEN
         $response = $this->getJson("/api/actualites/{$actualite->id_actualite}");
 
+        // THEN
         $response->assertStatus(200)
-            ->assertJsonPath('titre', 'Test Actualité');
+            ->assertJsonPath('titre', 'Test Actualite');
     }
 
-    public function test_show_retourne_404_lorsque_actualite_non_trouvee()
+    #[Test]
+    public function should_return_not_found_for_show_endpoint_when_actualite_does_not_exist(): void
     {
-        $response = $this->getJson('/api/actualites/999');
+        // GIVEN
+        $missingId = 999;
 
+        // WHEN
+        $response = $this->getJson("/api/actualites/{$missingId}");
+
+        // THEN
         $response->assertStatus(404)
             ->assertJson(['message' => 'Actualité non trouvée']);
     }
 
-    public function test_store_cree_une_actualite_sans_image()
+    #[Test]
+    public function should_create_actualite_without_image_for_store_endpoint_when_data_is_valid(): void
     {
-        $auteur = \App\Models\Utilisateur::factory()->create();
-        
+        // GIVEN
+        $auteur = Utilisateur::factory()->create();
         $data = [
-            'titre' => 'Nouvelle Actualité',
-            'contenu' => 'Contenu de test',
-            'date_publication' => '2024-01-01',
-            'statut' => 'publie',
-            'id_auteur' => $auteur->id_utilisateur
-        ];
-
-        $response = $this->postJson('/api/actualites', $data);
-
-        $response->assertStatus(201)
-            ->assertJsonPath('titre', 'Nouvelle Actualité');
-        $this->assertDatabaseHas('actualites', ['titre' => 'Nouvelle Actualité']);
-    }
-
-    public function test_store_cree_une_actualite_avec_image()
-    {
-        $this->mock(ImageConverterService::class, function ($mock) {
-            $mock->shouldReceive('convertImageToWebp')->once();
-        });
-
-        $auteur = \App\Models\Utilisateur::factory()->create();
-        $file = UploadedFile::fake()->image('test.jpg');
-
-        $data = [
-            'titre' => 'Actualité avec Image',
+            'titre' => 'Nouvelle Actualite',
             'contenu' => 'Contenu de test',
             'date_publication' => '2024-01-01',
             'statut' => 'publie',
             'id_auteur' => $auteur->id_utilisateur,
-            'image' => $file
         ];
 
+        // WHEN
         $response = $this->postJson('/api/actualites', $data);
 
-        $response->assertStatus(201);
-        $this->assertDatabaseHas('actualites', ['titre' => 'Actualité avec Image']);
+        // THEN
+        $response->assertStatus(201)
+            ->assertJsonPath('titre', 'Nouvelle Actualite');
+        $this->assertDatabaseHas('actualites', ['titre' => 'Nouvelle Actualite']);
     }
 
-    public function test_store_echoue_la_validation_avec_des_donnees_invalides()
+    #[Test]
+    public function should_create_actualite_with_image_for_store_endpoint_when_data_is_valid(): void
     {
+        // GIVEN
+        $this->mock(ImageConverterService::class, function ($mock) {
+            $mock->shouldReceive('convertImageToWebp')->once();
+        });
+
+        $auteur = Utilisateur::factory()->create();
+        $file = UploadedFile::fake()->image('test.jpg');
+
         $data = [
-            'titre' => '',
-            'statut' => 'invalid'
+            'titre' => 'Actualite avec Image',
+            'contenu' => 'Contenu de test',
+            'date_publication' => '2024-01-01',
+            'statut' => 'publie',
+            'id_auteur' => $auteur->id_utilisateur,
+            'image' => $file,
         ];
 
+        // WHEN
         $response = $this->postJson('/api/actualites', $data);
 
+        // THEN
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('actualites', ['titre' => 'Actualite avec Image']);
+    }
+
+    #[Test]
+    public function should_return_validation_errors_for_store_endpoint_when_data_is_invalid(): void
+    {
+        // GIVEN
+        $data = [
+            'titre' => '',
+            'statut' => 'invalid',
+        ];
+
+        // WHEN
+        $response = $this->postJson('/api/actualites', $data);
+
+        // THEN
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['titre', 'contenu', 'date_publication', 'statut']);
     }
 
-    public function test_update_modifie_une_actualite_existante()
+    #[Test]
+    public function should_update_actualite_for_update_endpoint_when_actualite_exists(): void
     {
+        // GIVEN
         $actualite = Actualite::factory()->create(['titre' => 'Ancien Titre']);
-
         $data = [
             'titre' => 'Nouveau Titre',
             'contenu' => 'Nouveau contenu',
             'date_publication' => '2024-01-01',
-            'statut' => 'publie'
+            'statut' => 'publie',
         ];
 
+        // WHEN
         $response = $this->putJson("/api/actualites/{$actualite->id_actualite}", $data);
 
+        // THEN
         $response->assertStatus(200)
             ->assertJsonPath('titre', 'Nouveau Titre');
         $this->assertDatabaseHas('actualites', ['titre' => 'Nouveau Titre']);
     }
 
-    public function test_update_remplace_l_image()
+    #[Test]
+    public function should_replace_image_for_update_endpoint_when_new_image_is_provided(): void
     {
+        // GIVEN
         $this->mock(ImageConverterService::class, function ($mock) {
             $mock->shouldReceive('convertImageToWebp')->once();
         });
 
         $actualite = Actualite::factory()->create([
-            'image_url' => '/storage/actualites/old.webp'
+            'image_url' => '/storage/actualites/old.webp',
         ]);
-
+        Storage::disk('public')->put('actualites/old.webp', 'content');
         $file = UploadedFile::fake()->image('new.jpg');
 
         $data = [
@@ -151,48 +183,64 @@ class ActualiteControllerTest extends TestCase
             'contenu' => 'Contenu',
             'date_publication' => '2024-01-01',
             'statut' => 'publie',
-            'image' => $file
+            'image' => $file,
         ];
 
+        // WHEN
         $response = $this->putJson("/api/actualites/{$actualite->id_actualite}", $data);
 
+        // THEN
         $response->assertStatus(200);
         Storage::disk('public')->assertMissing('actualites/old.webp');
     }
 
-    public function test_update_retourne_404_lorsque_actualite_non_trouvee()
+    #[Test]
+    public function should_return_not_found_for_update_endpoint_when_actualite_does_not_exist(): void
     {
+        // GIVEN
         $data = [
             'titre' => 'Titre',
             'contenu' => 'Contenu',
             'date_publication' => '2024-01-01',
-            'statut' => 'publie'
+            'statut' => 'publie',
         ];
 
+        // WHEN
         $response = $this->putJson('/api/actualites/999', $data);
 
+        // THEN
         $response->assertStatus(404);
     }
 
-    public function test_destroy_supprime_une_actualite_et_son_image()
+    #[Test]
+    public function should_delete_actualite_and_image_for_destroy_endpoint_when_actualite_exists(): void
     {
+        // GIVEN
         $actualite = Actualite::factory()->create([
-            'image_url' => '/storage/actualites/test.webp'
+            'image_url' => '/storage/actualites/test.webp',
         ]);
         Storage::disk('public')->put('actualites/test.webp', 'content');
 
+        // WHEN
         $response = $this->deleteJson("/api/actualites/{$actualite->id_actualite}");
 
+        // THEN
         $response->assertStatus(200)
             ->assertJson(['message' => 'Actualité supprimée avec succès']);
         $this->assertDatabaseMissing('actualites', ['id_actualite' => $actualite->id_actualite]);
         Storage::disk('public')->assertMissing('actualites/test.webp');
     }
 
-    public function test_destroy_retourne_404_lorsque_actualite_non_trouvee()
+    #[Test]
+    public function should_return_not_found_for_destroy_endpoint_when_actualite_does_not_exist(): void
     {
-        $response = $this->deleteJson('/api/actualites/999');
+        // GIVEN
+        $missingId = 999;
 
+        // WHEN
+        $response = $this->deleteJson("/api/actualites/{$missingId}");
+
+        // THEN
         $response->assertStatus(404);
     }
 }
