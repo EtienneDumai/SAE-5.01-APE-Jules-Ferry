@@ -82,7 +82,7 @@
   }@if (showLogoutModal) {
     <app-confirmation-modal 
       (validateAction)="confirmerLogout()" 
-      (cancel)="showLogoutModal = false">
+      (cancelAction)="showLogoutModal = false">
     </app-confirmation-modal>
   }
 </header>
