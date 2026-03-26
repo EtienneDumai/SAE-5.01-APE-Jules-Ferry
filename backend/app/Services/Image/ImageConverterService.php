@@ -52,7 +52,7 @@ class ImageConverterService
                     }
                     break;
                 case 'image/webp':
-                    return true;
+                    return copy($source, $destination);
                 default:
                     throw new RuntimeException("Format non supporté : $mime");
             }
