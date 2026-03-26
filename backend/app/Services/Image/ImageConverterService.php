@@ -51,6 +51,8 @@ class ImageConverterService
                         imagepalettetotruecolor($image);
                     }
                     break;
+                case 'image/webp':
+                    return true;
                 default:
                     throw new RuntimeException("Format non supporté : $mime");
             }
