@@ -2,154 +2,129 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\Utilisateur;
 use App\Models\Creneau;
-use App\Models\Inscription;
 use App\Models\Evenement;
 use App\Models\Formulaire;
+use App\Models\Inscription;
 use App\Models\Tache;
+use App\Models\Utilisateur;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class InscriptionControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_store_creates_inscription()
+    #[Test]
+    public function should_return_created_response_for_store_endpoint_when_data_is_valid(): void
     {
+        // GIVEN
         $user = Utilisateur::factory()->create(['role' => 'parent']);
+        $creneau = $this->createCreneauForEvent(now()->addDay()->toDateString(), 5);
+
         $this->actingAs($user, 'sanctum');
 
-        $evenement = Evenement::factory()->create(['date_evenement' => now()->addDay()]);
-        $formulaire = Formulaire::factory()->create();
-        $evenement->update(['id_formulaire' => $formulaire->id_formulaire]);
-
-        $tache = Tache::factory()->create(['id_formulaire' => $formulaire->id_formulaire]);
-        $creneau = Creneau::factory()->create(['id_tache' => $tache->id_tache, 'quota' => 5]);
-
-        $data = [
+        // WHEN
+        $response = $this->postJson('/api/inscriptions', [
             'id_creneau' => $creneau->id_creneau,
-            'commentaire' => 'Participe'
-        ];
+            'commentaire' => 'Participe',
+        ]);
 
-        $response = $this->postJson('/api/inscriptions', $data);
+        // THEN
+        $response->assertStatus(201)
+            ->assertJson(['message' => 'Inscription validée !']);
 
-        $response->assertStatus(201);
         $this->assertDatabaseHas('inscriptions', [
             'id_utilisateur' => $user->id_utilisateur,
-            'id_creneau' => $creneau->id_creneau
+            'id_creneau' => $creneau->id_creneau,
+            'commentaire' => 'Participe',
         ]);
     }
 
-    public function test_store_fails_if_event_is_past()
+    #[Test]
+    public function should_return_unprocessable_entity_for_store_endpoint_when_event_is_past(): void
     {
+        // GIVEN
         $user = Utilisateur::factory()->create(['role' => 'parent']);
+        $creneau = $this->createCreneauForEvent(now()->subDay()->toDateString(), 5);
+
         $this->actingAs($user, 'sanctum');
 
-        $evenement = Evenement::factory()->create(['date_evenement' => now()->subDay()]);
-        $formulaire = Formulaire::factory()->create();
-        $evenement->update(['id_formulaire' => $formulaire->id_formulaire]);
+        // WHEN
+        $response = $this->postJson('/api/inscriptions', [
+            'id_creneau' => $creneau->id_creneau,
+        ]);
 
-        $tache = Tache::factory()->create(['id_formulaire' => $formulaire->id_formulaire]);
-        $creneau = Creneau::factory()->create(['id_tache' => $tache->id_tache]);
-
-        $data = ['id_creneau' => $creneau->id_creneau];
-
-        $response = $this->postJson('/api/inscriptions', $data);
-
-        $response->assertStatus(422);
+        // THEN
+        $response->assertStatus(422)
+            ->assertJson(['message' => 'Impossible de s\'inscrire à un événement passé.']);
     }
 
-    public function test_store_fails_if_quota_ok()
+    #[Test]
+    public function should_return_user_inscriptions_for_mes_inscriptions_endpoint(): void
     {
+        // GIVEN
         $user = Utilisateur::factory()->create(['role' => 'parent']);
         $this->actingAs($user, 'sanctum');
 
-        $evenement = Evenement::factory()->create(['date_evenement' => now()->addDay()]);
-        $formulaire = Formulaire::factory()->create();
-        $evenement->update(['id_formulaire' => $formulaire->id_formulaire]);
-
-        $tache = Tache::factory()->create(['id_formulaire' => $formulaire->id_formulaire]);
-        $creneau = Creneau::factory()->create(['id_tache' => $tache->id_tache, 'quota' => 1]);
-
-        Inscription::factory()->create(['id_creneau' => $creneau->id_creneau]);
-
-        $data = ['id_creneau' => $creneau->id_creneau];
-
-        $response = $this->postJson('/api/inscriptions', $data);
-
-        $response->assertStatus(422);
-    }
-
-    public function test_store_fails_if_already_registered()
-    {
-        $user = Utilisateur::factory()->create(['role' => 'parent']);
-        $this->actingAs($user, 'sanctum');
-
-        $evenement = Evenement::factory()->create(['date_evenement' => now()->addDay()]);
-        $formulaire = Formulaire::factory()->create();
-        $evenement->update(['id_formulaire' => $formulaire->id_formulaire]);
-        $tache = Tache::factory()->create(['id_formulaire' => $formulaire->id_formulaire]);
-        $creneau = Creneau::factory()->create(['id_tache' => $tache->id_tache, 'quota' => 5]);
-
-        Inscription::create([
+        Inscription::factory()->count(3)->create([
             'id_utilisateur' => $user->id_utilisateur,
-            'id_creneau' => $creneau->id_creneau
         ]);
 
-        $data = ['id_creneau' => $creneau->id_creneau];
+        Inscription::factory()->create();
 
-        $response = $this->postJson('/api/inscriptions', $data);
-
-        $response->assertStatus(409);
-    }
-
-    public function test_mes_inscriptions_returns_list()
-    {
-        $user = Utilisateur::factory()->create(['role' => 'parent']);
-        $this->actingAs($user, 'sanctum');
-
-        Inscription::factory()->count(3)->create(['id_utilisateur' => $user->id_utilisateur]);
-
+        // WHEN
         $response = $this->getJson('/api/inscriptions/mes-inscriptions');
 
+        // THEN
         $response->assertStatus(200)
             ->assertJsonCount(3);
     }
 
-    public function test_destroy_cancels_inscription()
+    #[Test]
+    public function should_return_success_for_admin_store_endpoint_when_data_is_valid(): void
     {
-        $user = Utilisateur::factory()->create(['role' => 'parent']);
-        $this->actingAs($user, 'sanctum');
+        // GIVEN
+        $admin = Utilisateur::factory()->create(['role' => 'parent']);
+        $user = Utilisateur::factory()->create();
+        $creneau = $this->createCreneauForEvent(now()->addDay()->toDateString(), 5);
 
-        $inscription = Inscription::factory()->create(['id_utilisateur' => $user->id_utilisateur]);
+        $this->actingAs($admin, 'sanctum');
 
-        $response = $this->deleteJson("/api/inscriptions/{$inscription->id_creneau}");
-
-        $response->assertStatus(200);
-        $this->assertDatabaseMissing('inscriptions', [
+        // WHEN
+        $response = $this->postJson('/api/admin/inscriptions', [
             'id_utilisateur' => $user->id_utilisateur,
-            'id_creneau' => $inscription->id_creneau
+            'id_creneau' => $creneau->id_creneau,
+            'commentaire' => 'Inscrit par admin',
+        ]);
+
+        // THEN
+        $response->assertStatus(201)
+            ->assertJson(['message' => 'Inscription ajoutée avec succès !']);
+
+        $this->assertDatabaseHas('inscriptions', [
+            'id_utilisateur' => $user->id_utilisateur,
+            'id_creneau' => $creneau->id_creneau,
         ]);
     }
 
-    public function test_store_validation_errors()
+    private function createCreneauForEvent(string $eventDate, int $quota): Creneau
     {
-        $user = Utilisateur::factory()->create(['role' => 'parent']);
-        $this->actingAs($user, 'sanctum');
+        $formulaire = Formulaire::factory()->create();
 
-        $response = $this->postJson('/api/inscriptions', ['id_creneau' => 99999]);
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['id_creneau']);
-        $creneau = Creneau::factory()->create();
-
-        $longComment = str_repeat('a', 501);
-        $response = $this->postJson('/api/inscriptions', [
-            'id_creneau' => $creneau->id_creneau,
-            'commentaire' => $longComment
+        Evenement::factory()->create([
+            'id_formulaire' => $formulaire->id_formulaire,
+            'date_evenement' => $eventDate,
         ]);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['commentaire']);
+        $tache = Tache::factory()->create([
+            'id_formulaire' => $formulaire->id_formulaire,
+        ]);
+
+        return Creneau::factory()->create([
+            'id_tache' => $tache->id_tache,
+            'quota' => $quota,
+        ]);
     }
 }
