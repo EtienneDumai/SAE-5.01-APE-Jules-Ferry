@@ -27,11 +27,10 @@ class TacheControllerTest extends TestCase
     {
         // GIVEN
         Tache::factory()->count(3)->create();
-        $this->actingAs($this->user, 'sanctum');
 
         // WHEN
-        $response = $this->getJson('/api/taches');
-
+        $response = $this->actingAs($this->user, 'sanctum')
+                         ->getJson('/api/taches');
         // THEN
         $response->assertStatus(200)
             ->assertJsonCount(3);

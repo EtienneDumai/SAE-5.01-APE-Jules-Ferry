@@ -13,8 +13,8 @@ class FormulaireFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom_formulaire' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
+            'nom_formulaire' => $this->faker->sentence(4),
+            'description' => $this->faker->text(200),
             'statut' => 'actif',
             'id_createur' => Utilisateur::factory(),
         ];

@@ -42,7 +42,7 @@ describe('PasswordConfirmModalComponent', () => {
     it('devrait afficher le texte de confirmation', () => {
       const text = fixture.debugElement.query(By.css('p')).nativeElement.textContent;
 
-      expect(text).toContain('Etes-vous sur');
+      expect(text).toContain('Êtes-vous sûr de vouloir effectuer cette action');
     });
 
     it('devrait appeler onConfirm lors du clic sur le bouton Oui', () => {
