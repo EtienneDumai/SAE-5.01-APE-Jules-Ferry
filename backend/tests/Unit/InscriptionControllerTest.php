@@ -33,9 +33,9 @@ class InscriptionControllerTest extends TestCase
     {
         // GIVEN
         Inscription::factory()->count(2)->create();
-
-        $request = Request::create('/api/inscriptions', 'GET');
-
+        $user = Utilisateur::factory()->create();
+        $request = $this->makeAuthenticatedRequest('GET', [], $user);
+        
         // WHEN
         $response = $this->controller->index($request);
 
