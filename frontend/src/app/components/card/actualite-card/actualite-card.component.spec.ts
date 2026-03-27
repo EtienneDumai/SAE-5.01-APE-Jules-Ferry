@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/card/actualite-card/actualite-card.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant actualite card.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActualiteCardComponent } from './actualite-card.component';
 import { provideRouter } from '@angular/router';

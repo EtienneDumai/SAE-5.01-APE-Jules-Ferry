@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/Auth/LoginController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere la connexion des utilisateurs.
+ * Il traite l'authentification et renvoie les informations necessaires a l'ouverture de session.
+ */
+
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;

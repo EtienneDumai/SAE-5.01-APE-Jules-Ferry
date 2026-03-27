@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Actualite/actualite.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Actualite.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';

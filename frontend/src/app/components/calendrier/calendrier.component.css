@@ -1,3 +1,8 @@
+/**
+ * Fichier : frontend/src/app/components/calendrier/calendrier.component.css
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit les styles du composant calendrier.
+ */
 
 @keyframes fade-in {
   from {

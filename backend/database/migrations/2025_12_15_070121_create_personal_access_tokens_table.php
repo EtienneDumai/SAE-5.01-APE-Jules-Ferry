@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/migrations/2025_12_15_070121_create_personal_access_tokens_table.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit une evolution de la base de donnees.
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

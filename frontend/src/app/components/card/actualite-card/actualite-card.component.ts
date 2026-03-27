@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/card/actualite-card/actualite-card.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant actualite card.
+ */
+
 import { Component, Input, inject, Output, EventEmitter } from '@angular/core';
 import { ToastService } from '../../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';

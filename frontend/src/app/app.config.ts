@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/app.config.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier configure le demarrage de l'application Angular.
+ * Il enregistre les providers et les services globaux utilises par le frontend.
+ */
+
 import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';

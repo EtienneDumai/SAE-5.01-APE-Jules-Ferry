@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/app.routes.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise les routes principales du frontend.
+ * Il associe chaque URL aux pages accessibles et aux gardes de navigation.
+ */
+
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';

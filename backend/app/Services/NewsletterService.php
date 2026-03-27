@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Services/NewsletterService.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce service gere les traitements lies a la newsletter.
+ * Il centralise la logique utile a l'inscription, a l'envoi ou au suivi des abonnes.
+ */
+
 namespace App\Services;
 
 use App\Models\AbonneNewsletter;

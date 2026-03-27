@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/password-confirm-modal/password-confirm-modal.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant password confirm modal.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PasswordConfirmModalComponent } from './password-confirm-modal.component';

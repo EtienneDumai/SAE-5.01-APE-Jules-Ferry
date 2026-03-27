@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/sidebar-widget/sidebar-widget.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant sidebar widget.
+ */
+
 import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarWidgetService } from '../../services/SidebarWidget/sidebar-widget.service';
@@ -20,7 +26,6 @@ import { filter } from 'rxjs/operators';
  * Toggle between two fixed sizes with a button.
  * 
  */
-
 
 @Component({
   selector: 'app-sidebar-widget',

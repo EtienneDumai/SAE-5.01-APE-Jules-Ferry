@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/footer/footer.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant footer.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

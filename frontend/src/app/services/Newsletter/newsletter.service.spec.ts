@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Newsletter/newsletter.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Newsletter.
+ */
+
 import { TestBed } from '@angular/core/testing';
 
 import { NewsletterService } from './newsletter.service';

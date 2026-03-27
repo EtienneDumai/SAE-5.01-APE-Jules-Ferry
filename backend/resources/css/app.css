@@ -1,3 +1,10 @@
+/**
+ * Fichier : backend/resources/css/app.css
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient des styles CSS utilises par la partie Laravel.
+ * Il gere l'apparence des vues rendues cote backend.
+ */
+
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

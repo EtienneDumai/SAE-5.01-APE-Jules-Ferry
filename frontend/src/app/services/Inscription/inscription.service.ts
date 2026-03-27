@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Inscription/inscription.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Inscription.
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Unit/ActualiteControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient les tests unitaires pour ActualiteControllerTest.
+ */
+
 namespace Tests\Unit;
 
 use App\Http\Controllers\Api\ActualiteController;

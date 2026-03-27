@@ -1,3 +1,10 @@
+{{--
+Fichier : backend/resources/views/emails/set-password.blade.php
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le contenu de l'email de definition de mot de passe.
+Il accompagne l'utilisateur lors de l'activation ou de la finalisation de son acces.
+--}}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/sidebar-widget/sidebar-widget.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant sidebar widget.
+ */
+
 import {
   ComponentFixture,
   TestBed,

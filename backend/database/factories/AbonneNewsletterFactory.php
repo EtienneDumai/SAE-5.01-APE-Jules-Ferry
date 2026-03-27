@@ -1,12 +1,11 @@
 <?php
 
-namespace Database\Factories;
-
-use Illuminate\Database\Eloquent\Factories\Factory;
-
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AbonneNewsletter>
+ * Fichier : backend/database/factories/AbonneNewsletterFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour AbonneNewsletterFactory.
  */
+
 class AbonneNewsletterFactory extends Factory
 {
     /**

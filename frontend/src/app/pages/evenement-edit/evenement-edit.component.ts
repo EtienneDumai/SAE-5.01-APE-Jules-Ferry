@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/evenement-edit/evenement-edit.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page evenement edit.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';

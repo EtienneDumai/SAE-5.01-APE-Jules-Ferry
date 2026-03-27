@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/alert/alert.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant alert.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlertComponent } from './alert.component';

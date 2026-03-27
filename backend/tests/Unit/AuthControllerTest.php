@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Unit/AuthControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient les tests unitaires pour AuthControllerTest.
+ */
+
 namespace Tests\Unit;
 
 use App\Http\Controllers\Api\Auth\LoginController;

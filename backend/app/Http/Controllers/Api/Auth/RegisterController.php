@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/Auth/RegisterController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere l'inscription de nouveaux utilisateurs.
+ * Il valide les donnees recues et cree les comptes autorises dans l'application.
+ */
+
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;

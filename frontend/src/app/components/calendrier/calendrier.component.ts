@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/calendrier/calendrier.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant calendrier.
+ */
+
 import { Component, ViewChild, ViewEncapsulation, OnInit, AfterViewInit, OnDestroy, inject, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';

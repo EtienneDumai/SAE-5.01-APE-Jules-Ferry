@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Fichier : backend/app/Http/Controllers/Api/Auth/SetPasswordController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur enregistre un nouveau mot de passe pour un utilisateur.
+ * Il finalise la creation ou la reinitialisation de l'acces au compte.
+ */
+
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;

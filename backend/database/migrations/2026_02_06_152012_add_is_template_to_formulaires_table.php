@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/migrations/2026_02_06_152012_add_is_template_to_formulaires_table.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit une evolution de la base de donnees.
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

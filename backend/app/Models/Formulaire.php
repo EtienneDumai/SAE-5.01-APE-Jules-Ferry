@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Models/Formulaire.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit le modele Formulaire du backend.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

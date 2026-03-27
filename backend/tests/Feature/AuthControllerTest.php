@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/AuthControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour AuthControllerTest.
+ */
+
 namespace Tests\Feature;
 
 use App\Mail\MagicLinkEmail;

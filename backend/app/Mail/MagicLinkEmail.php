@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Mail/MagicLinkEmail.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier prepare l'email de connexion par lien magique.
+ * Il construit le message envoye a l'utilisateur pour acceder a son compte sans mot de passe.
+ */
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;

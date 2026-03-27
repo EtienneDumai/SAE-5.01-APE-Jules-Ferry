@@ -1,3 +1,10 @@
+{{--
+Fichier : backend/resources/views/emails/magic-link.blade.php
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le contenu de l'email de connexion par lien magique.
+Il presente a l'utilisateur le lien lui permettant d'acceder directement a son compte.
+--}}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

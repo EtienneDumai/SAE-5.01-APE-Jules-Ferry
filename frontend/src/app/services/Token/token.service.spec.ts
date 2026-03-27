@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Token/token.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Token.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { TokenService } from './token.service';
 

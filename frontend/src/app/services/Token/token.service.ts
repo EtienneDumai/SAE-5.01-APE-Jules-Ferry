@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Token/token.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Token.
+ */
+
 import { Injectable } from '@angular/core';
 
 @Injectable({

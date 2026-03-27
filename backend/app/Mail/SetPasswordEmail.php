@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Fichier : backend/app/Mail/SetPasswordEmail.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier prepare l'email de definition de mot de passe.
+ * Il transmet a l'utilisateur les informations necessaires pour activer son acces.
+ */
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;

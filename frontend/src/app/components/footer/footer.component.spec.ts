@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/footer/footer.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant footer.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FooterComponent } from './footer.component';
 import { provideHttpClient } from '@angular/common/http';

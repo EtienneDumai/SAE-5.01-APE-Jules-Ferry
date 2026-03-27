@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/FormulaireControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour FormulaireControllerTest.
+ */
+
 namespace Tests\Feature;
 
 use App\Models\Formulaire;

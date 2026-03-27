@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/evenement-page/evenement-page.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page evenement page.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';

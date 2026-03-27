@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/database/factories/UserFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour UserFactory (pas utilisé).
+ */
+
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;

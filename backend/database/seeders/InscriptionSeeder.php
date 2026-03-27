@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/seeders/InscriptionSeeder.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier insere des donnees initiales pour InscriptionSeeder.
+ */
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
