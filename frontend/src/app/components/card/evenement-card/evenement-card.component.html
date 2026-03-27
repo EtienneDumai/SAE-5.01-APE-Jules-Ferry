@@ -53,5 +53,26 @@
     </div>
 
     @if (showDeleteModal) {
-       }
+        <div class="absolute inset-0 z-20 flex items-center justify-center p-3 bg-white/95 backdrop-blur-sm animate-fade-in">
+            <div class="bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-5 w-full max-w-[95%] text-center flex flex-col gap-4 animate-fade-up">
+                <h4 class="font-abril text-[18px] text-[var(--primary-green)] leading-tight m-0">
+                    Supprimer cet événement ?
+                </h4>
+                <div class="w-full text-left">
+                    <label for="pwd-{{id_evenement}}" class="sr-only">Mot de passe</label>
+                    <input type="password" id="pwd-{{id_evenement}}" [(ngModel)]="deletePassword" placeholder="Mot de passe admin"
+                           class="block w-full text-center rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] px-3 py-2 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)]">
+                </div>
+                <div class="flex w-full gap-3 mt-1">
+                    <button (click)="closeDeleteModal()" class="flex-1 btn-secondary !py-2 text-[11px]">
+                        Annuler
+                    </button>
+                    <button (click)="confirmerSuppression()" [disabled]="isDeleting || !deletePassword"
+                            class="flex-1 btn-primary !bg-[#ef4444] !border-[#ef4444] hover:!bg-[#dc2626] !py-2 text-[11px] disabled:opacity-50 transition-colors">
+                        @if(isDeleting) { <i class="fa-solid fa-spinner fa-spin"></i> } @else { Supprimer }
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
 </div>

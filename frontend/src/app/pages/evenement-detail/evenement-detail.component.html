@@ -235,51 +235,41 @@
   </div>
 
   @if (showDeleteModal) {
-    <div
-      class="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--primary-green)]/90 backdrop-blur-sm p-4 animate-fade-in text-left"
-    >
-      <div
-        class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-8 max-w-sm w-full animate-fade-up"
-      >
-        <h3
-          class="font-abril text-xl text-[var(--primary-green)] mb-3 text-center"
-        >
-          Supprimer l'événement ?
-        </h3>
-        <p
-          class="font-dm text-[13px] text-[var(--text-secondary)] mb-6 text-center leading-relaxed"
-        >
-          Êtes-vous sûr de vouloir supprimer
-          <strong class="text-[var(--primary-green)]">{{
-            evenement.titre
-          }}</strong>
-          ?<br />
-          <span class="text-red-500 mt-2 block"
-            >Cette action est définitive.</span
-          >
-        </p>
-
-        <div class="flex flex-col-reverse sm:flex-row justify-center gap-3">
-          <button
-            (click)="closeDeleteModal()"
-            [disabled]="isDeleting"
-            class="flex-1 btn-secondary disabled:opacity-50"
-          >
-            Annuler
-          </button>
-          <button
-            (click)="confirmDelete()"
-            [disabled]="isDeleting"
-            class="flex-1 btn-primary !bg-red-600 !border-red-600 hover:!bg-red-700 disabled:opacity-50"
-          >
-            @if (isDeleting) {
-              <i class="fa-solid fa-spinner fa-spin"></i>
-            } @else {
-              Supprimer
-            }
-          </button>
+    <div class="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[var(--primary-green)]/40 backdrop-blur-sm transition-opacity" 
+            (click)="closeDeleteModal()" 
+            (keyup.enter)="closeDeleteModal()" 
+            tabindex="0" 
+            role="button">
         </div>
-      </div>
+        
+        <div class="relative bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-6 w-full max-w-sm animate-fade-up z-10 text-center">
+            
+            <div class="w-12 h-12 rounded-full bg-[#fef2f2] border-[1.5px] border-[#ef4444] flex items-center justify-center mx-auto mb-4 text-[#ef4444]">
+                <i class="fa-solid fa-trash-can text-xl"></i>
+            </div>
+
+            <h3 class="font-abril text-xl text-[var(--primary-green)] mb-2">Supprimer l'événement ?</h3>
+            
+            <p class="font-dm text-sm text-[var(--text-secondary)] mb-4">
+                Êtes-vous sûr de vouloir supprimer <strong class="text-[var(--primary-green)]">{{ evenement.titre }}</strong> ? Cette action est définitive.
+            </p>
+            
+            <div class="mb-6 w-full">
+                <input type="password" [(ngModel)]="deletePassword" placeholder="Mot de passe admin..."
+                    (keyup.enter)="deletePassword ? confirmDelete() : null"
+                    class="block w-full text-center rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] px-4 py-2.5 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)]">
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button (click)="closeDeleteModal()" [disabled]="isDeleting" class="flex-1 btn-secondary text-center disabled:opacity-50">
+                    Annuler
+                </button>
+                <button (click)="confirmDelete()" [disabled]="isDeleting || !deletePassword" class="flex-1 btn-primary !bg-[#ef4444] !border-[#ef4444] hover:!bg-[#dc2626] text-center disabled:opacity-50 transition-colors">
+                    @if (isDeleting) { <i class="fa-solid fa-spinner fa-spin"></i> } @else { Supprimer }
+                </button>
+            </div>
+        </div>
     </div>
   }
 }

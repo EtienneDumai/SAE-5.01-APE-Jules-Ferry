@@ -235,9 +235,18 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   formatEventDate(date: string | Date, time: string): string {
-    const dateObj = new Date(date);
-    if (isNaN(dateObj.getTime())) return '';
-    return `${dateObj.toISOString().split('T')[0]}T${time}`;
+    let cleanDate = '';
+    
+    if (typeof date === 'string') {
+      cleanDate = date.substring(0, 10);
+    } else {
+      const offset = date.getTimezoneOffset() * 60000;
+      cleanDate = new Date(date.getTime() - offset).toISOString().substring(0, 10);
+    }
+
+    const cleanTime = time.length === 5 ? `${time}:00` : time;
+    
+    return `${cleanDate}T${cleanTime}`;
   }
 
   isInscriptionOuverte(event: Evenement): boolean {
@@ -254,14 +263,9 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleEventClick(arg: EventClickArg): void {
     const clickedEvent = this.eventsList.find(e => e.id_evenement.toString() === arg.event.id);
+    
     if (clickedEvent) {
       this.selectedEvent = clickedEvent;
-      const t = setTimeout(() => {
-        if (this.eventDetails?.nativeElement) {
-          this.eventDetails.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }, 100);
-      this.resizeTimeouts.push(t);
     }
   }
 
