@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/factories/UtilisateurFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour UtilisateurFactory.
+ */
+
 namespace Database\Factories;
 
 use App\Models\Utilisateur;

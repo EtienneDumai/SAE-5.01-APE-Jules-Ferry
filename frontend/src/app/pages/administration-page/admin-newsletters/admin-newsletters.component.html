@@ -1,9 +1,15 @@
-<div class="space-y-6 animate-fade-in">
-    
-    <div class="md:flex md:items-center md:justify-between gap-4">
-        <div class="relative max-w-sm w-full">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fa-solid fa-magnifying-glass text-[var(--text-secondary)] opacity-50"></i>
+<!--
+Fichier : frontend/src/app/pages/administration-page/admin-newsletters/admin-newsletters.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page admin newsletters.
+-->
+
+<div class="space-y-6">
+    <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
+        <div class="flex w-full flex-col gap-3 md:flex-row md:items-center">
+            <div class="relative max-w-sm w-full">
+                <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher un e-mail..."
+                    class="block w-full rounded-md border-gray-300 pl-3 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">
             </div>
             <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher un e-mail..."
                 class="block w-full rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] pl-10 pr-3 py-2.5 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)]">

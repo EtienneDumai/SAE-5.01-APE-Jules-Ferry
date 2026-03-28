@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/interceptors/auth.interceptor.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit l'intercepteur auth pour les requetes HTTP.
+ * Il ajoute ou adapte des traitements communs avant ou apres les appels API.
+ */
+
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { TokenService } from '../services/Token/token.service';

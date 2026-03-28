@@ -1,10 +1,17 @@
-<div class="space-y-6 animate-fade-in">
-    
-    <div class="mb-6 flex justify-center sm:justify-start">
-        <nav class="flex p-1 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[8px] w-fit" aria-label="Tabs">
-            <button (click)="activeTab = 'MODIFICATIONS'" 
-                [class]="activeTab === 'MODIFICATIONS' ? 'bg-white shadow-sm border-[1.5px] border-[var(--border-light)] text-[var(--accent-orange)]' : 'text-[var(--text-secondary)] hover:text-[var(--primary-green)] border-[1.5px] border-transparent'"
-                class="px-4 py-2 font-josefin text-[11px] uppercase font-bold tracking-widest rounded-[4px] transition-all duration-200">
+<!--
+Fichier : frontend/src/app/pages/administration-page/admin-evenements/admin-evenements.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page admin evenements.
+-->
+
+<div class="space-y-6">
+    <div class="mb-6">
+        <nav class="flex space-x-4 bg-gray-100 p-1 rounded-lg w-fit" aria-label="Tabs">
+            <button (click)="activeTab = 'MODIFICATIONS'" [class.bg-white]="activeTab === 'MODIFICATIONS'"
+                [class.shadow]="activeTab === 'MODIFICATIONS'" [class.text-blue-700]="activeTab === 'MODIFICATIONS'"
+                [class.text-gray-500]="activeTab !== 'MODIFICATIONS'"
+                [class.hover:text-gray-700]="activeTab !== 'MODIFICATIONS'"
+                class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
                 <i class="fa-solid fa-pen-to-square mr-2"></i>Modifications
             </button>
             <button (click)="activeTab = 'INSCRIPTIONS'" 

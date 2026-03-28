@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Models/Creneau.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit le modele Creneau du backend.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

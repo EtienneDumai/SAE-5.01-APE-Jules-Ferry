@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Toast/toast.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Toast.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { ToastService } from './toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';

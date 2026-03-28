@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/formulaire-edit/formulaire-edit.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant formulaire edit.
+ */
+
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';

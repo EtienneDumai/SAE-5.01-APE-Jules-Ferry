@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/calendrier/calendrier.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant calendrier.
+ */
+
 import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { CalendrierComponent } from './calendrier.component';
 import { EvenementService } from '../../services/Evenement/evenement.service';

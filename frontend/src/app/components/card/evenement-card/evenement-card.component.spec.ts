@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/card/evenement-card/evenement-card.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant evenement card.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EvenementCardComponent } from './evenement-card.component';
 import { Router, ActivatedRoute, UrlTree } from '@angular/router';

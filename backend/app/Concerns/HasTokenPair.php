@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Concerns/HasTokenPair.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Trait permettant d'ajouter un comportement partage autour de HasTokenPair.
+ * Il evite de dupliquer une logique commune dans plusieurs classes du backend.
+ */
+
 declare(strict_types=1);
 
 namespace App\Concerns;

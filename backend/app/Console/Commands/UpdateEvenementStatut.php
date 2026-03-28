@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Console/Commands/UpdateEvenementStatut.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Met a jour automatiquement le statut des evenements passes.
+ * Elle bascule en "termine" les evenements publies dont la date est deja depassee.
+ */
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;

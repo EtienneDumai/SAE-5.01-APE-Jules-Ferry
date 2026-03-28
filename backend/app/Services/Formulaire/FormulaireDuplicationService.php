@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Services/Formulaire/FormulaireDuplicationService.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce service gere la duplication des formulaires.
+ * Il permet de recreer un formulaire existant avec sa structure et ses donnees utiles.
+ */
+
 namespace App\Services\Formulaire;
 
 use App\Models\Formulaire;

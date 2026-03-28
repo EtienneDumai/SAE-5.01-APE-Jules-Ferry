@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/evenement-detail/evenement-detail.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page evenement detail.
+ */
+
 import {
   Component,
   ElementRef,

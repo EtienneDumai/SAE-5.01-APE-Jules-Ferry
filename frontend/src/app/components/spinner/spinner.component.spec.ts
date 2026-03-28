@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/spinner/spinner.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant spinner.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SpinnerComponent } from './spinner.component';
 import { By } from '@angular/platform-browser';

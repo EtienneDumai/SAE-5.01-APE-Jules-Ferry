@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/login/login.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page login.
+ */
+
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';

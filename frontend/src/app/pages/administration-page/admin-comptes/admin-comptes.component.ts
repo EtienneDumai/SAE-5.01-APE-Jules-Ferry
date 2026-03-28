@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/administration-page/admin-comptes/admin-comptes.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page admin comptes.
+ */
+
 import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/instagram-view/instagram-view.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant instagram view.
+ */
+
 import { Component, AfterViewInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 

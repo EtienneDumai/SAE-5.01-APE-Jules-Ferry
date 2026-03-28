@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/actualite-page/actualite-page.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page actualite page.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { Actualite } from '../../models/Actualite/actualite';
 import { ActualiteService } from '../../services/Actualite/actualite.service';

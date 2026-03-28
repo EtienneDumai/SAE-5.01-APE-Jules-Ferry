@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Unit/ExampleTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient les tests unitaires pour [TITRE].
+ */
+
 namespace Tests\Unit;
 
 use PHPUnit\Framework\Attributes\Test;

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Auth/auth.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Auth.
+ */
+
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';

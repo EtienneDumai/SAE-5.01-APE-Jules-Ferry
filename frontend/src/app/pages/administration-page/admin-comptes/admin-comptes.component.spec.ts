@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/administration-page/admin-comptes/admin-comptes.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page admin comptes.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';

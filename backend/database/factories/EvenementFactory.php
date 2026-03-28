@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/factories/EvenementFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour EvenementFactory.
+ */
+
 namespace Database\Factories;
 
 use App\Models\Evenement;

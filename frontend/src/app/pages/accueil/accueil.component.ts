@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/accueil/accueil.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page accueil.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActualiteService } from '../../services/Actualite/actualite.service';

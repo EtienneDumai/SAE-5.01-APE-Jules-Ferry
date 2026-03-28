@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/routes/api.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier declare les routes API du backend.
+ * Il relie les endpoints utilises par le frontend aux controleurs correspondants.
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\LoginController;

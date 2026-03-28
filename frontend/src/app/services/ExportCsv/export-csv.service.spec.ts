@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/ExportCsv/export-csv.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service ExportCsv.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { ExportCsvService } from './export-csv.service';

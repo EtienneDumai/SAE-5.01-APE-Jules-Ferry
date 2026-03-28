@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/guards/user.guard.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le guard user.guard.
+ * Il verifie que les regles d'acces sont bien appliquées.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { CanMatchFn } from '@angular/router';
 

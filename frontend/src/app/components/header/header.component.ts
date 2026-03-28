@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/header/header.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant header.
+ */
+
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';

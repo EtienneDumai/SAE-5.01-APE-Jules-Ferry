@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/Auth/magic-link-verify/magic-link-verify.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant magic link verify.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MagicLinkVerifyComponent } from './magic-link-verify.component';
 import { provideRouter } from '@angular/router';

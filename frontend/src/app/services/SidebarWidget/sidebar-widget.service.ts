@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/SidebarWidget/sidebar-widget.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service SidebarWidget.
+ */
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 

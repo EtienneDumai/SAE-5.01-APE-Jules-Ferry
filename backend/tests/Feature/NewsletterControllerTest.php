@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/NewsletterControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour NewsletterControllerTest.
+ */
+
 namespace Tests\Feature;
 
 use App\Models\AbonneNewsletter;

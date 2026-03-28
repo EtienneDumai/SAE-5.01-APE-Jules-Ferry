@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/evenement-page/evenement-page.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page evenement page.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EvenementPageComponent } from './evenement-page.component';
 import { provideHttpClient } from '@angular/common/http';

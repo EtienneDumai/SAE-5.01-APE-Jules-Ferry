@@ -1,14 +1,17 @@
 <?php
 
+/**
+ * Fichier : backend/database/factories/ActualiteFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour ActualiteFactory.
+ */
+
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Actualite;
 use App\Models\Utilisateur;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Actualite>
- */
 class ActualiteFactory extends Factory
 {
 

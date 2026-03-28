@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/Auth/PasswordlessController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere la connexion sans mot de passe.
+ * Il traite l'envoi ou la verification des liens de connexion temporaires.
+ */
+
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;

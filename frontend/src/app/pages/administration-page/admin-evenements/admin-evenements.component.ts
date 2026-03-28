@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/administration-page/admin-evenements/admin-evenements.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page admin evenements.
+ */
+
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

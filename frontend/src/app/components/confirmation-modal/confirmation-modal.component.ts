@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/confirmation-modal/confirmation-modal.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant confirmation modal.
+ */
+
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/formulaire-edit/formulaire-edit.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant formulaire edit.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';

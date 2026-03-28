@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/seeders/EvenementSeeder.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier insere des donnees initiales pour EvenementSeeder.
+ */
+
 namespace Database\Seeders;
 
 use App\Services\Image\ImageConverterService;

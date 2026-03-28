@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/accueil/accueil.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page accueil.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccueilComponent } from './accueil.component';
 import { provideHttpClient } from '@angular/common/http';

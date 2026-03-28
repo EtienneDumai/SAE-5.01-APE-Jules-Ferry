@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/UtilisateurController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere les operations API liees aux utilisateur.
+ */
+
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;

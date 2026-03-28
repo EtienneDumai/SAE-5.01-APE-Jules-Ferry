@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/toast/toast.component.css
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit les styles du composant toast.
+ */
+
 .success{
     background-color: var(--success-color) !important;
 }

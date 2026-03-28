@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Models/Utilisateur.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit le modele Utilisateur du backend.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/compte-utilisateur/compte-utilisateur.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page compte utilisateur.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { AuthService } from '../../services/Auth/auth.service';

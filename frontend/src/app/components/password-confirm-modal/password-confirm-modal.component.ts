@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/password-confirm-modal/password-confirm-modal.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant password confirm modal.
+ */
+
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 

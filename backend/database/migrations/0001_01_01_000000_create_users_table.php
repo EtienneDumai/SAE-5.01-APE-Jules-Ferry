@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/migrations/0001_01_01_000000_create_users_table.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit une evolution de la base de donnees (pas utilisé).
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

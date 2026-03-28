@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/factories/FormulaireFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour FormulaireFactory.
+ */
+
 namespace Database\Factories;
 
 use App\Models\Formulaire;

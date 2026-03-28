@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Models/Tache.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit le modele Tache du backend.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

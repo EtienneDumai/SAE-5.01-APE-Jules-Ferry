@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Tache/tache.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele tache utilise dans le frontend.
+ */
+
 import { Creneau } from '../Creneau/creneau';
 
 export interface Tache {

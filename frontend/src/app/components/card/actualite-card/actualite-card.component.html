@@ -1,5 +1,12 @@
-<div class="group h-full flex flex-col bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--primary-green)] hover:shadow-[4px_4px_0_var(--primary-green)] overflow-hidden relative">
-  
+<!--
+Fichier : frontend/src/app/components/card/actualite-card/actualite-card.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template du composant actualite card.
+-->
+
+<div
+  class="group h-full flex flex-col bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--primary-green)] hover:shadow-[4px_4px_0_var(--primary-green)] overflow-hidden relative"
+>
   <div class="h-[168px] w-full relative overflow-hidden bg-[var(--bg-creme)]">
     @if (image_url) {
       <img [src]="getImageUrl(image_url)" [alt]="titre" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" loading="lazy" />

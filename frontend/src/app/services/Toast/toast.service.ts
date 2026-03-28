@@ -1,3 +1,8 @@
+/**
+ * Fichier : frontend/src/app/services/Toast/toast.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Toast.
+ */
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';

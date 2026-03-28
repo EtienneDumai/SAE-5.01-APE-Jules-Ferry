@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/app.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier participe au fonctionnement du frontend.
+ * Il contient une partie de la logique, des donnees ou de l'affichage de l'application.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { provideRouter } from '@angular/router';

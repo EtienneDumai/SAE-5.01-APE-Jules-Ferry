@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/database/seeders/DatabaseSeeder.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier lance les seeders principaux du projet.
+ * Il orchestre l'insertion des jeux de donnees utilises pour initialiser la base.
+ */
+
 namespace Database\Seeders;
 
 use App\Models\User;

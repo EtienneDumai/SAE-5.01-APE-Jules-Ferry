@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Fichier : backend/app/Http/Controllers/Api/Auth/ForgotPasswordController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gère la demande de reinitialisation de mot de passe.
+ * Il lance l'envoi des informations necessaires pour definir un nouveau mot de passe.
+ */
+
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;

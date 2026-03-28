@@ -1,6 +1,21 @@
-<div class="max-w-5xl mx-auto px-4 py-8 animate-fade-in">
-    
-    <div class="flex justify-between items-center mb-8 pb-4 border-b-[1.5px] border-[var(--border-light)]">
+<!--
+Fichier : frontend/src/app/components/formulaire-edit/formulaire-edit.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template du composant formulaire edit.
+-->
+
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">
+      {{ isEditMode ? 'Modifier le formulaire' : 'Nouveau formulaire' }}
+    </h1>
+    <button (click)="goBack()" class="text-gray-500 hover:text-gray-700">Annuler</button>
+  </div>
+
+  @if (validationErrors.length > 0 || apiError) {
+    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">
+      <div class="flex items-start">
+        <i class="fa-solid fa-triangle-exclamation text-red-500 mr-2 mt-0.5" style="font-size: 20px;"></i>
         <div>
             <h1 class="font-abril text-3xl text-[var(--primary-green)] mb-1">
                 {{ isEditMode ? 'Modifier le modèle' : 'Nouveau modèle' }}

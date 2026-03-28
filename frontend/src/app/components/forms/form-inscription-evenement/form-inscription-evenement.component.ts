@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/forms/form-inscription-evenement/form-inscription-evenement.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant form inscription evenement.
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Formulaire } from '../../../models/Formulaire/formulaire';
 import { Creneau } from '../../../models/Creneau/creneau';

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/seeders/CreneauSeeder.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier insere des donnees initiales pour CreneauSeeder.
+ */
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;

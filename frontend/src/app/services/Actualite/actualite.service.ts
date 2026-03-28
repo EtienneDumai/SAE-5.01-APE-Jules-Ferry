@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Actualite/actualite.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Actualite.
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

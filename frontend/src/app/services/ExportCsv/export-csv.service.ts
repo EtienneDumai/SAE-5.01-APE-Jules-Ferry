@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/ExportCsv/export-csv.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service ExportCsv.
+ */
+
 import { Injectable, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 

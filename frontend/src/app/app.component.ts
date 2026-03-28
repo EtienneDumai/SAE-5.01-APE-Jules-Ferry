@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/app.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant racine du frontend.
+ * Il sert de point d'entree a l'interface generale de l'application.
+ */
+
 import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';

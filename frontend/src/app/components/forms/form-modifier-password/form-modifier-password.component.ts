@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/forms/form-modifier-password/form-modifier-password.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant form modifier password.
+ */
+
 import { Component, EventEmitter, inject, Input, OnInit, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 @Component({

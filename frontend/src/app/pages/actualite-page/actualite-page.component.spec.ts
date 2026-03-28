@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/actualite-page/actualite-page.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page actualite page.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActualitePageComponent } from './actualite-page.component';
 import { provideHttpClient } from '@angular/common/http';

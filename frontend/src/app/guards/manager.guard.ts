@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/guards/manager.guard.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere le guard manager.
+ */
+
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/Auth/auth.service';

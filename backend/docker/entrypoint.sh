@@ -15,6 +15,13 @@ try {
     sleep 2
 done
 
+echo "Creating folders"
+mkdir -p storage/app/public/evenements
+mkdir -p storage/app/public/actualites
+
+echo "Running chmod"
+chmod -R 777 public/ storage/ storage/app/public/evenements storage/app/public/actualites
+
 echo "Running migrations..."
 php artisan migrate --force
 
