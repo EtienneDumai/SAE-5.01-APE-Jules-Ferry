@@ -46,3 +46,15 @@
 ```
 Requête → Middleware → Controller → Service → Réponse
 ```
+
+## Documentation tests
+
+La documentation des tests est diponible sur ce lien : 
+
+[Tests backend](https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry/tree/master/backend/tests/testBackend.md) 🖥️ : Tests backend de l'application.
+
+## Documentation base de données
+
+La documentation de la base de données est diponible sur ce lien : 
+
+[Base de données](https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry/tree/master/backend/database/database.md) 🖥️ : Base de données de l'application.
