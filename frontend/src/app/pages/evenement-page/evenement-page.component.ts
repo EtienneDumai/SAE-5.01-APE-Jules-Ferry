@@ -74,7 +74,7 @@ export class EvenementPageComponent implements OnInit {
     sortedList.sort((a, b) => {
       const dateA = new Date(a.date_evenement).getTime();
       const dateB = new Date(b.date_evenement).getTime();
-      return dateB - dateA;
+      return dateA- dateB;
     });
     this.listeEvenements = sortedList;
   }
