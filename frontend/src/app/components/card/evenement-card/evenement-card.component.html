@@ -51,9 +51,15 @@ Description : Ce fichier contient le template du composant evenement card.
             </button>
             
             @if (id_formulaire && isInscriptionOuverte) {
-                <button [routerLink]="['/evenements', id_evenement]" [queryParams]="{ openForm: 'true' }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
-                    S'inscrire
-                </button>
+                @if (isAuthenticated) {
+                    <button [routerLink]="['/evenements', id_evenement]" [queryParams]="{ openForm: 'true' }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
+                        S'inscrire
+                    </button>
+                } @else {
+                    <button [routerLink]="['/login']" [queryParams]="{ returnUrl: '/evenements/' + id_evenement }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
+                        Se connecter
+                    </button>
+                }
             }
         </div>
     </div>

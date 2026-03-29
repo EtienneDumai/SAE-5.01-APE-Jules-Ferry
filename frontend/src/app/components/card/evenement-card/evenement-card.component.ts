@@ -4,7 +4,7 @@
  * Description : Ce fichier porte la logique du composant evenement card.
  */
 
-  import { Component, Input, inject, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+  import { Component, Input, inject, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef,OnInit } from '@angular/core';
   import { ToastService } from '../../../services/Toast/toast.service';
   import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';
   import { StatutEvenement } from '../../../enums/StatutEvenement/statut-evenement';
@@ -14,6 +14,7 @@
   import { EvenementService } from '../../../services/Evenement/evenement.service';
   import { Utilisateur } from '../../../models/Utilisateur/utilisateur';
   import { environment } from '../../../environments/environment';
+  import { AuthService } from '../../../services/Auth/auth.service';
   @Component({
     selector: 'app-evenement-card',
     standalone: true,
@@ -21,7 +22,7 @@
     templateUrl: './evenement-card.component.html',
     styleUrl: './evenement-card.component.css'
   })
-  export class EvenementCardComponent implements OnChanges {
+  export class EvenementCardComponent implements OnInit, OnChanges {
 
     showDeleteModal = false;
     deletePassword = '';
@@ -47,6 +48,16 @@
     private readonly router = inject(Router);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly toastService = inject(ToastService);
+    private readonly authService = inject(AuthService);
+
+    isAuthenticated = false;
+
+    ngOnInit(): void {
+      this.authService.currentUser$.subscribe(user => {
+        this.isAuthenticated = !!user;
+        this.cdr.markForCheck();
+      });
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
       if (changes['currentUser']) {
