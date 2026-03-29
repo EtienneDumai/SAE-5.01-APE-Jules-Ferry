@@ -24,21 +24,6 @@ describe('EvenementPageComponent', () => {
 
   const mockEvenements: Evenement[] = [
     {
-      id_evenement: 1,
-      titre: 'Événement Ancien',
-      description: 'Description 1',
-      date_evenement: new Date('2025-01-01'),
-      heure_debut: '10:00',
-      heure_fin: '12:00',
-      lieu: 'Lieu 1',
-      image_url: 'https://example.com/image1.jpg',
-      statut: StatutEvenement.publie,
-      id_auteur: 1,
-      id_formulaire: null,
-      created_at: '2025-01-01T00:00:00Z',
-      updated_at: '2025-01-01T00:00:00Z'
-    },
-    {
       id_evenement: 2,
       titre: 'Événement Récent',
       description: 'Description 2',
@@ -52,6 +37,21 @@ describe('EvenementPageComponent', () => {
       id_formulaire: null,
       created_at: '2026-01-02T00:00:00Z',
       updated_at: '2026-01-02T00:00:00Z'
+    },
+    {
+      id_evenement: 1,
+      titre: 'Événement Ancien',
+      description: 'Description 1',
+      date_evenement: new Date('2025-01-01'),
+      heure_debut: '10:00',
+      heure_fin: '12:00',
+      lieu: 'Lieu 1',
+      image_url: 'https://example.com/image1.jpg',
+      statut: StatutEvenement.publie,
+      id_auteur: 1,
+      id_formulaire: null,
+      created_at: '2025-01-01T00:00:00Z',
+      updated_at: '2025-01-01T00:00:00Z'
     },
     {
       id_evenement: 3,
@@ -72,7 +72,9 @@ describe('EvenementPageComponent', () => {
 
   beforeEach(async () => {
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getAllEvenements']);
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser'], {
+      currentUser$: of(null)
+    });
 
     await TestBed.configureTestingModule({
       imports: [EvenementPageComponent],
@@ -122,9 +124,9 @@ describe('EvenementPageComponent', () => {
     it('devrait trier les événements par date après le chargement', () => {
       fixture.detectChanges();
 
-      expect(component.listeEvenements[0].id_evenement).toBe(3); // Événement le plus récent
+      expect(component.listeEvenements[0].id_evenement).toBe(1); // Événement le plus ancien
       expect(component.listeEvenements[1].id_evenement).toBe(2);
-      expect(component.listeEvenements[2].id_evenement).toBe(1); // Événement le plus ancien
+      expect(component.listeEvenements[2].id_evenement).toBe(3); // Événement le plus récent
     });
 
     it('devrait mettre loadingEvenements à false après le chargement réussi', () => {
@@ -202,7 +204,7 @@ describe('EvenementPageComponent', () => {
   });
 
   describe('sortEvenementByDate', () => {
-    it('devrait trier les événements du plus récent au plus ancien', () => {
+    it('devrait trier les événements du plus ancien au plus récent', () => {
       component.listeEvenements = [
         { ...mockEvenements[0], date_evenement: new Date('2025-01-01') },
         { ...mockEvenements[1], date_evenement: new Date('2026-06-01') },
@@ -212,9 +214,9 @@ describe('EvenementPageComponent', () => {
       component.sortEvenementByDate();
 
       expect(new Date(component.listeEvenements[0].date_evenement).getTime())
-        .toBeGreaterThan(new Date(component.listeEvenements[1].date_evenement).getTime());
+        .toBeLessThan(new Date(component.listeEvenements[1].date_evenement).getTime());
       expect(new Date(component.listeEvenements[1].date_evenement).getTime())
-        .toBeGreaterThan(new Date(component.listeEvenements[2].date_evenement).getTime());
+        .toBeLessThan(new Date(component.listeEvenements[2].date_evenement).getTime());
     });
 
     it('devrait gérer une liste vide', () => {
@@ -260,8 +262,8 @@ describe('EvenementPageComponent', () => {
       const secondDate = new Date(component.listeEvenements[1].date_evenement).getTime();
       const thirdDate = new Date(component.listeEvenements[2].date_evenement).getTime();
 
-      expect(firstDate).toBeGreaterThanOrEqual(secondDate);
-      expect(secondDate).toBeGreaterThanOrEqual(thirdDate);
+      expect(firstDate).toBeLessThanOrEqual(secondDate);
+      expect(secondDate).toBeLessThanOrEqual(thirdDate);
     });
 
     it('devrait gérer la suppression d\'un événement et maintenir le tri', () => {
@@ -276,7 +278,7 @@ describe('EvenementPageComponent', () => {
       if (component.listeEvenements.length > 1) {
         const firstDate = new Date(component.listeEvenements[0].date_evenement).getTime();
         const secondDate = new Date(component.listeEvenements[1].date_evenement).getTime();
-        expect(firstDate).toBeGreaterThanOrEqual(secondDate);
+        expect(firstDate).toBeLessThanOrEqual(secondDate);
       }
     });
   });

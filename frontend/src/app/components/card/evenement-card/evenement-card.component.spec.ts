@@ -28,7 +28,9 @@ describe('EvenementCardComponent', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser'], {
+      currentUser$: of(null)
+    });
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['deleteEvenement']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate', 'createUrlTree', 'serializeUrl']);
     const toastSpy = jasmine.createSpyObj('ToastService', ['show', 'showWithTimeout']);
@@ -86,19 +88,18 @@ describe('EvenementCardComponent', () => {
   });
 
   describe('Redirection vers formulaire d\'inscription', () => {
-    it('devrait contenir un lien avec queryParams openForm=true pour le bouton S\'inscrire', () => {
+    it('devrait afficher "Se connecter" quand non authentifié', () => {
+      component.isAuthenticated = false;
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
-      const buttons = compiled.querySelectorAll('button');
+      expect(compiled.textContent).toContain('Se connecter');
+    });
 
-      let inscriptionButton: Element | null = null;
-      buttons.forEach(btn => {
-        if (btn.textContent?.trim() === 'S\'inscrire') {
-          inscriptionButton = btn;
-        }
-      });
-
-      expect(inscriptionButton).toBeTruthy();
+    it('devrait afficher "S\'inscrire" quand authentifié', () => {
+      component.isAuthenticated = true;
+      fixture.detectChanges();
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(compiled.textContent).toContain('S\'inscrire');
     });
 
     it('devrait avoir deux boutons de navigation dans la card', () => {
@@ -108,7 +109,7 @@ describe('EvenementCardComponent', () => {
 
       const navigationButtons = Array.from(buttons).filter(btn => {
         const text = btn.textContent?.trim();
-        return text === 'Voir la fiche' || text === 'S\'inscrire';
+        return text === 'Voir la fiche' || text === 'S\'inscrire' || text === 'Se connecter';
       });
 
       expect(navigationButtons.length).toBeGreaterThanOrEqual(2);

@@ -8,17 +8,23 @@ import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core
 import { CalendrierComponent } from './calendrier.component';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
-import { of, throwError } from 'rxjs';
+import { of, throwError, BehaviorSubject } from 'rxjs';
 import { CalendarApi } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 import { EventClickArg } from '@fullcalendar/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { AuthService } from '../../services/Auth/auth.service';
+import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 
 describe('CalendrierComponent', () => {
   let component: CalendrierComponent;
   let fixture: ComponentFixture<CalendrierComponent>;
   let evenementService: jasmine.SpyObj<EvenementService>;
+  let authService: jasmine.SpyObj<AuthService>;
+  const currentUserSubject = new BehaviorSubject<Utilisateur | null>(null);
 
   const mockEvenements: Evenement[] = [
     {
@@ -40,15 +46,23 @@ describe('CalendrierComponent', () => {
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getAllEvenements']);
     evenementServiceSpy.getAllEvenements.and.returnValue(of({ data: [], current_page: 1, last_page: 1, total: 0 }));
 
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['getCurrentUser'], {
+      currentUser$: currentUserSubject.asObservable()
+    });
+
     await TestBed.configureTestingModule({
       imports: [CalendrierComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: EvenementService, useValue: evenementServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
         provideRouter([])
       ],
     }).compileComponents();
 
     evenementService = TestBed.inject(EvenementService) as jasmine.SpyObj<EvenementService>;
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     fixture = TestBed.createComponent(CalendrierComponent);
     component = fixture.componentInstance;
   });
@@ -93,6 +107,7 @@ describe('CalendrierComponent', () => {
 
     it('devrait gérer les erreurs lors du chargement', fakeAsync(() => {
       evenementService.getAllEvenements.and.returnValue(throwError(() => new Error('API error')));
+      spyOn(console, 'error');
       component.loadEvenements();
       tick();
 

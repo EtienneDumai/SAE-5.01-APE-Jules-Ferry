@@ -153,6 +153,7 @@ describe('ActualiteDetailComponent', () => {
 
     it('devrait afficher un message d\'erreur pour l\'auteur si le chargement échoue', () => {
       utilisateurServiceSpy.getUtilisateurById.and.returnValue(throwError(() => new Error('Oups')));
+      spyOn(console, 'error');
       fixture.detectChanges();
       
       const componentText = fixture.nativeElement.textContent;
