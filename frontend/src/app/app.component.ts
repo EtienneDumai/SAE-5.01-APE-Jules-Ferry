@@ -16,6 +16,7 @@ import { AuthService } from './services/Auth/auth.service';
 import { SidebarWidgetComponent } from './components/sidebar-widget/sidebar-widget.component';
 import { CalendrierComponent } from './components/calendrier/calendrier.component';
 import { InstagramViewComponent } from './components/instagram-view/instagram-view.component';
+import { HelloAssoWidgetComponent } from './components/hello-asso-widget/hello-asso-widget.component';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ import { InstagramViewComponent } from './components/instagram-view/instagram-vi
     SidebarWidgetComponent,
     CalendrierComponent,
     InstagramViewComponent,
+    HelloAssoWidgetComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

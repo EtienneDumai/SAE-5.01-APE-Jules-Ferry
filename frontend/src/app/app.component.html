@@ -21,17 +21,28 @@ Il organise l'affichage global du frontend.
       icon="fa-regular fa-calendar-days"
       position="right"
       [topOffset]="isMobile ? 120 : 140" 
-      [smallWidth]="450"
+      [smallWidth]="isMobile ? 320 : 450"
       [largeWidth]="800"
       [defaultOpen]="false">
       <app-calendrier></app-calendrier>
   </app-sidebar-widget>
 
   <app-sidebar-widget 
+      title="Boutique"
+      icon="fa-solid fa-cart-shopping"
+      position="right"
+      [topOffset]="isMobile ? 180 : 300"
+      [smallWidth]="isMobile ? 320 : 400"
+      [largeWidth]="600"
+      [defaultOpen]="false">
+      <app-hello-asso-widget></app-hello-asso-widget>
+  </app-sidebar-widget>
+
+  <app-sidebar-widget 
       title="Instagram"
       icon="fa-brands fa-instagram"
       position="right"
-      [topOffset]="isMobile ? 180 : 300"
+      [topOffset]="isMobile ? 240 : 445"
       [smallWidth]="350"
       [largeWidth]="600"
       [defaultOpen]="false">

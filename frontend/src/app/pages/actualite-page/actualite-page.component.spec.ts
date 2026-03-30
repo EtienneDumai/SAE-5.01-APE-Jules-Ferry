@@ -97,7 +97,7 @@ describe('ActualitePageComponent', () => {
       expect(component.loadingActualites).toBeFalse();
       expect(component.errorActualites).toBeTrue();
       expect(console.error).toHaveBeenCalledWith(error);
-      expect(component.listeActualites).toBeUndefined();
+      expect(component.listeActualites).toEqual([]);
     });
   });
 
@@ -112,6 +112,7 @@ describe('ActualitePageComponent', () => {
     });
 
     it('devrait afficher un message d\'erreur si le chargement échoue', () => {
+      spyOn(console, 'error');
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => new Error('Oups')));
       fixture.detectChanges();
 

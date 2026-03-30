@@ -163,6 +163,33 @@ describe('LoginComponent', () => {
     });
   });
 
+  describe('verifierEmail', () => {
+    it('devrait afficher le message du serveur quand aucun compte n\'est associé à l\'email', fakeAsync(() => {
+      authService.checkEmailType.and.returnValue(of({
+        action: 'not_found',
+        message: 'Aucun compte associé à cet email. Veuillez vous inscrire.'
+      }));
+      component.loginForm.patchValue({ email: 'inconnu@example.com' });
+
+      component.verifierEmail();
+      tick();
+
+      expect(component.errorMessage).toBe('Aucun compte associé à cet email. Veuillez vous inscrire.');
+      expect(component.isLoading).toBe(false);
+    }));
+
+    it('devrait afficher un message plus clair si la vérification de l\'email échoue', fakeAsync(() => {
+      authService.checkEmailType.and.returnValue(throwError(() => ({})));
+      component.loginForm.patchValue({ email: 'test@example.com' });
+
+      component.verifierEmail();
+      tick();
+
+      expect(component.errorMessage).toBe("Impossible de vérifier cette adresse email. Vérifiez sa saisie ou réessayez dans un instant.");
+      expect(component.isLoading).toBe(false);
+    }));
+  });
+
   describe('onSubmit', () => {
     it('devrait ne pas soumettre lorsque le formulaire est invalide', () => {
       component.loginForm.patchValue({

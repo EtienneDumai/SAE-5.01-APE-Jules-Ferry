@@ -98,6 +98,13 @@
 }
 
 @media (max-width: 768px) {
+  .main-calendar,
+  .main-calendar .fc,
+  .main-calendar .fc-scroller,
+  .main-calendar .fc-view-harness {
+    touch-action: pan-x pan-y;
+  }
+
   .main-calendar .fc-toolbar-title {
     font-size: 1.125rem;
   }

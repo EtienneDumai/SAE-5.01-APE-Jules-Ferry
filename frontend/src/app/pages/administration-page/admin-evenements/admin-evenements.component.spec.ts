@@ -23,6 +23,7 @@ import { StatutEvenement } from '../../../enums/StatutEvenement/statut-evenement
 import { Evenement } from '../../../models/Evenement/evenement';
 import { StatutFormulaire } from '../../../enums/StatutFormulaire/statut-formulaire';
 import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';
+import { AuthService } from '../../../services/Auth/auth.service';
 
 describe('AdminEvenementsComponent', () => {
   let component: AdminEvenementsComponent;
@@ -33,6 +34,7 @@ describe('AdminEvenementsComponent', () => {
   let formulaireServiceSpy: jasmine.SpyObj<FormulaireService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let exportCsvServiceSpy: jasmine.SpyObj<ExportCsvService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   const mockEvenements: Evenement[] = [
     {
@@ -83,6 +85,10 @@ describe('AdminEvenementsComponent', () => {
     formulaireServiceSpy.getTemplates.and.returnValue(of(mockTemplates));
     formulaireServiceSpy.deleteFormulaire.and.returnValue(of(void 0));
 
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser'], {
+      currentUser$: of(null)
+    });
+
     await TestBed.configureTestingModule({
       imports: [AdminEvenementsComponent],
       providers: [
@@ -97,6 +103,7 @@ describe('AdminEvenementsComponent', () => {
         { provide: FormulaireService, useValue: formulaireServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ExportCsvService, useValue: exportCsvServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
       ],
     }).compileComponents();
 
@@ -118,6 +125,7 @@ describe('AdminEvenementsComponent', () => {
 
     it('devrait afficher un toast si le chargement des modèles échoue', () => {
       formulaireServiceSpy.getTemplates.and.returnValue(throwError(() => new Error('fail')));
+      spyOn(console, 'error');
 
       component.loadTemplates();
 
@@ -129,10 +137,10 @@ describe('AdminEvenementsComponent', () => {
     });
 
     it('devrait supprimer un modèle puis recharger la liste', () => {
-      spyOn(window, 'confirm').and.returnValue(true);
       formulaireServiceSpy.getTemplates.calls.reset();
 
       component.deleteTemplate(10);
+      component.confirmDeleteTemplate();
 
       expect(formulaireServiceSpy.deleteFormulaire).toHaveBeenCalledWith(10);
       expect(formulaireServiceSpy.getTemplates).toHaveBeenCalled();
@@ -152,6 +160,7 @@ describe('AdminEvenementsComponent', () => {
 
     it('devrait gérer une erreur de chargement', () => {
       evenementServiceSpy.getAllEvenements.and.returnValue(throwError(() => new Error('fail')));
+      spyOn(console, 'error');
       component.loadInitialEvents();
       expect(toastServiceSpy.show).toHaveBeenCalled();
       expect(component.loading).toBeFalse();

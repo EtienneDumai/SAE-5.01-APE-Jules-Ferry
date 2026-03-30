@@ -27,9 +27,9 @@ Description : Ce fichier contient le template du composant actualite card.
   </div>
 
   <div class="p-5 flex flex-col flex-grow bg-[var(--white-cards)]">
-    <div class="font-josefin text-[11px] uppercase text-[var(--accent-orange)] tracking-widest mb-3 flex items-center gap-2">
-      <i class="fa-regular fa-calendar"></i>
-      {{ datePublication | date: "d MMMM yyyy" }}
+    <div class="font-josefin text-[11px] uppercase text-[var(--accent-orange)] tracking-widest mb-3 flex items-end gap-2">
+      <i class="fa-regular fa-calendar block self-end leading-none"></i>
+      <span class="block self-end leading-none relative top-[2px]">{{ datePublication | date: "d MMMM yyyy" }}</span>
     </div>
 
     <h3 class="font-abril text-lg text-[var(--primary-green)] leading-tight mb-3 line-clamp-2" [title]="titre">

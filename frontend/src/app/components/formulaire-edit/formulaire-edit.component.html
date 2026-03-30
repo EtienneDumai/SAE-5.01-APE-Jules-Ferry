@@ -77,7 +77,7 @@ Description : Ce fichier contient le template du composant formulaire edit.
                         
                         <div class="bg-[var(--bg-creme)] p-5 border-b-[1.5px] border-[var(--border-light)] pr-12">
                             
-                            <button type="button" (click)="removeTache(i)" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] bg-white text-[var(--text-secondary)] hover:text-red-500 hover:border-red-500 transition-colors" title="Supprimer la tâche">
+                            <button type="button" (click)="requestRemoveTache(i)" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[var(--primary-green)] opacity-75 hover:opacity-100 hover:text-red-500 transition-colors" title="Supprimer la tâche">
                                 <i class="fa-solid fa-trash-can text-sm"></i>
                             </button>
 
@@ -155,5 +155,16 @@ Description : Ce fichier contient le template du composant formulaire edit.
                 </button>
             </div>
         </form>
+    }
+
+    @if (showDeleteTaskModal) {
+        <app-confirmation-modal
+            title="SUPPRIMER LA TÂCHE"
+            message="Êtes-vous sûr de vouloir supprimer cette tâche ?"
+            confirmLabel="Oui, supprimer"
+            cancelLabel="Annuler"
+            (validateAction)="confirmRemoveTache()"
+            (cancelAction)="cancelRemoveTache()">
+        </app-confirmation-modal>
     }
 </div>

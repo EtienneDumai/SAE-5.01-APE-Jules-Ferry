@@ -18,7 +18,7 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router'; // RouterLink retiré si inutilisé
+import { ActivatedRoute, Router } from '@angular/router';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
@@ -83,10 +83,20 @@ export class EvenementEditComponent implements OnInit {
     const taskDebut = group.get('heure_debut_globale')?.value;
     const taskFin = group.get('heure_fin_globale')?.value;
     const creneaux = group.get('creneaux') as FormArray;
+    const eventDebut = this.evenementForm?.get('heure_debut')?.value;
+    const eventFin = this.evenementForm?.get('heure_fin')?.value;
 
     if (!taskDebut || !taskFin) return null;
 
     if (taskDebut >= taskFin) return { timeRangeInvalid: true };
+
+    if (eventDebut && taskDebut < eventDebut) {
+      return { taskOutsideEventBounds: true };
+    }
+
+    if (eventFin && taskFin > eventFin) {
+      return { taskOutsideEventBounds: true };
+    }
 
     if (creneaux && creneaux.controls) {
         for (let i = 0; i < creneaux.controls.length; i++) {
@@ -132,6 +142,9 @@ export class EvenementEditComponent implements OnInit {
         // Conversion explicite en number ou null pour éviter les soucis de type
         this.applyTemplate(id ? Number(id) : null);
       });
+
+    this.evenementForm.get('heure_debut')?.valueChanges.subscribe(() => this.refreshTaskValidations());
+    this.evenementForm.get('heure_fin')?.valueChanges.subscribe(() => this.refreshTaskValidations());
   }
 
   get taches(): FormArray {
@@ -192,6 +205,10 @@ export class EvenementEditComponent implements OnInit {
 
   removeCreneau(tacheIndex: number, creneauIndex: number) {
     this.getCreneaux(tacheIndex).removeAt(creneauIndex);
+  }
+
+  private refreshTaskValidations(): void {
+    this.taches.controls.forEach((tache) => tache.updateValueAndValidity());
   }
 
   // Typage strict de l'ID

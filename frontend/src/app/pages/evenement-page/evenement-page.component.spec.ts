@@ -24,21 +24,6 @@ describe('EvenementPageComponent', () => {
 
   const mockEvenements: Evenement[] = [
     {
-      id_evenement: 1,
-      titre: 'Événement Ancien',
-      description: 'Description 1',
-      date_evenement: new Date('2025-01-01'),
-      heure_debut: '10:00',
-      heure_fin: '12:00',
-      lieu: 'Lieu 1',
-      image_url: 'https://example.com/image1.jpg',
-      statut: StatutEvenement.publie,
-      id_auteur: 1,
-      id_formulaire: null,
-      created_at: '2025-01-01T00:00:00Z',
-      updated_at: '2025-01-01T00:00:00Z'
-    },
-    {
       id_evenement: 2,
       titre: 'Événement Récent',
       description: 'Description 2',
@@ -52,6 +37,21 @@ describe('EvenementPageComponent', () => {
       id_formulaire: null,
       created_at: '2026-01-02T00:00:00Z',
       updated_at: '2026-01-02T00:00:00Z'
+    },
+    {
+      id_evenement: 1,
+      titre: 'Événement Ancien',
+      description: 'Description 1',
+      date_evenement: new Date('2025-01-01'),
+      heure_debut: '10:00',
+      heure_fin: '12:00',
+      lieu: 'Lieu 1',
+      image_url: 'https://example.com/image1.jpg',
+      statut: StatutEvenement.publie,
+      id_auteur: 1,
+      id_formulaire: null,
+      created_at: '2025-01-01T00:00:00Z',
+      updated_at: '2025-01-01T00:00:00Z'
     },
     {
       id_evenement: 3,
@@ -72,7 +72,9 @@ describe('EvenementPageComponent', () => {
 
   beforeEach(async () => {
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['getAllEvenements']);
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser'], {
+      currentUser$: of(null)
+    });
 
     await TestBed.configureTestingModule({
       imports: [EvenementPageComponent],

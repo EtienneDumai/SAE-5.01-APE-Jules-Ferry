@@ -31,6 +31,10 @@ export class UserFormComponent implements OnInit {
     statutCompte = StatutCompte;
     listeRoles = Object.values(RoleUtilisateur);
     listeStatuts = Object.values(StatutCompte);
+    labelsStatuts: Record<StatutCompte, string> = {
+        [StatutCompte.actif]: 'Actif',
+        [StatutCompte.desactive]: 'Inactif'
+    };
 
     ngOnInit() {
         this.initForm();

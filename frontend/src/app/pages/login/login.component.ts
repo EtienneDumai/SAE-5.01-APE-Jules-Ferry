@@ -69,9 +69,9 @@ export class LoginComponent implements OnInit {
           this.demanderLienMagique(emailSaisi);
         }
       },
-      error: () => {
+      error: (error) => {
         this.isLoading = false;
-        this.errorMessage = "Une erreur est survenue lors de la vérification de l'email.";
+        this.errorMessage = error.error?.message || "Impossible de vérifier cette adresse email. Vérifiez sa saisie ou réessayez dans un instant.";
       }
     });
   }

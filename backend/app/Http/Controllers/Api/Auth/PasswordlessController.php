@@ -62,6 +62,13 @@ class PasswordlessController extends Controller
         
         $user = Utilisateur::where('email', $request->email)->first();
 
+        if (!$user) {
+            return response()->json([
+                'action' => 'not_found',
+                'message' => 'Aucun compte associé à cet email. Veuillez vous inscrire.'
+            ]);
+        }
+
         if ($user->statut_compte === 'desactive') {
             return response()->json([
                 'action' => 'deactivated',
@@ -79,7 +86,6 @@ class PasswordlessController extends Controller
             return response()->json(['action' => 'send_magic_link']);
         }
 
-        // Si c'est un nouvel utilisateur on demande le nom et prénom
         return response()->json(['action' => 'not_found','message' => 'Aucun compte associé à cet email. Veuillez vous inscrire.']);
     }
 

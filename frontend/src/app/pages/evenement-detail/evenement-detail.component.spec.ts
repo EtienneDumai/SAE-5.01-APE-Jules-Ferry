@@ -125,7 +125,9 @@ describe('EvenementDetailComponent', () => {
         utilisateurServiceSpy = jasmine.createSpyObj('UtilisateurService', ['getUtilisateurById']);
         formulaireServiceSpy = jasmine.createSpyObj('FormulaireService', ['getFormulaireById']);
         inscriptionServiceSpy = jasmine.createSpyObj('InscriptionService', ['createInscription', 'deleteInscription']);
-        authServiceSpy = jasmine.createSpyObj('AuthService', ['getCurrentUser', 'isAuthenticatedStatus']);
+        authServiceSpy = jasmine.createSpyObj('AuthService', ['getCurrentUser', 'isAuthenticatedStatus'], {
+            currentUser$: of(null)
+        });
         routerSpy = jasmine.createSpyObj('Router', ['navigate']);
         locationSpy = jasmine.createSpyObj('Location', ['back']);
 
@@ -183,6 +185,7 @@ describe('EvenementDetailComponent', () => {
 
         it('devrait gérer une erreur de chargement de l\'événement', () => {
             evenementServiceSpy.getEvenementById.and.returnValue(throwError(() => new Error('Err')));
+            spyOn(console, 'error');
             fixture.detectChanges();
             expect(component.errorEvenement).toBeTrue();
             expect(component.loadingEvenement).toBeFalse();

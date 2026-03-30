@@ -36,10 +36,10 @@ Description : Ce fichier contient le template du composant form inscription even
               
               <label class="flex flex-row items-center justify-between p-4 border-[1.5px] rounded-[4px] transition-all gap-3 
                             {{ creneau.selected ? 'border-[var(--primary-green)] bg-[var(--primary-green)]/5' : 'border-[var(--border-light)] bg-white' }}
-                            {{ (isCreneauComplet(creneau) && !creneau.est_inscrit) ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-[var(--primary-green)]' }}">
+                            {{ (isCreneauComplet(creneau) && !creneau.est_inscrit) || isOverlapping(creneau) ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-[var(--primary-green)]' }}">
                 
                 <div class="flex items-center gap-4">
-                  <input type="checkbox" [(ngModel)]="creneau.selected" name="creneau-{{ creneau.id_creneau }}" [disabled]="isCreneauComplet(creneau) && !creneau.est_inscrit" class="w-5 h-5 text-[var(--primary-green)] bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] focus:ring-[var(--primary-green)] focus:ring-offset-0 transition-colors cursor-pointer" />
+                  <input type="checkbox" [(ngModel)]="creneau.selected" name="creneau-{{ creneau.id_creneau }}" [disabled]="(isCreneauComplet(creneau) && !creneau.est_inscrit) || isOverlapping(creneau)" class="w-5 h-5 text-[var(--primary-green)] bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] focus:ring-[var(--primary-green)] focus:ring-offset-0 transition-colors cursor-pointer" />
                   <span class="font-dm text-base font-medium text-[var(--primary-green)]">
                     {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
                   </span>
@@ -54,6 +54,11 @@ Description : Ce fichier contient le template du composant form inscription even
                   @else if (isCreneauComplet(creneau)) {
                     <span class="bg-red-50 border border-red-200 text-red-600 font-josefin text-[10px] uppercase font-bold tracking-widest px-3 py-1.5 rounded-full">
                       Complet
+                    </span>
+                  }
+                  @else if (isOverlapping(creneau)) {
+                    <span class="bg-red-50 border border-red-200 text-red-600 font-josefin text-[10px] uppercase font-bold tracking-widest px-3 py-1.5 rounded-full">
+                      Conflit d'horaire
                     </span>
                   }
                   @else {

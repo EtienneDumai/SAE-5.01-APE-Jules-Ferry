@@ -13,10 +13,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
-import frLocale from '@fullcalendar/core/locales/fr';
 import { EvenementService, PaginatedEvenements } from '../../services/Evenement/evenement.service';
 import { Evenement } from '../../models/Evenement/evenement';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { AuthService } from '../../services/Auth/auth.service';
 
 @Component({
   selector: 'app-calendrier',
@@ -29,6 +29,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly evenementService = inject(EvenementService);
+  private readonly authService = inject(AuthService);
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
   @ViewChild('calendarContainer') calendarContainer: ElementRef | undefined;
@@ -38,6 +39,7 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   eventsList: Evenement[] = [];
   isLoading = true;
   errorMessage: string | null = null;
+  isAuthenticated = false;
   
   calendarState: 'compact' | 'expanded' = 'compact';
   private isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -87,7 +89,6 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
-    locale: frLocale,
     height: 'auto',
     allDaySlot: false,
     slotMinTime: '07:00:00',
@@ -115,6 +116,9 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadEvenements();
+    this.authService.currentUser$.subscribe(user => {
+      this.isAuthenticated = !!user;
+    });
   }
   
   ngAfterViewInit(): void {

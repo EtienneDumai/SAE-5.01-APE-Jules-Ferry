@@ -75,7 +75,7 @@ Description : Ce fichier contient le template du composant user form.
         <select formControlName="statut_compte"
             class="block w-full rounded-md border-gray-300 shadow-sm border px-2 py-1 text-xs focus:ring-indigo-500">
             @for (statut of listeStatuts; track statut) {
-            <option [value]="statut">{{ statut | titlecase }}</option>
+            <option [value]="statut">{{ labelsStatuts[statut] }}</option>
             }
         </select>
     </form>

@@ -1,0 +1,9 @@
+.hello-asso-container {
+    min-height: 400px;
+}
+
+@media (max-width: 768px) {
+    .hello-asso-container {
+        padding: 2rem 1rem;
+    }
+}

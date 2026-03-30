@@ -20,7 +20,7 @@ Description : Ce fichier contient le template du composant calendrier.
   }
 
   @if (!isLoading && !errorMessage) {
-    <div class="w-full h-full p-2">
+    <div class="main-calendar w-full h-full p-2">
       <full-calendar #calendar [options]="calendarOptions"></full-calendar>
     </div>
   }
@@ -59,9 +59,15 @@ Description : Ce fichier contient le template du composant calendrier.
             </a>
             
             @if (isInscriptionOuverte(selectedEvent)) {
-              <a [routerLink]="['/evenements', selectedEvent.id_evenement]" [queryParams]="{ openForm: 'true' }" (click)="closeEventDetails()" class="w-full btn-primary text-center !py-2.5">
-                S'inscrire
-              </a>
+              @if (isAuthenticated) {
+                <a [routerLink]="['/evenements', selectedEvent.id_evenement]" [queryParams]="{ openForm: 'true' }" (click)="closeEventDetails()" class="w-full btn-primary text-center !py-2.5">
+                  S'inscrire
+                </a>
+              } @else {
+                <a [routerLink]="['/login']" [queryParams]="{ returnUrl: '/evenements/' + selectedEvent.id_evenement }" (click)="closeEventDetails()" class="w-full btn-primary text-center !py-2.5">
+                  Se connecter
+                </a>
+              }
             }
           </div>
         </div>

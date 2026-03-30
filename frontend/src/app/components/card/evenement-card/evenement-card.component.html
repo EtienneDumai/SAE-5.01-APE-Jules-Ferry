@@ -27,21 +27,27 @@ Description : Ce fichier contient le template du composant evenement card.
 
     <div class="p-5 flex flex-col flex-grow bg-[var(--white-cards)]">
         
-        <div class="font-josefin text-[11px] uppercase text-[var(--accent-orange)] tracking-widest mb-3 flex items-center flex-wrap gap-x-3 gap-y-2">
-            <span class="flex items-center gap-1.5"><i class="fa-regular fa-calendar"></i> {{ date_evenement | date:'d MMMM yyyy' }}</span>
+        <div class="font-josefin text-[11px] uppercase text-[var(--accent-orange)] tracking-widest mb-3 flex items-end flex-wrap gap-x-3 gap-y-2">
+            <span class="flex items-end gap-2">
+                <i class="fa-regular fa-calendar block self-end leading-none"></i>
+                <span class="block self-end leading-none relative top-[2px]">{{ date_evenement | date:'d MMMM yyyy' }}</span>
+            </span>
             <span class="text-[var(--border-light)]">|</span>
-            <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock"></i> {{ heure_debut }} - {{ heure_fin }}</span>
+            <span class="flex items-end gap-2">
+                <i class="fa-regular fa-clock block self-end leading-none"></i>
+                <span class="block self-end leading-none relative top-[2px]">{{ heure_debut }} - {{ heure_fin }}</span>
+            </span>
         </div>
 
-        <h3 class="font-abril text-lg leading-tight text-[var(--primary-green)] mb-2 line-clamp-2" [title]="titre">
+        <h3 class="font-abril text-lg text-[var(--primary-green)] leading-tight mb-3 line-clamp-2" [title]="titre">
             {{ titre }}
         </h3>
         
-        <div class="font-josefin text-[11px] text-[var(--text-secondary)] uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <div class="font-josefin text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mb-3 flex items-center gap-2">
             <i class="fa-solid fa-location-dot"></i> <span class="line-clamp-1">{{ lieu }}</span>
         </div>
 
-        <p class="font-dm text-[13px] text-[var(--text-secondary)] line-clamp-2 mb-5 flex-grow leading-relaxed">
+        <p class="font-dm text-[13px] text-[var(--text-secondary)] line-clamp-3 mb-5 flex-grow leading-relaxed">
             {{ description }}
         </p>
 
@@ -51,9 +57,15 @@ Description : Ce fichier contient le template du composant evenement card.
             </button>
             
             @if (id_formulaire && isInscriptionOuverte) {
-                <button [routerLink]="['/evenements', id_evenement]" [queryParams]="{ openForm: 'true' }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
-                    S'inscrire
-                </button>
+                @if (isAuthenticated) {
+                    <button [routerLink]="['/evenements', id_evenement]" [queryParams]="{ openForm: 'true' }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
+                        S'inscrire
+                    </button>
+                } @else {
+                    <button [routerLink]="['/login']" [queryParams]="{ returnUrl: '/evenements/' + id_evenement }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
+                        Se connecter
+                    </button>
+                }
             }
         </div>
     </div>

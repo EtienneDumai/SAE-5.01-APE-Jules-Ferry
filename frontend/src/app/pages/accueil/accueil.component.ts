@@ -68,7 +68,7 @@ export class AccueilComponent implements OnInit {
 
   public sortEvenementByDate(): void {
     this.listeEvenements.sort((a, b) => {
-      return new Date(a.date_evenement).getTime() - new Date(b.date_evenement).getTime();
+      return this.getEventTimestamp(b) - this.getEventTimestamp(a);
     });
   }
 
@@ -80,5 +80,22 @@ export class AccueilComponent implements OnInit {
 
   getAsDate(date: string | Date): Date {
     return new Date(date);
+  }
+
+  private getEventTimestamp(evenement: Evenement): number {
+    const date = evenement.date_evenement;
+    const time = evenement.heure_debut || '00:00';
+
+    if (date instanceof Date) {
+      const [hours, minutes] = time.split(':').map(Number);
+      const localDate = new Date(date);
+      localDate.setHours(hours || 0, minutes || 0, 0, 0);
+      return localDate.getTime();
+    }
+
+    const [year, month, day] = String(date).split('T')[0].split('-').map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
+
+    return new Date(year, (month || 1) - 1, day || 1, hours || 0, minutes || 0, 0, 0).getTime();
   }
 }
