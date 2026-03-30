@@ -2,6 +2,7 @@
 
 ## Schema relationnel de la base de données
 
+![APE Jules Ferry App UML Base de données](/docs/images/UMLBDD.webp "APE Jules Ferry App UML Base de données")
 
 ## Organisation du dossier `database`
 

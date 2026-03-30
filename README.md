@@ -20,7 +20,7 @@ Chaque partie contient sa documentation spécifique et sa procédure d'installat
 
 La solution `APE Jules Ferry` est conçue pour être déployée sur des serveurs GNU/Linux de type Debian. Elle utilise une architecture client-serveur avec communication par API Rest.
 
-![APE Jules Ferry App Architecture](./docs/general/InfrastructureAPE.png "APE Jules Ferry Infrastructure")
+![APE Jules Ferry App Architecture](./docs/images/InfrastructureAPE.png "APE Jules Ferry Infrastructure")
 
 ## Developper en mode local : 
 - Activer l'extension php-pgsql dans le fichier php.ini
