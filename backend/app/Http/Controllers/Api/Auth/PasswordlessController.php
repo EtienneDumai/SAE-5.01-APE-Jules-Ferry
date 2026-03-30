@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Fichier : backend/app/Http/Controllers/Api/Auth/PasswordlessController.php
- * Auteur : cf ~/docs/general/participants.md
- * Description : Ce controleur gere la connexion sans mot de passe.
- * Il traite l'envoi ou la verification des liens de connexion temporaires.
- */
-
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
@@ -36,14 +29,13 @@ class PasswordlessController extends Controller
                 'statut_compte' => 'actif',
             ]
         );
+        URL::forceScheme('https');
         // Crée une URL signée valable 2 heures (pour l'API)
         $urlApi = URL::temporarySignedRoute(
-            'auth.magic.verify', 
-            now()->addHours(2), 
+            'auth.magic.verify',
+            now()->addHours(2),
             ['id_utilisateur' => $user->id_utilisateur]
         );
-
-        // On récupère la racine de l'url du front
         $frontendUrl = env('FRONTEND_URL', 'http://localhost');
 
         // On construit le lien complet
@@ -59,7 +51,7 @@ class PasswordlessController extends Controller
     public function checkEmail(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-        
+
         $user = Utilisateur::where('email', $request->email)->first();
 
         if ($user->statut_compte === 'desactive') {
@@ -68,7 +60,7 @@ class PasswordlessController extends Controller
                 'message' => 'Votre compte a été rendu inactif par l\'APE. Veuillez nous contacter pour plus d\'informations.'
             ]);
         }
-        
+
         // Si l'utilisateur existe ET qu'il est admin ou membre du bureau
         if ($user && in_array(strtolower($user->role), ['administrateur', 'membre_bureau'])) {
             return response()->json(['action' => 'require_password']);
