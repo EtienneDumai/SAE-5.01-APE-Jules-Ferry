@@ -17,19 +17,19 @@ Description : Ce fichier contient le template du composant confirmation modal.
        role="document">
     
     <div class="text-center mb-6">
-      <h2 class="font-abril text-2xl text-[var(--primary-green)] mb-2 tracking-wide">DÉCONNEXION</h2>
-      <p class="font-dm text-sm text-[var(--text-secondary)]">Êtes-vous sûr de vouloir quitter votre session ?</p>
+      <h2 class="font-abril text-2xl text-[var(--primary-green)] mb-2 tracking-wide">{{ title }}</h2>
+      <p class="font-dm text-sm text-[var(--text-secondary)]">{{ message }}</p>
     </div>
 
     <div class="flex flex-col gap-3">
       <button (click)="confirmer()" 
         class="w-full py-3 bg-[var(--primary-green)] text-white font-josefin text-xs uppercase tracking-widest font-bold rounded-[4px] hover:bg-green-800 transition-colors shadow-[2px_2px_0_var(--primary-green)] active:translate-y-0.5 active:shadow-none">
-        Oui, me déconnecter
+        {{ confirmLabel }}
       </button>
       
       <button (click)="annuler()" 
         class="w-full py-3 bg-[var(--bg-creme)] text-[var(--primary-green)] border-[1.5px] border-[var(--border-light)] font-josefin text-xs uppercase tracking-widest font-bold rounded-[4px] hover:bg-gray-100 transition-colors">
-        Annuler
+        {{ cancelLabel }}
       </button>
     </div>
 

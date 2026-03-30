@@ -242,6 +242,27 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
+    public function should_return_not_found_action_for_check_email_when_user_does_not_exist(): void
+    {
+        // GIVEN
+        $controller = new PasswordlessController();
+        $request = Request::create('/api/check-email', 'POST', [
+            'email' => 'inconnu@example.com',
+        ]);
+
+        // WHEN
+        $response = $controller->checkEmail($request);
+
+        // THEN
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('not_found', $response->getData(true)['action']);
+        $this->assertSame(
+            'Aucun compte associé à cet email. Veuillez vous inscrire.',
+            $response->getData(true)['message']
+        );
+    }
+
+    #[Test]
     public function should_send_magic_link_for_request_link_when_email_is_valid(): void
     {
         // GIVEN

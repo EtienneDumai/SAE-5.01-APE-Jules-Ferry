@@ -23,7 +23,7 @@ Description : Ce fichier contient le template du composant export modal.
                     </div>
                 </div>
                 
-                <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <div class="space-y-2 pr-1">
                     @for (col of availableColumns; track col.key) {
                         <label class="flex items-center space-x-3 cursor-pointer p-2.5 rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)]/50 hover:bg-[var(--bg-creme)] transition-colors">
                             <input type="checkbox" [(ngModel)]="col.selected"

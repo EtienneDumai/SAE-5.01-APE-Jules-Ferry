@@ -73,4 +73,61 @@ describe('EvenementEditComponent', () => {
     expect(component.templates).toEqual([activeTemplate]);
     expect(component.loading).toBeFalse();
   });
+
+  it('should mark a task invalid when it starts before the event', () => {
+    component.evenementForm.patchValue({
+      heure_debut: '09:00',
+      heure_fin: '18:00'
+    });
+
+    component.addTache({
+      nom_tache: 'Accueil',
+      heure_debut_globale: '08:30',
+      heure_fin_globale: '10:00',
+      creneaux: []
+    });
+
+    const tache = component.taches.at(0);
+
+    expect(tache.errors?.['taskOutsideEventBounds']).toBeTrue();
+  });
+
+  it('should mark a task invalid when it ends after the event', () => {
+    component.evenementForm.patchValue({
+      heure_debut: '09:00',
+      heure_fin: '18:00'
+    });
+
+    component.addTache({
+      nom_tache: 'Rangement',
+      heure_debut_globale: '17:00',
+      heure_fin_globale: '18:30',
+      creneaux: []
+    });
+
+    const tache = component.taches.at(0);
+
+    expect(tache.errors?.['taskOutsideEventBounds']).toBeTrue();
+  });
+
+  it('should refresh task validation when event hours change', () => {
+    component.evenementForm.patchValue({
+      heure_debut: '09:00',
+      heure_fin: '18:00'
+    });
+
+    component.addTache({
+      nom_tache: 'Accueil',
+      heure_debut_globale: '09:30',
+      heure_fin_globale: '10:30',
+      creneaux: []
+    });
+
+    const tache = component.taches.at(0);
+    expect(tache.errors).toBeNull();
+
+    component.evenementForm.patchValue({ heure_fin: '10:00' });
+
+    expect(tache.errors?.['taskOutsideEventBounds']).toBeTrue();
+  });
 });

@@ -55,9 +55,9 @@ Description : Ce fichier contient le template de la page admin evenements.
                 <p class="font-dm text-xs text-[var(--text-secondary)] mt-1">Téléchargez la liste de tous les événements au format CSV (.csv)</p>
             </div>
             <button type="button" (click)="showExportEventsModal = true"
-                class="btn-secondary !py-2 !px-4 flex items-center justify-center gap-2 bg-white w-full sm:w-auto">
-                <i class="fa-solid fa-download text-[var(--primary-green)]"></i>
-                Exporter
+                class="btn-secondary !py-2.5 !px-4 inline-flex items-center justify-center gap-2 !border-[var(--primary-green)] !text-[var(--primary-green)] bg-white hover:!bg-[var(--primary-green)] hover:!text-white w-full sm:w-auto">
+                <i class="fa-solid fa-download block self-center text-[11px] leading-none"></i>
+                <span class="block self-center leading-none relative top-px">Exporter</span>
             </button>
         </div>
 
@@ -83,9 +83,7 @@ Description : Ce fichier contient le template de la page admin evenements.
                             <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Lieu
                             </th>
-                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right">
-                                Actions
-                            </th>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right"></th>
                         </tr>
                     </thead>
                     <tbody class="bg-white">
@@ -98,7 +96,7 @@ Description : Ce fichier contient le template de la page admin evenements.
                                 {{ event.date_evenement | date:'dd/MM/yyyy' }}
                             </td>
                             <td class="py-4 px-4">
-                                <span class="inline-flex items-center rounded-[4px] bg-[#f0fdf4] border-[1px] border-[#16a34a]/20 px-2.5 py-0.5 text-xs font-bold text-[var(--primary-green)]">
+                                <span class="inline-flex items-center rounded-[4px] bg-[#fff7ed] border-[1px] border-[#ea580c]/20 px-2.5 py-0.5 text-xs font-bold text-[var(--accent-orange)]">
                                     {{ event.totalInscrits }}
                                 </span>
                             </td>
@@ -181,9 +179,7 @@ Description : Ce fichier contient le template de la page admin evenements.
                             <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Créé le
                             </th>
-                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right">
-                                Actions
-                            </th>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right"></th>
                         </tr>
                     </thead>
                     <tbody class="bg-white">
@@ -486,5 +482,16 @@ Description : Ce fichier contient le template de la page admin evenements.
     <app-export-modal title="Exporter les participants" [availableColumns]="exportColumnsParticipants"
         (confirm)="exportParticipants($event)" (closeModal)="showExportParticipantsModal = false">
     </app-export-modal>
+    }
+
+    @if (showDeleteTemplateModal) {
+    <app-confirmation-modal
+        title="SUPPRIMER LE MODÈLE"
+        message="Êtes-vous sûr de vouloir supprimer ce modèle de formulaire ?"
+        confirmLabel="Oui, supprimer"
+        cancelLabel="Annuler"
+        (validateAction)="confirmDeleteTemplate()"
+        (cancelAction)="cancelDeleteTemplate()">
+    </app-confirmation-modal>
     }
 </div>

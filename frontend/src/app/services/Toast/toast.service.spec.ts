@@ -13,8 +13,13 @@ describe('ToastService', () => {
   let service: ToastService;
 
   beforeEach(() => {
+    jasmine.clock().install();
     TestBed.configureTestingModule({});
     service = TestBed.inject(ToastService);
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   it('devrait être créé', () => {
@@ -75,6 +80,27 @@ describe('ToastService', () => {
       });
 
       service.show(message, TypeErreurToast.ERROR);
+    });
+
+    it('devrait supprimer automatiquement le toast au bout de 3 secondes', () => {
+      const emissions: (TypeToast | null)[] = [];
+
+      service.toast.subscribe((toast) => {
+        emissions.push(toast);
+      });
+
+      service.show('Message temporaire', TypeErreurToast.SUCCESS);
+
+      expect(emissions[1]).toEqual({
+        message: 'Message temporaire',
+        type: TypeErreurToast.SUCCESS
+      });
+
+      jasmine.clock().tick(2999);
+      expect(emissions.length).toBe(2);
+
+      jasmine.clock().tick(1);
+      expect(emissions[2]).toBeNull();
     });
 
     it('devrait émettre un toast avec un message et le type WARNING', (done) => {
@@ -149,54 +175,48 @@ describe('ToastService', () => {
   });
 
   describe('showWithTimeout', () => {
-    it('devrait émettre un toast puis le supprimer après le timeout', (done) => {
+    it('devrait émettre un toast puis le supprimer après le timeout', () => {
       const message = 'Toast temporaire';
       const type = TypeErreurToast.SUCCESS;
-      const timeout = 100; 
-      let step = 0;
+      const timeout = 100;
+      const emissions: (TypeToast | null)[] = [];
+
       service.toast.subscribe((toast) => {
-        if (step === 0) {
-          step++;
-          return;
-        }
-        if (step === 1) {
-          expect(toast).toEqual({ message, type });
-        } else if (step === 2) {
-          expect(toast).toBeNull();
-          done();
-        }
-        step++;
+        emissions.push(toast);
       });
+
       service.showWithTimeout(message, type, timeout);
+
+      expect(emissions[1]).toEqual({ message, type });
+
+      jasmine.clock().tick(timeout);
+      expect(emissions[2]).toBeNull();
     });
 
-    it('devrait réinitialiser le timeout si showWithTimeout est rappelé', (done) => {
+    it('devrait réinitialiser le timeout si showWithTimeout est rappelé', () => {
       const message1 = 'Premier toast';
       const message2 = 'Second toast';
       const type = TypeErreurToast.SUCCESS;
       const timeout = 100;
       const emissions: (TypeToast | null)[] = [];
-      let step = 0;
+
       service.toast.subscribe((toast) => {
-        // Ignorer la première émission (null initial)
-        if (step === 0) {
-          step++;
-          return;
-        }
         emissions.push(toast);
-        if (emissions.length === 1) {
-          expect(toast).toEqual({ message: message1, type });
-          setTimeout(() => {
-            service.showWithTimeout(message2, type, timeout);
-          }, 50); // avant la fin du premier timeout
-        } else if (emissions.length === 2) {
-          expect(toast).toEqual({ message: message2, type });
-        } else if (emissions.length === 3) {
-          expect(toast).toBeNull();
-          done();
-        }
       });
+
       service.showWithTimeout(message1, type, timeout);
+
+      expect(emissions[1]).toEqual({ message: message1, type });
+
+      jasmine.clock().tick(50);
+      service.showWithTimeout(message2, type, timeout);
+      expect(emissions[2]).toEqual({ message: message2, type });
+
+      jasmine.clock().tick(99);
+      expect(emissions.length).toBe(3);
+
+      jasmine.clock().tick(1);
+      expect(emissions[3]).toBeNull();
     });
   });
 });

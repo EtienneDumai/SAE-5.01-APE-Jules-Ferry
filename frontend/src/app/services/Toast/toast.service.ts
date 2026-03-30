@@ -12,17 +12,30 @@ import {TypeToast} from '../../models/TypeToast/type-toast';
   providedIn: 'root'
 })
 export class ToastService {
+  private static readonly DEFAULT_TIMEOUT = 3000;
+
   private toastSubject = new BehaviorSubject<TypeToast | null>(null);
   toast = this.toastSubject.asObservable();
+
+  private toastTimeout: ReturnType<typeof setTimeout> | null = null;
+
   show(message: string, type: TypeErreurToast = TypeErreurToast.SUCCESS): void {
-    this.toastSubject.next({message, type});
+    this.showWithTimeout(message, type);
   }
+
   clear(): void {
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = null;
+    }
     this.toastSubject.next(null);
   }
 
-  private toastTimeout: ReturnType<typeof setTimeout> | null = null;
-  showWithTimeout(message: string, type: TypeErreurToast = TypeErreurToast.SUCCESS, timeout = 5000): void {
+  showWithTimeout(
+    message: string,
+    type: TypeErreurToast = TypeErreurToast.SUCCESS,
+    timeout = ToastService.DEFAULT_TIMEOUT
+  ): void {
     this.toastSubject.next({message, type});
     if (this.toastTimeout) {
       clearTimeout(this.toastTimeout);

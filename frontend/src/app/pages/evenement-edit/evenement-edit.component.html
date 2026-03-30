@@ -6,18 +6,17 @@ Description : Ce fichier contient le template de la page evenement edit.
 
 <div class="max-w-5xl mx-auto px-4 py-12 md:py-16 animate-fade-up">
   
-  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b-[1.5px] border-[var(--border-light)] pb-6">
+  <div class="flex flex-col gap-4 mb-10 border-b-[1.5px] border-[var(--border-light)] pb-6">
+    <button type="button" (click)="goBack()" class="font-josefin text-[10px] uppercase tracking-[0.15em] text-[var(--accent-orange)] font-bold inline-flex items-center gap-2 whitespace-nowrap hover:text-[var(--primary-green)] transition-colors w-fit">
+      <i class="fa-solid fa-arrow-left block self-center text-[11px] leading-none"></i>
+      <span class="block self-center leading-none relative top-px">Retour à l'accueil</span>
+    </button>
+
     <div>
-      <span class="font-josefin text-[10px] uppercase tracking-[0.15em] text-[var(--accent-orange)] font-bold mb-3 block">
-        Administration
-      </span>
       <h1 class="font-abril text-4xl text-[var(--primary-green)] m-0">
         {{ isEditMode ? 'Modifier l\'événement' : 'Créer un événement' }}
       </h1>
     </div>
-    <button type="button" (click)="goBack()" class="btn-secondary shrink-0">
-      <i class="fa-solid fa-arrow-left"></i> Retour
-    </button>
   </div>
 
   @if (loading) {
@@ -169,11 +168,18 @@ Description : Ce fichier contient le template de la page evenement edit.
                                     <i class="fa-solid fa-triangle-exclamation text-base"></i> La fin globale de la tâche doit être après le début.
                                 </div>
                             }
+
+                            @if (tache.errors?.['taskOutsideEventBounds']) {
+                                <div class="mb-4 text-xs font-bold text-red-700 bg-red-100 border border-red-300 p-3 rounded-[4px] flex items-center gap-2 shadow-sm">
+                                    <i class="fa-solid fa-triangle-exclamation text-base"></i>
+                                    Cette tâche doit rester comprise dans les horaires de l'événement (de {{ evenementForm.get('heure_debut')?.value || '--:--' }} à {{ evenementForm.get('heure_fin')?.value || '--:--' }}).
+                                </div>
+                            }
                             
                             @if (tache.errors?.['slotOutsideTaskBounds']) {
                                 <div class="mb-4 text-xs font-bold text-red-700 bg-red-100 border border-red-300 p-3 rounded-[4px] flex items-center gap-2 shadow-sm">
                                     <i class="fa-solid fa-triangle-exclamation text-base"></i> 
-                                    Attention : Un créneau déborde des horaires globaux de la tâche !
+                                    Un créneau de cette tâche commence trop tôt ou finit trop tard.
                                 </div>
                             }
 

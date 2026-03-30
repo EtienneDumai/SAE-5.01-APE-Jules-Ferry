@@ -25,9 +25,9 @@ Description : Ce fichier contient le template de la page admin comptes.
                 Téléchargez la liste de tous les comptes utilisateurs au format CSV
             </p>
         </div>
-        <button type="button" (click)="showExportModal = true" class="btn-secondary !py-2 !px-4 flex items-center justify-center gap-2 bg-white w-full sm:w-auto">
-            <i class="fa-solid fa-download text-[var(--primary-green)]"></i>
-            Exporter
+        <button type="button" (click)="showExportModal = true" class="btn-secondary !py-2.5 !px-4 inline-flex items-center justify-center gap-2 !border-[var(--primary-green)] !text-[var(--primary-green)] bg-white hover:!bg-[var(--primary-green)] hover:!text-white w-full sm:w-auto">
+            <i class="fa-solid fa-download block self-center text-[11px] leading-none"></i>
+            <span class="block self-center leading-none relative top-px">Exporter</span>
         </button>
     </div>
 
@@ -53,9 +53,7 @@ Description : Ce fichier contient le template de la page admin comptes.
                             <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] w-[15%]">
                                 Statut
                             </th>
-                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right w-[15%]">
-                                Actions
-                            </th>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right w-[15%]"></th>
                         </tr>
                     </thead>
                     <tbody class="bg-[var(--white-cards)]">
@@ -77,26 +75,28 @@ Description : Ce fichier contient le template de la page admin comptes.
                                     </td>
 
                                     <td class="whitespace-nowrap py-4 px-4">
-                                        <span class="inline-flex items-center rounded-md px-2.5 py-1 font-josefin text-[10px] uppercase font-bold tracking-wider ring-1 ring-inset"
+                                        <span class="inline-flex items-center rounded-md px-2.5 py-1.5 font-josefin text-[10px] uppercase font-bold tracking-wider leading-none ring-1 ring-inset"
                                             [ngClass]="{
                                                 'bg-[#fff7ed] text-[var(--accent-orange)] ring-[#ea580c]/20': user.role === roleUtilisateur.administrateur, 
                                                 'bg-[#f0fdf4] text-[var(--primary-green)] ring-[#16a34a]/20': user.role === roleUtilisateur.membre_bureau,
                                                 'bg-gray-50 text-gray-500 ring-gray-500/20': user.role === roleUtilisateur.parent
                                             }">
-                                            {{ user.role.replace('_', ' ') }}
+                                            <span class="block self-center leading-none relative top-[2px]">{{ user.role.replace('_', ' ') }}</span>
                                         </span>
                                     </td>
 
                                     <td class="whitespace-nowrap py-4 px-4">
-                                        <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-josefin text-[10px] uppercase font-bold tracking-wider ring-1 ring-inset"
+                                        <span class="inline-flex items-end gap-1.5 rounded-full px-2.5 py-1.5 font-josefin text-[10px] uppercase font-bold tracking-wider ring-1 ring-inset"
                                             [ngClass]="{
                                                 'bg-green-50 text-green-700 ring-green-600/20': user.statut_compte === statutCompte.actif,
                                                 'bg-red-50 text-red-700 ring-red-600/20': user.statut_compte === statutCompte.desactive
                                             }">
-                                            <i class="fa-solid fa-circle text-[6px]" 
+                                            <i class="fa-solid fa-circle block self-end text-[6px] leading-none" 
                                                 [ngClass]="{'text-green-500': user.statut_compte === statutCompte.actif, 'text-red-500': user.statut_compte === statutCompte.desactive}">
                                             </i>
-                                            {{ user.statut_compte }}
+                                            <span class="block self-end leading-none relative top-[2px]">
+                                                {{ user.statut_compte === statutCompte.actif ? 'Actif' : 'Inactif' }}
+                                            </span>
                                         </span>
                                     </td>
 

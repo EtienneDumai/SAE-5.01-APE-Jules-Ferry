@@ -12,8 +12,14 @@ Description : Ce fichier contient le template du composant header.
         <i class="fa-solid fa-bars text-xl"></i>
       </button>
 
-      <a routerLink="/" class="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[var(--bg-creme)] rounded-full border-2 border-[var(--accent-orange)] overflow-hidden hover:scale-105 transition-transform">
-        <img src="/logo/logo.webp" alt="Logo APE" class="h-6 w-auto object-contain" />
+      <a routerLink="/" class="flex-shrink-0 inline-flex items-center gap-3 hover:opacity-90 transition-opacity">
+        <span class="flex items-center justify-center w-9 h-9 bg-[var(--bg-creme)] rounded-full border-[1.5px] border-[var(--accent-orange)] overflow-hidden">
+          <img src="/logo/logo.webp" alt="Logo APE" class="w-full h-full object-cover scale-110" />
+        </span>
+        <span class="hidden sm:flex flex-col leading-none">
+          <span class="font-josefin text-[13px] uppercase tracking-[0.12em] text-[var(--accent-orange)] font-bold">APE</span>
+          <span class="font-abril text-base text-[var(--bg-creme)] tracking-wide">Jules Ferry</span>
+        </span>
       </a>
 
       <nav class="hidden lg:flex items-center gap-8 ml-4 h-full">
@@ -57,10 +63,15 @@ Description : Ce fichier contient le template du composant header.
     <aside class="fixed top-0 left-0 z-50 h-full w-72 bg-[var(--primary-green)] text-[var(--bg-creme)] shadow-2xl flex flex-col lg:hidden transform transition-transform border-r-4 border-[var(--accent-orange)]">
       <div class="flex items-center justify-between p-6 border-b border-white/10">
         <div class="flex items-center gap-3">
-          <div class="flex items-center justify-center w-8 h-8 bg-[var(--bg-creme)] rounded-full border border-[var(--accent-orange)]">
-            <img src="/logo/logo.webp" alt="Logo" class="h-4 w-auto object-contain" />
-          </div>
-          <span class="font-abril text-xl tracking-wider text-[var(--bg-creme)]">MENU</span>
+          <a routerLink="/" (click)="closeMenu()" class="inline-flex items-center gap-3">
+            <span class="flex items-center justify-center w-8 h-8 bg-[var(--bg-creme)] rounded-full border border-[var(--accent-orange)] overflow-hidden">
+              <img src="/logo/logo.webp" alt="Logo" class="w-full h-full object-cover scale-110" />
+            </span>
+            <span class="flex flex-col leading-none">
+              <span class="font-josefin text-[12px] uppercase tracking-[0.12em] text-[var(--accent-orange)] font-bold">APE</span>
+              <span class="font-abril text-lg tracking-wide text-[var(--bg-creme)]">Jules Ferry</span>
+            </span>
+          </a>
         </div>
 
         <button type="button" class="text-[var(--bg-creme)] opacity-70 hover:opacity-100 hover:text-[var(--accent-orange)] transition-colors" (click)="closeMenu()" aria-label="Fermer">
