@@ -83,20 +83,10 @@ export class EvenementEditComponent implements OnInit {
     const taskDebut = group.get('heure_debut_globale')?.value;
     const taskFin = group.get('heure_fin_globale')?.value;
     const creneaux = group.get('creneaux') as FormArray;
-    const eventDebut = this.evenementForm?.get('heure_debut')?.value;
-    const eventFin = this.evenementForm?.get('heure_fin')?.value;
 
     if (!taskDebut || !taskFin) return null;
 
     if (taskDebut >= taskFin) return { timeRangeInvalid: true };
-
-    if (eventDebut && taskDebut < eventDebut) {
-      return { taskOutsideEventBounds: true };
-    }
-
-    if (eventFin && taskFin > eventFin) {
-      return { taskOutsideEventBounds: true };
-    }
 
     if (creneaux && creneaux.controls) {
         for (let i = 0; i < creneaux.controls.length; i++) {
@@ -112,6 +102,18 @@ export class EvenementEditComponent implements OnInit {
     }
     return null;
   };
+
+  isTaskOutsideEventBounds(tache: AbstractControl): boolean {
+    const taskDebut = tache.get('heure_debut_globale')?.value;
+    const taskFin = tache.get('heure_fin_globale')?.value;
+    const eventDebut = this.evenementForm?.get('heure_debut')?.value;
+    const eventFin = this.evenementForm?.get('heure_fin')?.value;
+
+    if (taskDebut && eventDebut && taskDebut < eventDebut) return true;
+    if (taskFin && eventFin && taskFin > eventFin) return true;
+
+    return false;
+  }
 
   ngOnInit(): void {
     this.initForm();
