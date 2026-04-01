@@ -162,6 +162,69 @@ describe('AuthService', () => {
     });
   });
 
+  describe('auxiliary auth endpoints', () => {
+    it('appelle checkEmailType', () => {
+      service.checkEmailType('john@example.com').subscribe(response => {
+        expect(response.action).toBe('send_magic_link');
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/check-email`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ email: 'john@example.com' });
+      req.flush({ action: 'send_magic_link' });
+    });
+
+    it('appelle requestMagicLink', () => {
+      service.requestMagicLink('john@example.com', 'Doe', 'John').subscribe(response => {
+        expect(response.message).toBe('ok');
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/magic-link`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ email: 'john@example.com', nom: 'Doe', prenom: 'John' });
+      req.flush({ message: 'ok' });
+    });
+
+    it('vérifie un magic link et sauvegarde l auth', () => {
+      service.verifyMagicLink('http://localhost:8000/api/verify-link/1').subscribe(response => {
+        expect(response).toEqual(mockAuthResponse);
+      });
+
+      const req = httpMock.expectOne('http://localhost:8000/api/verify-link/1');
+      expect(req.request.method).toBe('GET');
+      req.flush(mockAuthResponse);
+
+      expect(tokenService.saveToken).toHaveBeenCalledWith(mockAuthResponse.token);
+    });
+
+    it('appelle setPassword', () => {
+      service.setPassword('7', 'token-x', 'Password123!', 'Password123!').subscribe(response => {
+        expect(response.message).toBe('saved');
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/set-password`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        id_utilisateur: '7',
+        token: 'token-x',
+        mot_de_passe: 'Password123!',
+        mot_de_passe_confirmation: 'Password123!',
+      });
+      req.flush({ message: 'saved' });
+    });
+
+    it('appelle forgotPassword', () => {
+      service.forgotPassword('john@example.com').subscribe(response => {
+        expect(response.message).toBe('sent');
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/forgot-password`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ email: 'john@example.com' });
+      req.flush({ message: 'sent' });
+    });
+  });
+
   describe('login', () => {
     it('devrait connecter un utilisateur bénévole et naviguer vers l\'accueil', (done) => {
       const credentials: LoginCredentials = {

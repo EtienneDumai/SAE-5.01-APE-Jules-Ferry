@@ -172,6 +172,19 @@ describe('ToastService', () => {
 
       service.clear();
     });
+
+    it('annule le timeout en cours lors du clear', () => {
+      service.showWithTimeout('Message', TypeErreurToast.SUCCESS, 100);
+      service.clear();
+
+      jasmine.clock().tick(100);
+
+      let lastToast: TypeToast | null | undefined;
+      service.toast.subscribe(toast => {
+        lastToast = toast;
+      });
+      expect(lastToast).toBeNull();
+    });
   });
 
   describe('showWithTimeout', () => {

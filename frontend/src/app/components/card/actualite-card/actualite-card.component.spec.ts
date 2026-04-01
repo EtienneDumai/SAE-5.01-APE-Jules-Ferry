@@ -6,22 +6,38 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActualiteCardComponent } from './actualite-card.component';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, Router } from '@angular/router';
 import { StatutActualite } from '../../../enums/StatutActualite/statut-actualite';
+import { AuthService } from '../../../services/Auth/auth.service';
+import { ActualiteService } from '../../../services/Actualite/actualite.service';
+import { ToastService } from '../../../services/Toast/toast.service';
+import { of, throwError } from 'rxjs';
+import { TypeErreurToast } from '../../../enums/TypeErreurToast/type-erreur-toast';
 
 describe('ActualiteCardComponent', () => {
   let component: ActualiteCardComponent;
   let fixture: ComponentFixture<ActualiteCardComponent>;
+  let authService: jasmine.SpyObj<AuthService>;
+  let actualiteService: jasmine.SpyObj<ActualiteService>;
+  let toastService: jasmine.SpyObj<ToastService>;
+  let router: Router;
 
   beforeEach(async () => {
+    authService = jasmine.createSpyObj<AuthService>('AuthService', ['hasRole']);
+    actualiteService = jasmine.createSpyObj<ActualiteService>('ActualiteService', ['deleteActualite']);
+    toastService = jasmine.createSpyObj<ToastService>('ToastService', ['showWithTimeout']);
     await TestBed.configureTestingModule({
       imports: [ActualiteCardComponent],
       providers: [
         provideRouter([]),
-        provideHttpClient()
+        { provide: AuthService, useValue: authService },
+        { provide: ActualiteService, useValue: actualiteService },
+        { provide: ToastService, useValue: toastService },
       ],
     }).compileComponents();
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
 
     fixture = TestBed.createComponent(ActualiteCardComponent);
     component = fixture.componentInstance;
@@ -102,6 +118,84 @@ describe('ActualiteCardComponent', () => {
     it('devrait accepter StatutActualite.archivee', () => {
       component.statut = StatutActualite.archive;
       expect(component.statut).toBe(StatutActualite.archive);
+    });
+  });
+
+  describe('behaviour', () => {
+    beforeEach(() => {
+      component.id_actualite = 5;
+    });
+
+    it('autorise la gestion pour un administrateur si l édition n est pas désactivée', () => {
+      authService.hasRole.and.returnValue(true);
+      component.disableEdit = false;
+
+      expect(component.canManage).toBeTrue();
+    });
+
+    it('refuse la gestion si l édition est désactivée', () => {
+      authService.hasRole.and.returnValue(true);
+      component.disableEdit = true;
+
+      expect(component.canManage).toBeFalse();
+    });
+
+    it('affiche la confirmation à la suppression', () => {
+      const event = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
+
+      component.onDelete(event);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(component.showDeleteAlert).toBeTrue();
+    });
+
+    it('supprime une actualité avec succès', () => {
+      spyOn(component.actualiteDeleted, 'emit');
+      actualiteService.deleteActualite.and.returnValue(of(void 0));
+
+      component.confirmerSuppression();
+
+      expect(component.actualiteDeleted.emit).toHaveBeenCalledWith(5);
+      expect(toastService.showWithTimeout).toHaveBeenCalledWith(
+        'Actualité supprimée avec succès.',
+        TypeErreurToast.SUCCESS
+      );
+      expect(component.showDeleteAlert).toBeFalse();
+    });
+
+    it('gère une erreur de suppression', () => {
+      spyOn(window, 'alert');
+      spyOn(console, 'error');
+      actualiteService.deleteActualite.and.returnValue(throwError(() => new Error('boom')));
+
+      component.confirmerSuppression();
+
+      expect(console.error).toHaveBeenCalled();
+      expect(window.alert).toHaveBeenCalledWith('Erreur lors de la suppression de l\'actualité');
+      expect(component.showDeleteAlert).toBeFalse();
+    });
+
+    it('annule la suppression', () => {
+      component.showDeleteAlert = true;
+
+      component.annulerSuppression();
+
+      expect(component.showDeleteAlert).toBeFalse();
+    });
+
+    it('navigue vers l édition', () => {
+      const event = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
+
+      component.onEdit(event);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['/actualites', 5, 'edit']);
+    });
+
+    it('calcule l url image pour les chemins absolus et relatifs', () => {
+      expect(component.getImageUrl(undefined)).toBe('');
+      expect(component.getImageUrl('http://cdn/image.webp')).toBe('http://cdn/image.webp');
+      expect(component.getImageUrl('/storage/file.webp')).toContain('/storage/file.webp');
     });
   });
 });

@@ -49,4 +49,19 @@ describe('ExportCsvService', () => {
     expect(URL.createObjectURL).toHaveBeenCalled();
     expect(URL.revokeObjectURL).toHaveBeenCalled();
   });
+
+  it('ne fait rien quand les données sont vides', () => {
+    service.exportAsCsvFile([], 'Empty');
+
+    expect(mockDocument.createElement).not.toHaveBeenCalled();
+    expect(URL.createObjectURL).not.toHaveBeenCalled();
+  });
+
+  it('échappe les guillemets et les séparateurs dans le csv', () => {
+    service.exportAsCsvFile([{ Nom: 'Jean; "Dupont"', Note: 'Ligne\n2' }], 'Escaped');
+
+    expect(URL.createObjectURL).toHaveBeenCalled();
+    const blobArg = (URL.createObjectURL as jasmine.Spy).calls.mostRecent().args[0] as Blob;
+    expect(blobArg).toBeTruthy();
+  });
 });

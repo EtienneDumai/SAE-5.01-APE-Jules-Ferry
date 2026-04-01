@@ -26,4 +26,20 @@ describe('AlertComponent', () => {
   it('devrait créer', () => {
     expect(component).toBeTruthy();
   });
+
+  it('émet valider quand on appelle onValider', () => {
+    spyOn(component.valider, 'emit');
+
+    component.onValider();
+
+    expect(component.valider.emit).toHaveBeenCalled();
+  });
+
+  it('émet annuler quand on appelle onAnnuler', () => {
+    spyOn(component.annuler, 'emit');
+
+    component.onAnnuler();
+
+    expect(component.annuler.emit).toHaveBeenCalled();
+  });
 });

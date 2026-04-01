@@ -30,4 +30,16 @@ describe('AdministrationPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('initialise l onglet comptes par défaut', () => {
+    expect(component.activeTab).toBe('comptes');
+  });
+
+  it('change l onglet actif quand switchTab est appelé', () => {
+    component.switchTab('evenements');
+    expect(component.activeTab).toBe('evenements');
+
+    component.switchTab('newsletters');
+    expect(component.activeTab).toBe('newsletters');
+  });
 });

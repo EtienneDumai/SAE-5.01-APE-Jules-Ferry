@@ -114,6 +114,32 @@ describe('EvenementService', () => {
       const req = httpMock.expectOne(`${apiUrl}/evenements?page=1`);
       req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
     });
+
+    it('devrait ajouter le filtre statut et la limite quand fournis', () => {
+      service.getAllEvenements('publie', 3, 12).subscribe({
+        next: (response) => {
+          expect(response.current_page).toBe(3);
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=3&statut=publie&limit=12`);
+      expect(req.request.method).toBe('GET');
+      req.flush({ data: mockEvenements, current_page: 3, last_page: 4, total: 20 });
+    });
+
+    it('n ajoute pas le filtre statut quand la valeur est tous', () => {
+      service.getAllEvenements('tous', 2).subscribe({
+        next: (response) => {
+          expect(response.current_page).toBe(2);
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=2`);
+      expect(req.request.method).toBe('GET');
+      req.flush({ data: mockEvenements, current_page: 2, last_page: 3, total: 10 });
+    });
   });
 
   describe('getEvenementById', () => {
@@ -215,6 +241,21 @@ describe('EvenementService', () => {
     });
   });
 
+  describe('getEvenementDetails', () => {
+    it('devrait récupérer le détail d un événement', () => {
+      service.getEvenementDetails(1).subscribe({
+        next: (evenement) => {
+          expect(evenement).toEqual(mockEvenement);
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements/1/details`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockEvenement);
+    });
+  });
+
   describe('updateEvenement', () => {
     it('devrait mettre à jour un événement existant avec un objet Evenement', () => {
       const updatedEvenement: Evenement = {
@@ -313,6 +354,20 @@ describe('EvenementService', () => {
 
       const req = httpMock.expectOne(`${apiUrl}/evenements/${evenementId}`);
       req.flush('Server Error', { status: 500, statusText: 'Internal Server Error' });
+    });
+
+    it('devrait transmettre le mot de passe admin lors de la suppression', () => {
+      service.deleteEvenement(1, 'secret').subscribe({
+        next: (response) => {
+          expect(response.message).toBe('Deleted successfully');
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements/1`);
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.body).toEqual({ admin_password: 'secret' });
+      req.flush({ message: 'Deleted successfully' });
     });
   });
 });

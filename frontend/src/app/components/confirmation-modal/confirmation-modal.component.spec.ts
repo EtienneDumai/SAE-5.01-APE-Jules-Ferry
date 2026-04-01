@@ -26,4 +26,20 @@ describe('ConfirmationModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('émet validateAction quand confirmer est appelé', () => {
+    spyOn(component.validateAction, 'emit');
+
+    component.confirmer();
+
+    expect(component.validateAction.emit).toHaveBeenCalled();
+  });
+
+  it('émet cancelAction quand annuler est appelé', () => {
+    spyOn(component.cancelAction, 'emit');
+
+    component.annuler();
+
+    expect(component.cancelAction.emit).toHaveBeenCalled();
+  });
 });

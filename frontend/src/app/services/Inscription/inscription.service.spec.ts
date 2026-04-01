@@ -247,4 +247,68 @@ describe('InscriptionService', () => {
       req.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
     });
   });
+
+  describe('admin actions', () => {
+    it('devrait supprimer une inscription en admin', () => {
+      service.deleteInscriptionAdmin(4, 7, 'secret').subscribe(response => {
+        expect(response.message).toBe('deleted');
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/admin/inscriptions`);
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.body).toEqual({
+        id_utilisateur: 4,
+        id_creneau: 7,
+        password: 'secret'
+      });
+      req.flush({ message: 'deleted' });
+    });
+
+    it('devrait créer une inscription en admin sans commentaire', () => {
+      service.createInscriptionAdmin(4, 7, 'secret').subscribe(response => {
+        expect(response.message).toBe('created');
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/admin/inscriptions`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        id_utilisateur: 4,
+        id_creneau: 7,
+        password: 'secret'
+      });
+      req.flush({ message: 'created' });
+    });
+
+    it('devrait créer une inscription en admin avec commentaire', () => {
+      service.createInscriptionAdmin(4, 7, 'secret', 'Présent').subscribe(response => {
+        expect(response.message).toBe('created');
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/admin/inscriptions`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        id_utilisateur: 4,
+        id_creneau: 7,
+        password: 'secret',
+        commentaire: 'Présent'
+      });
+      req.flush({ message: 'created' });
+    });
+
+    it('devrait modifier une inscription en admin', () => {
+      service.updateInscriptionAdmin(4, 7, 8, 'secret').subscribe(response => {
+        expect(response.message).toBe('updated');
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/admin/inscriptions`);
+      expect(req.request.method).toBe('PUT');
+      expect(req.request.body).toEqual({
+        id_utilisateur: 4,
+        old_id_creneau: 7,
+        new_id_creneau: 8,
+        password: 'secret'
+      });
+      req.flush({ message: 'updated' });
+    });
+  });
 });

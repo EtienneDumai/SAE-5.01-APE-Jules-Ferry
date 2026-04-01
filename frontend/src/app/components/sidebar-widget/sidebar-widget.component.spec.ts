@@ -10,24 +10,30 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { SidebarWidgetComponent } from './sidebar-widget.component';
 import { SidebarWidgetService } from '../../services/SidebarWidget/sidebar-widget.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 describe('SidebarWidgetComponent', () => {
   let component: SidebarWidgetComponent;
   let fixture: ComponentFixture<SidebarWidgetComponent>;
   let service: SidebarWidgetService;
+  let originalInnerWidth: number;
   let internalComponent: {
     widgetId: string;
   };
 
   beforeEach(async () => {
-    spyOnProperty(window, 'innerWidth').and.returnValue(1024);
+    originalInnerWidth = window.innerWidth;
+    Object.defineProperty(window, 'innerWidth', {
+      configurable: true,
+      writable: true,
+      value: 1024,
+    });
 
     await TestBed.configureTestingModule({
       imports: [SidebarWidgetComponent],
-      providers: [SidebarWidgetService, ChangeDetectorRef],
+      providers: [SidebarWidgetService, provideRouter([])],
     }).compileComponents();
 
     service = TestBed.inject(SidebarWidgetService);
@@ -35,6 +41,11 @@ describe('SidebarWidgetComponent', () => {
 
   afterEach(() => {
     fixture?.destroy();
+    Object.defineProperty(window, 'innerWidth', {
+      configurable: true,
+      writable: true,
+      value: originalInnerWidth,
+    });
   });
 
   function createComponent(inputs: Partial<SidebarWidgetComponent> = {}) {
@@ -156,4 +167,45 @@ describe('SidebarWidgetComponent', () => {
     expect(resizeEvent).toBeTruthy();
     expect(resizeEvent.detail).toEqual({ width: 640, isExpanded: true });
   }));
+
+  it('Devrait fermer le widget avec la touche escape', () => {
+    createComponent({ title: 'Agenda' });
+    component.toggleWidget();
+
+    component.onEscapeKey();
+
+    expect(component.isOpen).toBeFalse();
+  });
+
+  it('Devrait retourner une largeur mobile à 100%', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      configurable: true,
+      writable: true,
+      value: 600,
+    });
+    createComponent();
+
+    expect(component.widthPx).toBe('100%');
+  });
+
+  it('Devrait arrêter la propagation dans toggleWidget et toggleSize', fakeAsync(() => {
+    createComponent();
+    const event = jasmine.createSpyObj<Event>('Event', ['stopPropagation']);
+
+    component.toggleWidget(event);
+    component.toggleSize(event);
+    tick(350);
+
+    expect(event.stopPropagation).toHaveBeenCalledTimes(2);
+  }));
+
+  it('Devrait nettoyer le service à la destruction si ouvert', () => {
+    createComponent({ title: 'Agenda' });
+    const setActiveWidgetSpy = spyOn(service, 'setActiveWidget').and.callThrough();
+    component.toggleWidget();
+
+    component.ngOnDestroy();
+
+    expect(setActiveWidgetSpy).toHaveBeenCalledWith(null);
+  });
 });

@@ -6,19 +6,62 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
+import { TokenService } from '../services/Token/token.service';
 
 import { authInterceptor } from './auth.interceptor';
 
 describe('authInterceptor', () => {
+  let tokenService: jasmine.SpyObj<TokenService>;
+
   const interceptor: HttpInterceptorFn = (req, next) => 
     TestBed.runInInjectionContext(() => authInterceptor(req, next));
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    tokenService = jasmine.createSpyObj<TokenService>('TokenService', ['getToken']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: TokenService, useValue: tokenService }
+      ]
+    });
   });
 
   it('devrait être créé', () => {
     expect(interceptor).toBeTruthy();
+  });
+
+  it('ajoute le header authorization quand un token existe pour l api', () => {
+    tokenService.getToken.and.returnValue('abc123');
+    const request = new HttpRequest('GET', 'http://localhost:8000/api/user');
+    const next: HttpHandlerFn = (req) => {
+      expect(req.headers.get('Authorization')).toBe('Bearer abc123');
+      return of(new HttpResponse({ status: 200 }));
+    };
+
+    interceptor(request, next).subscribe();
+  });
+
+  it('laisse la requête intacte quand aucun token n existe', () => {
+    tokenService.getToken.and.returnValue(null);
+    const request = new HttpRequest('GET', 'http://localhost:8000/api/user');
+    const next: HttpHandlerFn = (req) => {
+      expect(req.headers.has('Authorization')).toBeFalse();
+      return of(new HttpResponse({ status: 200 }));
+    };
+
+    interceptor(request, next).subscribe();
+  });
+
+  it('laisse la requête intacte quand l url ne vise pas l api', () => {
+    tokenService.getToken.and.returnValue('abc123');
+    const request = new HttpRequest('GET', 'http://example.com/assets/file.json');
+    const next: HttpHandlerFn = (req) => {
+      expect(req.headers.has('Authorization')).toBeFalse();
+      return of(new HttpResponse({ status: 200 }));
+    };
+
+    interceptor(request, next).subscribe();
   });
 });
