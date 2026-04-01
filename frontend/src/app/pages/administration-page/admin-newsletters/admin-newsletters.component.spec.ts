@@ -46,22 +46,34 @@ describe('AdminNewslettersComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
-  it('ouvre le formulaire d\'ajout', () => {
+  it('should_open_form_ajout', () => {
+  // GIVEN
+
+  // WHEN
     component.ouvrirAjout();
 
+  // THEN
     expect(component.showAddForm).toBeTrue();
   });
 
-  it('refuse un email invalide avant ouverture de la popup mot de passe', () => {
+  it('should_deny_email_invalid_ouverture_popup_password_password', () => {
+  // GIVEN
     component.showAddForm = true;
     component.emailAAjouter = 'invalide';
 
+  // WHEN
     component.demanderAjout();
 
+  // THEN
     expect(component.showPasswordModal).toBeFalse();
     expect(toastService.showWithTimeout).toHaveBeenCalledWith(
       'Veuillez saisir un email valide.',
@@ -69,17 +81,21 @@ describe('AdminNewslettersComponent', () => {
     );
   });
 
-  it('ouvre la popup mot de passe pour un ajout valide', () => {
+  it('should_open_popup_password_password_ajout_valid', () => {
+  // GIVEN
     component.showAddForm = true;
     component.emailAAjouter = 'test@example.com';
 
+  // WHEN
     component.demanderAjout();
 
+  // THEN
     expect(component.pendingAction).toBe('CREATE');
     expect(component.showPasswordModal).toBeTrue();
   });
 
-  it('ajoute un abonne apres confirmation du mot de passe', () => {
+  it('should_add_abonne_confirmation_password_password', () => {
+  // GIVEN
     newsletterService.addSubscriber.and.returnValue(of({ message: 'Adresse email ajoutée à la newsletter.' }));
     newsletterService.getAllSubscribers.and.returnValues(of([]), of([
       {
@@ -94,8 +110,10 @@ describe('AdminNewslettersComponent', () => {
     component.emailAAjouter = 'test@example.com';
     component.pendingAction = 'CREATE';
 
+  // WHEN
     component.onPasswordConfirmed('password123');
 
+  // THEN
     expect(newsletterService.addSubscriber).toHaveBeenCalledWith({
       email: 'test@example.com',
       admin_password: 'password123'
@@ -108,14 +126,17 @@ describe('AdminNewslettersComponent', () => {
     expect(component.emailAAjouter).toBe('');
   });
 
-  it('affiche une erreur si le mot de passe admin est incorrect lors de l\'ajout', () => {
+  it('should_display_error_password_password_admin_incorrect_when_ajout', () => {
+  // GIVEN
     newsletterService.addSubscriber.and.returnValue(throwError(() => ({ status: 403 })));
     component.showAddForm = true;
     component.emailAAjouter = 'test@example.com';
     component.pendingAction = 'CREATE';
 
+  // WHEN
     component.onPasswordConfirmed('bad-password');
 
+  // THEN
     expect(toastService.showWithTimeout).toHaveBeenCalledWith(
       'Mot de passe administrateur incorrect',
       TypeErreurToast.ERROR

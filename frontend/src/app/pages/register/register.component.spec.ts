@@ -68,95 +68,167 @@ describe('RegisterComponent', () => {
     fixture.detectChanges(); // Déclenche le ngOnInit
   });
 
-  it('devrait créer', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Initialisation du formulaire', () => {
-    it('devrait initialiser le formulaire avec des champs vides', () => {
+    it('should_initialize_form_fields_vides', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.registerForm).toBeTruthy();
       expect(component.registerForm.get('nom')?.value).toBe('');
       expect(component.registerForm.get('prenom')?.value).toBe('');
       expect(component.registerForm.get('email')?.value).toBe('');
     });
 
-    it('devrait avoir les contrôles nom, prenom et email', () => {
+    it('should_avoir_controles_nom_prenom_email', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.registerForm.contains('nom')).toBe(true);
       expect(component.registerForm.contains('prenom')).toBe(true);
       expect(component.registerForm.contains('email')).toBe(true);
     });
 
-    it('devrait initialiser isLoading à false', () => {
+    it('should_initialize_isloading_false', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.isLoading).toBe(false);
     });
   });
 
   describe('Validation du formulaire', () => {
-    it('devrait être invalide quand le formulaire est vide', () => {
+    it('should_be_invalid_when_form_empty', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.registerForm.valid).toBeFalsy();
     });
 
-    it('devrait être valide avec des données correctes', () => {
+    it('should_be_valid_donnees_correctes', () => {
+    // GIVEN
       component.registerForm.patchValue({
         nom: 'Dupont',
         prenom: 'Jean',
         email: 'jean.dupont@example.com',
       });
+
+    // WHEN
+
+    // THEN
       expect(component.registerForm.valid).toBeTruthy();
     });
   });
 
   // (Je garde tes tests de validation de champs, ils sont parfaits)
   describe('Validation du champ nom', () => {
-    it('devrait être requis', () => {
+    it('should_be_requis', () => {
+    // GIVEN
+
+    // WHEN
       const nom = component.registerForm.get('nom');
+
       nom?.setValue('');
+
+    // THEN
       expect(nom?.hasError('required')).toBe(true);
     });
 
-    it('devrait refuser un nom trop long (> 50 caractères)', () => {
+    it('should_deny_nom_trop_long_50_caracteres', () => {
+    // GIVEN
+
+    // WHEN
       const nom = component.registerForm.get('nom');
+
       nom?.setValue('a'.repeat(51));
+
+    // THEN
       expect(nom?.hasError('maxlength')).toBe(true);
     });
   });
 
   describe('Validation du champ prenom', () => {
-    it('devrait être requis', () => {
+    it('should_be_requis', () => {
+    // GIVEN
+
+    // WHEN
       const prenom = component.registerForm.get('prenom');
+
       prenom?.setValue('');
+
+    // THEN
       expect(prenom?.hasError('required')).toBe(true);
     });
 
-    it('devrait refuser un prénom trop long (> 50 caractères)', () => {
+    it('should_deny_prenom_trop_long_50_caracteres', () => {
+    // GIVEN
+
+    // WHEN
       const prenom = component.registerForm.get('prenom');
+
       prenom?.setValue('a'.repeat(51));
+
+    // THEN
       expect(prenom?.hasError('maxlength')).toBe(true);
     });
   });
 
   describe('Validation du champ email', () => {
-    it('devrait être requis', () => {
+    it('should_be_requis', () => {
+    // GIVEN
+
+    // WHEN
       const email = component.registerForm.get('email');
+
       email?.setValue('');
+
+    // THEN
       expect(email?.hasError('required')).toBe(true);
     });
 
-    it('devrait invalider un email incorrect', () => {
+    it('should_invalider_email_incorrect', () => {
+    // GIVEN
+
+    // WHEN
       const email = component.registerForm.get('email');
+
       email?.setValue('invalid-email');
+
+    // THEN
       expect(email?.hasError('email')).toBe(true);
     });
   });
 
   describe('onSubmit', () => {
-    it('ne devrait pas soumettre si le formulaire est invalide', () => {
+    it('should_not_soumettre_form_invalid', () => {
+    // GIVEN
       component.registerForm.patchValue({ nom: '', prenom: '', email: '' });
+
+    // WHEN
       component.onSubmit();
+
+    // THEN
       expect(authService.register).not.toHaveBeenCalled();
     });
 
-    it('devrait envoyer le magic link après inscription réussie', () => {
+    it('should_envoyer_magic_link_inscription_reussie', () => {
+    // GIVEN
       // Les spies retournent déjà "of(...)" grâce au beforeEach
       component.registerForm.patchValue({
         nom: 'Dupont',
@@ -164,15 +236,18 @@ describe('RegisterComponent', () => {
         email: 'jean.dupont@example.com',
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(authService.register).toHaveBeenCalled();
       expect(authService.requestMagicLink).toHaveBeenCalledWith('jean.dupont@example.com');
       expect(component.isLoading).toBe(false);
       expect(component.successMessage).toBe("Inscription réussie ! Un lien de connexion vous a été envoyé par email.");
     });
 
-    it('devrait gérer les erreurs d\'inscription du serveur', () => {
+    it('should_handle_errors_inscription_du_serveur', () => {
+    // GIVEN
       const error = { error: { errors: { email: ['L\'email est déjà utilisé'] } } };
       authService.register.and.returnValue(throwError(() => error));
       
@@ -180,22 +255,27 @@ describe('RegisterComponent', () => {
         nom: 'Dupont', prenom: 'Jean', email: 'jean.dupont@example.com',
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(component.errorMessage).toBe('L\'email est déjà utilisé');
       expect(component.isLoading).toBe(false);
       expect(authService.requestMagicLink).not.toHaveBeenCalled();
     });
 
-    it('devrait rediriger si l\'inscription réussit mais que l\'envoi du mail échoue', fakeAsync(() => {
+    it('should_redirect_inscription_reussit_mais_que_l_envoi_du_mail_echoue', fakeAsync(() => {
+    // GIVEN
       authService.requestMagicLink.and.returnValue(throwError(() => new Error('Mail error')));
 
       component.registerForm.patchValue({
         nom: 'Dupont', prenom: 'Jean', email: 'jean.dupont@example.com',
       });
 
+    // WHEN
       component.onSubmit();
-      
+
+    // THEN
       expect(component.isLoading).toBe(false);
       expect(component.successMessage).toBe("Inscription réussie ! Connectez-vous via la page de connexion.");
       

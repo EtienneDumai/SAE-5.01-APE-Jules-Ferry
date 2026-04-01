@@ -16,7 +16,12 @@ describe('SidebarWidgetService', () => {
     service = TestBed.inject(SidebarWidgetService);
   });
 
-  it('should be created', () => {
+  it('should_be_created', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 });

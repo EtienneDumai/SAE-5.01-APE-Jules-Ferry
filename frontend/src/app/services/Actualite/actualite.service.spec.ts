@@ -52,13 +52,23 @@ describe('ActualiteService', () => {
     httpMock.verify();
   });
 
-  it('devrait être créé', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
   describe('getAllActualites', () => {
-    it('devrait retourner un tableau d\'actualités', () => {
+    it('should_return_tableau_actualites', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllActualites().subscribe((actualites) => {
+
+    // THEN
         expect(actualites).toEqual(mockActualites);
         expect(actualites.length).toBe(2);
       });
@@ -68,8 +78,13 @@ describe('ActualiteService', () => {
       req.flush(mockActualites);
     });
 
-    it('devrait gérer une réponse avec un tableau vide', () => {
+    it('should_handle_reponse_tableau_empty', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllActualites().subscribe((actualites) => {
+
+    // THEN
         expect(actualites).toEqual([]);
         expect(actualites.length).toBe(0);
       });
@@ -78,12 +93,16 @@ describe('ActualiteService', () => {
       req.flush([]);
     });
 
-    it('devrait gérer une réponse d\'erreur', () => {
+    it('should_handle_reponse_erreur', () => {
+    // GIVEN
       const errorMessage = 'Server error';
-      
+
+    // WHEN
       service.getAllActualites().subscribe({
         next: () => fail('should have failed with 500 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
         }
       });
@@ -94,8 +113,13 @@ describe('ActualiteService', () => {
   });
 
   describe('getActualiteById', () => {
-    it('devrait retourner une actualité unique par son id', () => {
+    it('should_return_actualite_unique_par_id', () => {
+    // GIVEN
+
+    // WHEN
       service.getActualiteById(1).subscribe((actualite) => {
+
+    // THEN
         expect(actualite).toEqual(mockActualite);
         expect(actualite.id_actualite).toBe(1);
       });
@@ -105,10 +129,15 @@ describe('ActualiteService', () => {
       req.flush(mockActualite);
     });
 
-    it('devrait gérer l\'erreur non trouvé', () => {
+    it('should_handle_erreur_non_trouve', () => {
+    // GIVEN
+
+    // WHEN
       service.getActualiteById(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -119,7 +148,8 @@ describe('ActualiteService', () => {
   });
 
   describe('createActualite', () => {
-    it('devrait créer une nouvelle actualité', () => {
+    it('should_create_nouvelle_actualite', () => {
+    // GIVEN
       const newActualite: Actualite = {
         titre: 'Nouvelle Actualité',
         contenu: 'Nouveau contenu',
@@ -128,7 +158,10 @@ describe('ActualiteService', () => {
         statut: StatutActualite.brouillon,
       } as Actualite;
 
+    // WHEN
       service.createActualite(newActualite).subscribe((actualite) => {
+
+    // THEN
         expect(actualite).toEqual({ ...newActualite, id_actualite: 3 });
       });
 
@@ -138,11 +171,13 @@ describe('ActualiteService', () => {
       req.flush({ ...newActualite, id_actualite: 3 });
     });
 
-    it('devrait créer une actualité avec FormData', () => {
+    it('should_create_actualite_formdata', () => {
+    // GIVEN
       const formData = new FormData();
       formData.append('titre', 'Nouvelle Actualité');
       formData.append('contenu', 'Nouveau contenu');
       formData.append('date_publication', '2026-01-17');
+
       formData.append('statut', 'BROUILLON');
 
       const expectedResponse: Actualite = {
@@ -154,7 +189,10 @@ describe('ActualiteService', () => {
         statut: StatutActualite.brouillon,
       } as Actualite;
 
+    // WHEN
       service.createActualite(formData).subscribe((actualite) => {
+
+    // THEN
         expect(actualite).toEqual(expectedResponse);
       });
 
@@ -164,12 +202,16 @@ describe('ActualiteService', () => {
       req.flush(expectedResponse);
     });
 
-    it('devrait gérer les erreurs de validation', () => {
+    it('should_handle_errors_validation', () => {
+    // GIVEN
       const invalidActualite: Actualite = {} as Actualite;
 
+    // WHEN
       service.createActualite(invalidActualite).subscribe({
         next: () => fail('should have failed with 422 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(422);
         }
       });
@@ -180,13 +222,17 @@ describe('ActualiteService', () => {
   });
 
   describe('updateActualite', () => {
-    it('devrait mettre à jour une actualité existante', () => {
+    it('should_update_actualite_existante', () => {
+    // GIVEN
       const updatedActualite: Actualite = {
         ...mockActualite,
         titre: 'Titre mis à jour',
       };
 
+    // WHEN
       service.updateActualite(updatedActualite, 1).subscribe((actualite) => {
+
+    // THEN
         expect(actualite).toEqual(updatedActualite);
         expect(actualite.titre).toBe('Titre mis à jour');
       });
@@ -197,10 +243,15 @@ describe('ActualiteService', () => {
       req.flush(updatedActualite);
     });
 
-    it('devrait gérer l\'erreur non trouvé lors de la mise à jour', () => {
+    it('should_handle_erreur_non_trouve_lors_de_la_mise_a_jour', () => {
+    // GIVEN
+
+    // WHEN
       service.updateActualite(mockActualite, 999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -211,8 +262,13 @@ describe('ActualiteService', () => {
   });
 
   describe('deleteActualite', () => {
-    it('devrait supprimer une actualité', () => {
+    it('should_delete_actualite', () => {
+    // GIVEN
+
+    // WHEN
       service.deleteActualite(1).subscribe(() => {
+
+    // THEN
         expect(true).toBeTrue();
       });
 
@@ -221,10 +277,15 @@ describe('ActualiteService', () => {
       req.flush(null);
     });
 
-    it('devrait gérer l\'erreur non trouvé lors de la suppression', () => {
+    it('should_handle_erreur_non_trouve_lors_de_la_suppression', () => {
+    // GIVEN
+
+    // WHEN
       service.deleteActualite(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });

@@ -58,117 +58,198 @@ describe('AdminComptesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('chargerUtilisateurs', () => {
-    it('devrait charger la liste des utilisateurs au démarrage', () => {
+    it('should_load_liste_users_startup', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(utilisateurServiceSpy.getAllUtilisateurs).toHaveBeenCalled();
       expect(component.utilisateurs.length).toBe(3);
       expect(component.chargementEnCours).toBeFalse();
     });
 
-    it('devrait afficher un toast d\'erreur si le chargement échoue', () => {
+    it('should_display_toast_erreur_si_le_chargement_echoue', () => {
+    // GIVEN
       utilisateurServiceSpy.getAllUtilisateurs.and.returnValue(throwError(() => new Error('network error')));
+
+    // WHEN
       component.chargerUtilisateurs();
+
+    // THEN
       expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith('Erreur chargement utilisateurs', TypeErreurToast.ERROR);
       expect(component.chargementEnCours).toBeFalse();
     });
   });
 
   describe('utilisateursFiltres', () => {
-    it('devrait retourner tous les utilisateurs si la recherche est vide', () => {
+    it('should_return_all_users_recherche_empty', () => {
+    // GIVEN
       component.texteRecherche = '';
+
+    // WHEN
+
+    // THEN
       expect(component.utilisateursFiltres.length).toBe(3);
     });
 
-    it('devrait filtrer par nom', () => {
+    it('should_filtrer_par_nom', () => {
+    // GIVEN
       component.texteRecherche = 'dupont';
+
+    // WHEN
+
+    // THEN
       expect(component.utilisateursFiltres.length).toBe(1);
       expect(component.utilisateursFiltres[0].nom).toBe('Dupont');
     });
 
-    it('devrait filtrer par prénom', () => {
+    it('should_filtrer_par_prenom', () => {
+    // GIVEN
       component.texteRecherche = 'alice';
+
+    // WHEN
+
+    // THEN
       expect(component.utilisateursFiltres.length).toBe(1);
       expect(component.utilisateursFiltres[0].prenom).toBe('Alice');
     });
 
-    it('devrait filtrer par email', () => {
+    it('should_filtrer_par_email', () => {
+    // GIVEN
       component.texteRecherche = 'bob@test';
+
+    // WHEN
+
+    // THEN
       expect(component.utilisateursFiltres.length).toBe(1);
     });
 
-    it('devrait retourner un tableau vide si aucune correspondance', () => {
+    it('should_return_tableau_empty_no_correspondance', () => {
+    // GIVEN
       component.texteRecherche = 'zzz_introuvable_zzz';
+
+    // WHEN
+
+    // THEN
       expect(component.utilisateursFiltres.length).toBe(0);
     });
   });
 
   describe('demarrerEdition / annulerEdition', () => {
-    it('devrait activer le mode édition pour un utilisateur', () => {
+    it('should_activer_mode_edition_user', () => {
+    // GIVEN
+
+    // WHEN
       component.demarrerEdition(mockUtilisateurs[0]);
+
+    // THEN
       expect(component.idEnEdition).toBe(1);
       expect(component.utilisateurOriginal).toEqual(mockUtilisateurs[0]);
     });
 
-    it('devrait restaurer l\'utilisateur original lors de l\'annulation', () => {
+    it('should_restaurer_utilisateur_original_lors_de_l_annulation', () => {
+    // GIVEN
       component.utilisateurs = [...mockUtilisateurs];
+
+    // WHEN
       component.demarrerEdition(component.utilisateurs[0]);
       component.utilisateurs[0].nom = 'NomModifie';
+
       component.annulerEdition();
+
+    // THEN
       expect(component.utilisateurs[0].nom).toBe('Dupont');
       expect(component.idEnEdition).toBeNull();
     });
   });
 
   describe('validerEdition', () => {
-    it('devrait afficher la modale de confirmation de mot de passe', () => {
+    it('should_display_modal_confirmation_password_password', () => {
+    // GIVEN
+
+    // WHEN
       component.validerEdition(mockUtilisateurs[0]);
+
+    // THEN
       expect(component.showPasswordModal).toBeTrue();
       expect(component.pendingAction).toBe('UPDATE');
     });
   });
 
   describe('demanderSuppression', () => {
-    it('devrait afficher la modale de mot de passe pour un autre utilisateur', () => {
+    it('should_display_modal_password_password_other_user', () => {
+    // GIVEN
       component.idConnecte = 99;
+
+    // WHEN
       component.demanderSuppression(1);
+
+    // THEN
       expect(component.showPasswordModal).toBeTrue();
       expect(component.idUtilisateurASupprimer).toBe(1);
     });
 
-    it('devrait afficher un avertissement si on essaie de supprimer son propre compte', () => {
+    it('should_display_avertissement_essaie_delete_own_account', () => {
+    // GIVEN
       component.idConnecte = 1;
+
+    // WHEN
       component.demanderSuppression(1);
+
+    // THEN
       expect(toastServiceSpy.show).toHaveBeenCalled();
       expect(component.showPasswordModal).toBeFalse();
     });
   });
 
   describe('annulerCreation', () => {
-    it('devrait désactiver le mode création', () => {
+    it('should_desactiver_mode_creation', () => {
+    // GIVEN
       component.modeCreation = true;
+
+    // WHEN
       component.annulerCreation();
+
+    // THEN
       expect(component.modeCreation).toBeFalse();
     });
   });
 
   describe('closePasswordModal', () => {
-    it('devrait réinitialiser la modale de mot de passe', () => {
+    it('should_reinitialiser_modal_password_password', () => {
+    // GIVEN
       component.showPasswordModal = true;
       component.pendingAction = 'DELETE';
+
+    // WHEN
       component.closePasswordModal();
+
+    // THEN
       expect(component.showPasswordModal).toBeFalse();
       expect(component.pendingAction).toBeNull();
     });
   });
 
   describe('exportData', () => {
-    it('devrait appeler exportAsCsvFile avec les colonnes sélectionnées', () => {
+    it('should_call_exportascsvfile_colonnes_selectionnees', () => {
+    // GIVEN
       component.utilisateurs = [...mockUtilisateurs];
+
+    // WHEN
       component.exportData(['nom', 'email']);
+
+    // THEN
       expect(exportCsvServiceSpy.exportAsCsvFile).toHaveBeenCalledWith(
         jasmine.arrayContaining([jasmine.objectContaining({ 'Nom': 'DUPONT', 'E-mail': 'jean@test.com' })]),
         'Comptes_Utilisateurs'
@@ -176,11 +257,16 @@ describe('AdminComptesComponent', () => {
       expect(component.showExportModal).toBeFalse();
     });
 
-    it('devrait exporter uniquement les colonnes sélectionnées', () => {
+    it('should_exporter_uniquement_colonnes_selectionnees', () => {
+    // GIVEN
       component.utilisateurs = [mockUtilisateurs[0]];
+
+    // WHEN
       component.exportData(['nom']);
       const call = exportCsvServiceSpy.exportAsCsvFile.calls.mostRecent();
       const firstRow = (call.args[0] as Record<string, string>[])[0];
+
+    // THEN
       expect(firstRow['Nom']).toBeDefined();
       expect(firstRow['E-mail']).toBeUndefined();
     });

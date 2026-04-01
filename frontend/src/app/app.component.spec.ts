@@ -7,31 +7,104 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { provideRouter } from '@angular/router';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { AuthService } from './services/Auth/auth.service';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent], // standalone
+  let authService: jasmine.SpyObj<AuthService>;
+  let routerEvents: Subject<NavigationEnd>;
+  let router: Pick<Router, 'events'>;
+
+  const instantiate = () => TestBed.runInInjectionContext(() => new AppComponent());
+
+  beforeEach(() => {
+    authService = jasmine.createSpyObj<AuthService>('AuthService', ['init']);
+    routerEvents = new Subject<NavigationEnd>();
+    router = { events: routerEvents.asObservable() };
+
+    TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        provideRouter([]),
+        { provide: AuthService, useValue: authService },
+        { provide: Router, useValue: router },
       ],
-    }).compileComponents();
+    });
   });
 
-  it('devrait créer l\'application', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+  it('should_create_application', () => {
+  // GIVEN
+    const app = instantiate();
+
+  // WHEN
+
+  // THEN
     expect(app).toBeTruthy();
   });
 
-  it('devrait avoir le titre \'frontend\'', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+  it('should_avoir_title_frontend', () => {
+  // GIVEN
+    const app = instantiate();
+
+  // WHEN
+
+  // THEN
     expect(app.title).toEqual('frontend');
+  });
+
+  it('should_initialize_auth_detecte_screen_mobile', () => {
+  // GIVEN
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 500 });
+    const app = instantiate();
+
+    app.ngOnInit();
+
+  // WHEN
+
+  // THEN
+    expect(authService.init).toHaveBeenCalled();
+    expect(app.isMobile).toBeTrue();
+  });
+
+  it('should_cache_widgets_routes_masquees', () => {
+  // GIVEN
+    const app = instantiate();
+
+    app.ngOnInit();
+
+  // WHEN
+    routerEvents.next(new NavigationEnd(1, '/login', '/login'));
+
+  // THEN
+    expect(app.showWidgets).toBeFalse();
+  });
+
+  it('should_display_widgets_routes_publiques', () => {
+  // GIVEN
+    const app = instantiate();
+    app.showWidgets = false;
+
+    app.ngOnInit();
+
+  // WHEN
+    routerEvents.next(new NavigationEnd(1, '/actualites', '/actualites'));
+
+  // THEN
+    expect(app.showWidgets).toBeTrue();
+  });
+
+  it('should_met_jour_size_screen_lors_resize', () => {
+  // GIVEN
+    const app = instantiate();
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1200 });
+    app.ngOnInit();
+
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 600 });
+
+    app.onResize();
+
+  // WHEN
+
+  // THEN
+    expect(app.isMobile).toBeTrue();
   });
 });

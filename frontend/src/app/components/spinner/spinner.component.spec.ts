@@ -23,17 +23,32 @@ describe('SpinnerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('devrait créer', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
-  it('devrait afficher le spinner de chargement', () => {
+  it('should_display_spinner_chargement', () => {
+  // GIVEN
+
+  // WHEN
     const spinnerElement = fixture.debugElement.query(By.css('.animate-spin'));
+
+  // THEN
     expect(spinnerElement).toBeTruthy();
   });
 
-  it('devrait afficher le texte de chargement', () => {
+  it('should_display_text_chargement', () => {
+  // GIVEN
+
+  // WHEN
     const textElement = fixture.debugElement.query(By.css('span'));
+
+  // THEN
     expect(textElement.nativeElement.textContent).toContain('Chargement');
   });
 });

@@ -65,17 +65,25 @@ describe('AccueilComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Initialisation et Chargement des données', () => {
-    it('devrait charger et trier les actualités et événements à l\'initialisation', () => {
+    it('should_load_trier_actualites_events_initialisation', () => {
+    // GIVEN
       actualiteServiceSpy.getAllActualites.and.returnValue(of(mockActualites));
       evenementServiceSpy.getAllEvenements.and.returnValue(of({ data: mockEvenements, current_page: 1, last_page: 1, total: mockEvenements.length }));
 
+    // WHEN
       component.ngOnInit();
 
+    // THEN
       expect(component.loadingActualites).toBeFalse();
       expect(component.loadingEvents).toBeFalse();
 
@@ -83,27 +91,35 @@ describe('AccueilComponent', () => {
       expect(component.listeEvenements.length).toBe(4);
     });
 
-    it('devrait gérer les erreurs de chargement des actualités', () => {
+    it('should_handle_errors_chargement_actualites', () => {
+    // GIVEN
       const error = new Error('Erreur API');
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => error));
       evenementServiceSpy.getAllEvenements.and.returnValue(of({ data: [], current_page: 1, last_page: 1, total: 0 }));
 
       spyOn(console, 'error');
+
+    // WHEN
       component.ngOnInit();
 
+    // THEN
       expect(component.loadingActualites).toBeFalse();
       expect(component.errorActualites).toBeTrue();
       expect(console.error).toHaveBeenCalledWith(error);
     });
 
-    it('devrait gérer les erreurs de chargement des événements', () => {
+    it('should_handle_errors_chargement_events', () => {
+    // GIVEN
       actualiteServiceSpy.getAllActualites.and.returnValue(of([]));
       const error = new Error('Erreur API Event');
       evenementServiceSpy.getAllEvenements.and.returnValue(throwError(() => error));
 
       spyOn(console, 'error');
+
+    // WHEN
       component.ngOnInit();
 
+    // THEN
       expect(component.loadingEvents).toBeFalse();
       expect(component.errorEvents).toBeTrue();
       expect(console.error).toHaveBeenCalledWith(error);
@@ -111,39 +127,57 @@ describe('AccueilComponent', () => {
   });
 
   describe('Affichage', () => {
-    it('devrait afficher les spinners pendant le chargement', () => {
+    it('should_display_spinners_pendant_chargement', () => {
+    // GIVEN
       component.loadingActualites = true;
       component.loadingEvents = true;
+
+    // WHEN
       fixture.detectChanges();
 
       const spinners = fixture.debugElement.queryAll(By.directive(SpinnerComponent));
+
+    // THEN
       expect(spinners.length).toBe(2);
     });
 
-    it('devrait afficher au maximum 3 cartes d\'actualités', () => {
+    it('should_display_maximum_3_cartes_actualites', () => {
+    // GIVEN
       component.listeActualites = mockActualites;
       component.loadingActualites = false;
       component.errorActualites = false;
+
+    // WHEN
       fixture.detectChanges();
 
       const cards = fixture.debugElement.queryAll(By.directive(ActualiteCardComponent));
+
+    // THEN
       expect(cards.length).toBe(3);
     });
 
-    it('devrait afficher au maximum 3 cartes d\'événements', () => {
+    it('should_display_maximum_3_cartes_evenements', () => {
+    // GIVEN
       component.listeEvenements = mockEvenements;
       component.loadingEvents = false;
       component.errorEvents = false;
+
+    // WHEN
       fixture.detectChanges();
 
       const cards = fixture.debugElement.queryAll(By.directive(EvenementCardComponent));
+
+    // THEN
       expect(cards.length).toBe(3);
     });
   });
 
   describe('Interaction', () => {
-    it('devrait supprimer un événement de la liste lors de la suppression', () => {
+    it('should_delete_event_liste_when_suppression', () => {
+    // GIVEN
       component.listeEvenements = [...mockEvenements];
+
+    // WHEN
       fixture.detectChanges();
 
       const initialCount = component.listeEvenements.length;
@@ -151,6 +185,7 @@ describe('AccueilComponent', () => {
 
       component.handleEventDeleted(idToDelete);
 
+    // THEN
       expect(component.listeEvenements.length).toBe(initialCount - 1);
       expect(component.listeEvenements.find(e => e.id_evenement === idToDelete)).toBeUndefined();
     });

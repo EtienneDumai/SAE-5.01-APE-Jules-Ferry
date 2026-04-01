@@ -81,15 +81,24 @@ describe('ActualiteDetailComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
     fixture.detectChanges();
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Initialisation', () => {
-    it('devrait charger l\'actualité et l\'auteur à l\'initialisation', () => {
+    it('should_load_actualite_et_l_auteur_a_l_initialisation', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(actualiteServiceSpy.getActualiteById).toHaveBeenCalledWith(123);
       expect(utilisateurServiceSpy.getUtilisateurById).toHaveBeenCalledWith(456);
       expect(component.actualite).toEqual(mockActualite);
@@ -99,27 +108,35 @@ describe('ActualiteDetailComponent', () => {
       expect(component.errorAuteur).toBeFalse();
     });
 
-    it('devrait gérer une erreur lors du chargement de l\'actualité', () => {
+    it('should_handle_error_lors_chargement_actualite', () => {
+    // GIVEN
       const error = new Error('Erreur API Actualité');
       actualiteServiceSpy.getActualiteById.and.returnValue(throwError(() => error));
       
       spyOn(console, 'error');
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(component.loadingActualite).toBeFalse();
       expect(component.errorActualite).toBeTrue();
       expect(console.error).toHaveBeenCalledWith(error);
       expect(utilisateurServiceSpy.getUtilisateurById).not.toHaveBeenCalled();
     });
 
-    it('devrait gérer une erreur lors du chargement de l\'auteur', () => {
+    it('should_handle_error_lors_chargement_auteur', () => {
+    // GIVEN
       const error = new Error('Erreur API Auteur');
       actualiteServiceSpy.getActualiteById.and.returnValue(of(mockActualite));
       utilisateurServiceSpy.getUtilisateurById.and.returnValue(throwError(() => error));
 
       spyOn(console, 'error');
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(component.loadingActualite).toBeFalse();
       expect(component.errorActualite).toBeFalse();
       expect(component.errorAuteur).toBeTrue();
@@ -128,54 +145,84 @@ describe('ActualiteDetailComponent', () => {
   });
 
   describe('Affichage', () => {
-    it('devrait afficher le spinner pendant le chargement', () => {
+    it('should_display_spinner_pendant_chargement', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       component.loadingActualite = true;
+
       fixture.detectChanges();
 
       const spinner = fixture.debugElement.query(By.directive(SpinnerComponent));
+
+    // THEN
       expect(spinner).toBeTruthy();
     });
 
-    it('devrait afficher le contenu de l\'actualité une fois chargée', () => {
+    it('should_display_contenu_actualite_une_fois_chargee', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       const componentText = fixture.nativeElement.textContent;
-      
+
+    // THEN
       expect(componentText).toContain(mockActualite.titre);
       expect(componentText).toContain(mockActualite.contenu);
     });
 
-    it('devrait afficher le nom de l\'auteur', () => {
+    it('should_display_nom_auteur', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       const auteurInfo = fixture.nativeElement.textContent;
+
+    // THEN
       expect(auteurInfo).toContain('Doe John');
     });
 
-    it('devrait afficher un message d\'erreur pour l\'auteur si le chargement échoue', () => {
+    it('should_display_message_erreur_pour_l_auteur_si_le_chargement_echoue', () => {
+    // GIVEN
       utilisateurServiceSpy.getUtilisateurById.and.returnValue(throwError(() => new Error('Oups')));
       spyOn(console, 'error');
+
+    // WHEN
       fixture.detectChanges();
       
       const componentText = fixture.nativeElement.textContent;
+
+    // THEN
       expect(componentText).toContain('Auteur inconnu');
     });
   });
 
   describe('Navigation', () => {
-    it('devrait appeler location.back() lors du clic sur le bouton retour', () => {
+    it('should_call_location_back_lors_clic_bouton_retour', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       const backButton = fixture.debugElement.query(By.css('button'));
+
       backButton.triggerEventHandler('click', null);
-      
+
+    // THEN
       expect(locationSpy.back).toHaveBeenCalled();
     });
   });
 
   describe('Méthodes utilitaires', () => {
-    it('convertDateToString devrait retourner une date formatée', () => {
+    it('should_convertdatetostring_devrait_return_date_formatee', () => {
+    // GIVEN
+
+    // WHEN
         fixture.detectChanges();
         const date = new Date('2024-12-25');
         const formatted = component.convertDateToString(date);
+
+    // THEN
         expect(formatted).toBe('25/12/2024');
     });
   });

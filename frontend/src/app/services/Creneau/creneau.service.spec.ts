@@ -60,14 +60,24 @@ describe('CreneauService', () => {
     httpMock.verify();
   });
 
-  it('devrait être créé', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
   describe('getAllCreneaux', () => {
-    it('devrait récupérer tous les créneaux', () => {
+    it('should_fetch_all_creneaux', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllCreneaux().subscribe({
         next: (creneaux) => {
+
+    // THEN
           expect(creneaux).toEqual(mockCreneaux);
           expect(creneaux.length).toBe(2);
         },
@@ -79,9 +89,14 @@ describe('CreneauService', () => {
       req.flush(mockCreneaux);
     });
 
-    it('devrait retourner un tableau vide quand aucun créneau n\'existe', () => {
+    it('should_return_tableau_empty_when_no_creneau_n_existe', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllCreneaux().subscribe({
         next: (creneaux) => {
+
+    // THEN
           expect(creneaux).toEqual([]);
           expect(creneaux.length).toBe(0);
         },
@@ -93,12 +108,16 @@ describe('CreneauService', () => {
       req.flush([]);
     });
 
-    it('devrait gérer les erreurs lors de la récupération des créneaux', () => {
+    it('should_handle_errors_when_recuperation_creneaux', () => {
+    // GIVEN
       const errorMessage = 'Server error';
-      
+
+    // WHEN
       service.getAllCreneaux().subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
           expect(error.error).toBe(errorMessage);
         }
@@ -110,11 +129,15 @@ describe('CreneauService', () => {
   });
 
   describe('getCreneauById', () => {
-    it('devrait récupérer un créneau spécifique par son id', () => {
+    it('should_fetch_creneau_specifique_par_id', () => {
+    // GIVEN
       const creneauId = 1;
 
+    // WHEN
       service.getCreneauById(creneauId).subscribe({
         next: (creneau) => {
+
+    // THEN
           expect(creneau).toEqual(mockCreneau);
           expect(creneau.id_creneau).toBe(creneauId);
         },
@@ -126,12 +149,16 @@ describe('CreneauService', () => {
       req.flush(mockCreneau);
     });
 
-    it('devrait gérer l\'erreur 404 quand le créneau n\'est pas trouvé', () => {
+    it('should_handle_erreur_404_quand_le_creneau_n_est_pas_trouve', () => {
+    // GIVEN
       const creneauId = 999;
 
+    // WHEN
       service.getCreneauById(creneauId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -142,7 +169,8 @@ describe('CreneauService', () => {
   });
 
   describe('createCreneau', () => {
-    it('devrait créer un nouveau créneau', () => {
+    it('should_create_nouveau_creneau', () => {
+    // GIVEN
       const newCreneau: Creneau = {
         id_creneau: 0,
         heure_debut: '08:00',
@@ -155,8 +183,11 @@ describe('CreneauService', () => {
 
       const createdCreneau = { ...newCreneau, id_creneau: 3 };
 
+    // WHEN
       service.createCreneau(newCreneau).subscribe({
         next: (creneau) => {
+
+    // THEN
           expect(creneau).toEqual(createdCreneau);
           expect(creneau.id_creneau).toBe(3);
         },
@@ -169,7 +200,8 @@ describe('CreneauService', () => {
       req.flush(createdCreneau);
     });
 
-    it('devrait gérer les erreurs de validation lors de la création d\'un créneau', () => {
+    it('should_handle_errors_validation_when_creation_un_creneau', () => {
+    // GIVEN
       const invalidCreneau: Creneau = {
         id_creneau: 0,
         heure_debut: '',
@@ -180,9 +212,12 @@ describe('CreneauService', () => {
         selected: false
       };
 
+    // WHEN
       service.createCreneau(invalidCreneau).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(422);
         }
       });
@@ -193,15 +228,19 @@ describe('CreneauService', () => {
   });
 
   describe('updateCreneau', () => {
-    it('devrait mettre à jour un créneau existant', () => {
+    it('should_update_creneau_existant', () => {
+    // GIVEN
       const updatedCreneau: Creneau = {
         ...mockCreneau,
         quota: 25
       };
       const creneauId = 1;
 
+    // WHEN
       service.updateCreneau(updatedCreneau, creneauId).subscribe({
         next: (creneau) => {
+
+    // THEN
           expect(creneau).toEqual(updatedCreneau);
           expect(creneau.quota).toBe(25);
         },
@@ -214,12 +253,16 @@ describe('CreneauService', () => {
       req.flush(updatedCreneau);
     });
 
-    it('devrait gérer l\'erreur lors de la mise à jour d\'un créneau inexistant', () => {
+    it('should_handle_erreur_lors_de_la_mise_a_jour_d_un_creneau_inexistant', () => {
+    // GIVEN
       const creneauId = 999;
 
+    // WHEN
       service.updateCreneau(mockCreneau, creneauId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -228,13 +271,17 @@ describe('CreneauService', () => {
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('devrait gérer les erreurs de validation lors de la mise à jour d\'un créneau', () => {
+    it('should_handle_errors_validation_when_update_un_creneau', () => {
+    // GIVEN
       const creneauId = 1;
       const invalidCreneau = { ...mockCreneau, quota: -1 };
 
+    // WHEN
       service.updateCreneau(invalidCreneau, creneauId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(422);
         }
       });
@@ -245,11 +292,15 @@ describe('CreneauService', () => {
   });
 
   describe('deleteCreneau', () => {
-    it('devrait supprimer un créneau par son id', () => {
+    it('should_delete_creneau_par_id', () => {
+    // GIVEN
       const creneauId = 1;
 
+    // WHEN
       service.deleteCreneau(creneauId).subscribe({
         next: () => {
+
+    // THEN
           expect(true).toBe(true);
         },
         error: () => fail('Expected successful response')
@@ -260,12 +311,16 @@ describe('CreneauService', () => {
       req.flush(null);
     });
 
-    it('devrait gérer l\'erreur lors de la suppression d\'un créneau inexistant', () => {
+    it('should_handle_erreur_lors_de_la_suppression_d_un_creneau_inexistant', () => {
+    // GIVEN
       const creneauId = 999;
 
+    // WHEN
       service.deleteCreneau(creneauId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -274,12 +329,16 @@ describe('CreneauService', () => {
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('devrait gérer les erreurs serveur lors de la suppression d\'un créneau', () => {
+    it('should_handle_errors_serveur_when_suppression_un_creneau', () => {
+    // GIVEN
       const creneauId = 1;
 
+    // WHEN
       service.deleteCreneau(creneauId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
         }
       });
@@ -290,11 +349,15 @@ describe('CreneauService', () => {
   });
 
   describe('getCreneauxByEventId', () => {
-    it('devrait récupérer les créneaux pour un événement spécifique', () => {
+    it('should_fetch_creneaux_event_specifique', () => {
+    // GIVEN
       const eventId = 1;
 
+    // WHEN
       service.getCreneauxByEventId(eventId).subscribe({
         next: (creneaux) => {
+
+    // THEN
           expect(creneaux).toEqual(mockCreneaux);
           expect(creneaux.length).toBe(2);
         },
@@ -306,11 +369,15 @@ describe('CreneauService', () => {
       req.flush(mockCreneaux);
     });
 
-    it('devrait retourner un tableau vide quand l\'événement n\'a pas de créneaux', () => {
+    it('should_return_tableau_empty_when_evenement_n_a_pas_de_creneaux', () => {
+    // GIVEN
       const eventId = 2;
 
+    // WHEN
       service.getCreneauxByEventId(eventId).subscribe({
         next: (creneaux) => {
+
+    // THEN
           expect(creneaux).toEqual([]);
           expect(creneaux.length).toBe(0);
         },
@@ -322,12 +389,16 @@ describe('CreneauService', () => {
       req.flush([]);
     });
 
-    it('devrait gérer l\'erreur quand l\'événement n\'est pas trouvé', () => {
+    it('should_handle_erreur_quand_l_evenement_n_est_pas_trouve', () => {
+    // GIVEN
       const eventId = 999;
 
+    // WHEN
       service.getCreneauxByEventId(eventId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -336,12 +407,16 @@ describe('CreneauService', () => {
       req.flush('Event Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('devrait gérer les erreurs serveur lors de la récupération des créneaux par événement', () => {
+    it('should_handle_errors_serveur_when_recuperation_creneaux_par_event', () => {
+    // GIVEN
       const eventId = 1;
 
+    // WHEN
       service.getCreneauxByEventId(eventId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
         }
       });

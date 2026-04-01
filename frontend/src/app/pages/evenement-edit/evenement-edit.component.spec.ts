@@ -64,22 +64,34 @@ describe('EvenementEditComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
-  it('should load only active templates for event creation', () => {
+  it('should_load_only_active_templates_for_event_creation', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(formulaireServiceSpy.getTemplates).toHaveBeenCalledWith(StatutFormulaire.actif);
     expect(component.templates).toEqual([activeTemplate]);
     expect(component.loading).toBeFalse();
   });
 
-  it('should flag a warning when a task starts before the event without making it invalid', () => {
+  it('should_flag_warning_when_task_starts_before_event_without_making_it_invalid', () => {
+  // GIVEN
     component.evenementForm.patchValue({
       heure_debut: '09:00',
       heure_fin: '18:00'
     });
 
+  // WHEN
     component.addTache({
       nom_tache: 'Accueil',
       heure_debut_globale: '08:30',
@@ -89,16 +101,19 @@ describe('EvenementEditComponent', () => {
 
     const tache = component.taches.at(0);
 
+  // THEN
     expect(tache.errors?.['taskOutsideEventBounds']).toBeFalsy();
     expect(component.isTaskOutsideEventBounds(tache)).toBeTrue();
   });
 
-  it('should flag a warning when a task ends after the event without making it invalid', () => {
+  it('should_flag_warning_when_task_ends_after_event_without_making_it_invalid', () => {
+  // GIVEN
     component.evenementForm.patchValue({
       heure_debut: '09:00',
       heure_fin: '18:00'
     });
 
+  // WHEN
     component.addTache({
       nom_tache: 'Rangement',
       heure_debut_globale: '17:00',
@@ -108,16 +123,19 @@ describe('EvenementEditComponent', () => {
 
     const tache = component.taches.at(0);
 
+  // THEN
     expect(tache.errors?.['taskOutsideEventBounds']).toBeFalsy();
     expect(component.isTaskOutsideEventBounds(tache)).toBeTrue();
   });
 
-  it('should refresh task bounds warning when event hours change', () => {
+  it('should_refresh_task_bounds_warning_when_event_hours_change', () => {
+  // GIVEN
     component.evenementForm.patchValue({
       heure_debut: '09:00',
       heure_fin: '18:00'
     });
 
+  // WHEN
     component.addTache({
       nom_tache: 'Accueil',
       heure_debut_globale: '09:30',
@@ -126,7 +144,8 @@ describe('EvenementEditComponent', () => {
     });
 
     const tache = component.taches.at(0);
-    
+
+  // THEN
     expect(component.isTaskOutsideEventBounds(tache)).toBeFalse();
     component.evenementForm.patchValue({ heure_fin: '10:00' });
     expect(component.isTaskOutsideEventBounds(tache)).toBeTrue();

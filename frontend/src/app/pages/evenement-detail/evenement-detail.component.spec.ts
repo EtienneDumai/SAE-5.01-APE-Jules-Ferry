@@ -164,15 +164,24 @@ describe('EvenementDetailComponent', () => {
         component = fixture.componentInstance;
     });
 
-    it('should create', () => {
+    it('should_create', () => {
+    // GIVEN
+
+    // WHEN
         fixture.detectChanges();
+
+    // THEN
         expect(component).toBeTruthy();
     });
 
     describe('ngOnInit (Chargement des données)', () => {
-        it('devrait charger l\'événement, l\'auteur et le formulaire au démarrage', () => {
+        it('should_load_evenement_l_auteur_et_le_formulaire_au_demarrage', () => {
+        // GIVEN
+
+        // WHEN
             fixture.detectChanges();
 
+        // THEN
             expect(evenementServiceSpy.getEvenementById).toHaveBeenCalledWith(1);
             expect(utilisateurServiceSpy.getUtilisateurById).toHaveBeenCalledWith(1);
             expect(formulaireServiceSpy.getFormulaireById).toHaveBeenCalledWith(10);
@@ -183,10 +192,15 @@ describe('EvenementDetailComponent', () => {
             expect(component.loadingEvenement).toBeFalse();
         });
 
-        it('devrait gérer une erreur de chargement de l\'événement', () => {
+        it('should_handle_error_chargement_evenement', () => {
+        // GIVEN
             evenementServiceSpy.getEvenementById.and.returnValue(throwError(() => new Error('Err')));
             spyOn(console, 'error');
+
+        // WHEN
             fixture.detectChanges();
+
+        // THEN
             expect(component.errorEvenement).toBeTrue();
             expect(component.loadingEvenement).toBeFalse();
         });
@@ -195,23 +209,37 @@ describe('EvenementDetailComponent', () => {
     describe('Logique métier', () => {
         beforeEach(() => fixture.detectChanges());
 
-        it('isEvenementTermine devrait retourner false pour un événement futur', () => {
+        it('should_isevenementtermine_devrait_return_false_event_futur', () => {
+        // GIVEN
+
+        // WHEN
+
+        // THEN
             expect(component.isEvenementTermine()).toBeFalse();
         });
 
-        it('isInscriptionOuverte devrait retourner true pour un événement futur', () => {
+        it('should_isinscriptionouverte_devrait_return_true_event_futur', () => {
+        // GIVEN
+
+        // WHEN
+
+        // THEN
             expect(component.isInscriptionOuverte()).toBeTrue();
         });
 
-        it('calculerInscriptionsExistantes devrait marquer les créneaux où le user est inscrit', () => {
+        it('should_calculerinscriptionsexistantes_devrait_mark_creneaux_user_inscrit', () => {
+        // GIVEN
             const formWithInscription = JSON.parse(JSON.stringify(mockFormulaire));
             formWithInscription.taches[0].creneaux[0].inscriptions.push({
                 id_inscription: 88, id_creneau: 100, id_utilisateur: currentUser.id_utilisateur, commentaire: null
             });
 
             component.formulaire = formWithInscription;
+
+        // WHEN
             component.calculerInscriptionsExistantes();
 
+        // THEN
             expect(component.mesCreneauxActuels.length).toBe(1);
             expect(component.mesCreneauxActuels[0].id_creneau).toBe(100);
             expect(component.formulaire?.taches![0].creneaux![0].est_inscrit).toBeTrue();
@@ -221,28 +249,44 @@ describe('EvenementDetailComponent', () => {
     describe('Interactions Utilisateur', () => {
         beforeEach(() => fixture.detectChanges());
 
-        it('goBack devrait appeler location.back()', () => {
+        it('should_goback_devrait_call_location_back', () => {
+        // GIVEN
+
+        // WHEN
             component.goBack();
+
+        // THEN
             expect(locationSpy.back).toHaveBeenCalled();
         });
 
-        it('toggleInscriptionForm devrait rediriger vers login si non connecté', () => {
+        it('should_toggleinscriptionform_devrait_redirect_vers_login_non_authenticated', () => {
+        // GIVEN
             authServiceSpy.isAuthenticatedStatus.and.returnValue(false);
+
+        // WHEN
             component.toggleInscriptionForm();
+
+        // THEN
             expect(routerSpy.navigate).toHaveBeenCalledWith(['/login'], jasmine.any(Object));
             expect(component.showInscriptionForm).toBeFalse();
         });
 
-        it('toggleInscriptionForm devrait afficher le formulaire si connecté', () => {
+        it('should_toggleinscriptionform_devrait_display_form_authenticated', () => {
+        // GIVEN
             authServiceSpy.isAuthenticatedStatus.and.returnValue(true);
             component.showInscriptionForm = false;
+
+        // WHEN
             component.toggleInscriptionForm();
+
+        // THEN
             expect(component.showInscriptionForm).toBeTrue();
         });
     });
 
     describe('Redirection avec paramètre openForm', () => {
-        it('devrait ouvrir le formulaire automatiquement si openForm=true et conditions remplies', fakeAsync(() => {
+        it('should_open_form_automatiquement_openform_true_conditions_remplies', fakeAsync(() => {
+        // GIVEN
             const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
 
             authServiceSpy.isAuthenticatedStatus.and.returnValue(true);
@@ -269,17 +313,21 @@ describe('EvenementDetailComponent', () => {
                 ]
             });
 
+        // WHEN
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
             tick();
             newFixture.detectChanges();
+
             tick(500);
 
+        // THEN
             expect(newComponent.showInscriptionForm).toBeTrue();
         }));
 
-        it('ne devrait pas ouvrir le formulaire si utilisateur non authentifié', fakeAsync(() => {
+        it('should_not_open_form_user_non_authentifie', fakeAsync(() => {
+        // GIVEN
             const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
 
             authServiceSpy.isAuthenticatedStatus.and.returnValue(false);
@@ -304,17 +352,21 @@ describe('EvenementDetailComponent', () => {
                 ]
             });
 
+        // WHEN
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
             tick();
             newFixture.detectChanges();
+
             tick(500);
 
+        // THEN
             expect(newComponent.showInscriptionForm).toBeFalse();
         }));
 
-        it('ne devrait pas ouvrir le formulaire si événement terminé', fakeAsync(() => {
+        it('should_not_open_form_event_termine', fakeAsync(() => {
+        // GIVEN
             const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
 
             const evenementTermine = { ...mockEvenement, statut: StatutEvenement.termine };
@@ -342,17 +394,21 @@ describe('EvenementDetailComponent', () => {
                 ]
             });
 
+        // WHEN
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
             tick();
             newFixture.detectChanges();
+
             tick(500);
 
+        // THEN
             expect(newComponent.showInscriptionForm).toBeFalse();
         }));
 
-        it('ne devrait pas ouvrir le formulaire si pas de formulaire d\'inscription', fakeAsync(() => {
+        it('should_not_open_form_pas_form_inscription', fakeAsync(() => {
+        // GIVEN
             const mockActivatedRoute = createMockActivatedRoute({ openForm: 'true' });
 
             const evenementSansFormulaire = { ...mockEvenement, id_formulaire: null };
@@ -379,13 +435,16 @@ describe('EvenementDetailComponent', () => {
                 ]
             });
 
+        // WHEN
             const newFixture = TestBed.createComponent(EvenementDetailComponent);
             const newComponent = newFixture.componentInstance;
             newComponent.ngOnInit();
             tick();
             newFixture.detectChanges();
+
             tick(500);
 
+        // THEN
             expect(newComponent.showInscriptionForm).toBeFalse();
         }));
     });
@@ -393,7 +452,8 @@ describe('EvenementDetailComponent', () => {
     describe('Gestion des Inscriptions (handleSubmit)', () => {
         beforeEach(() => fixture.detectChanges());
 
-        it('devrait appeler createInscription pour une nouvelle sélection', fakeAsync(() => {
+        it('should_call_createinscription_nouvelle_selection', fakeAsync(() => {
+        // GIVEN
             const payload: InscriptionSubmitPayload = {
                 creneauxSelectionnes: [100],
                 commentaire: 'Dispo'
@@ -407,9 +467,12 @@ describe('EvenementDetailComponent', () => {
             };
             inscriptionServiceSpy.createInscription.and.returnValue(of(inscriptionResponse));
 
+        // WHEN
             component.handleSubmit(payload);
+
             tick();
-            
+
+        // THEN
             expect(inscriptionServiceSpy.createInscription).toHaveBeenCalled();
             expect(component.inscriptionSuccess).toBeTrue();
             expect(component.showInscriptionForm).toBeFalse();
@@ -417,7 +480,8 @@ describe('EvenementDetailComponent', () => {
             tick(2000); 
         }));
 
-        it('devrait appeler deleteInscription pour une désinscription', fakeAsync(() => {
+        it('should_call_deleteinscription_desinscription', fakeAsync(() => {
+        // GIVEN
             const formWithInscription = JSON.parse(JSON.stringify(mockFormulaire));
             const creneau = formWithInscription.taches[0].creneaux[0];
             creneau.inscriptions.push({ id_inscription: 88, id_creneau: 100, id_utilisateur: currentUser.id_utilisateur, commentaire: null });
@@ -432,9 +496,12 @@ describe('EvenementDetailComponent', () => {
 
             inscriptionServiceSpy.deleteInscription.and.returnValue(of(void 0));
 
+        // WHEN
             component.validerModification(payload);
+
             tick();
 
+        // THEN
             expect(inscriptionServiceSpy.deleteInscription).toHaveBeenCalledWith(100);
             expect(component.inscriptionSuccess).toBeTrue();
             

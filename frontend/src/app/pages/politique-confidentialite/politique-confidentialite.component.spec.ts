@@ -23,7 +23,12 @@ describe('PolitiqueConfidentialiteComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 });

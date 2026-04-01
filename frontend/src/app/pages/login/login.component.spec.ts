@@ -68,152 +68,242 @@ describe('LoginComponent', () => {
     localStorage.clear();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Initialisation du formulaire', () => {
-    it('devrait initialiser le formulaire de connexion avec des champs vides', () => {
+    it('should_initialize_form_connexion_fields_vides', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.loginForm).toBeTruthy();
       expect(component.loginForm.get('email')?.value).toBe('');
       expect(component.loginForm.get('mot_de_passe')?.value).toBe('');
     });
 
-    it('devrait avoir des contrôles email et mot_de_passe', () => {
+    it('should_avoir_controles_email_password_password', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.loginForm.contains('email')).toBe(true);
       expect(component.loginForm.contains('mot_de_passe')).toBe(true);
     });
 
-    it('devrait initialiser isLoading à false', () => {
+    it('should_initialize_isloading_false', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.isLoading).toBe(false);
     });
   });
 
   describe('Validation du formulaire', () => {
-    it('devrait marquer email comme invalide lorsqu\'il est vide', () => {
+    it('should_mark_email_comme_invalid_lorsqu_il_est_vide', () => {
+    // GIVEN
+
+    // WHEN
       const email = component.loginForm.get('email');
+
+    // THEN
       expect(email?.valid).toBe(false);
       expect(email?.hasError('required')).toBe(true);
     });
 
-    it('devrait marquer email comme invalide lorsqu\'il n\'est pas un email valide', () => {
+    it('should_mark_email_comme_invalid_lorsqu_il_n_est_pas_un_email_valide', () => {
+    // GIVEN
+
+    // WHEN
       const email = component.loginForm.get('email');
+
       email?.setValue('invalid-email');
+
+    // THEN
       expect(email?.valid).toBe(false);
       expect(email?.hasError('email')).toBe(true);
     });
 
-    it('devrait marquer email comme valide lorsqu\'un email valide est fourni', () => {
+    it('should_mark_email_comme_valid_lorsqu_un_email_valide_est_fourni', () => {
+    // GIVEN
+
+    // WHEN
       const email = component.loginForm.get('email');
+
       email?.setValue('test@example.com');
+
+    // THEN
       expect(email?.valid).toBe(true);
     });
 
-    it('devrait marquer mot_de_passe comme invalide lorsqu\'il est vide à l\'étape 2', () => {
+    it('should_mark_password_password_comme_invalid_lorsqu_il_est_vide_a_l_etape_2', () => {
+    // GIVEN
+
+    // WHEN
       const password = component.loginForm.get('mot_de_passe');
       password?.setValidators([Validators.required]);
+
       password?.updateValueAndValidity();
 
+    // THEN
       expect(password?.valid).toBe(false);
       expect(password?.hasError('required')).toBe(true);
     });
 
-    it('devrait marquer mot_de_passe comme invalide lorsqu\'il contient moins de 8 caractères à l\'étape 2', () => {
+    it('should_mark_password_password_comme_invalid_lorsqu_il_contient_moins_de_8_caracteres_a_l_etape_2', () => {
+    // GIVEN
+
+    // WHEN
       const password = component.loginForm.get('mot_de_passe');
       password?.setValidators([Validators.minLength(8)]);
       password?.updateValueAndValidity();
+
       password?.setValue('short');
 
+    // THEN
       expect(password?.valid).toBe(false);
       expect(password?.hasError('minlength')).toBe(true);
     });
 
-    it('devrait marquer mot_de_passe comme valide lorsqu\'il contient 8 caractères ou plus', () => {
+    it('should_mark_password_password_comme_valid_lorsqu_il_contient_8_caracteres_ou_plus', () => {
+    // GIVEN
+
+    // WHEN
       const password = component.loginForm.get('mot_de_passe');
+
       password?.setValue('password123');
+
+    // THEN
       expect(password?.valid).toBe(true);
     });
 
-    it('devrait marquer le formulaire comme invalide lorsqu\'un champ est invalide', () => {
+    it('should_mark_form_comme_invalid_lorsqu_un_champ_est_invalide', () => {
+    // GIVEN
       component.loginForm.patchValue({
         email: '',
         mot_de_passe: 'password123'
       });
+
+    // WHEN
+
+    // THEN
       expect(component.loginForm.valid).toBe(false);
     });
 
-    it('devrait marquer le formulaire comme valide lorsque tous les champs sont valides', () => {
+    it('should_mark_form_comme_valid_lorsque_all_fields_valides', () => {
+    // GIVEN
       component.loginForm.patchValue({
         email: 'test@example.com',
         mot_de_passe: 'password123'
       });
+
+    // WHEN
+
+    // THEN
       expect(component.loginForm.valid).toBe(true);
     });
   });
 
   describe('Getters', () => {
-    it('devrait retourner le contrôle email via le getter email', () => {
+    it('should_return_controle_email_getter_email', () => {
+    // GIVEN
+
+    // WHEN
       const emailControl = component.loginForm.get('email');
+
+    // THEN
       expect(component.email).toBe(emailControl);
     });
 
-    it('devrait retourner le contrôle mot_de_passe via le getter mot_de_passe', () => {
+    it('should_return_controle_password_password_getter_password_password', () => {
+    // GIVEN
+
+    // WHEN
       const passwordControl = component.loginForm.get('mot_de_passe');
+
+    // THEN
       expect(component.mot_de_passe).toBe(passwordControl);
     });
   });
 
   describe('verifierEmail', () => {
-    it('devrait afficher le message du serveur quand aucun compte n\'est associé à l\'email', fakeAsync(() => {
+    it('should_display_message_serveur_when_no_account_n_est_associe_a_l_email', fakeAsync(() => {
+    // GIVEN
       authService.checkEmailType.and.returnValue(of({
         action: 'not_found',
         message: 'Aucun compte associé à cet email. Veuillez vous inscrire.'
       }));
       component.loginForm.patchValue({ email: 'inconnu@example.com' });
 
+    // WHEN
       component.verifierEmail();
+
       tick();
 
+    // THEN
       expect(component.errorMessage).toBe('Aucun compte associé à cet email. Veuillez vous inscrire.');
       expect(component.isLoading).toBe(false);
     }));
 
-    it('devrait afficher un message plus clair si la vérification de l\'email échoue', fakeAsync(() => {
+    it('should_display_message_clair_verification_email_echoue', fakeAsync(() => {
+    // GIVEN
       authService.checkEmailType.and.returnValue(throwError(() => ({})));
       component.loginForm.patchValue({ email: 'test@example.com' });
 
+    // WHEN
       component.verifierEmail();
+
       tick();
 
+    // THEN
       expect(component.errorMessage).toBe("Impossible de vérifier cette adresse email. Vérifiez sa saisie ou réessayez dans un instant.");
       expect(component.isLoading).toBe(false);
     }));
   });
 
   describe('onSubmit', () => {
-    it('devrait ne pas soumettre lorsque le formulaire est invalide', () => {
+    it('should_ne_pas_soumettre_lorsque_form_invalid', () => {
+    // GIVEN
       component.loginForm.patchValue({
         email: '',
         mot_de_passe: ''
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(authService.login).not.toHaveBeenCalled();
     });
 
-    it('devrait ne pas soumettre lorsque l\'email est invalide', () => {
+    it('should_ne_pas_soumettre_lorsque_email_est_invalide', () => {
+    // GIVEN
       component.loginForm.patchValue({
         email: 'invalid-email',
         mot_de_passe: 'password123'
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(authService.login).not.toHaveBeenCalled();
     });
 
-    it('devrait ne pas soumettre lorsque le mot de passe est trop court (étape 2)', () => {
+    it('should_ne_pas_soumettre_lorsque_password_password_trop_court_etape_2', () => {
+    // GIVEN
+
+    // WHEN
       const password = component.loginForm.get('mot_de_passe');
       password?.setValidators([Validators.minLength(8)]);
       password?.updateValueAndValidity();
@@ -225,10 +315,12 @@ describe('LoginComponent', () => {
 
       component.onSubmit();
 
+    // THEN
       expect(authService.login).not.toHaveBeenCalled();
     });
 
-    it('devrait définir isLoading à true lors de la soumission', () => {
+    it('should_definir_isloading_true_when_soumission', () => {
+    // GIVEN
       const loginSubject = new Subject<AuthResponse>();
       authService.login.and.returnValue(loginSubject.asObservable());
 
@@ -237,8 +329,10 @@ describe('LoginComponent', () => {
         mot_de_passe: 'password123'
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(component.isLoading).toBe(true);
 
       // Complete the observable to clean up
@@ -246,7 +340,8 @@ describe('LoginComponent', () => {
       loginSubject.complete();
     });
 
-    it('devrait effacer le message d\'erreur lors de la soumission', () => {
+    it('should_effacer_message_erreur_lors_de_la_soumission', () => {
+    // GIVEN
       authService.login.and.returnValue(of(mockAuthResponse));
       component.errorMessage = 'Previous error';
       component.loginForm.patchValue({
@@ -254,12 +349,15 @@ describe('LoginComponent', () => {
         mot_de_passe: 'password123'
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(component.errorMessage).toBe('');
     });
 
-    it('devrait appeler authService.login avec les bonnes informations d\'identification', () => {
+    it('should_call_authservice_login_bonnes_informations_identification', () => {
+    // GIVEN
       authService.login.and.returnValue(of(mockAuthResponse));
       const credentials = {
         email: 'test@example.com',
@@ -267,26 +365,33 @@ describe('LoginComponent', () => {
       };
       component.loginForm.patchValue(credentials);
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(authService.login).toHaveBeenCalledWith(credentials);
     });
 
     // --- MODIFICATIONS ICI : On teste juste la fin du chargement ---
-    it('devrait définir isLoading à false lors d\'une connexion réussie', fakeAsync(() => {
+    it('should_definir_isloading_false_lors_une_connexion_reussie', fakeAsync(() => {
+    // GIVEN
       authService.login.and.returnValue(of(mockAuthResponse));
       component.loginForm.patchValue({
         email: 'test@example.com',
         mot_de_passe: 'password123'
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(component.isLoading).toBe(false);
     }));
 
-    it('devrait gérer l\'erreur de connexion avec un message personnalisé', fakeAsync(() => {
+    it('should_handle_erreur_de_connexion_avec_un_message_personnalise', fakeAsync(() => {
+    // GIVEN
       const errorResponse = {
         error: { message: 'Identifiants incorrects' }
       };
@@ -296,44 +401,57 @@ describe('LoginComponent', () => {
         mot_de_passe: 'wrongpassword'
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(component.errorMessage).toBe('Identifiants incorrects');
       expect(component.isLoading).toBe(false);
     }));
 
-    it('devrait gérer l\'erreur de connexion avec un message par défaut', fakeAsync(() => {
+    it('should_handle_erreur_de_connexion_avec_un_message_par_defaut', fakeAsync(() => {
+    // GIVEN
       authService.login.and.returnValue(throwError(() => ({})));
       component.loginForm.patchValue({
         email: 'test@example.com',
         mot_de_passe: 'password123'
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(component.errorMessage).toBe('Email ou mot de passe incorrect');
       expect(component.isLoading).toBe(false);
     }));
 
-    it('devrait définir isLoading à false en cas d\'erreur', fakeAsync(() => {
+    it('should_definir_isloading_false_cas_erreur', fakeAsync(() => {
+    // GIVEN
       authService.login.and.returnValue(throwError(() => new Error('Network error')));
       component.loginForm.patchValue({
         email: 'test@example.com',
         mot_de_passe: 'password123'
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(component.isLoading).toBe(false);
     }));
   });
 
   describe('Integration', () => {
-    it('devrait effectuer le flux complet de connexion sans erreur', fakeAsync(() => {
+    it('should_effectuer_flux_complet_connexion_sans_error', fakeAsync(() => {
+    // GIVEN
       const loginSubject = new Subject<AuthResponse>();
+
       authService.login.and.returnValue(loginSubject.asObservable());
 
       // Fill form
@@ -342,6 +460,9 @@ describe('LoginComponent', () => {
         mot_de_passe: 'password123'
       });
 
+    // WHEN
+
+    // THEN
       expect(component.loginForm.valid).toBe(true);
 
       // Submit
@@ -359,7 +480,8 @@ describe('LoginComponent', () => {
       expect(component.isLoading).toBe(false);
     }));
 
-    it('devrait effectuer le flux complet d\'erreur', fakeAsync(() => {
+    it('should_effectuer_flux_complet_erreur', fakeAsync(() => {
+    // GIVEN
       const error = { error: { message: 'Invalid credentials' } };
       authService.login.and.returnValue(throwError(() => error));
 
@@ -370,11 +492,15 @@ describe('LoginComponent', () => {
       });
 
       // Submit
+
+    // WHEN
       component.onSubmit();
 
       tick();
 
       // Verify error state
+
+    // THEN
       expect(component.isLoading).toBe(false);
       expect(component.errorMessage).toBe('Invalid credentials');
     }));

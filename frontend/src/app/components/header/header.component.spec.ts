@@ -44,87 +44,138 @@ describe('HeaderComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('devrait créer', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Gestion de la déconnexion avec modale', () => {
-    it('devrait afficher la modale quand on déclenche la déconnexion', () => {
+    it('should_display_modal_when_declenche_logout', () => {
+    // GIVEN
       component.showLogoutModal = false;
+
+    // WHEN
       component.declencherLogout();
+
+    // THEN
       expect(component.showLogoutModal).toBeTrue();
     });
 
-    it('devrait appeler authService.logout quand on confirme via la modale', () => {
+    it('should_call_authservice_logout_when_confirme_modal', () => {
+    // GIVEN
       authService.logout.and.returnValue(of(undefined));
       component.showLogoutModal = true;
 
+    // WHEN
       component.confirmerLogout();
 
+    // THEN
       expect(authService.logout).toHaveBeenCalled();
       expect(component.showLogoutModal).toBeFalse();
     });
 
-    it('devrait masquer la modale et logguer l\'erreur si le logout échoue', () => {
+    it('should_masquer_modal_logguer_erreur_si_le_logout_echoue', () => {
+    // GIVEN
       const error = { message: 'Erreur' };
       authService.logout.and.returnValue(throwError(() => error));
       spyOn(console, 'error');
-      
+
+    // WHEN
       component.confirmerLogout();
 
+    // THEN
       expect(console.error).toHaveBeenCalled();
       expect(component.showLogoutModal).toBeFalse();
     });
   });
 
   describe('toggleMenu', () => {
-    it('devrait basculer menuOpen de faux à vrai', () => {
+    it('should_toggle_menuopen_false_true', () => {
+    // GIVEN
       component.menuOpen = false;
+
+    // WHEN
       component.toggleMenu();
+
+    // THEN
       expect(component.menuOpen).toBeTrue();
     });
 
-    it('devrait basculer menuOpen de vrai à faux', () => {
+    it('should_toggle_menuopen_true_false', () => {
+    // GIVEN
       component.menuOpen = true;
+
+    // WHEN
       component.toggleMenu();
+
+    // THEN
       expect(component.menuOpen).toBeFalse();
     });
   });
 
   describe('closeMenu', () => {
-    it('devrait définir menuOpen à faux', () => {
+    it('should_definir_menuopen_false', () => {
+    // GIVEN
       component.menuOpen = true;
+
+    // WHEN
       component.closeMenu();
+
+    // THEN
       expect(component.menuOpen).toBeFalse();
     });
 
-    it('devrait garder menuOpen à faux s\'il est déjà faux', () => {
+    it('should_garder_menuopen_false_s_il_est_deja_faux', () => {
+    // GIVEN
       component.menuOpen = false;
+
+    // WHEN
       component.closeMenu();
+
+    // THEN
       expect(component.menuOpen).toBeFalse();
     });
   });
 
   describe('onEsc', () => {
-    it('devrait fermer le menu quand la touche échap est pressée', () => {
+    it('should_close_menu_when_key_echap_pressee', () => {
+    // GIVEN
       component.menuOpen = true;
+
+    // WHEN
       component.onEsc();
+
+    // THEN
       expect(component.menuOpen).toBeFalse();
     });
 
-    it('devrait être déclenché par l\'appui sur la touche échap', () => {
+    it('should_be_declenche_par_appui_sur_la_touche_echap', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       component.menuOpen = true;
       
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
+
       document.dispatchEvent(event);
-      
+
+    // THEN
       expect(component.menuOpen).toBeFalse();
     });
   });
 
   describe('roleUtilisateur', () => {
-    it('devrait avoir la propriété roleUtilisateur définie sur l\'enum RoleUtilisateur', () => {
+    it('should_avoir_property_roleutilisateur_definie_enum_roleutilisateur', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.roleUtilisateur).toBe(RoleUtilisateur);
     });
   });

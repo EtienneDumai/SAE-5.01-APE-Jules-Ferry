@@ -23,80 +23,148 @@ describe('TokenService', () => {
     localStorage.clear();
   });
 
-  it('devrait être créé', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
   describe('saveToken', () => {
-    it('devrait sauvegarder le token dans localStorage', () => {
+    it('should_save_token_localstorage', () => {
+    // GIVEN
+
+    // WHEN
       service.saveToken(TEST_TOKEN);
+
+    // THEN
       expect(localStorage.getItem(TOKEN_KEY)).toBe(TEST_TOKEN);
     });
 
-    it('devrait écraser le token existant', () => {
+    it('should_ecraser_token_existant', () => {
+    // GIVEN
+
+    // WHEN
       service.saveToken('old-token');
+
       service.saveToken(TEST_TOKEN);
+
+    // THEN
       expect(localStorage.getItem(TOKEN_KEY)).toBe(TEST_TOKEN);
     });
 
     // MODIFICATION ICI : On utilise bien TOKEN_KEY
-    it('ne devrait PAS sauvegarder un token chaîne vide', () => {
+    it('should_not_save_token_chaine_empty', () => {
+    // GIVEN
+
+    // WHEN
       service.saveToken('');
+
+    // THEN
       expect(localStorage.getItem(TOKEN_KEY)).toBeNull(); 
     });
   });
 
   describe('getToken', () => {
-    it('devrait retourner le token depuis localStorage', () => {
+    it('should_return_token_localstorage', () => {
+    // GIVEN
       localStorage.setItem(TOKEN_KEY, TEST_TOKEN);
+
+    // WHEN
+
+    // THEN
       expect(service.getToken()).toBe(TEST_TOKEN);
     });
 
-    it('devrait retourner null si aucun token n\'existe', () => {
+    it('should_return_null_no_token_n_existe', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(service.getToken()).toBeNull();
     });
     // On a supprimé le test qui s'attendait à recevoir une chaîne vide ici
   });
 
   describe('removeToken', () => {
-    it('devrait supprimer le token de localStorage', () => {
+    it('should_delete_token_localstorage', () => {
+    // GIVEN
       localStorage.setItem(TOKEN_KEY, TEST_TOKEN);
+
+    // WHEN
       service.removeToken();
+
+    // THEN
       expect(localStorage.getItem(TOKEN_KEY)).toBeNull();
     });
 
-    it('ne devrait pas lever d\'erreur si le token n\'existe pas', () => {
+    it('should_not_lever_erreur_si_le_token_n_existe_pas', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(() => service.removeToken()).not.toThrow();
     });
 
-    it('devrait supprimer le token et getToken devrait retourner null ensuite', () => {
+    it('should_delete_token_gettoken_devrait_return_null_ensuite', () => {
+    // GIVEN
+
+    // WHEN
       service.saveToken(TEST_TOKEN);
+
       service.removeToken();
+
+    // THEN
       expect(service.getToken()).toBeNull();
     });
   });
 
   describe('hasToken', () => {
-    it('devrait retourner vrai quand un token existe', () => {
+    it('should_return_true_when_token_existe', () => {
+    // GIVEN
       localStorage.setItem(TOKEN_KEY, TEST_TOKEN);
+
+    // WHEN
+
+    // THEN
       expect(service.hasToken()).toBe(true);
     });
 
-    it('devrait retourner faux quand le token n\'existe pas', () => {
+    it('should_return_false_when_token_n_existe_pas', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(service.hasToken()).toBe(false);
     });
     // On a supprimé le test qui disait qu'une chaîne vide était valide ici
 
-    it('devrait retourner faux après la suppression du token', () => {
+    it('should_return_false_suppression_token', () => {
+    // GIVEN
+
+    // WHEN
       service.saveToken(TEST_TOKEN);
+
       service.removeToken();
+
+    // THEN
       expect(service.hasToken()).toBe(false);
     });
   });
 
   describe('Integration tests', () => {
-    it('devrait gérer le cycle de vie complet du token', () => {
+    it('should_handle_cycle_vie_complet_token', () => {
+    // GIVEN
       // Vérifier qu'il n'y a pas de token au départ
+
+    // WHEN
+
+    // THEN
       expect(service.hasToken()).toBe(false);
 
       // Sauvegarder un token
@@ -110,8 +178,13 @@ describe('TokenService', () => {
       expect(service.getToken()).toBeNull();
     });
 
-    it('devrait maintenir le token à travers plusieurs opérations', () => {
+    it('should_maintenir_token_travers_plusieurs_operations', () => {
+    // GIVEN
+
+    // WHEN
       service.saveToken(TEST_TOKEN);
+
+    // THEN
       expect(service.getToken()).toBe(TEST_TOKEN);
       expect(service.getToken()).toBe(TEST_TOKEN);
       expect(service.hasToken()).toBe(true);

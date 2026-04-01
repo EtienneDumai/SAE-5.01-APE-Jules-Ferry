@@ -41,7 +41,12 @@ describe('FormInscriptionEvenementComponent', () => {
     fixture.detectChanges();
   });
 
-  it('devrait créer', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 });

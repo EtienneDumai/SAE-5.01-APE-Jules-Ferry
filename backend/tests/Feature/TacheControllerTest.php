@@ -131,4 +131,32 @@ class TacheControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseMissing('taches', ['id_tache' => $tache->id_tache]);
     }
+
+    #[Test]
+    public function should_return_not_found_for_update_endpoint_when_tache_does_not_exist(): void
+    {
+        // GIVEN
+        $this->actingAs($this->user, 'sanctum');
+
+        // WHEN
+        $response = $this->putJson('/api/taches/99999', ['nom_tache' => 'Inexistante']);
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Tâche non trouvée']);
+    }
+
+    #[Test]
+    public function should_return_not_found_for_destroy_endpoint_when_tache_does_not_exist(): void
+    {
+        // GIVEN
+        $this->actingAs($this->user, 'sanctum');
+
+        // WHEN
+        $response = $this->deleteJson('/api/taches/99999');
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Tâche non trouvée']);
+    }
 }

@@ -63,12 +63,22 @@ describe('ActualiteCreerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Initialisation du formulaire', () => {
-    it('devrait initialiser le formulaire avec des valeurs par défaut', () => {
+    it('should_initialize_form_with_default_values', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.actualiteForm).toBeTruthy();
       expect(component.actualiteForm.get('titre')?.value).toBe('');
       expect(component.actualiteForm.get('contenu')?.value).toBe('');
@@ -78,7 +88,12 @@ describe('ActualiteCreerComponent', () => {
       expect(component.actualiteForm.get('id_auteur')?.value).toBeDefined();
     });
 
-    it('devrait avoir tous les contrôles nécessaires', () => {
+    it('should_avoir_all_controles_necessaires', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.actualiteForm.contains('titre')).toBe(true);
       expect(component.actualiteForm.contains('contenu')).toBe(true);
       expect(component.actualiteForm.contains('date_publication')).toBe(true);
@@ -86,84 +101,152 @@ describe('ActualiteCreerComponent', () => {
       expect(component.actualiteForm.contains('image_url')).toBe(true);
     });
 
-    it('devrait initialiser loading à false', () => {
+    it('should_initialize_loading_false', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.loading).toBe(false);
     });
 
-    it('devrait initialiser saving à false', () => {
+    it('should_initialize_saving_false', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.saving).toBe(false);
     });
   });
 
   describe('Validation du formulaire', () => {
-    it('devrait marquer titre comme invalide lorsqu\'il est vide', () => {
+    it('should_mark_title_comme_invalid_lorsqu_il_est_vide', () => {
+    // GIVEN
+
+    // WHEN
       const titre = component.actualiteForm.get('titre');
+
+    // THEN
       expect(titre?.valid).toBe(false);
       expect(titre?.hasError('required')).toBe(true);
     });
 
-    it('devrait marquer titre comme invalide s\'il dépasse 255 caractères', () => {
+    it('should_mark_title_comme_invalid_s_il_depasse_255_caracteres', () => {
+    // GIVEN
+
+    // WHEN
       const titre = component.actualiteForm.get('titre');
+
       titre?.setValue('a'.repeat(256));
+
+    // THEN
       expect(titre?.valid).toBe(false);
       expect(titre?.hasError('maxlength')).toBe(true);
     });
 
-    it('devrait marquer titre comme valide avec une valeur correcte', () => {
+    it('should_mark_title_comme_valid_value_correcte', () => {
+    // GIVEN
+
+    // WHEN
       const titre = component.actualiteForm.get('titre');
+
       titre?.setValue('Titre valide');
+
+    // THEN
       expect(titre?.valid).toBe(true);
     });
 
-    it('devrait marquer contenu comme invalide lorsqu\'il est vide', () => {
+    it('should_mark_contenu_comme_invalid_lorsqu_il_est_vide', () => {
+    // GIVEN
+
+    // WHEN
       const contenu = component.actualiteForm.get('contenu');
+
+    // THEN
       expect(contenu?.valid).toBe(false);
       expect(contenu?.hasError('required')).toBe(true);
     });
 
-    it('devrait marquer contenu comme valide avec une valeur', () => {
+    it('should_mark_contenu_comme_valid_value', () => {
+    // GIVEN
+
+    // WHEN
       const contenu = component.actualiteForm.get('contenu');
+
       contenu?.setValue('Contenu valide');
+
+    // THEN
       expect(contenu?.valid).toBe(true);
     });
 
-    it('devrait marquer date_publication comme invalide lorsqu\'elle est vide', () => {
+    it('should_mark_date_publication_comme_invalid_lorsqu_elle_est_vide', () => {
+    // GIVEN
+
+    // WHEN
       const date = component.actualiteForm.get('date_publication');
+
       date?.setValue('');
+
+    // THEN
       expect(date?.valid).toBe(false);
       expect(date?.hasError('required')).toBe(true);
     });
 
-    it('devrait marquer date_publication comme valide avec une date', () => {
+    it('should_mark_date_publication_comme_valid_date', () => {
+    // GIVEN
+
+    // WHEN
       const date = component.actualiteForm.get('date_publication');
+
       date?.setValue('2026-01-20');
+
+    // THEN
       expect(date?.valid).toBe(true);
     });
 
-    it('devrait marquer statut comme invalide lorsqu\'il est vide', () => {
+    it('should_mark_statut_comme_invalid_lorsqu_il_est_vide', () => {
+    // GIVEN
+
+    // WHEN
       const statut = component.actualiteForm.get('statut');
+
       statut?.setValue('');
+
+    // THEN
       expect(statut?.valid).toBe(false);
       expect(statut?.hasError('required')).toBe(true);
     });
 
-    it('devrait marquer statut comme valide avec une valeur', () => {
+    it('should_mark_statut_comme_valid_value', () => {
+    // GIVEN
+
+    // WHEN
       const statut = component.actualiteForm.get('statut');
+
       statut?.setValue('PUBLIE');
+
+    // THEN
       expect(statut?.valid).toBe(true);
     });
 
-    it('devrait marquer le formulaire comme invalide si un champ requis est vide', () => {
+    it('should_mark_form_comme_invalid_field_requis_empty', () => {
+    // GIVEN
       component.actualiteForm.patchValue({
         titre: 'Titre',
         contenu: 'Contenu',
         date_publication: '2026-01-20',
         statut: ''
       });
+
+    // WHEN
+
+    // THEN
       expect(component.actualiteForm.valid).toBe(false);
     });
 
-    it('devrait marquer le formulaire comme valide lorsque tous les champs requis sont remplis', () => {
+    it('should_mark_form_comme_valid_lorsque_all_fields_requis_remplis', () => {
+    // GIVEN
       component.actualiteForm.patchValue({
         titre: 'Titre',
         contenu: 'Contenu',
@@ -171,12 +254,17 @@ describe('ActualiteCreerComponent', () => {
         statut: 'publie',
         id_auteur: 1
       });
+
+    // WHEN
+
+    // THEN
       expect(component.actualiteForm.valid).toBe(true);
     });
   });
 
   describe('Gestion des images', () => {
-    it('devrait accepter un fichier image valide', () => {
+    it('should_accepter_fichier_image_valid', () => {
+    // GIVEN
       const file = new File([''], 'test.png', { type: 'image/png' });
       const event = {
         target: {
@@ -184,13 +272,16 @@ describe('ActualiteCreerComponent', () => {
         }
       } as unknown as Event;
 
+    // WHEN
       component.onImageFileChange(event);
 
+    // THEN
       expect(component.selectedImageFile).toBe(file);
       expect(component.imageError).toBeNull();
     });
 
-    it('devrait rejeter un fichier non-image', () => {
+    it('should_rejeter_fichier_non_image', () => {
+    // GIVEN
       const file = new File([''], 'test.pdf', { type: 'application/pdf' });
       const event = {
         target: {
@@ -198,13 +289,16 @@ describe('ActualiteCreerComponent', () => {
         }
       } as unknown as Event;
 
+    // WHEN
       component.onImageFileChange(event);
 
+    // THEN
       expect(component.selectedImageFile).toBeNull();
       expect(component.imageError).toBe('Seuls les fichiers images sont autorisés.');
     });
 
-    it('devrait réinitialiser selectedImageFile si aucun fichier n\'est sélectionné', () => {
+    it('should_reinitialiser_selectedimagefile_no_fichier_n_est_selectionne', () => {
+    // GIVEN
       component.selectedImageFile = new File([''], 'test.png', { type: 'image/png' });
       
       const event = {
@@ -213,12 +307,15 @@ describe('ActualiteCreerComponent', () => {
         }
       } as unknown as Event;
 
+    // WHEN
       component.onImageFileChange(event);
 
+    // THEN
       expect(component.selectedImageFile).toBeNull();
     });
 
-    it('devrait réinitialiser imageError lors d\'une nouvelle sélection', () => {
+    it('should_reinitialiser_imageerror_lors_une_nouvelle_selection', () => {
+    // GIVEN
       component.imageError = 'Erreur précédente';
       
       const file = new File([''], 'test.png', { type: 'image/png' });
@@ -228,15 +325,18 @@ describe('ActualiteCreerComponent', () => {
         }
       } as unknown as Event;
 
+    // WHEN
       component.onImageFileChange(event);
 
+    // THEN
       expect(component.imageError).toBeNull();
     });
   });
 
   describe('Soumission du formulaire', () => {
 
-    it('ne devrait pas soumettre si le formulaire est invalide', () => {
+    it('should_not_soumettre_form_invalid', () => {
+    // GIVEN
       component.actualiteForm.patchValue({
         titre: '',
         contenu: '',
@@ -244,13 +344,16 @@ describe('ActualiteCreerComponent', () => {
         statut: ''
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(actualiteService.createActualite).not.toHaveBeenCalled();
       expect(component.saving).toBe(false);
     });
 
-    it('devrait marquer tous les champs comme touchés si le formulaire est invalide', () => {
+    it('should_mark_all_fields_comme_touches_form_invalid', () => {
+    // GIVEN
       component.actualiteForm.patchValue({
         titre: '',
         contenu: '',
@@ -258,15 +361,18 @@ describe('ActualiteCreerComponent', () => {
         statut: ''
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(component.actualiteForm.get('titre')?.touched).toBe(true);
       expect(component.actualiteForm.get('contenu')?.touched).toBe(true);
       expect(component.actualiteForm.get('date_publication')?.touched).toBe(true);
       expect(component.actualiteForm.get('statut')?.touched).toBe(true);
     });
 
-    it('devrait créer une actualité avec succès', fakeAsync(() => {
+    it('should_create_actualite_success', fakeAsync(() => {
+    // GIVEN
       actualiteService.createActualite.and.returnValue(of(mockActualite));
 
       component.actualiteForm.patchValue({
@@ -277,14 +383,18 @@ describe('ActualiteCreerComponent', () => {
         id_auteur: 1
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(actualiteService.createActualite).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['/actualites']);
     }));
 
-    it('devrait définir saving à true pendant la soumission', fakeAsync(() => {
+    it('should_definir_saving_true_pendant_soumission', fakeAsync(() => {
+    // GIVEN
       actualiteService.createActualite.and.returnValue(of(mockActualite));
 
       component.actualiteForm.patchValue({
@@ -295,13 +405,16 @@ describe('ActualiteCreerComponent', () => {
         id_auteur: 1
       });
 
+    // WHEN
       component.onSubmit();
 
+    // THEN
       expect(component.saving).toBe(true);
       tick();
     }));
 
-    it('devrait inclure l\'image dans le FormData si elle est sélectionnée', fakeAsync(() => {
+    it('should_inclure_image_dans_le_formdata_si_elle_est_selectionnee', fakeAsync(() => {
+    // GIVEN
       actualiteService.createActualite.and.returnValue(of(mockActualite));
       
       const file = new File([''], 'test.png', { type: 'image/png' });
@@ -315,15 +428,19 @@ describe('ActualiteCreerComponent', () => {
         id_auteur: 1
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(actualiteService.createActualite).toHaveBeenCalled();
       const formData = actualiteService.createActualite.calls.mostRecent().args[0] as FormData;
       expect(formData.get('image')).toBe(file);
     }));
 
-    it('devrait gérer les erreurs lors de la création', fakeAsync(() => {
+    it('should_handle_errors_when_creation', fakeAsync(() => {
+    // GIVEN
       const error = { message: 'Erreur serveur' };
       actualiteService.createActualite.and.returnValue(throwError(() => error));
       spyOn(console, 'error');
@@ -336,15 +453,19 @@ describe('ActualiteCreerComponent', () => {
         id_auteur: 1
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
+    // THEN
       expect(console.error).toHaveBeenCalledWith('Erreur lors de la sauvegarde de l\'actualité:', error);
       expect(toastServiceSpy.show).toHaveBeenCalledWith('Erreur lors de la création de l\'actualité. Veuillez réessayer.', TypeErreurToast.ERROR);
       expect(component.saving).toBe(false);
     }));
 
-    it('ne devrait pas ajouter de valeurs null ou vides au FormData', fakeAsync(() => {
+    it('should_not_add_values_null_vides_formdata', fakeAsync(() => {
+    // GIVEN
       actualiteService.createActualite.and.returnValue(of(mockActualite));
 
       component.actualiteForm.patchValue({
@@ -356,27 +477,46 @@ describe('ActualiteCreerComponent', () => {
         id_auteur: 1
       });
 
+    // WHEN
       component.onSubmit();
+
       tick();
 
       const formData = actualiteService.createActualite.calls.mostRecent().args[0] as FormData;
+
+    // THEN
       expect(formData.get('image_url')).toBeNull();
     }));
   });
 
   describe('Navigation', () => {
-    it('devrait appeler location.back() lors du clic sur goBack', () => {
+    it('should_call_location_back_lors_clic_goback', () => {
+    // GIVEN
+
+    // WHEN
       component.goBack();
+
+    // THEN
       expect(location.back).toHaveBeenCalled();
     });
   });
 
   describe('États du composant', () => {
-    it('devrait avoir imageError à null par défaut', () => {
+    it('should_avoir_imageerror_null_par_default', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.imageError).toBeNull();
     });
 
-    it('devrait avoir selectedImageFile à null par défaut', () => {
+    it('should_avoir_selectedimagefile_null_par_default', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.selectedImageFile).toBeNull();
     });
   });

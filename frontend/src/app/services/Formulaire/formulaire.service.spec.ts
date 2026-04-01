@@ -50,12 +50,22 @@ describe('FormulaireService', () => {
     httpMock.verify();
   });
 
-  it('devrait etre cree', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
-  it('getAllFormulaires doit appeler la route de liste', () => {
+  it('should_getallformulaires_doit_call_route_liste', () => {
+  // GIVEN
+
+  // WHEN
     service.getAllFormulaires().subscribe(formulaires => {
+
+  // THEN
       expect(formulaires).toEqual([mockFormulaire, mockArchivedFormulaire]);
     });
 
@@ -64,10 +74,14 @@ describe('FormulaireService', () => {
     req.flush([mockFormulaire, mockArchivedFormulaire]);
   });
 
-  it('getTemplates doit appeler la route des templates', () => {
+  it('should_gettemplates_doit_call_route_templates', () => {
+  // GIVEN
     const expectedTemplates = [{ ...mockFormulaire, is_template: true }];
 
+  // WHEN
     service.getTemplates().subscribe(formulaires => {
+
+  // THEN
       expect(formulaires).toEqual(expectedTemplates);
     });
 
@@ -76,8 +90,13 @@ describe('FormulaireService', () => {
     req.flush(expectedTemplates);
   });
 
-  it('getTemplates doit pouvoir filtrer les templates actifs', () => {
+  it('should_gettemplates_doit_pouvoir_filtrer_templates_actifs', () => {
+  // GIVEN
+
+  // WHEN
     service.getTemplates(StatutFormulaire.actif).subscribe(formulaires => {
+
+  // THEN
       expect(formulaires).toEqual([{ ...mockFormulaire, is_template: true }]);
     });
 
@@ -86,8 +105,13 @@ describe('FormulaireService', () => {
     req.flush([{ ...mockFormulaire, is_template: true }]);
   });
 
-  it('getFormulaireById doit charger un formulaire', () => {
+  it('should_getformulairebyid_doit_load_form', () => {
+  // GIVEN
+
+  // WHEN
     service.getFormulaireById(1).subscribe(formulaire => {
+
+  // THEN
       expect(formulaire).toEqual(mockFormulaire);
     });
 
@@ -96,8 +120,13 @@ describe('FormulaireService', () => {
     req.flush(mockFormulaire);
   });
 
-  it('createFormulaire doit poster le formulaire', () => {
+  it('should_createformulaire_doit_poster_form', () => {
+  // GIVEN
+
+  // WHEN
     service.createFormulaire(mockFormulaire).subscribe(formulaire => {
+
+  // THEN
       expect(formulaire).toEqual(mockFormulaire);
     });
 
@@ -107,8 +136,13 @@ describe('FormulaireService', () => {
     req.flush(mockFormulaire);
   });
 
-  it('updateFormulaire doit mettre a jour un formulaire', () => {
+  it('should_updateformulaire_doit_update_form', () => {
+  // GIVEN
+
+  // WHEN
     service.updateFormulaire(mockArchivedFormulaire, 2).subscribe(formulaire => {
+
+  // THEN
       expect(formulaire.statut).toBe(StatutFormulaire.archive);
     });
 
@@ -118,8 +152,13 @@ describe('FormulaireService', () => {
     req.flush(mockArchivedFormulaire);
   });
 
-  it('deleteFormulaire doit supprimer un formulaire', () => {
+  it('should_deleteformulaire_doit_delete_form', () => {
+  // GIVEN
+
+  // WHEN
     service.deleteFormulaire(2).subscribe(response => {
+
+  // THEN
       expect(response).toBeNull();
     });
 
