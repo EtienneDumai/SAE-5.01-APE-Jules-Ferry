@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Utilisateur/utilisateur.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Utilisateur.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -44,66 +50,106 @@ describe('UtilisateurService', () => {
     httpMock.verify();
   });
 
-  it('devrait être créé', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
   describe('utilisateurCourant management', () => {
-    it('devrait avoir l\'observable utilisateurCourant défini', () => {
+    it('should_avoir_observable_utilisateurcourant_defini', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(service.utilisateurCourant).toBeDefined();
     });
 
-    it('devrait initialement avoir un utilisateur null', (done) => {
+    it('should_initialement_avoir_user_null', (done) => {
+    // GIVEN
+
+    // WHEN
       service.utilisateurCourant.subscribe((utilisateur) => {
+
+    // THEN
         expect(utilisateur).toBeNull();
         done();
       });
     });
 
-    it('devrait retourner null depuis getUtilisateurCourant initialement', () => {
+    it('should_return_null_getutilisateurcourant_initialement', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(service.getUtilisateurCourant()).toBeNull();
     });
   });
 
   describe('setUtilisateurCourant', () => {
-    it('devrait définir l\'utilisateur actuel', (done) => {
+    it('should_definir_utilisateur_actuel', (done) => {
+    // GIVEN
+
+    // WHEN
       service.setUtilisateurCourant(mockUtilisateur);
 
       service.utilisateurCourant.subscribe((utilisateur) => {
         if (utilisateur) {
+
+    // THEN
           expect(utilisateur).toEqual(mockUtilisateur);
           done();
         }
       });
     });
 
-    it('devrait mettre à jour la valeur de retour de getUtilisateurCourant', () => {
+    it('should_update_value_retour_getutilisateurcourant', () => {
+    // GIVEN
+
+    // WHEN
       service.setUtilisateurCourant(mockUtilisateur);
+
+    // THEN
       expect(service.getUtilisateurCourant()).toEqual(mockUtilisateur);
     });
 
-    it('devrait définir l\'utilisateur à null', (done) => {
+    it('should_definir_utilisateur_a_null', (done) => {
+    // GIVEN
+
+    // WHEN
       service.setUtilisateurCourant(mockUtilisateur);
+
       service.setUtilisateurCourant(null);
 
       service.utilisateurCourant.subscribe((utilisateur) => {
         if (utilisateur === null) {
+
+    // THEN
           expect(utilisateur).toBeNull();
           done();
         }
       });
     });
 
-    it('devrait notifier les abonnés quand l\'utilisateur change', () => {
+    it('should_notifier_abonnes_when_utilisateur_change', () => {
+    // GIVEN
       const values: (Utilisateur | null)[] = [];
 
+    // WHEN
       service.utilisateurCourant.subscribe((utilisateur) => {
         values.push(utilisateur);
       });
 
       service.setUtilisateurCourant(mockUtilisateur);
+
       service.setUtilisateurCourant(null);
 
+    // THEN
       expect(values.length).toBe(3); // initial null + 2 changes
       expect(values[0]).toBeNull();
       expect(values[1]).toEqual(mockUtilisateur);
@@ -112,8 +158,13 @@ describe('UtilisateurService', () => {
   });
 
   describe('getAllUtilisateurs', () => {
-    it('devrait retourner un tableau d\'utilisateurs', () => {
+    it('should_return_tableau_utilisateurs', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllUtilisateurs().subscribe((utilisateurs) => {
+
+    // THEN
         expect(utilisateurs).toEqual(mockUtilisateurs);
         expect(utilisateurs.length).toBe(2);
       });
@@ -123,8 +174,13 @@ describe('UtilisateurService', () => {
       req.flush(mockUtilisateurs);
     });
 
-    it('devrait gérer une réponse avec un tableau vide', () => {
+    it('should_handle_reponse_tableau_empty', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllUtilisateurs().subscribe((utilisateurs) => {
+
+    // THEN
         expect(utilisateurs).toEqual([]);
         expect(utilisateurs.length).toBe(0);
       });
@@ -133,10 +189,15 @@ describe('UtilisateurService', () => {
       req.flush([]);
     });
 
-    it('devrait gérer une réponse d\'erreur', () => {
+    it('should_handle_reponse_erreur', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllUtilisateurs().subscribe({
         next: () => fail('should have failed with 500 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
         }
       });
@@ -147,8 +208,13 @@ describe('UtilisateurService', () => {
   });
 
   describe('getUtilisateurById', () => {
-    it('devrait retourner un utilisateur unique par son id', () => {
+    it('should_return_user_unique_par_id', () => {
+    // GIVEN
+
+    // WHEN
       service.getUtilisateurById(1).subscribe((utilisateur) => {
+
+    // THEN
         expect(utilisateur).toEqual(mockUtilisateur);
         expect(utilisateur.id_utilisateur).toBe(1);
       });
@@ -158,10 +224,15 @@ describe('UtilisateurService', () => {
       req.flush(mockUtilisateur);
     });
 
-    it('devrait gérer l\'erreur non trouvé', () => {
+    it('should_handle_erreur_non_trouve', () => {
+    // GIVEN
+
+    // WHEN
       service.getUtilisateurById(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -172,7 +243,8 @@ describe('UtilisateurService', () => {
   });
 
   describe('createUtilisateur', () => {
-    it('devrait créer un nouvel utilisateur', () => {
+    it('should_create_nouvel_user', () => {
+    // GIVEN
       const newUtilisateur: Utilisateur = {
         nom: 'Nouveau',
         prenom: 'Test',
@@ -180,7 +252,10 @@ describe('UtilisateurService', () => {
         role: RoleUtilisateur.parent,
       } as Utilisateur;
 
+    // WHEN
       service.createUtilisateur(newUtilisateur).subscribe((utilisateur) => {
+
+    // THEN
         expect(utilisateur).toEqual({ ...newUtilisateur, id_utilisateur: 3 });
       });
 
@@ -190,12 +265,16 @@ describe('UtilisateurService', () => {
       req.flush({ ...newUtilisateur, id_utilisateur: 3 });
     });
 
-    it('devrait gérer les erreurs de validation', () => {
+    it('should_handle_errors_validation', () => {
+    // GIVEN
       const invalidUtilisateur: Utilisateur = {} as Utilisateur;
 
+    // WHEN
       service.createUtilisateur(invalidUtilisateur).subscribe({
         next: () => fail('should have failed with 422 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(422);
         }
       });
@@ -206,13 +285,17 @@ describe('UtilisateurService', () => {
   });
 
   describe('updateUtilisateur', () => {
-    it('devrait mettre à jour un utilisateur existant', () => {
+    it('should_update_user_existant', () => {
+    // GIVEN
       const updatedUtilisateur: Utilisateur = {
         ...mockUtilisateur,
         nom: 'Dupont Modifié',
       };
 
+    // WHEN
       service.updateUtilisateur(updatedUtilisateur, 1).subscribe((utilisateur) => {
+
+    // THEN
         expect(utilisateur).toEqual(updatedUtilisateur);
         expect(utilisateur.nom).toBe('Dupont Modifié');
       });
@@ -223,10 +306,15 @@ describe('UtilisateurService', () => {
       req.flush(updatedUtilisateur);
     });
 
-    it('devrait gérer l\'erreur non trouvé lors de la mise à jour', () => {
+    it('should_handle_erreur_non_trouve_lors_de_la_mise_a_jour', () => {
+    // GIVEN
+
+    // WHEN
       service.updateUtilisateur(mockUtilisateur, 999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -237,10 +325,14 @@ describe('UtilisateurService', () => {
   });
 
   describe('deleteUtilisateur', () => {
-    it('devrait supprimer un utilisateur et retourner un message', () => {
+    it('should_delete_user_return_message', () => {
+    // GIVEN
       const expectedResponse = { message: 'Utilisateur supprimé avec succès' };
 
+    // WHEN
       service.deleteUtilisateur(1).subscribe((response) => {
+
+    // THEN
         expect(response).toEqual(expectedResponse);
       });
 
@@ -249,10 +341,15 @@ describe('UtilisateurService', () => {
       req.flush(expectedResponse);
     });
 
-    it('devrait gérer l\'erreur non trouvé lors de la suppression', () => {
+    it('should_handle_erreur_non_trouve_lors_de_la_suppression', () => {
+    // GIVEN
+
+    // WHEN
       service.deleteUtilisateur(999).subscribe({
         next: () => fail('should have failed with 404 error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });

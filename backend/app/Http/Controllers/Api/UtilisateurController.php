@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/UtilisateurController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere les operations API liees aux utilisateur.
+ */
+
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
@@ -14,6 +20,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SetPasswordEmail;
+use App\Mail\RoleChangedEmail;
 
 class UtilisateurController extends Controller
 {
@@ -70,8 +77,21 @@ class UtilisateurController extends Controller
             Mail::to($utilisateur->email)->send(new SetPasswordEmail($url, $utilisateur->prenom));
         }
 
+        if ($nouveauRole === 'administrateur' && $ancienRole === 'membre_bureau') {
+            Mail::to($utilisateur->email)->send(new RoleChangedEmail($utilisateur->prenom, 'Administrateur'));
+        }
+
+        if ($nouveauRole === 'parent' && $ancienRole === 'membre_bureau') {
+            Mail::to($utilisateur->email)->send(new RoleChangedEmail($utilisateur->prenom, 'Parent'));
+        }
+
+        if ($nouveauRole === 'membre_bureau' && $ancienRole === 'administrateur') {
+            Mail::to($utilisateur->email)->send(new RoleChangedEmail($utilisateur->prenom, 'Membre du bureau'));
+        }
+
         return response()->json($utilisateur);
     }
+
     public function destroy(Request $request, $id)
     {
         $utilisateur = Utilisateur::find($id);
@@ -80,7 +100,7 @@ class UtilisateurController extends Controller
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
         }
 
-        $currentUser = auth()->user();
+        $currentUser = $request->user();
 
         if ($currentUser && $currentUser->id_utilisateur == $id) {
             

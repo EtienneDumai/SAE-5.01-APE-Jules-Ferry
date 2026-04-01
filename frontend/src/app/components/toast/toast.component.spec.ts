@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/toast/toast.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant toast.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastComponent } from './toast.component';
 import { ToastService } from '../../services/Toast/toast.service';
@@ -33,36 +39,56 @@ describe('ToastComponent', () => {
   });
 
   describe('Initialisation du composant', () => {
-    it('should create', () => {
+    it('should_create', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component).toBeTruthy();
     });
 
-    it('devrait ne rien afficher initialement (quand le toast est null)', () => {
+    it('should_ne_rien_display_initialement_when_toast_null', () => {
+    // GIVEN
+
+    // WHEN
       const toastElement = fixture.nativeElement.querySelector('.fixed');
+
+    // THEN
       expect(toastElement).toBeNull();
     });
   });
 
   describe('Affichage du toast', () => {
-    it('devrait afficher un toast d\'erreur', () => {
+    it('should_display_toast_erreur', () => {
+    // GIVEN
+
+    // WHEN
       mockToastSubject.next({ type: 'error', message: 'Erreur survenue' });
+
       fixture.detectChanges();
 
       const toastElement = fixture.nativeElement.querySelector('.fixed');
       const textContent = fixture.nativeElement.textContent;
 
+    // THEN
       expect(toastElement).toBeTruthy();
       expect(toastElement.innerHTML).toContain('border-red-500'); 
       expect(textContent).toContain('Erreur survenue');
     });
 
-    it('devrait afficher un toast de succès', () => {
+    it('should_display_toast_success', () => {
+    // GIVEN
+
+    // WHEN
       mockToastSubject.next({ type: 'success', message: 'Opération réussie' });
+
       fixture.detectChanges();
 
       const toastElement = fixture.nativeElement.querySelector('.fixed');
       const textContent = fixture.nativeElement.textContent;
 
+    // THEN
       expect(toastElement).toBeTruthy();
       expect(toastElement.innerHTML).toContain('var(--primary-green)');
       expect(textContent).toContain('Opération réussie');
@@ -70,13 +96,18 @@ describe('ToastComponent', () => {
   });
 
   describe('Interaction utilisateur', () => {
-    it('devrait appeler clear() du service au clic sur le bouton fermer', () => {
+    it('should_call_clear_service_when_clicking_bouton_close', () => {
+    // GIVEN
+
+    // WHEN
       mockToastSubject.next({ type: 'success', message: 'Message de test' });
       fixture.detectChanges();
 
       const closeButton = fixture.nativeElement.querySelector('button');
+
       closeButton.click();
 
+    // THEN
       expect(toastService.clear).toHaveBeenCalled();
     });
   });

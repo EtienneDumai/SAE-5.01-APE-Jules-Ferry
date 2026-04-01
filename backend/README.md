@@ -1,59 +1,60 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# APE Jules Ferry App Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 🏗️ Architecture des dossiers et fichiers
 
-## About Laravel
+### Le dossier `app`
+- `app` 📁 : contient toute la **logique applicative** du backend Laravel.  
+  Il est organisé en sous-dossiers permettant de séparer clairement les responsabilités (HTTP, métier, données, configuration…).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 📦 Organisation interne
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### 🔁 Concerns
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `app/Concerns` 🧩 : contient des **traits réutilisables** (morceaux de logique partagée entre plusieurs classes).
 
-## Learning Laravel
+👉 Permet de :
+- factoriser du code commun
+- éviter la duplication
+- garder des classes simples
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+#### 📚 Console
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `app/Console` 🖥️ : contient les **commandes Artisan personnalisées**.
 
-## Laravel Sponsors
+👉 Utilisé pour :
+- scripts internes
+- tâches automatisées
+- maintenance
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### 🧠 Enums
 
-### Premium Partners
+- `app/Enums` 🔧 : contient les **énumérations PHP (types métier stricts)**.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+👉 Permet de :
+- remplacer les chaînes de caractères “magiques”
+- sécuriser les valeurs utilisées dans l’application
 
-## Contributing
+#### 🌐 HTTP
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- `app/Http` 🌍 : gère toute la **couche HTTP** (entrée des requêtes).
 
-## Code of Conduct
+#### Contenu :
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- `Controllers/Api` 🎯 : reçoivent les requêtes et orchestrent la réponse 
+- `Controllers/Api/Auth` : gère toutes les requêtes concernant l'authetification sur l'application
+👉 Flux global :
+```
+Requête → Middleware → Controller → Service → Réponse
+```
 
-## Security Vulnerabilities
+## Documentation tests
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+La documentation des tests est diponible sur ce lien : 
 
-## License
+[Tests backend](https://github.com/ApeJulesFerryAnglet/SAE-5.01-APE-Jules-Ferry/tree/master/backend/tests/testBackend.md) 🖥️ : Tests backend de l'application.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Documentation base de données
+
+La documentation de la base de données est diponible sur ce lien : 
+
+[Base de données](https://github.com/ApeJulesFerryAnglet/SAE-5.01-APE-Jules-Ferry/tree/master/backend/database/database.md) 🖥️ : Base de données de l'application.

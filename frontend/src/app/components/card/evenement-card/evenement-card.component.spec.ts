@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/card/evenement-card/evenement-card.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant evenement card.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EvenementCardComponent } from './evenement-card.component';
 import { Router, ActivatedRoute, UrlTree } from '@angular/router';
@@ -22,7 +28,9 @@ describe('EvenementCardComponent', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['hasRole', 'getCurrentUser'], {
+      currentUser$: of(null)
+    });
     const evenementServiceSpy = jasmine.createSpyObj('EvenementService', ['deleteEvenement']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate', 'createUrlTree', 'serializeUrl']);
     const toastSpy = jasmine.createSpyObj('ToastService', ['show', 'showWithTimeout']);
@@ -69,141 +77,208 @@ describe('EvenementCardComponent', () => {
   });
   
   describe('Initialisation du composant', () => {
-    it('devrait créer', () => {
+    it('should_create', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component).toBeTruthy();
     });
 
-    it('devrait initialiser les inputs correctement', () => {
+    it('should_initialize_inputs_correctement', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.titre).toBe('Événement Test');
       expect(component.id_evenement).toBe(1);
     });
   });
 
   describe('Redirection vers formulaire d\'inscription', () => {
-    it('devrait contenir un lien avec queryParams openForm=true pour le bouton S\'inscrire', () => {
+    it('should_display_login_when_non_authentifie', () => {
+    // GIVEN
+      component.isAuthenticated = false;
+
+    // WHEN
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
-      const buttons = compiled.querySelectorAll('button');
 
-      let inscriptionButton: Element | null = null;
-      buttons.forEach(btn => {
-        if (btn.textContent?.trim() === 'S\'inscrire') {
-          inscriptionButton = btn;
-        }
-      });
-
-      expect(inscriptionButton).toBeTruthy();
+    // THEN
+      expect(compiled.textContent).toContain('Se connecter');
     });
 
-    it('devrait avoir deux boutons de navigation dans la card', () => {
+    it('should_display_s_inscrire_quand_authentifie', () => {
+    // GIVEN
+      component.isAuthenticated = true;
+
+    // WHEN
+      fixture.detectChanges();
+      const compiled = fixture.nativeElement as HTMLElement;
+
+    // THEN
+      expect(compiled.textContent).toContain('S\'inscrire');
+    });
+
+    it('should_avoir_deux_boutons_navigation_card', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
       const buttons = compiled.querySelectorAll('button');
 
       const navigationButtons = Array.from(buttons).filter(btn => {
         const text = btn.textContent?.trim();
-        return text === 'Voir la fiche' || text === 'S\'inscrire';
+        return text === 'Voir la fiche' || text === 'S\'inscrire' || text === 'Se connecter';
       });
 
+    // THEN
       expect(navigationButtons.length).toBeGreaterThanOrEqual(2);
     });
   });
 
   describe('Gestion des URLs d\'images', () => {
-    it('devrait retourner une chaîne vide si aucune url', () => {
+    it('should_return_chaine_empty_no_url', () => {
+    // GIVEN
+
+    // WHEN
+
+    // THEN
       expect(component.getImageUrl('')).toBe('');
     });
   });
 
   describe('Gestion des permissions (canManage)', () => {
-    it('devrait retourner vrai si l\'utilisateur est admin', () => {
+    it('should_return_true_utilisateur_est_admin', () => {
+    // GIVEN
       component.currentUser = { id_utilisateur: 1, role: 'administrateur' } as Utilisateur;
+
+    // WHEN
+
+    // THEN
       expect(component.canManage).toBe(true);
     });
 
-    it('devrait retourner vrai si l\'utilisateur est membre_bureau ET est créateur', () => {
+    it('should_return_true_utilisateur_est_membre_bureau_et_est_createur', () => {
+    // GIVEN
       component.id_auteur = 10;
       component.currentUser = { id_utilisateur: 10, role: 'membre_bureau' } as Utilisateur;
+
+    // WHEN
+
+    // THEN
       expect(component.canManage).toBe(true);
     });
 
-    it('devrait retourner faux si l\'utilisateur est membre_bureau MAIS PAS créateur', () => {
+    it('should_return_false_utilisateur_est_membre_bureau_mais_pas_createur', () => {
+    // GIVEN
       component.id_auteur = 10;
       component.currentUser = { id_utilisateur: 99, role: 'membre_bureau' } as Utilisateur;
+
+    // WHEN
+
+    // THEN
       expect(component.canManage).toBe(false);
     });
 
-    it('devrait retourner faux pour les autres rôles', () => {
+    it('should_return_false_autres_roles', () => {
+    // GIVEN
       authService.hasRole.and.returnValue(false);
+
+    // WHEN
+
+    // THEN
       expect(component.canManage).toBe(false);
     });
   });
 
   describe('Navigation (Edition)', () => {
-    it('devrait naviguer vers la page d\'edition lors de onEdit', () => {
+    it('should_navigate_vers_page_edition_lors_de_onedit', () => {
+    // GIVEN
       const event = new Event('click');
       spyOn(event, 'stopPropagation');
 
+    // WHEN
       component.onEdit(event);
 
+    // THEN
       expect(event.stopPropagation).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['/evenements', 1, 'edit']);
     });
   });
 
   describe('Suppression d\'événement', () => {
-    it('devrait ouvrir la modale de suppression au clic sur onDelete', () => {
+    it('should_open_modal_suppression_when_clicking_ondelete', () => {
+    // GIVEN
       const event = new Event('click');
       spyOn(event, 'stopPropagation');
 
+    // WHEN
       component.onDelete(event);
 
+    // THEN
       expect(event.stopPropagation).toHaveBeenCalled();
       expect(component.showDeleteModal).toBeTrue();
       expect(component.deletePassword).toBe('');
     });
 
-    it('ne devrait pas supprimer si le mot de passe est vide', () => {
+    it('should_not_delete_password_password_empty', () => {
+    // GIVEN
       component.deletePassword = '';
+
+    // WHEN
       component.confirmerSuppression();
 
+    // THEN
       expect(evenementService.deleteEvenement).not.toHaveBeenCalled();
       expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith("Le mot de passe est requis.", TypeErreurToast.ERROR);
     });
 
-    it('devrait supprimer et émettre eventDeleted si confirmé avec mot de passe', () => {
+    it('should_delete_emit_eventdeleted_confirme_password_password', () => {
+    // GIVEN
       spyOn(component.eventDeleted, 'emit');
       component.deletePassword = 'monMotDePasse';
       evenementService.deleteEvenement.and.returnValue(of({ message: 'Success' }));
 
+    // WHEN
       component.confirmerSuppression();
 
+    // THEN
       expect(evenementService.deleteEvenement).toHaveBeenCalledWith(1, 'monMotDePasse');
       expect(component.eventDeleted.emit).toHaveBeenCalledWith(1);
       expect(component.showDeleteModal).toBeFalse();
       expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
     });
 
-    it('devrait gérer l\'erreur lors de la suppression', () => {
+    it('should_handle_erreur_lors_de_la_suppression', () => {
+    // GIVEN
       spyOn(console, 'error');
       component.deletePassword = 'mauvaisMotDePasse';
       
       evenementService.deleteEvenement.and.returnValue(throwError(() => ({ status: 403 })));
 
+    // WHEN
       component.confirmerSuppression();
 
+    // THEN
       expect(evenementService.deleteEvenement).toHaveBeenCalled();
       expect(console.error).toHaveBeenCalled();
       expect(component.isDeleting).toBeFalse();
       expect(toastServiceSpy.showWithTimeout).toHaveBeenCalledWith("Mot de passe administrateur incorrect.", TypeErreurToast.ERROR);
     });
 
-    it('devrait fermer la modale au clic sur closeDeleteModal', () => {
+    it('should_close_modal_when_clicking_closedeletemodal', () => {
+    // GIVEN
       component.showDeleteModal = true;
       component.deletePassword = 'test';
-      
+
+    // WHEN
       component.closeDeleteModal();
-      
+
+    // THEN
       expect(component.showDeleteModal).toBeFalse();
       expect(component.deletePassword).toBe('');
     });

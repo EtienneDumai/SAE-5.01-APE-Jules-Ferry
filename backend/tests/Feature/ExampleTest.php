@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/ExampleTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour [TITRE_DU_TEST].
+ */
+
 namespace Tests\Feature;
 
 use PHPUnit\Framework\Attributes\Test;

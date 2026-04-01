@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Newsletter/newsletter.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Newsletter.
+ */
+
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';

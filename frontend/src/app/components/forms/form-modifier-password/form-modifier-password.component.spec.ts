@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/forms/form-modifier-password/form-modifier-password.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant form modifier password.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormModifierPasswordComponent } from './form-modifier-password.component';
@@ -17,7 +23,12 @@ describe('FormModifierPasswordComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 });

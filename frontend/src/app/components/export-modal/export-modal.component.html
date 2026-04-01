@@ -1,34 +1,44 @@
+<!--
+Fichier : frontend/src/app/components/export-modal/export-modal.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template du composant export modal.
+-->
+
 <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-4">
     <div class="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity" (click)="onCancel()"
         (keyup.enter)="onCancel()" tabindex="0" role="button">
     </div>
-    <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white z-10">
-        <div class="mt-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4 text-center">{{ title }}</h3>
-            <div class="mt-2 text-sm text-gray-500 max-h-60 overflow-y-auto px-2">
-                <p class="mb-2 italic text-xs">Sélectionnez les colonnes à exporter :</p>
-                <div class="flex justify-between mb-3 text-xs text-blue-600">
-                    <button (click)="selectAll()" class="hover:underline">Tout cocher</button>
-                    <button (click)="deselectAll()" class="hover:underline">Tout décocher</button>
+    
+    <div class="relative bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-6 w-full max-w-sm animate-fade-up z-10">
+        <div class="mt-1">
+            <h3 class="font-abril text-xl text-[var(--primary-green)] mb-4 text-center">{{ title }}</h3>
+            
+            <div class="mb-6">
+                <div class="flex justify-between items-end mb-3">
+                    <p class="font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--text-secondary)] m-0">Colonnes à exporter</p>
+                    <div class="flex gap-2 font-dm text-[11px] text-[var(--accent-orange)] font-bold">
+                        <button (click)="selectAll()" class="hover:text-[var(--primary-green)] transition-colors">Tout cocher</button>
+                        <span class="text-[var(--border-light)]">|</span>
+                        <button (click)="deselectAll()" class="hover:text-[var(--primary-green)] transition-colors">Tout décocher</button>
+                    </div>
                 </div>
-                <div class="space-y-2">
+                
+                <div class="space-y-2 pr-1">
                     @for (col of availableColumns; track col.key) {
-                    <label
-                        class="flex items-center space-x-2 cursor-pointer border p-2 rounded hover:bg-gray-50 transition">
-                        <input type="checkbox" [(ngModel)]="col.selected"
-                            class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                        <span>{{ col.label }}</span>
-                    </label>
+                        <label class="flex items-center space-x-3 cursor-pointer p-2.5 rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)]/50 hover:bg-[var(--bg-creme)] transition-colors">
+                            <input type="checkbox" [(ngModel)]="col.selected"
+                                class="w-4 h-4 rounded-[3px] border-[var(--border-light)] text-[var(--accent-orange)] focus:ring-[var(--accent-orange)] focus:ring-offset-0 bg-white cursor-pointer">
+                            <span class="font-dm text-sm font-medium text-[var(--primary-green)]">{{ col.label }}</span>
+                        </label>
                     }
                 </div>
             </div>
-            <div class="mt-6 flex items-center justify-between gap-3">
-                <button (click)="onCancel()"
-                    class="px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md w-full shadow-sm border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            
+            <div class="flex items-center justify-between gap-3">
+                <button (click)="onCancel()" class="flex-1 btn-secondary text-center">
                     Annuler
                 </button>
-                <button (click)="onConfirm()" [disabled]="!availableColumns.length"
-                    class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50">
+                <button (click)="onConfirm()" [disabled]="!availableColumns.length" class="flex-1 btn-primary text-center disabled:opacity-50">
                     Exporter
                 </button>
             </div>

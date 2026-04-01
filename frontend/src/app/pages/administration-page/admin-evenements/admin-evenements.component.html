@@ -1,3 +1,9 @@
+<!--
+Fichier : frontend/src/app/pages/administration-page/admin-evenements/admin-evenements.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page admin evenements.
+-->
+
 <div class="space-y-6">
     <div class="mb-6">
         <nav class="flex space-x-4 bg-gray-100 p-1 rounded-lg w-fit" aria-label="Tabs">
@@ -8,123 +14,112 @@
                 class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
                 <i class="fa-solid fa-pen-to-square mr-2"></i>Modifications
             </button>
-            <button (click)="activeTab = 'INSCRIPTIONS'" [class.bg-white]="activeTab === 'INSCRIPTIONS'"
-                [class.shadow]="activeTab === 'INSCRIPTIONS'" [class.text-blue-700]="activeTab === 'INSCRIPTIONS'"
-                [class.text-gray-500]="activeTab !== 'INSCRIPTIONS'"
-                [class.hover:text-gray-700]="activeTab !== 'INSCRIPTIONS'"
-                class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
+            <button (click)="activeTab = 'INSCRIPTIONS'" 
+                [class]="activeTab === 'INSCRIPTIONS' ? 'bg-white shadow-sm border-[1.5px] border-[var(--border-light)] text-[var(--accent-orange)]' : 'text-[var(--text-secondary)] hover:text-[var(--primary-green)] border-[1.5px] border-transparent'"
+                class="px-4 py-2 font-josefin text-[11px] uppercase font-bold tracking-widest rounded-[4px] transition-all duration-200">
                 <i class="fa-solid fa-users mr-2"></i>Inscriptions
             </button>
-            <button (click)="activeTab = 'MODELES'" [class.bg-white]="activeTab === 'MODELES'"
-                [class.shadow]="activeTab === 'MODELES'" [class.text-blue-700]="activeTab === 'MODELES'"
-                [class.text-gray-500]="activeTab !== 'MODELES'" [class.hover:text-gray-700]="activeTab !== 'MODELES'"
-                class="px-4 py-2 text-sm font-medium rounded-md transition-all duration-200">
+            <button (click)="activeTab = 'MODELES'" 
+                [class]="activeTab === 'MODELES' ? 'bg-white shadow-sm border-[1.5px] border-[var(--border-light)] text-[var(--accent-orange)]' : 'text-[var(--text-secondary)] hover:text-[var(--primary-green)] border-[1.5px] border-transparent'"
+                class="px-4 py-2 font-josefin text-[11px] uppercase font-bold tracking-widest rounded-[4px] transition-all duration-200">
                 <i class="fa-solid fa-file-lines mr-2"></i>Modèles de formulaire
             </button>
         </nav>
     </div>
 
     @if (activeTab === 'MODIFICATIONS') {
-    <div class="space-y-6">
+    <div class="space-y-6 animate-fade-in">
         <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
             <div class="relative max-w-sm w-full">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-search text-gray-400"></i>
+                    <i class="fa-solid fa-magnifying-glass text-[var(--text-secondary)] opacity-50"></i>
                 </span>
-                <input type="text" [(ngModel)]="searchText" placeholder="Evènement..." name="search_events_mod"
+                <input type="text" [(ngModel)]="searchText" placeholder="Rechercher un événement..." name="search_events_mod"
                     autocomplete="off" [disabled]="showPasswordModal || showMoveModal"
-                    class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border disabled:bg-gray-100 disabled:text-gray-400">
+                    class="block w-full rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] pl-10 pr-3 py-2.5 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)] disabled:opacity-50">
             </div>
 
             <a routerLink="/evenements/new/edit"
-                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                <i class="fa-regular fa-calendar-plus -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true"
-                    style="font-size: 20px;"></i>
+                class="mt-4 md:mt-0 btn-primary flex items-center justify-center gap-2">
+                <i class="fa-solid fa-calendar-plus text-sm"></i>
                 Créer un Événement
             </a>
         </div>
 
-        <!-- Bannière d'exportation des événements -->
-        <div
-            class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[8px] p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h3 class="text-sm font-medium text-gray-900"><i class="fa-solid fa-download mr-2 text-gray-500"></i>
-                    Exportation des données</h3>
-                <p class="text-sm text-gray-500 mt-1">Téléchargez la liste de tous les événements au format Excel
-                    (.xlsx)</p>
+                <h3 class="font-josefin text-[12px] uppercase font-bold text-[var(--primary-green)] tracking-widest flex items-center gap-2">
+                    <i class="fa-solid fa-file-export text-[var(--accent-orange)] text-sm"></i> 
+                    Exportation des données
+                </h3>
+                <p class="font-dm text-xs text-[var(--text-secondary)] mt-1">Téléchargez la liste de tous les événements au format CSV (.csv)</p>
             </div>
             <button type="button" (click)="showExportEventsModal = true"
-                class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
-                Exporter les événements
+                class="btn-secondary !py-2.5 !px-4 inline-flex items-center justify-center gap-2 !border-[var(--primary-green)] !text-[var(--primary-green)] bg-white hover:!bg-[var(--primary-green)] hover:!text-white w-full sm:w-auto">
+                <i class="fa-solid fa-download block self-center text-[11px] leading-none"></i>
+                <span class="block self-center leading-none relative top-px">Exporter</span>
             </button>
         </div>
 
         @if (loading) {
         <div class="flex justify-center py-20">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
+            <app-spinner></app-spinner>
         </div>
         } @else {
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+        <div class="overflow-hidden rounded-[8px] border-[1.5px] border-[var(--border-light)] bg-[var(--white-cards)]">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full text-left border-collapse">
+                    <thead class="bg-[var(--bg-creme)] border-b-[1.5px] border-[var(--border-light)]">
                         <tr>
-                            <th scope="col"
-                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Titre
                             </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Date
                             </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Inscrits
                             </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Lieu
                             </th>
-                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                <span class="sr-only">Actions</span>
-                            </th>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
+                    <tbody class="bg-white">
                         @for (event of filteredEvents; track event.id_evenement) {
-                        <tr>
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 text-gray-900 font-medium">
+                        <tr class="border-b-[1.5px] border-[var(--border-light)] last:border-0 hover:bg-[var(--bg-creme)]/50 transition-colors">
+                            <td class="py-4 px-4 sm:px-6 font-dm font-bold text-sm text-[var(--primary-green)]">
                                 {{ event.titre }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="py-4 px-4 font-dm text-sm text-[var(--text-secondary)]">
                                 {{ event.date_evenement | date:'dd/MM/yyyy' }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <span
-                                    class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset bg-blue-50 text-blue-700 ring-blue-700/10">
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-center rounded-[4px] bg-[#fff7ed] border-[1px] border-[#ea580c]/20 px-2.5 py-0.5 text-xs font-bold text-[var(--accent-orange)]">
                                     {{ event.totalInscrits }}
                                 </span>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="py-4 px-4 font-dm text-sm text-[var(--text-secondary)]">
                                 {{ event.lieu }}
                             </td>
-                            <td
-                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <td class="py-4 px-4 sm:px-6 text-right">
                                 <div class="flex justify-end gap-3">
                                     <a [routerLink]="['/evenements', event.id_evenement, 'edit']"
-                                        class="text-indigo-600 hover:text-indigo-900" title="Modifier">
-                                        <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"
-                                            style="font-size: 20px;"></i>
+                                        class="text-[var(--text-secondary)] hover:text-[var(--primary-green)] transition-colors" title="Modifier">
+                                        <i class="fa-regular fa-pen-to-square text-lg" aria-hidden="true"></i>
                                     </a>
                                     <button (click)="demanderSuppressionEvenement(event.id_evenement!)"
-                                        class="text-red-600 hover:text-red-900" title="Supprimer">
-                                        <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
-                                            style="font-size: 20px;"></i>
+                                        class="text-[var(--text-secondary)] hover:text-red-500 transition-colors" title="Supprimer">
+                                        <i class="fa-regular fa-trash-can text-lg" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                         } @empty {
                         <tr>
-                            <td colspan="5" class="text-center py-10 text-gray-500">
+                            <td colspan="5" class="text-center py-12 font-dm text-[var(--text-secondary)]">
+                                <i class="fa-regular fa-folder-open text-3xl mb-3 opacity-50 block"></i>
                                 Aucun évènement trouvé.
                             </td>
                         </tr>
@@ -136,12 +131,11 @@
             @if (hasMore && !searchText) {
             <div class="flex justify-center my-6">
                 <button (click)="loadMore()" [disabled]="loadingMore"
-                    class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] w-full md:w-auto flex items-center justify-center min-w-[200px]">
+                    class="btn-secondary flex items-center justify-center min-w-[200px]">
                     @if (loadingMore) {
-                    <span class="inline-block animate-spin mr-2 h-4 w-4 border-b-2 border-gray-700 rounded-full"></span>
-                    Chargement...
+                        <i class="fa-solid fa-spinner fa-spin mr-2"></i> Chargement...
                     } @else {
-                    Voir plus d'événements
+                        Voir plus d'événements
                     }
                 </button>
             </div>
@@ -152,79 +146,73 @@
     }
 
     @if (activeTab === 'MODELES') {
-    <div class="space-y-6">
+    <div class="space-y-6 animate-fade-in">
         <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
             <div class="flex-1">
-                <h2 class="text-xl font-semibold text-gray-900">Modèles de formulaire</h2>
-                <p class="text-sm text-gray-500">Gérez les modèles de formulaire réutilisables pour vos événements.</p>
+                <h2 class="font-abril text-2xl text-[var(--primary-green)]">Modèles de formulaire</h2>
+                <p class="font-dm text-sm text-[var(--text-secondary)] mt-1">Gérez les modèles de formulaire réutilisables pour vos événements.</p>
             </div>
 
             <a routerLink="/admin/formulaires/new"
-                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
-                <i class="fa-solid fa-plus -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" style="font-size: 18px;"></i>
+                class="mt-4 md:mt-0 btn-primary flex items-center justify-center gap-2">
+                <i class="fa-solid fa-plus text-sm"></i>
                 Créer un Modèle
             </a>
         </div>
 
         @if (loadingTemplates) {
         <div class="flex justify-center py-20">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
+            <app-spinner></app-spinner>
         </div>
         } @else {
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
+        <div class="overflow-hidden rounded-[8px] border-[1.5px] border-[var(--border-light)] bg-[var(--white-cards)]">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full text-left border-collapse">
+                    <thead class="bg-[var(--bg-creme)] border-b-[1.5px] border-[var(--border-light)]">
                         <tr>
-                            <th scope="col"
-                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Nom du modèle
                             </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Statut
                             </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)]">
                                 Créé le
                             </th>
-                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                <span class="sr-only">Actions</span>
-                            </th>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
+                    <tbody class="bg-white">
                         @for (template of templates; track template.id_formulaire) {
-                        <tr>
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 text-gray-900 font-medium">
+                        <tr class="border-b-[1.5px] border-[var(--border-light)] last:border-0 hover:bg-[var(--bg-creme)]/50 transition-colors">
+                            <td class="py-4 px-4 sm:px-6 font-dm font-bold text-sm text-[var(--primary-green)]">
                                 {{ template.nom_formulaire }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <span
-                                    class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset">
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-center rounded-md bg-[var(--bg-creme)] border-[1px] border-[var(--border-light)] px-2 py-1 font-josefin text-[10px] font-bold uppercase tracking-wider text-[var(--primary-green)]">
                                     {{ statutLabels[template.statut] }}
                                 </span>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="py-4 px-4 font-dm text-sm text-[var(--text-secondary)]">
                                 {{ template.created_at | date:'dd/MM/yyyy' }}
                             </td>
-                            <td
-                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <td class="py-4 px-4 sm:px-6 text-right">
                                 <div class="flex justify-end gap-3">
                                     <a [routerLink]="['/admin/formulaires', template.id_formulaire, 'edit']"
-                                        class="text-indigo-600 hover:text-indigo-900" title="Modifier">
-                                        <i class="fa-regular fa-pen-to-square w-5 h-5" aria-hidden="true"
-                                            style="font-size: 20px;"></i>
+                                        class="text-[var(--text-secondary)] hover:text-[var(--primary-green)] transition-colors" title="Modifier">
+                                        <i class="fa-regular fa-pen-to-square text-lg" aria-hidden="true"></i>
                                     </a>
                                     <button (click)="deleteTemplate(template.id_formulaire)"
-                                        class="text-red-600 hover:text-red-900" title="Supprimer">
-                                        <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
-                                            style="font-size: 20px;"></i>
+                                        class="text-[var(--text-secondary)] hover:text-red-500 transition-colors" title="Supprimer">
+                                        <i class="fa-regular fa-trash-can text-lg" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                         } @empty {
                         <tr>
-                            <td colspan="4" class="text-center py-10 text-gray-500">
+                            <td colspan="4" class="text-center py-12 font-dm text-[var(--text-secondary)]">
+                                <i class="fa-regular fa-folder-open text-3xl mb-3 opacity-50 block"></i>
                                 Aucun modèle de formulaire trouvé.
                             </td>
                         </tr>
@@ -238,133 +226,118 @@
     }
 
     @if (activeTab === 'INSCRIPTIONS') {
-    <div class="space-y-6">
-        <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
-            <div class="min-w-0 flex-1">
-            </div>
-
+    <div class="space-y-6 animate-fade-in">
+        <div class="md:flex md:items-center md:justify-end mb-6 gap-4">
             <div class="relative max-w-sm w-full">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-search text-gray-400"></i>
+                    <i class="fa-solid fa-magnifying-glass text-[var(--text-secondary)] opacity-50"></i>
                 </span>
-                <input type="text" [(ngModel)]="searchText" placeholder="Evènement..." name="search_misc_off"
+                <input type="text" [(ngModel)]="searchText" placeholder="Rechercher un événement..." name="search_misc_off"
                     autocomplete="off" [disabled]="showPasswordModal || showMoveModal"
-                    class="block w-full rounded-md border-gray-300 pl-10 pr-3 py-2 shadow-sm focus:border-[var(--primary-blue)] focus:ring-[var(--primary-blue)] sm:text-sm border disabled:bg-gray-100 disabled:text-gray-400">
+                    class="block w-full rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] pl-10 pr-3 py-2.5 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)] disabled:opacity-50">
             </div>
         </div>
 
         @if (loading) {
         <div class="flex justify-center py-20">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[var(--primary-blue)]"></div>
+            <app-spinner></app-spinner>
         </div>
         } @else {
         <div class="space-y-4">
             @for (event of filteredEvents; track event.id_evenement) {
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
-                <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center cursor-pointer hover:bg-gray-100 transition"
+            <div class="bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] overflow-hidden transition-all duration-300" [ngClass]="{'shadow-[4px_4px_0_var(--accent-orange)] border-[var(--accent-orange)]': event.isExpanded}">
+                
+                <div class="px-6 py-5 bg-[var(--bg-creme)] flex justify-between items-center cursor-pointer hover:bg-[var(--bg-creme)]/80 transition"
                     (click)="toggleExpand(event)" (keyup.enter)="toggleExpand(event)" tabindex="0" role="button"
                     [attr.aria-expanded]="event['isExpanded']">
                     <div>
-                        <h3 class="text-lg leading-6 font-medium" style="color: var(--primary-dark-blue);">
+                        <h3 class="font-abril text-xl text-[var(--primary-green)] m-0">
                             {{ event.titre }}
                         </h3>
-                        <p class="mt-1 max-w-2xl text-sm" style="color: var(--gray-text-color);">
-                            {{ event.date_evenement | date:'dd/MM/yyyy' }} - <span class="font-semibold"
-                                style="color: var(--primary-blue);">{{ event.totalInscrits }} inscrits</span>
+                        <p class="font-josefin text-[10px] uppercase tracking-widest text-[var(--text-secondary)] mt-1">
+                            <i class="fa-regular fa-calendar mr-1"></i> {{ event.date_evenement | date:'dd/MM/yyyy' }} 
+                            <span class="text-[var(--border-light)] mx-2">|</span> 
+                            <strong class="text-[var(--accent-orange)]"><i class="fa-solid fa-users mr-1"></i> {{ event.totalInscrits }} inscrits</strong>
                         </p>
                     </div>
-                    <div>
-                        <i class="fa-solid" [class.fa-chevron-down]="!event['isExpanded']"
-                            [class.fa-chevron-up]="event['isExpanded']"></i>
+                    <div class="text-[var(--accent-orange)] text-xl transition-transform duration-300" [ngClass]="{'rotate-180': event.isExpanded}">
+                        <i class="fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
 
                 @if (event['isExpanded']) {
-                <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+                <div class="border-t-[1.5px] border-[var(--border-light)] px-6 py-6 bg-white">
 
                     @if (event.loadingDetails) {
                     <div class="flex justify-center py-4">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--primary-blue)]"></div>
+                        <app-spinner></app-spinner>
                     </div>
                     } @else {
 
-                    <div
-                        class="mb-6 bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="mb-6 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[8px] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-900"><i
-                                    class="fa-solid fa-download mr-2 text-gray-500"></i> Exportation des participants
+                            <h4 class="font-josefin text-[11px] uppercase font-bold text-[var(--primary-green)] tracking-widest">
+                                <i class="fa-solid fa-download mr-2 text-[var(--accent-orange)]"></i> Exportation des participants
                             </h4>
-                            <p class="text-sm text-gray-500 mt-1">Téléchargez la liste des inscrits à cet événement.</p>
+                            <p class="font-dm text-xs text-[var(--text-secondary)] mt-1">Téléchargez la liste des inscrits à cet événement.</p>
                         </div>
                         <button type="button" (click)="openExportParticipantsModal(event)"
-                            class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
-                            Exporter les participants
+                            class="btn-secondary !py-2 !px-4 bg-white text-xs w-full sm:w-auto">
+                            Exporter la liste
                         </button>
                     </div>
 
                     @if (!event.extendedTaches || event.extendedTaches.length === 0) {
-                    <p class="italic" style="color: var(--gray-text-color);">Aucune tâche ou créneau associé.</p>
+                        <p class="font-dm text-sm text-[var(--text-secondary)] italic text-center py-4">Aucune tâche ou créneau associé.</p>
                     }
 
                     @for (tache of event.extendedTaches; track tache.id_tache) {
-                    <div class="mb-6 last:mb-0">
-                        <h4 class="font-semibold mb-2 border-l-4 pl-2"
-                            style="border-color: var(--primary-blue); color: var(--black-text-color);">
+                    <div class="mb-8 last:mb-0">
+                        <h4 class="font-abril text-lg text-[var(--primary-green)] mb-4 pl-3 border-l-[3px] border-[var(--accent-orange)]">
                             {{ tache.nom_tache }}
                         </h4>
 
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                             @for (creneau of tache.extendedCreneaux; track creneau.id_creneau) {
-                            <div
-                                class="relative rounded-lg border border-gray-300 bg-white px-4 py-3 shadow-sm hover:border-[var(--primary-blue)] focus-within:ring-2 focus-within:ring-[var(--primary-blue)] focus-within:ring-offset-2">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-sm font-medium" style="color: var(--black-text-color);">
-                                        {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
+                            <div class="rounded-[8px] border-[1.5px] border-[var(--border-light)] bg-white p-4 shadow-sm hover:border-[var(--primary-green)] transition-colors">
+                                <div class="flex justify-between items-center mb-3 pb-3 border-b-[1.5px] border-[var(--bg-creme)]">
+                                    <span class="font-dm font-bold text-sm text-[var(--primary-green)]">
+                                        <i class="fa-regular fa-clock mr-1 text-[var(--accent-orange)]"></i> {{ creneau.heure_debut }} - {{ creneau.heure_fin }}
                                     </span>
-                                    <div class="flex items-center gap-2">
-                                        <span
-                                            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                                            style="background-color: var(--primary-light-blue); color: var(--primary-dark-blue);">
-                                            {{ creneau.filledInscriptions?.length }} / {{ creneau.quota }}
+                                    <div class="flex items-center gap-3">
+                                        <span class="font-josefin text-[10px] font-bold px-2 py-0.5 rounded-[4px] bg-[var(--bg-creme)] text-[var(--primary-green)] border-[1.5px] border-[var(--border-light)]">
+                                            {{ creneau.filledInscriptions?.length || 0 }} / {{ creneau.quota }}
                                         </span>
                                         <button (click)="initiateAdd(creneau, event); $event.stopPropagation()"
-                                            class="text-green-500 hover:text-green-700" title="Ajouter un inscrit">
-                                            <i class="fa-solid fa-plus-circle"></i>
+                                            class="text-[var(--accent-orange)] hover:scale-110 transition-transform" title="Ajouter un inscrit">
+                                            <i class="fa-solid fa-circle-plus text-lg"></i>
                                         </button>
                                     </div>
                                 </div>
 
-                                <ul class="space-y-2 mt-2">
+                                <ul class="space-y-3">
                                     @for (insc of creneau.filledInscriptions; track $index) {
-                                    <li class="flex justify-between items-start text-sm">
+                                    <li class="flex justify-between items-start group">
                                         <div class="flex flex-col">
-                                            <span class="font-medium" style="color: var(--black-text-color);">{{
-                                                insc.userNomComplet }}</span>
-                                            <span class="text-xs" style="color: var(--gray-text-color);">{{
-                                                insc.userEmail
-                                                }}</span>
+                                            <span class="font-dm font-bold text-[13px] text-[var(--primary-green)]">{{ insc.userNomComplet }}</span>
+                                            <span class="font-dm text-[11px] text-[var(--text-secondary)]">{{ insc.userEmail }}</span>
                                             @if (insc.commentaire) {
-                                            <span class="text-xs italic" style="color: var(--gray-text-color);">"{{
-                                                insc.commentaire }}"</span>
+                                                <span class="font-dm text-[11px] italic text-[var(--accent-orange)] mt-0.5">"{{ insc.commentaire }}"</span>
                                             }
                                         </div>
-                                        <div class="flex items-center ml-2">
-                                            <button
-                                                (click)="initiateMove(insc, creneau, tache, event); $event.stopPropagation()"
-                                                class="text-blue-400 hover:text-blue-600 mr-3"
-                                                title="Changer de créneau">
-                                                <i class="fa-solid fa-pen-to-square"></i>
+                                        <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button (click)="initiateMove(insc, creneau, tache, event); $event.stopPropagation()"
+                                                class="w-6 h-6 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] text-[var(--text-secondary)] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-colors" title="Changer de créneau">
+                                                <i class="fa-solid fa-arrows-up-down-left-right text-[10px]"></i>
                                             </button>
-                                            <button
-                                                (click)="initiateDelete(insc, creneau, event); $event.stopPropagation()"
-                                                class="text-red-400 hover:text-red-600" title="Désinscrire">
-                                                <i class="fa-solid fa-user-minus"></i>
+                                            <button (click)="initiateDelete(insc, creneau, event); $event.stopPropagation()"
+                                                class="w-6 h-6 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] text-[var(--text-secondary)] hover:text-red-500 hover:border-red-500 hover:bg-red-50 transition-colors" title="Désinscrire">
+                                                <i class="fa-solid fa-xmark text-[10px]"></i>
                                             </button>
                                         </div>
                                     </li>
                                     } @empty {
-                                    <li class="text-xs text-gray-400 italic">Aucun inscrit</li>
+                                        <li class="text-[12px] font-dm text-[var(--text-secondary)] italic text-center py-2">Personne d'inscrit.</li>
                                     }
                                 </ul>
                             </div>
@@ -377,20 +350,19 @@
                 }
             </div>
             } @empty {
-            <div class="text-center py-10 text-gray-500">
-                Aucun évènement trouvé (ou aucune tâche liée).
-            </div>
+                <div class="text-center py-12 font-dm text-[var(--text-secondary)]">
+                    <i class="fa-regular fa-folder-open text-3xl mb-3 opacity-50 block"></i>Aucun évènement trouvé.
+                </div>
             }
 
             @if (hasMore && !searchText) {
             <div class="flex justify-center mt-6">
                 <button (click)="loadMore()" [disabled]="loadingMore"
-                    class="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-blue)] w-full md:w-auto flex items-center justify-center min-w-[200px]">
+                    class="btn-secondary flex items-center justify-center min-w-[200px]">
                     @if (loadingMore) {
-                    <span class="inline-block animate-spin mr-2 h-4 w-4 border-b-2 border-gray-700 rounded-full"></span>
-                    Chargement...
+                        <i class="fa-solid fa-spinner fa-spin mr-2"></i> Chargement...
                     } @else {
-                    Voir plus d'événements
+                        Voir plus d'événements
                     }
                 </button>
             </div>
@@ -407,46 +379,34 @@
     }
 
     @if (showMoveModal) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-4">
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity" (click)="closeModals()"
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[var(--primary-green)]/40 backdrop-blur-sm transition-opacity" (click)="closeModals()"
             (keyup.enter)="closeModals()" tabindex="0" role="button">
         </div>
-        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white z-10">
-            <div class="mt-3">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Déplacer une inscription</h3>
-                <div class="mt-4 px-2">
-                    <p class="text-sm text-gray-500 mb-2">
-                        Utilisateur : <span class="font-semibold">{{ selectedInscription?.userNomComplet }}</span>
-                    </p>
-                    <p class="text-sm text-gray-500 mb-4">
-                        Créneau actuel : {{ selectedCurrentCreneau?.heure_debut }} - {{
-                        selectedCurrentCreneau?.heure_fin }}
-                    </p>
-
-                    <label for="nouveauCreneau" class="block text-sm font-medium text-gray-700 mb-1">Nouveau
-                        créneau</label>
-                    <select id="nouveauCreneau" [(ngModel)]="targetCreneauId"
-                        class="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        <option [ngValue]="null" disabled>Sélectionner un créneau</option>
-                        @for (slot of availableSlots; track slot.id_creneau) {
-                        <option [ngValue]="slot.id_creneau">
-                            {{ slot.heure_debut }} - {{ slot.heure_fin }} ({{ slot.filledInscriptions?.length || 0 }}/{{
-                            slot.quota }})
-                        </option>
-                        } @empty {
-                        <option disabled>Aucun autre créneau disponible</option>
-                        }
-                    </select>
+        <div class="relative bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-6 w-full max-w-sm animate-fade-up">
+            <div class="mt-1">
+                <h3 class="font-abril text-xl text-[var(--primary-green)] mb-4 text-center">Déplacer l'inscription</h3>
+                <div class="font-dm text-sm text-[var(--text-secondary)] space-y-2 mb-5 p-3 bg-[var(--bg-creme)] rounded-[4px] border-[1px] border-[var(--border-light)]">
+                    <p><strong>Participant :</strong> {{ selectedInscription?.userNomComplet }}</p>
+                    <p><strong>Créneau actuel :</strong> {{ selectedCurrentCreneau?.heure_debut }} - {{ selectedCurrentCreneau?.heure_fin }}</p>
                 </div>
-                <div class="flex items-center justify-between mt-6 gap-3">
-                    <button (click)="closeModals()"
-                        class="px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md w-full shadow-sm border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                        Annuler
-                    </button>
-                    <button (click)="confirmMoveSelection()" [disabled]="!targetCreneauId"
-                        class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Continuer
-                    </button>
+
+                <label for="nouveauCreneau" class="block font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--primary-green)] mb-2">Nouveau créneau</label>
+                <select id="nouveauCreneau" [(ngModel)]="targetCreneauId"
+                    class="block w-full px-3 py-2.5 bg-white border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--accent-orange)] mb-6">
+                    <option [ngValue]="null" disabled>Sélectionner un créneau</option>
+                    @for (slot of availableSlots; track slot.id_creneau) {
+                    <option [ngValue]="slot.id_creneau">
+                        {{ slot.heure_debut }} - {{ slot.heure_fin }} ({{ slot.filledInscriptions?.length || 0 }}/{{ slot.quota }})
+                    </option>
+                    } @empty {
+                    <option disabled>Aucun autre créneau disponible</option>
+                    }
+                </select>
+                
+                <div class="flex gap-3">
+                    <button (click)="closeModals()" class="flex-1 btn-secondary text-center">Annuler</button>
+                    <button (click)="confirmMoveSelection()" [disabled]="!targetCreneauId" class="flex-1 btn-primary text-center disabled:opacity-50">Valider</button>
                 </div>
             </div>
         </div>
@@ -454,79 +414,58 @@
     }
 
     @if (showAddModal) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-4">
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity" (click)="closeModals()"
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-[var(--primary-green)]/40 backdrop-blur-sm transition-opacity" (click)="closeModals()"
             (keyup.enter)="closeModals()" tabindex="0" role="button">
         </div>
-        <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white z-10">
-            <div class="mt-3">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">Ajouter une inscription</h3>
-                <div class="mt-4 px-2">
-                    <p class="text-sm text-gray-500 mb-4">
-                        Créneau : {{ selectedAddCreneau?.heure_debut }} - {{ selectedAddCreneau?.heure_fin }}
-                    </p>
+        <div class="relative bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-6 w-full max-w-sm animate-fade-up">
+            <div class="mt-1">
+                <h3 class="font-abril text-xl text-[var(--primary-green)] mb-4 text-center">Ajouter une inscription</h3>
+                
+                <p class="font-dm text-sm text-[var(--text-secondary)] bg-[var(--bg-creme)] p-3 rounded-[4px] border-[1px] border-[var(--border-light)] mb-5">
+                    <strong>Créneau :</strong> {{ selectedAddCreneau?.heure_debut }} - {{ selectedAddCreneau?.heure_fin }}
+                </p>
 
-                    <label for="userDropdownBtn"
-                        class="block text-sm font-medium text-gray-700 mb-1">Utilisateur</label>
-                    <div class="relative mb-3">
-                        <button id="userDropdownBtn" type="button" (click)="toggleUserDropdown()"
-                            class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <span class="block truncate" [class.text-gray-500]="!selectedAddUserId">
-                                {{ selectedUserName }}
-                            </span>
-                            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                <i class="fa-solid fa-chevron-down text-gray-400"></i>
-                            </span>
-                        </button>
+                <label for="userDropdownBtn" class="block font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--primary-green)] mb-2">Utilisateur</label>
+                <div class="relative mb-4">
+                    <button id="userDropdownBtn" type="button" (click)="toggleUserDropdown()"
+                        class="w-full bg-white border-[1.5px] border-[var(--border-light)] rounded-[4px] px-3 py-2.5 text-left font-dm text-sm text-[var(--text-secondary)] focus:outline-none focus:border-[var(--accent-orange)] flex justify-between items-center">
+                        <span class="truncate" [class.opacity-50]="!selectedAddUserId">
+                            {{ selectedUserName }}
+                        </span>
+                        <i class="fa-solid fa-chevron-down opacity-50"></i>
+                    </button>
 
-                        @if (showUserDropdown) {
-                        <div
-                            class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                            <div class="px-2 pb-2 pt-1 sticky top-0 bg-white">
-                                <input type="text" [(ngModel)]="searchUserText"
-                                    placeholder="Rechercher un utilisateur..."
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2"
-                                    autocomplete="off">
-                            </div>
-                            <ul class="max-h-40 overflow-y-auto">
-                                @for (user of filteredUsersForSearch; track user.id_utilisateur) {
-                                <li>
-                                    <button type="button" (click)="selectAddUser(user)"
-                                        (keyup.enter)="selectAddUser(user)"
-                                        class="w-full text-left text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white focus:outline-none transition-colors duration-150 block">
-                                        <span class="font-normal block truncate">
-                                            {{ user.prenom }} <span class="uppercase">{{ user.nom }}</span>
-                                        </span>
-                                        <span class="text-xs opacity-75 block truncate">
-                                            {{ user.email }}
-                                        </span>
-                                    </button>
-                                </li>
-                                } @empty {
-                                <li
-                                    class="text-gray-500 cursor-default select-none relative py-2 pl-3 pr-9 text-sm italic">
-                                    Aucun utilisateur trouvé
-                                </li>
-                                }
-                            </ul>
+                    @if (showUserDropdown) {
+                    <div class="absolute z-10 mt-1 w-full bg-white shadow-lg border-[1.5px] border-[var(--border-light)] max-h-60 rounded-[4px] overflow-hidden">
+                        <div class="p-2 bg-[var(--bg-creme)] border-b-[1.5px] border-[var(--border-light)]">
+                            <input type="text" [(ngModel)]="searchUserText" placeholder="Rechercher..."
+                                class="w-full px-2 py-1.5 text-sm font-dm rounded border-[1px] border-[var(--border-light)] focus:outline-none focus:border-[var(--accent-orange)]" autocomplete="off">
                         </div>
-                        }
+                        <ul class="max-h-40 overflow-y-auto">
+                            @for (user of filteredUsersForSearch; track user.id_utilisateur) {
+                            <li>
+                                <button type="button" (click)="selectAddUser(user)" (keyup.enter)="selectAddUser(user)"
+                                    class="w-full text-left py-2 px-3 font-dm text-sm hover:bg-[var(--bg-creme)] hover:text-[var(--primary-green)] transition-colors">
+                                    <strong>{{ user.prenom }} <span class="uppercase">{{ user.nom }}</span></strong><br>
+                                    <span class="text-xs opacity-70">{{ user.email }}</span>
+                                </button>
+                            </li>
+                            } @empty {
+                            <li class="py-2 px-3 text-sm font-dm italic text-[var(--text-secondary)]">Aucun résultat</li>
+                            }
+                        </ul>
                     </div>
-
-                    <label for="commentaire" class="block text-sm font-medium text-gray-700 mb-1">Commentaire
-                        (optionnel)</label>
-                    <textarea id="commentaire" [(ngModel)]="addCommentaire" rows="2"
-                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                    }
                 </div>
-                <div class="flex items-center justify-between mt-6 gap-3">
-                    <button (click)="closeModals()"
-                        class="px-4 py-2 bg-white text-gray-700 text-base font-medium rounded-md w-full shadow-sm border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                        Annuler
-                    </button>
-                    <button (click)="confirmAddSelection()" [disabled]="!selectedAddUserId"
-                        class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Ajouter
-                    </button>
+
+                <label for="commentaire" class="block font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--primary-green)] mb-2">Commentaire (optionnel)</label>
+                <textarea id="commentaire" [(ngModel)]="addCommentaire" rows="2"
+                    class="block w-full px-3 py-2.5 bg-white border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--accent-orange)] mb-6"></textarea>
+                
+                <div class="flex gap-3">
+                    <button (click)="closeModals()" class="flex-1 btn-secondary text-center">Annuler</button>
+                    <button (click)="confirmAddSelection()" [disabled]="!selectedAddUserId" class="flex-1 btn-primary text-center disabled:opacity-50">Ajouter</button>
                 </div>
             </div>
         </div>
@@ -543,5 +482,16 @@
     <app-export-modal title="Exporter les participants" [availableColumns]="exportColumnsParticipants"
         (confirm)="exportParticipants($event)" (closeModal)="showExportParticipantsModal = false">
     </app-export-modal>
+    }
+
+    @if (showDeleteTemplateModal) {
+    <app-confirmation-modal
+        title="SUPPRIMER LE MODÈLE"
+        message="Êtes-vous sûr de vouloir supprimer ce modèle de formulaire ?"
+        confirmLabel="Oui, supprimer"
+        cancelLabel="Annuler"
+        (validateAction)="confirmDeleteTemplate()"
+        (cancelAction)="cancelDeleteTemplate()">
+    </app-confirmation-modal>
     }
 </div>

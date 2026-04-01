@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Creneau/creneau.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele creneau utilise dans le frontend.
+ */
+
 import { Inscription } from '../Inscription/inscription';
 
 export interface Creneau {

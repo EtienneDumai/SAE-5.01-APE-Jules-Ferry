@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Formulaire/formulaire.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele formulaire utilise dans le frontend.
+ */
+
 import { StatutFormulaire } from "../../enums/StatutFormulaire/statut-formulaire";
 import { Tache } from '../Tache/tache';
 

@@ -1,3 +1,9 @@
+<!--
+Fichier : frontend/src/app/pages/administration-page/admin-newsletters/admin-newsletters.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page admin newsletters.
+-->
+
 <div class="space-y-6">
     <div class="md:flex md:items-center md:justify-between mb-6 gap-4">
         <div class="flex w-full flex-col gap-3 md:flex-row md:items-center">
@@ -5,53 +11,49 @@
                 <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher un e-mail..."
                     class="block w-full rounded-md border-gray-300 pl-3 pr-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">
             </div>
-
-            <button type="button" (click)="ouvrirAjout()"
-                class="inline-flex items-center justify-center rounded-md bg-[var(--primary-blue)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90">
-                <i class="fa-solid fa-plus mr-2"></i>
-                Ajouter un e-mail
-            </button>
+            <input type="text" [(ngModel)]="texteRecherche" placeholder="Rechercher un e-mail..."
+                class="block w-full rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] pl-10 pr-3 py-2.5 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)]">
         </div>
 
-        <button type="button" (click)="showExportModal = true" [disabled]="abonnes.length === 0"
-            class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 enabled:hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50">
-            <i class="fa-solid fa-file-excel text-green-600 mr-2 text-lg"></i>
-            Exporter les abonnés
+        <button type="button" (click)="ouvrirAjout()" class="mt-4 md:mt-0 btn-primary flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus text-sm"></i>
+            Ajouter un e-mail
         </button>
     </div>
 
-    <div
-        class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[8px] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h3 class="text-sm font-medium text-gray-900"><i class="fa-solid fa-envelope mr-2 text-gray-500"></i>
-                Abonnés à la newsletter</h3>
-            <p class="text-sm text-gray-500 mt-1">Consultez les e-mails inscrits, supprimez un abonnement et exportez
-                la liste.</p>
+            <h3 class="font-josefin text-[12px] uppercase font-bold text-[var(--primary-green)] tracking-widest flex items-center gap-2">
+                <i class="fa-solid fa-envelope text-[var(--accent-orange)] text-sm"></i> 
+                Abonnés à la newsletter
+            </h3>
+            <p class="font-dm text-xs text-[var(--text-secondary)] mt-1">
+                Consultez, ajoutez ou exportez la liste de vos <strong class="text-[var(--primary-green)]">{{ abonnesFiltres.length }}</strong> abonné(s) au format CSV.
+            </p>
         </div>
-        <div class="text-sm text-gray-600">
-            {{ abonnesFiltres.length }} abonné{{ abonnesFiltres.length > 1 ? 's' : '' }}
-        </div>
+        <button type="button" (click)="showExportModal = true" [disabled]="abonnes.length === 0" 
+            class="btn-secondary !py-2.5 !px-4 inline-flex items-center justify-center gap-2 !border-[var(--primary-green)] !text-[var(--primary-green)] bg-white hover:!bg-[var(--primary-green)] hover:!text-white w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-download block self-center text-[11px] leading-none"></i>
+            <span class="block self-center leading-none relative top-px">Exporter</span>
+        </button>
     </div>
 
     @if (showAddForm) {
-    <div class="rounded-lg border border-blue-200 bg-blue-50 p-4">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-end">
+    <div class="rounded-[8px] border-[1.5px] border-[var(--accent-orange)] bg-[var(--bg-creme)]/50 p-5 animate-fade-in shadow-sm">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end">
             <div class="flex-1">
-                <label for="newsletter-email-ajout" class="mb-1 block text-sm font-medium text-gray-700">
+                <label for="newsletter-email-ajout" class="block font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--primary-green)] mb-2">
                     Adresse e-mail à ajouter
                 </label>
-                <input id="newsletter-email-ajout" type="email" [(ngModel)]="emailAAjouter"
-                    placeholder="nouvel-abonne@example.com"
-                    class="block w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border">
+                <input id="newsletter-email-ajout" type="email" [(ngModel)]="emailAAjouter" placeholder="nouvel-abonne@example.com"
+                    class="block w-full rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-white px-3 py-2.5 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)]">
             </div>
-            <div class="flex gap-2">
-                <button type="button" (click)="demanderAjout()"
-                    class="inline-flex items-center rounded-md bg-[var(--primary-blue)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90">
-                    Confirmer l'ajout
-                </button>
-                <button type="button" (click)="annulerAjout()"
-                    class="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <div class="flex gap-3 mt-4 md:mt-0">
+                <button type="button" (click)="annulerAjout()" class="flex-1 md:flex-none btn-secondary text-center">
                     Annuler
+                </button>
+                <button type="button" (click)="demanderAjout()" class="flex-1 md:flex-none btn-primary text-center">
+                    Confirmer
                 </button>
             </div>
         </div>
@@ -59,70 +61,77 @@
     }
 
     @if (chargementEnCours) {
-    <div class="flex justify-center py-20">
-        <app-spinner></app-spinner>
-    </div>
+        <div class="flex justify-center py-20"><app-spinner></app-spinner></div>
     } @else {
-    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-300">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col"
-                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 w-[45%]">
-                            E-mail
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]">
-                            Statut
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-[20%]">
-                            Inscription
-                        </th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 w-[15%]">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
-                    @for (abonne of abonnesFiltres; track abonne.id_abonne) {
-                    <tr>
-                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 text-gray-900">
-                            {{ abonne.email }}
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <span
-                                class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset"
-                                [ngClass]="{
-                                    'bg-green-100 text-green-700 ring-green-600/20': abonne.statut === 'actif',
-                                    'bg-gray-100 text-gray-700 ring-gray-600/20': abonne.statut === 'desinscrit'
-                                }">
-                                {{ abonne.statut }}
-                            </span>
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ abonne.created_at | date:'dd/MM/yyyy' }}
-                        </td>
-                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <button type="button" (click)="demanderSuppression(abonne)"
-                                [disabled]="suppressionEnCoursId === abonne.id_abonne"
-                                class="text-red-600 hover:text-red-900 disabled:cursor-not-allowed disabled:opacity-50"
-                                title="Supprimer">
-                                <i class="fa-regular fa-trash-can w-5 h-5" aria-hidden="true"
-                                    style="font-size: 20px;"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    } @empty {
-                    <tr>
-                        <td colspan="4" class="text-center py-10 text-gray-500">
-                            Aucun abonnement newsletter trouvé.
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="overflow-hidden rounded-[8px] border-[1.5px] border-[var(--border-light)] bg-[var(--white-cards)]">
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left border-collapse">
+                    <thead class="bg-[var(--bg-creme)] border-b-[1.5px] border-[var(--border-light)]">
+                        <tr>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] w-[45%]">
+                                E-mail
+                            </th>
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] w-[20%]">
+                                Statut
+                            </th>
+                            <th scope="col" class="py-3.5 px-4 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] w-[20%]">
+                                Inscription
+                            </th>
+                            <th scope="col" class="py-3.5 px-4 sm:px-6 font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] text-right w-[15%]"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        @for (abonne of abonnesFiltres; track abonne.id_abonne) {
+                        <tr class="border-b-[1.5px] border-[var(--border-light)] last:border-0 hover:bg-[var(--bg-creme)]/50 transition-colors">
+                            
+                            <td class="py-4 px-4 sm:px-6 font-dm font-bold text-sm text-[var(--primary-green)]">
+                                {{ abonne.email }}
+                            </td>
+                            
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-end gap-1.5 rounded-full px-2.5 py-1.5 font-josefin text-[10px] uppercase font-bold tracking-wider ring-1 ring-inset"
+                                    [ngClass]="{
+                                        'bg-green-50 text-green-700 ring-green-600/20': abonne.statut === 'actif',
+                                        'bg-gray-50 text-gray-500 ring-gray-500/20': abonne.statut === 'desinscrit'
+                                    }">
+                                    <i class="fa-solid fa-circle block self-end text-[6px] leading-none" 
+                                        [ngClass]="{'text-green-500': abonne.statut === 'actif', 'text-gray-400': abonne.statut === 'desinscrit'}">
+                                    </i>
+                                    <span class="block self-end leading-none relative top-[2px]">
+                                        {{ abonne.statut === 'actif' ? 'Inscrit' : 'Désinscrit' }}
+                                    </span>
+                                </span>
+                            </td>
+                            
+                            <td class="py-4 px-4 font-dm text-sm text-[var(--text-secondary)]">
+                                {{ abonne.created_at | date:'dd/MM/yyyy' }}
+                            </td>
+                            
+                            <td class="py-4 px-4 sm:px-6 text-right">
+                                <button type="button" (click)="demanderSuppression(abonne)" [disabled]="suppressionEnCoursId === abonne.id_abonne"
+                                    class="text-[var(--text-secondary)] hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+                                    title="Supprimer l'abonné">
+                                    @if (suppressionEnCoursId === abonne.id_abonne) {
+                                        <i class="fa-solid fa-spinner fa-spin text-lg"></i>
+                                    } @else {
+                                        <i class="fa-regular fa-trash-can text-lg"></i>
+                                    }
+                                </button>
+                            </td>
+
+                        </tr>
+                        } @empty {
+                        <tr>
+                            <td colspan="4" class="text-center py-12 font-dm text-[var(--text-secondary)]">
+                                <i class="fa-regular fa-folder-open text-3xl mb-3 opacity-50 block"></i>
+                                Aucun abonné trouvé.
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     }
 
     @if (showExportModal) {

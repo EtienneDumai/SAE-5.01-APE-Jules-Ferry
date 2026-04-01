@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Unit/InscriptionControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient les tests unitaires pour InscriptionControllerTest.
+ */
+
 namespace Tests\Unit;
 
 use App\Http\Controllers\Api\InscriptionController;
@@ -33,9 +39,9 @@ class InscriptionControllerTest extends TestCase
     {
         // GIVEN
         Inscription::factory()->count(2)->create();
-
-        $request = Request::create('/api/inscriptions', 'GET');
-
+        $user = Utilisateur::factory()->create();
+        $request = $this->makeAuthenticatedRequest('GET', [], $user);
+        
         // WHEN
         $response = $this->controller->index($request);
 

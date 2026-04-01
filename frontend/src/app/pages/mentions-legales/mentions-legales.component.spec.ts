@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/mentions-legales/mentions-legales.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page mentions legales.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MentionsLegalesComponent } from './mentions-legales.component';
@@ -17,7 +23,12 @@ describe('MentionsLegalesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 });

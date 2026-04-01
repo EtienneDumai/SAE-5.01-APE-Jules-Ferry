@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Models/Evenement.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit le modele Evenement du backend.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

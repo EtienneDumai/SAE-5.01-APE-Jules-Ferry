@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/spinner/spinner.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant spinner.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SpinnerComponent } from './spinner.component';
 import { By } from '@angular/platform-browser';
@@ -17,17 +23,32 @@ describe('SpinnerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('devrait créer', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
-  it('devrait afficher le spinner de chargement', () => {
+  it('should_display_spinner_chargement', () => {
+  // GIVEN
+
+  // WHEN
     const spinnerElement = fixture.debugElement.query(By.css('.animate-spin'));
+
+  // THEN
     expect(spinnerElement).toBeTruthy();
   });
 
-  it('devrait afficher le texte de chargement', () => {
+  it('should_display_text_chargement', () => {
+  // GIVEN
+
+  // WHEN
     const textElement = fixture.debugElement.query(By.css('span'));
+
+  // THEN
     expect(textElement.nativeElement.textContent).toContain('Chargement');
   });
 });

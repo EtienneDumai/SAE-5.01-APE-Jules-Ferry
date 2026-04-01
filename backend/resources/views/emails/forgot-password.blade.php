@@ -1,3 +1,10 @@
+{{--
+Fichier : backend/resources/views/emails/forgot-password.blade.php
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le contenu de l'email de reinitialisation de mot de passe.
+Il guide l'utilisateur pour relancer l'acces a son compte.
+--}}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

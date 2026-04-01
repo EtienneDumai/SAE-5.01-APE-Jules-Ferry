@@ -1,6 +1,12 @@
 <?php
 
-namespace Tests\Unit;
+/**
+ * Fichier : backend/tests/Unit/Images/ImageConverterTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient les tests unitaires pour ImageConverterTest.
+ */
+
+namespace Tests\Unit\Images;
 
 use App\Services\Image\ImageConverterService;
 use Illuminate\Http\UploadedFile;

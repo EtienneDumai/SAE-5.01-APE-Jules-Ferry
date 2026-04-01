@@ -9,8 +9,8 @@ L'APE Jules Ferry a un besoin d'organiser la planification de ses bénévoles su
 
 Le dépôt `SAE-5.01-APE-Jules-Ferry` contient l'intégralité de l'application. Il est organisé en mono-repo pour maintenir la cohérence des codes entre le front-end et le back-end.
 
-- [Front-end](https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry/tree/master/frontend) 🖥️ : Solution frontend de l'application.
-- [Back-end](https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry/tree/master/backend) 🖥️ : Partie backend de l'application.
+- [Front-end](https://github.com/ApeJulesFerryAnglet/SAE-5.01-APE-Jules-Ferry/tree/master/frontend) 🖥️ : Solution frontend de l'application.
+- [Back-end](https://github.com/ApeJulesFerryAnglet/SAE-5.01-APE-Jules-Ferry/tree/master/backend) 🖥️ : Partie backend de l'application.
 
 Chaque partie contient sa documentation spécifique et sa procédure d'installation.
 
@@ -20,7 +20,7 @@ Chaque partie contient sa documentation spécifique et sa procédure d'installat
 
 La solution `APE Jules Ferry` est conçue pour être déployée sur des serveurs GNU/Linux de type Debian. Elle utilise une architecture client-serveur avec communication par API Rest.
 
-![APE Jules Ferry App Architecture](./docs/general/InfrastructureAPE.png "APE Jules Ferry Infrastructure")
+![APE Jules Ferry App Architecture](./docs/images/InfrastructureAPE.png "APE Jules Ferry Infrastructure")
 
 ## Developper en mode local : 
 - Activer l'extension php-pgsql dans le fichier php.ini

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/app/Services/Image/ImageConverterService.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce service gere la conversion et la preparation des images.
+ * Il adapte les fichiers images avant leur utilisation ou leur enregistrement par l'application.
+ */
+
 namespace App\Services\Image;
 
 use RuntimeException;

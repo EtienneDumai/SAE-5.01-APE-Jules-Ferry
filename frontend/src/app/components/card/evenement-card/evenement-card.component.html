@@ -1,89 +1,96 @@
+<!--
+Fichier : frontend/src/app/components/card/evenement-card/evenement-card.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template du composant evenement card.
+-->
+
 <div class="group h-full flex flex-col bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--primary-green)] hover:shadow-[4px_4px_0_var(--primary-green)] overflow-hidden relative">
 
     <div class="h-[168px] w-full relative overflow-hidden bg-[var(--bg-creme)]">
         @if(image_url) {
             <img [src]="getImageUrl(image_url)" [alt]="titre" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" loading="lazy">
         } @else {
-            <img src="/imageDefaut/imageDefaut.png" [alt]="titre" class="w-full h-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-[1.04]" loading="lazy">
+            <img src="/imageDefaut/imageDefaut.png" [alt]="titre" class="w-full h-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-[1.04]">
         }
 
         @if(canManage) {
-            <div class="absolute top-3 right-3 flex gap-1 z-10">
-                <button (click)="onEdit($event)" class="w-7 h-7 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--primary-green)] hover:bg-[var(--primary-green)] hover:text-white transition-colors" title="Modifier">
-                    <i class="fa-regular fa-pen-to-square text-xs"></i>
+            <div class="absolute top-3 right-3 flex gap-2 z-10">
+                <button (click)="onEdit($event)" class="w-8 h-8 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--primary-green)] hover:bg-[var(--primary-green)] hover:text-white transition-colors shadow-sm" title="Modifier">
+                    <i class="fa-regular fa-pen-to-square"></i>
                 </button>
-                <button (click)="onDelete($event)" class="w-7 h-7 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--accent-orange)] hover:bg-[var(--accent-orange)] hover:text-white transition-colors" title="Supprimer">
-                    <i class="fa-regular fa-trash-can text-xs"></i>
+                <button (click)="onDelete($event)" class="w-8 h-8 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--accent-orange)] hover:bg-[var(--accent-orange)] hover:text-white transition-colors shadow-sm" title="Supprimer">
+                    <i class="fa-regular fa-trash-can"></i>
                 </button>
             </div>
         }
     </div>
 
-    <div class="p-4 flex flex-col flex-grow bg-[var(--white-cards)]">
+    <div class="p-5 flex flex-col flex-grow bg-[var(--white-cards)]">
         
-        <div class="font-josefin text-[10px] uppercase text-[var(--accent-orange)] tracking-[0.08em] mb-2 flex items-center flex-wrap gap-x-2 gap-y-1">
-            <span><i class="fa-regular fa-calendar mr-1"></i> {{ date_evenement | date:'dd/MM/yyyy' }}</span>
+        <div class="font-josefin text-[11px] uppercase text-[var(--accent-orange)] tracking-widest mb-3 flex items-end flex-wrap gap-x-3 gap-y-2">
+            <span class="flex items-end gap-2">
+                <i class="fa-regular fa-calendar block self-end leading-none"></i>
+                <span class="block self-end leading-none relative top-[2px]">{{ date_evenement | date:'d MMMM yyyy' }}</span>
+            </span>
             <span class="text-[var(--border-light)]">|</span>
-            <span><i class="fa-regular fa-clock mr-1"></i> {{ heure_debut }} - {{ heure_fin }}</span>
+            <span class="flex items-end gap-2">
+                <i class="fa-regular fa-clock block self-end leading-none"></i>
+                <span class="block self-end leading-none relative top-[2px]">{{ heure_debut }} - {{ heure_fin }}</span>
+            </span>
         </div>
 
-        <h3 class="font-abril text-[15px] text-[var(--primary-green)] mb-1 line-clamp-1" [title]="titre">
+        <h3 class="font-abril text-lg text-[var(--primary-green)] leading-tight mb-3 line-clamp-2" [title]="titre">
             {{ titre }}
         </h3>
         
-        <div class="font-josefin text-[9px] text-[var(--text-secondary)] uppercase tracking-wider mb-2 flex items-center">
-            <i class="fa-solid fa-location-dot mr-1"></i> <span class="line-clamp-1">{{ lieu }}</span>
+        <div class="font-josefin text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-location-dot"></i> <span class="line-clamp-1">{{ lieu }}</span>
         </div>
-        <p class="font-dm text-[12px] text-[var(--text-secondary)] line-clamp-2 mb-4 flex-grow leading-relaxed">
+
+        <p class="font-dm text-[13px] text-[var(--text-secondary)] line-clamp-3 mb-5 flex-grow leading-relaxed">
             {{ description }}
         </p>
 
-        <div class="mt-auto pt-4 border-t border-[var(--border-light)] flex gap-2">
-            <button [routerLink]="['/evenements', id_evenement]"
-                    class="flex-1 btn-secondary !py-2 !px-1 text-center text-[9px]">
+        <div class="mt-auto pt-4 border-t border-[var(--border-light)] flex gap-3">
+            <button [routerLink]="['/evenements', id_evenement]" class="flex-1 btn-secondary !py-2.5 text-center text-xs tracking-wide">
                 Voir la fiche
             </button>
             
             @if (id_formulaire && isInscriptionOuverte) {
-                <button [routerLink]="['/evenements', id_evenement]" [queryParams]="{ openForm: 'true' }"
-                        class="flex-1 btn-primary !py-2 !px-1 text-center text-[9px]">
-                    S'inscrire
-                </button>
+                @if (isAuthenticated) {
+                    <button [routerLink]="['/evenements', id_evenement]" [queryParams]="{ openForm: 'true' }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
+                        S'inscrire
+                    </button>
+                } @else {
+                    <button [routerLink]="['/login']" [queryParams]="{ returnUrl: '/evenements/' + id_evenement }" class="flex-1 btn-primary !py-2.5 text-center text-xs tracking-wide">
+                        Se connecter
+                    </button>
+                }
             }
         </div>
     </div>
 
     @if (showDeleteModal) {
-        <div class="absolute inset-0 z-20 flex items-center justify-center p-3 bg-white/95 backdrop-blur-sm">
-            
+        <div class="absolute inset-0 z-20 flex items-center justify-center p-3 bg-white/95 backdrop-blur-sm animate-fade-in">
             <div class="bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-5 w-full max-w-[95%] text-center flex flex-col gap-4 animate-fade-up">
-                
                 <h4 class="font-abril text-[18px] text-[var(--primary-green)] leading-tight m-0">
                     Supprimer cet événement ?
                 </h4>
-                
                 <div class="w-full text-left">
                     <label for="pwd-{{id_evenement}}" class="sr-only">Mot de passe</label>
                     <input type="password" id="pwd-{{id_evenement}}" [(ngModel)]="deletePassword" placeholder="Mot de passe admin"
-                           class="w-full px-3 py-2.5 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--accent-orange)] transition-colors text-center">
+                           class="block w-full text-center rounded-[4px] border-[1.5px] border-[var(--border-light)] bg-[var(--bg-creme)] px-3 py-2 focus:border-[var(--accent-orange)] focus:ring-0 font-dm text-sm transition-colors outline-none text-[var(--text-secondary)]">
                 </div>
-
                 <div class="flex w-full gap-3 mt-1">
-                    <button (click)="closeDeleteModal()" class="flex-1 py-2.5 bg-transparent border-[1.5px] border-[var(--border-light)] rounded-[4px] font-josefin text-[10px] uppercase font-bold text-[var(--text-secondary)] hover:text-[var(--primary-green)] transition-colors">
+                    <button (click)="closeDeleteModal()" class="flex-1 btn-secondary !py-2 text-[11px]">
                         Annuler
                     </button>
                     <button (click)="confirmerSuppression()" [disabled]="isDeleting || !deletePassword"
-                            class="flex-1 py-2.5 bg-[#DC2626] text-white rounded-[4px] font-josefin text-[10px] uppercase font-bold hover:bg-red-700 disabled:opacity-50 transition-colors">
-                        @if(isDeleting) { 
-                            <i class="fa-solid fa-spinner fa-spin"></i> 
-                        } @else { 
-                            Supprimer 
-                        }
+                            class="flex-1 btn-primary !bg-[#ef4444] !border-[#ef4444] hover:!bg-[#dc2626] !py-2 text-[11px] disabled:opacity-50 transition-colors">
+                        @if(isDeleting) { <i class="fa-solid fa-spinner fa-spin"></i> } @else { Supprimer }
                     </button>
                 </div>
-
             </div>
-            
         </div>
     }
 </div>

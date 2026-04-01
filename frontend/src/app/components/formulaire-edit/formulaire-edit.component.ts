@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/formulaire-edit/formulaire-edit.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant formulaire edit.
+ */
+
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,6 +12,7 @@ import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { FormulaireService } from '../../services/Formulaire/formulaire.service';
 import { ToastService } from '../../services/Toast/toast.service';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 interface ValidationError {
   contexte?: string;
@@ -15,7 +22,7 @@ interface ValidationError {
 @Component({
   selector: 'app-formulaire-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
+  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent, ConfirmationModalComponent],
   templateUrl: './formulaire-edit.component.html',
   styleUrl: './formulaire-edit.component.css'
 })
@@ -28,6 +35,8 @@ export class FormulaireEditComponent implements OnInit {
 
   validationErrors: ValidationError[] = [];
   apiError: string | null = null;
+  showDeleteTaskModal = false;
+  taskIndexToDelete: number | null = null;
   readonly statutsFormulaire = [
     { value: 'actif', label: 'Actif' },
     { value: 'archive', label: 'Archivé' }
@@ -88,11 +97,23 @@ export class FormulaireEditComponent implements OnInit {
     this.taches.push(tacheGroup);
   }
 
-  removeTache(index: number) {
-    if (confirm('Supprimer cette tâche ?')) {
-      this.taches.removeAt(index);
-      this.toastService.showWithTimeout('Tâche supprimée avec succès.', TypeErreurToast.SUCCESS);
-    }
+  requestRemoveTache(index: number) {
+    this.taskIndexToDelete = index;
+    this.showDeleteTaskModal = true;
+  }
+
+  confirmRemoveTache() {
+    if (this.taskIndexToDelete === null) return;
+
+    this.taches.removeAt(this.taskIndexToDelete);
+    this.taskIndexToDelete = null;
+    this.showDeleteTaskModal = false;
+    this.toastService.showWithTimeout('Tâche supprimée avec succès.', TypeErreurToast.SUCCESS);
+  }
+
+  cancelRemoveTache() {
+    this.taskIndexToDelete = null;
+    this.showDeleteTaskModal = false;
   }
 
   getCreneaux(tacheIndex: number): FormArray {

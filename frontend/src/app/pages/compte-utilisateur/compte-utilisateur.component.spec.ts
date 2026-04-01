@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/compte-utilisateur/compte-utilisateur.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page compte utilisateur.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CompteUtilisateurComponent } from './compte-utilisateur.component';
@@ -22,7 +28,12 @@ describe('CompteUtilisateurComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 });

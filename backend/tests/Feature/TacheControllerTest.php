@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/TacheControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour TacheControllerTest.
+ */
+
 namespace Tests\Feature;
 
 use App\Models\Formulaire;
@@ -27,11 +33,10 @@ class TacheControllerTest extends TestCase
     {
         // GIVEN
         Tache::factory()->count(3)->create();
-        $this->actingAs($this->user, 'sanctum');
 
         // WHEN
-        $response = $this->getJson('/api/taches');
-
+        $response = $this->actingAs($this->user, 'sanctum')
+                         ->getJson('/api/taches');
         // THEN
         $response->assertStatus(200)
             ->assertJsonCount(3);
@@ -125,5 +130,33 @@ class TacheControllerTest extends TestCase
         // THEN
         $response->assertStatus(200);
         $this->assertDatabaseMissing('taches', ['id_tache' => $tache->id_tache]);
+    }
+
+    #[Test]
+    public function should_return_not_found_for_update_endpoint_when_tache_does_not_exist(): void
+    {
+        // GIVEN
+        $this->actingAs($this->user, 'sanctum');
+
+        // WHEN
+        $response = $this->putJson('/api/taches/99999', ['nom_tache' => 'Inexistante']);
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Tâche non trouvée']);
+    }
+
+    #[Test]
+    public function should_return_not_found_for_destroy_endpoint_when_tache_does_not_exist(): void
+    {
+        // GIVEN
+        $this->actingAs($this->user, 'sanctum');
+
+        // WHEN
+        $response = $this->deleteJson('/api/taches/99999');
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Tâche non trouvée']);
     }
 }

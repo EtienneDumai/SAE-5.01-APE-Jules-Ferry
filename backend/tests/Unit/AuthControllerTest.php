@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Unit/AuthControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient les tests unitaires pour AuthControllerTest.
+ */
+
 namespace Tests\Unit;
 
 use App\Http\Controllers\Api\Auth\LoginController;
@@ -233,6 +239,27 @@ class AuthControllerTest extends TestCase
         // THEN
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('require_password', $response->getData(true)['action']);
+    }
+
+    #[Test]
+    public function should_return_not_found_action_for_check_email_when_user_does_not_exist(): void
+    {
+        // GIVEN
+        $controller = new PasswordlessController();
+        $request = Request::create('/api/check-email', 'POST', [
+            'email' => 'inconnu@example.com',
+        ]);
+
+        // WHEN
+        $response = $controller->checkEmail($request);
+
+        // THEN
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('not_found', $response->getData(true)['action']);
+        $this->assertSame(
+            'Aucun compte associé à cet email. Veuillez vous inscrire.',
+            $response->getData(true)['message']
+        );
     }
 
     #[Test]

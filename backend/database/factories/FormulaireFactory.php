@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/factories/FormulaireFactory.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier genere des donnees de test pour FormulaireFactory.
+ */
+
 namespace Database\Factories;
 
 use App\Models\Formulaire;
@@ -13,8 +19,8 @@ class FormulaireFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom_formulaire' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
+            'nom_formulaire' => $this->faker->sentence(4),
+            'description' => $this->faker->text(200),
             'statut' => 'actif',
             'id_createur' => Utilisateur::factory(),
         ];

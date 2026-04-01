@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Fichier : backend/app/Mail/ForgotPasswordEmail.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier prepare l'email de reinitialisation de mot de passe.
+ * Il construit le message envoye a l'utilisateur pour relancer l'acces a son compte.
+ */
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;

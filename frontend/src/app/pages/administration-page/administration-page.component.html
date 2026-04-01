@@ -1,39 +1,56 @@
+<!--
+Fichier : frontend/src/app/pages/administration-page/administration-page.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page administration page.
+-->
+
 <main class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
 
-        <div class="sm:hidden">
-            <label for="tabs" class="sr-only">Select a tab</label>
+        <div class="mb-8 text-center sm:text-left">
+            <h1 class="font-abril text-4xl text-[var(--primary-green)] mb-2">Administration</h1>
+            <p class="font-josefin text-[11px] uppercase tracking-widest text-[var(--accent-orange)]">
+                Gestion de l'association
+            </p>
+        </div>
+
+        <div class="sm:hidden mb-6">
+            <label for="tabs" class="sr-only">Sélectionner un onglet</label>
             <select id="tabs" name="tabs"
-                class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                class="block w-full rounded-[4px] bg-[var(--white-cards)] border-[1.5px] border-[var(--border-light)] text-[var(--text-secondary)] font-josefin uppercase tracking-widest text-xs focus:border-[var(--accent-orange)] focus:ring-0 py-3 px-4 outline-none"
                 [ngModel]="activeTab" (ngModelChange)="switchTab($event)">
-                <option value="comptes">Comptes</option>
-                <option value="evenements">Évènements</option>
+                <option value="comptes">Comptes utilisateurs</option>
+                <option value="evenements">Événements & Inscriptions</option>
                 <option value="newsletters">Newsletters</option>
             </select>
         </div>
-        <div class="hidden sm:block">
-            <div class="border-b border-gray-200">
-                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                    <button (click)="switchTab('comptes')" [class]="activeTab === 'comptes' 
-              ? 'border-indigo-500 text-indigo-600' 
-              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
-                        class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+
+        <div class="hidden sm:block mb-8">
+            <div class="border-b-[1.5px] border-[var(--border-light)]">
+                <nav class="-mb-[1.5px] flex space-x-10" aria-label="Tabs">
+                    <button (click)="switchTab('comptes')" 
+                        [class]="activeTab === 'comptes' 
+                            ? 'border-[var(--accent-orange)] text-[var(--accent-orange)]' 
+                            : 'border-transparent text-[var(--text-secondary)] hover:border-[var(--border-light)] hover:text-[var(--primary-green)]'"
+                        class="whitespace-nowrap border-b-[3px] py-4 px-1 text-[11px] font-josefin uppercase font-bold tracking-widest transition-colors"
                         [attr.aria-current]="activeTab === 'comptes' ? 'page' : null">
-                        Comptes
+                        Comptes utilisateurs
                     </button>
 
-                    <button (click)="switchTab('evenements')" [class]="activeTab === 'evenements' 
-              ? 'border-indigo-500 text-indigo-600' 
-              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
-                        class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                    <button (click)="switchTab('evenements')" 
+                        [class]="activeTab === 'evenements' 
+                            ? 'border-[var(--accent-orange)] text-[var(--accent-orange)]' 
+                            : 'border-transparent text-[var(--text-secondary)] hover:border-[var(--border-light)] hover:text-[var(--primary-green)]'"
+                        class="whitespace-nowrap border-b-[3px] py-4 px-1 text-[11px] font-josefin uppercase font-bold tracking-widest transition-colors"
                         [attr.aria-current]="activeTab === 'evenements' ? 'page' : null">
-                        Évènements
+                        Événements & Inscriptions
                     </button>
 
-                    <button (click)="switchTab('newsletters')" [class]="activeTab === 'newsletters' 
-              ? 'border-indigo-500 text-indigo-600' 
-              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
-                        class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
+                    <button (click)="switchTab('newsletters')" 
+                        [class]="activeTab === 'newsletters' 
+                            ? 'border-[var(--accent-orange)] text-[var(--accent-orange)]' 
+                            : 'border-transparent text-[var(--text-secondary)] hover:border-[var(--border-light)] hover:text-[var(--primary-green)]'"
+                        class="whitespace-nowrap border-b-[3px] py-4 px-1 text-[11px] font-josefin uppercase font-bold tracking-widest transition-colors"
                         [attr.aria-current]="activeTab === 'newsletters' ? 'page' : null">
                         Newsletters
                     </button>
@@ -41,13 +58,13 @@
             </div>
         </div>
 
-        <div class="mt-6">
+        <div class="bg-[var(--white-cards)] rounded-[12px] border-[1.5px] border-[var(--border-light)] shadow-sm p-4 sm:p-6 lg:p-8 min-h-[500px]">
             @if (activeTab === 'comptes') {
-            <app-admin-comptes></app-admin-comptes>
+                <app-admin-comptes></app-admin-comptes>
             } @else if (activeTab === 'evenements') {
-            <app-admin-evenements></app-admin-evenements>
+                <app-admin-evenements></app-admin-evenements>
             } @else if (activeTab === 'newsletters') {
-            <app-admin-newsletters></app-admin-newsletters>
+                <app-admin-newsletters></app-admin-newsletters>
             }
         </div>
 

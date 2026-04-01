@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/alert/alert.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant alert.
+ */
+
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/AuthControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour AuthControllerTest.
+ */
+
 namespace Tests\Feature;
 
 use App\Mail\MagicLinkEmail;
@@ -190,6 +196,20 @@ class AuthControllerTest extends TestCase
         // THEN
         $response->assertStatus(200)
             ->assertJsonPath('action', 'send_magic_link');
+    }
+
+    #[Test]
+    public function should_return_not_found_action_for_check_email_endpoint_when_user_does_not_exist(): void
+    {
+        // WHEN
+        $response = $this->postJson('/api/check-email', [
+            'email' => 'inconnu@example.com',
+        ]);
+
+        // THEN
+        $response->assertStatus(200)
+            ->assertJsonPath('action', 'not_found')
+            ->assertJsonPath('message', 'Aucun compte associé à cet email. Veuillez vous inscrire.');
     }
 
     #[Test]

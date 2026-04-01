@@ -1,17 +1,31 @@
+<!--
+Fichier : frontend/src/app/pages/evenement-edit/evenement-edit.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page evenement edit.
+-->
+
 <div class="max-w-5xl mx-auto px-4 py-12 md:py-16 animate-fade-up">
-  
-  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b-[1.5px] border-[var(--border-light)] pb-6">
+  <div
+    class="flex flex-col gap-4 mb-10 border-b-[1.5px] border-[var(--border-light)] pb-6"
+  >
+    <button
+      type="button"
+      (click)="goBack()"
+      class="font-josefin text-[10px] uppercase tracking-[0.15em] text-[var(--accent-orange)] font-bold inline-flex items-center gap-2 whitespace-nowrap hover:text-[var(--primary-green)] transition-colors w-fit"
+    >
+      <i
+        class="fa-solid fa-arrow-left block self-center text-[11px] leading-none"
+      ></i>
+      <span class="block self-center leading-none relative top-px"
+        >Retour à l'accueil</span
+      >
+    </button>
+
     <div>
-      <span class="font-josefin text-[10px] uppercase tracking-[0.15em] text-[var(--accent-orange)] font-bold mb-3 block">
-        Administration
-      </span>
       <h1 class="font-abril text-4xl text-[var(--primary-green)] m-0">
-        {{ isEditMode ? 'Modifier l\'événement' : 'Créer un événement' }}
+        {{ isEditMode ? "Modifier l'événement" : "Créer un événement" }}
       </h1>
     </div>
-    <button type="button" (click)="goBack()" class="btn-secondary shrink-0">
-      <i class="fa-solid fa-arrow-left"></i> Retour
-    </button>
   </div>
 
   @if (loading) {
@@ -19,209 +33,473 @@
       <app-spinner></app-spinner>
     </div>
   } @else {
-    <form [formGroup]="evenementForm" (ngSubmit)="onSubmit()" class="space-y-12">
-      
-      <div class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] overflow-hidden">
-        <div class="bg-[var(--primary-green)]/5 px-8 py-5 border-b-[1.5px] border-[var(--border-light)]">
-            <h2 class="font-abril text-2xl text-[var(--primary-green)] m-0">1. Détails de l'événement</h2>
+    <form
+      [formGroup]="evenementForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-12"
+    >
+      <div
+        class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] overflow-hidden"
+      >
+        <div
+          class="bg-[var(--primary-green)]/5 px-8 py-5 border-b-[1.5px] border-[var(--border-light)]"
+        >
+          <h2 class="font-abril text-2xl text-[var(--primary-green)] m-0">
+            1. Détails de l'événement
+          </h2>
         </div>
-        
+
         <div class="p-8 space-y-8">
+          <div>
+            <label
+              for="titre_event"
+              class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+              >Titre de l'événement
+              <span class="text-[var(--accent-orange)]">*</span></label
+            >
+            <input
+              id="titre_event"
+              type="text"
+              formControlName="titre"
+              placeholder="Ex: Kermesse de fin d'année"
+              class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+            />
+          </div>
+
+          <div>
+            <label
+              for="desc_event"
+              class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+              >Description
+              <span class="text-[var(--accent-orange)]">*</span></label
+            >
+            <textarea
+              id="desc_event"
+              formControlName="description"
+              rows="4"
+              placeholder="Description de l'événement..."
+              class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)] transition-colors"
+            ></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div>
-                <label for="titre_event" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Titre de l'événement <span class="text-[var(--accent-orange)]">*</span></label>
-                <input id="titre_event" type="text" formControlName="titre" placeholder="Ex: Kermesse de fin d'année" class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)] transition-colors">
+              <label
+                for="date_event"
+                class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+                >Date <span class="text-[var(--accent-orange)]">*</span></label
+              >
+              <input
+                id="date_event"
+                type="date"
+                formControlName="date_evenement"
+                class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+              />
+            </div>
+            <div>
+              <label
+                for="hd_event"
+                class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+                >Heure de début
+                <span class="text-[var(--accent-orange)]">*</span></label
+              >
+              <input
+                id="hd_event"
+                type="time"
+                formControlName="heure_debut"
+                class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+              />
+            </div>
+            <div>
+              <label
+                for="hf_event"
+                class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+                >Heure de fin
+                <span class="text-[var(--accent-orange)]">*</span></label
+              >
+              <input
+                id="hf_event"
+                type="time"
+                formControlName="heure_fin"
+                class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+              />
+            </div>
+            <div>
+              <label
+                for="lieu_event"
+                class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+                >Lieu <span class="text-[var(--accent-orange)]">*</span></label
+              >
+              <input
+                id="lieu_event"
+                type="text"
+                formControlName="lieu"
+                placeholder="Ex: Cour de l'école"
+                class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+              />
+            </div>
+          </div>
+
+          @if (
+            evenementForm.errors?.["timeRangeInvalid"] &&
+            (evenementForm.get("heure_fin")?.touched ||
+              evenementForm.get("heure_fin")?.dirty)
+          ) {
+            <div
+              class="text-xs font-bold text-red-600 flex items-center gap-2 bg-[#FFF5F5] p-3 rounded-[4px] border border-red-200 shadow-sm"
+            >
+              <i class="fa-solid fa-triangle-exclamation text-base"></i> L'heure
+              de fin doit être après l'heure de début.
+            </div>
+          }
+
+          <div class="pt-4">
+            <label
+              for="image"
+              class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-1 block"
+            >
+              Image d'illustration
+            </label>
+            <p
+              class="font-dm text-[11px] text-[var(--text-secondary)] mb-3 opacity-80"
+            >
+              Formats acceptés : JPG, PNG, WEBP. Taille maximum :
+              <strong class="text-[var(--accent-orange)]">2 Mo</strong>.
+            </p>
+
+            <div class="relative">
+              <input
+                id="image"
+                type="file"
+                accept="image/*"
+                (change)="onImageFileChange($event)"
+                class="w-full px-4 py-2.5 bg-[var(--bg-creme)] border-[1.5px] border-dashed border-[var(--border-light)] rounded-[4px] font-dm text-xs text-[var(--text-secondary)] focus:outline-none focus:border-[var(--primary-green)] transition-colors cursor-pointer file:mr-4 file:py-1 file:px-3 file:rounded file:border-[1.5px] file:border-[var(--primary-green)] file:text-xs file:font-bold file:font-josefin file:uppercase file:tracking-widest file:bg-[var(--primary-green)] file:text-[var(--bg-creme)] hover:file:bg-transparent hover:file:text-[var(--primary-green)] file:cursor-pointer file:transition-colors"
+              />
             </div>
 
-            <div>
-                <label for="desc_event" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Description <span class="text-[var(--accent-orange)]">*</span></label>
-                <textarea id="desc_event" formControlName="description" rows="4" placeholder="Description de l'événement..." class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)] transition-colors"></textarea>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div>
-                    <label for="date_event" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Date <span class="text-[var(--accent-orange)]">*</span></label>
-                    <input id="date_event" type="date" formControlName="date_evenement" class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                </div>
-                <div>
-                    <label for="hd_event" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Heure de début <span class="text-[var(--accent-orange)]">*</span></label>
-                    <input id="hd_event" type="time" formControlName="heure_debut" class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                </div>
-                <div>
-                    <label for="hf_event" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Heure de fin <span class="text-[var(--accent-orange)]">*</span></label>
-                    <input id="hf_event" type="time" formControlName="heure_fin" class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                </div>
-                <div>
-                    <label for="lieu_event" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Lieu <span class="text-[var(--accent-orange)]">*</span></label>
-                    <input id="lieu_event" type="text" formControlName="lieu" placeholder="Ex: Cour de l'école" class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                </div>
-            </div>
-            
-            @if (evenementForm.errors?.['timeRangeInvalid'] && (evenementForm.get('heure_fin')?.touched || evenementForm.get('heure_fin')?.dirty)) {
-                <div class="text-xs font-bold text-red-600 flex items-center gap-2 bg-[#FFF5F5] p-3 rounded-[4px] border border-red-200 shadow-sm">
-                    <i class="fa-solid fa-triangle-exclamation text-base"></i> L'heure de fin doit être après l'heure de début.
-                </div>
+            @if (imageError) {
+              <div
+                class="mt-2 font-dm text-xs font-bold text-red-600 flex items-center gap-1"
+              >
+                <i class="fa-solid fa-circle-exclamation"></i> {{ imageError }}
+              </div>
             }
 
-            <div class="pt-4">
-                <label for="image" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-1 block">
-                    Image d'illustration
-                </label>
-                <p class="font-dm text-[11px] text-[var(--text-secondary)] mb-3 opacity-80">
-                    Formats acceptés : JPG, PNG, WEBP. Taille maximum : <strong class="text-[var(--accent-orange)]">2 Mo</strong>.
-                </p>
-                
-                <div class="relative">
-                    <input id="image" type="file" accept="image/*" (change)="onImageFileChange($event)"
-                            class="w-full px-4 py-2.5 bg-[var(--bg-creme)] border-[1.5px] border-dashed border-[var(--border-light)] rounded-[4px] font-dm text-xs text-[var(--text-secondary)] focus:outline-none focus:border-[var(--primary-green)] transition-colors cursor-pointer file:mr-4 file:py-1 file:px-3 file:rounded file:border-[1.5px] file:border-[var(--primary-green)] file:text-xs file:font-bold file:font-josefin file:uppercase file:tracking-widest file:bg-[var(--primary-green)] file:text-[var(--bg-creme)] hover:file:bg-transparent hover:file:text-[var(--primary-green)] file:cursor-pointer file:transition-colors">
+            <div class="mt-4 flex gap-4">
+              @if (imagePreview) {
+                <div
+                  class="p-2 bg-white border-[1.5px] border-[var(--primary-green)] rounded-[4px] inline-block shadow-sm relative"
+                >
+                  <span
+                    class="absolute -top-2 -right-2 bg-[var(--accent-orange)] text-white text-[9px] font-josefin uppercase font-bold tracking-widest px-2 py-0.5 rounded shadow-sm z-10"
+                    >Nouvelle</span
+                  >
+                  <img
+                    [src]="imagePreview"
+                    alt="Aperçu"
+                    class="h-32 w-auto object-cover rounded-[2px]"
+                  />
                 </div>
-
-                @if (imageError) {
-                    <div class="mt-2 font-dm text-xs font-bold text-red-600 flex items-center gap-1">
-                    <i class="fa-solid fa-circle-exclamation"></i> {{ imageError }}
-                    </div>
-                }
-
-                <div class="mt-4 flex gap-4">
-                    @if (imagePreview) {
-                        <div class="p-2 bg-white border-[1.5px] border-[var(--primary-green)] rounded-[4px] inline-block shadow-sm relative">
-                            <span class="absolute -top-2 -right-2 bg-[var(--accent-orange)] text-white text-[9px] font-josefin uppercase font-bold tracking-widest px-2 py-0.5 rounded shadow-sm z-10">Nouvelle</span>
-                            <img [src]="imagePreview" alt="Aperçu" class="h-32 w-auto object-cover rounded-[2px]">
-                        </div>
-                    } @else if (isEditMode && currentImageUrl) {
-                        <div class="p-2 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] inline-block">
-                            <span class="block mb-2 font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)]">Image actuelle</span>
-                            <img [src]="currentImageUrl" loading="lazy" alt="Image actuelle" class="h-24 w-auto object-cover rounded-[2px] opacity-80">
-                            <p class="mt-2 font-dm text-[10px] text-[var(--text-secondary)] italic">Laissez vide pour conserver.</p>
-                        </div>
-                    }
+              } @else if (isEditMode && currentImageUrl) {
+                <div
+                  class="p-2 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] inline-block"
+                >
+                  <span
+                    class="block mb-2 font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)]"
+                    >Image actuelle</span
+                  >
+                  <img
+                    [src]="currentImageUrl"
+                    loading="lazy"
+                    alt="Image actuelle"
+                    class="h-24 w-auto object-cover rounded-[2px] opacity-80"
+                  />
+                  <p
+                    class="mt-2 font-dm text-[10px] text-[var(--text-secondary)] italic"
+                  >
+                    Laissez vide pour conserver.
+                  </p>
                 </div>
+              }
             </div>
+          </div>
         </div>
       </div>
 
-      <div class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] overflow-hidden">
-        <div class="bg-[var(--primary-green)]/5 px-8 py-5 border-b-[1.5px] border-[var(--border-light)]">
-            <h2 class="font-abril text-2xl text-[var(--primary-green)] m-0">2. Inscriptions Bénévoles</h2>
+      <div
+        class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] overflow-hidden"
+      >
+        <div
+          class="bg-[var(--primary-green)]/5 px-8 py-5 border-b-[1.5px] border-[var(--border-light)]"
+        >
+          <h2 class="font-abril text-2xl text-[var(--primary-green)] m-0">
+            2. Inscriptions Bénévoles
+          </h2>
         </div>
-        
+
         <div class="p-8">
-            @if (!isEditMode) {
-                <p class="font-dm text-sm text-[var(--text-secondary)] mb-6">
-                    Définissez les tâches et les créneaux horaires pour lesquels vous avez besoin d'aide.
+          @if (!isEditMode) {
+            <p class="font-dm text-sm text-[var(--text-secondary)] mb-6">
+              Définissez les tâches et les créneaux horaires pour lesquels vous
+              avez besoin d'aide.
+            </p>
+            <div
+              class="bg-[var(--bg-creme)] p-6 rounded-[4px] border-[1.5px] border-[var(--border-light)] mb-8"
+            >
+              <label
+                for="select_template"
+                class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block"
+              >
+                Importer un modèle de formulaire existant
+              </label>
+              <select
+                id="select_template"
+                formControlName="select_template_id"
+                class="w-full md:w-1/2 p-3 bg-white border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+              >
+                <option [ngValue]="null">-- Partir de zéro --</option>
+                @for (tpl of templates; track tpl.id_formulaire) {
+                  <option [value]="tpl.id_formulaire">
+                    {{ tpl.nom_formulaire }}
+                  </option>
+                }
+              </select>
+            </div>
+          } @else {
+            <div
+              class="bg-orange-50 border-[1.5px] border-orange-200 p-4 rounded-[4px] flex items-start gap-3 mb-6"
+            >
+              <i class="fa-solid fa-lock text-orange-600 mt-1"></i>
+              <div>
+                <h3 class="font-bold text-orange-800 text-sm font-dm">
+                  Structure protégée
+                </h3>
+                <p class="text-xs text-orange-700 mt-1 font-dm">
+                  L'événement est en cours. Pour éviter de corrompre les
+                  inscriptions existantes, les tâches et créneaux ne sont pas
+                  modifiables ici.
                 </p>
-                <div class="bg-[var(--bg-creme)] p-6 rounded-[4px] border-[1.5px] border-[var(--border-light)] mb-8">
-                    <label for="select_template" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">
-                        Importer un modèle de formulaire existant
-                    </label>
-                    <select id="select_template" formControlName="select_template_id" class="w-full md:w-1/2 p-3 bg-white border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                        <option [ngValue]="null">-- Partir de zéro --</option>
-                        @for (tpl of templates; track tpl.id_formulaire) {
-                            <option [value]="tpl.id_formulaire">{{ tpl.nom_formulaire }}</option>
-                        }
-                    </select>
-                </div>
-            } @else {
-                <div class="bg-orange-50 border-[1.5px] border-orange-200 p-4 rounded-[4px] flex items-start gap-3 mb-6">
-                    <i class="fa-solid fa-lock text-orange-600 mt-1"></i>
+              </div>
+            </div>
+          }
+
+          @if (!isEditMode) {
+            <div formArrayName="taches" class="space-y-6">
+              @for (tache of taches.controls; track tache; let i = $index) {
+                <div
+                  [formGroupName]="i"
+                  class="bg-[var(--bg-creme)] rounded-[4px] border-[1.5px] border-[var(--border-light)] p-6 relative group animate-fade-in"
+                >
+                  <button
+                    type="button"
+                    (click)="removeTache(i)"
+                    class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[var(--text-secondary)] hover:text-red-500 hover:bg-white rounded border border-transparent hover:border-red-200 transition-all"
+                  >
+                    <i class="fa-solid fa-trash-can text-sm"></i>
+                  </button>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mr-10 mb-6">
                     <div>
-                        <h3 class="font-bold text-orange-800 text-sm font-dm">Structure protégée</h3>
-                        <p class="text-xs text-orange-700 mt-1 font-dm">
-                            L'événement est en cours. Pour éviter de corrompre les inscriptions existantes, les tâches et créneaux ne sont pas modifiables ici.
-                        </p>
+                      <label
+                        for="nom_tache_{{ i }}"
+                        class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-bold mb-1 block"
+                        >Nom de la tâche</label
+                      >
+                      <input
+                        id="nom_tache_{{ i }}"
+                        type="text"
+                        formControlName="nom_tache"
+                        placeholder="Ex: Buvette"
+                        class="w-full px-3 py-2 bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-sm font-bold focus:outline-none focus:border-[var(--primary-green)]"
+                      />
                     </div>
-                </div>
-            }
+                    <div class="flex gap-4">
+                      <div class="flex-1">
+                        <label
+                          for="hdg_{{ i }}"
+                          class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-bold mb-1 block"
+                          >Début (Global)</label
+                        >
+                        <input
+                          id="hdg_{{ i }}"
+                          type="time"
+                          formControlName="heure_debut_globale"
+                          (change)="tache.updateValueAndValidity()"
+                          class="w-full px-3 py-2 bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+                        />
+                      </div>
+                      <div class="flex-1">
+                        <label
+                          for="hfg_{{ i }}"
+                          class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-bold mb-1 block"
+                          >Fin (Global)</label
+                        >
+                        <input
+                          id="hfg_{{ i }}"
+                          type="time"
+                          formControlName="heure_fin_globale"
+                          (change)="tache.updateValueAndValidity()"
+                          class="w-full px-3 py-2 bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-            @if (!isEditMode) {
-                <div formArrayName="taches" class="space-y-6">
-                    @for (tache of taches.controls; track tache; let i = $index) {
-                        <div [formGroupName]="i" class="bg-[var(--bg-creme)] rounded-[4px] border-[1.5px] border-[var(--border-light)] p-6 relative group animate-fade-in">
-                            
-                            <button type="button" (click)="removeTache(i)" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[var(--text-secondary)] hover:text-red-500 hover:bg-white rounded border border-transparent hover:border-red-200 transition-all">
-                                <i class="fa-solid fa-trash-can text-sm"></i>
-                            </button>
+                  @if (
+                    tache.errors?.["timeRangeInvalid"] &&
+                    (tache.touched || tache.dirty)
+                  ) {
+                    <div
+                      class="mb-4 text-xs font-bold text-red-600 flex items-center gap-2 bg-[#FFF5F5] p-3 rounded-[4px] border border-red-200 shadow-sm"
+                    >
+                      <i class="fa-solid fa-triangle-exclamation text-base"></i>
+                      La fin globale de la tâche doit être après le début.
+                    </div>
+                  }
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mr-10 mb-6">
-                                <div>
-                                    <label for="nom_tache_{{i}}" class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-bold mb-1 block">Nom de la tâche</label>
-                                    <input id="nom_tache_{{i}}" type="text" formControlName="nom_tache" placeholder="Ex: Buvette" class="w-full px-3 py-2 bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-sm font-bold focus:outline-none focus:border-[var(--primary-green)]">
-                                </div>
-                                <div class="flex gap-4">
-                                    <div class="flex-1">
-                                        <label for="hdg_{{i}}" class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-bold mb-1 block">Début (Global)</label>
-                                        <input id="hdg_{{i}}" type="time" formControlName="heure_debut_globale" (change)="tache.updateValueAndValidity()" class="w-full px-3 py-2 bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                                    </div>
-                                    <div class="flex-1">
-                                        <label for="hfg_{{i}}" class="font-josefin text-[9px] uppercase tracking-widest text-[var(--text-secondary)] font-bold mb-1 block">Fin (Global)</label>
-                                        <input id="hfg_{{i}}" type="time" formControlName="heure_fin_globale" (change)="tache.updateValueAndValidity()" class="w-full px-3 py-2 bg-white border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]">
-                                    </div>
-                                </div>
+                  @if (isTaskOutsideEventBounds(tache)) {
+                    <div
+                      class="mb-4 text-xs font-bold text-orange-700 bg-orange-100 border border-orange-300 p-3 rounded-[4px] flex items-center gap-2 shadow-sm"
+                    >
+                      <i class="fa-solid fa-circle-info text-base"></i>
+                      À noter : Cette tâche déborde des horaires officiels de
+                      l'événement (de
+                      {{ evenementForm.get("heure_debut")?.value || "--:--" }} à
+                      {{ evenementForm.get("heure_fin")?.value || "--:--" }}).
+                    </div>
+                  }
+
+                  @if (tache.errors?.["slotOutsideTaskBounds"]) {
+                    <div
+                      class="mb-4 text-xs font-bold text-red-700 bg-red-100 border border-red-300 p-3 rounded-[4px] flex items-center gap-2 shadow-sm"
+                    >
+                      <i class="fa-solid fa-triangle-exclamation text-base"></i>
+                      Un créneau de cette tâche commence trop tôt ou finit trop
+                      tard.
+                    </div>
+                  }
+
+                  <div class="mb-6">
+                    <input
+                      type="text"
+                      formControlName="description"
+                      aria-label="Description de la tâche"
+                      placeholder="Description courte (optionnelle)..."
+                      class="w-full px-3 py-2 bg-transparent border-b border-[var(--border-light)] focus:border-[var(--primary-green)] outline-none text-sm font-dm placeholder:italic"
+                    />
+                  </div>
+
+                  <div
+                    class="bg-white rounded-[2px] p-4 border-[1.5px] border-[var(--border-light)]"
+                  >
+                    <h4
+                      class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-3"
+                    >
+                      Créneaux horaires & Quotas
+                    </h4>
+
+                    <div formArrayName="creneaux" class="space-y-3">
+                      @for (
+                        creneau of getCreneaux(i).controls;
+                        track creneau;
+                        let j = $index
+                      ) {
+                        <div
+                          [formGroupName]="j"
+                          class="flex flex-wrap items-center gap-3"
+                        >
+                          <input
+                            type="time"
+                            aria-label="Heure de début du créneau"
+                            (change)="tache.updateValueAndValidity()"
+                            formControlName="heure_debut"
+                            class="w-24 px-2 py-1.5 border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-xs focus:border-[var(--primary-green)] outline-none"
+                          />
+                          <span class="text-[var(--text-secondary)]">-</span>
+                          <input
+                            type="time"
+                            aria-label="Heure de fin du créneau"
+                            (change)="tache.updateValueAndValidity()"
+                            formControlName="heure_fin"
+                            class="w-24 px-2 py-1.5 border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-xs focus:border-[var(--primary-green)] outline-none"
+                          />
+
+                          <div
+                            class="flex items-center gap-2 ml-2 bg-[var(--bg-creme)] px-3 py-1.5 rounded-[2px] border-[1.5px] border-[var(--border-light)]"
+                          >
+                            <span
+                              class="font-josefin text-[9px] uppercase font-bold text-[var(--text-secondary)]"
+                              >Places</span
+                            >
+                            <input
+                              type="number"
+                              aria-label="Nombre de places"
+                              formControlName="quota"
+                              min="1"
+                              class="w-12 bg-transparent border-none p-0 text-center font-bold text-[var(--primary-green)] focus:ring-0 text-sm outline-none"
+                            />
+                          </div>
+
+                          <button
+                            type="button"
+                            (click)="removeCreneau(i, j)"
+                            class="ml-auto w-6 h-6 flex items-center justify-center text-red-300 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                          >
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                          </button>
+
+                          @if (
+                            creneau.errors?.["timeRangeInvalid"] &&
+                            (creneau.touched || creneau.dirty)
+                          ) {
+                            <div
+                              class="w-full text-[10px] font-bold text-red-600 mt-1"
+                            >
+                              L'heure de fin doit être après l'heure de début.
                             </div>
-
-                            @if (tache.errors?.['timeRangeInvalid'] && (tache.touched || tache.dirty)) {
-                                <div class="mb-4 text-xs font-bold text-red-600 flex items-center gap-2 bg-[#FFF5F5] p-3 rounded-[4px] border border-red-200 shadow-sm">
-                                    <i class="fa-solid fa-triangle-exclamation text-base"></i> La fin globale de la tâche doit être après le début.
-                                </div>
-                            }
-                            
-                            @if (tache.errors?.['slotOutsideTaskBounds']) {
-                                <div class="mb-4 text-xs font-bold text-red-700 bg-red-100 border border-red-300 p-3 rounded-[4px] flex items-center gap-2 shadow-sm">
-                                    <i class="fa-solid fa-triangle-exclamation text-base"></i> 
-                                    Attention : Un créneau déborde des horaires globaux de la tâche !
-                                </div>
-                            }
-
-                            <div class="mb-6">
-                                <input type="text" formControlName="description" aria-label="Description de la tâche" placeholder="Description courte (optionnelle)..." class="w-full px-3 py-2 bg-transparent border-b border-[var(--border-light)] focus:border-[var(--primary-green)] outline-none text-sm font-dm placeholder:italic">
-                            </div>
-
-                            <div class="bg-white rounded-[2px] p-4 border-[1.5px] border-[var(--border-light)]">
-                                <h4 class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-3">Créneaux horaires & Quotas</h4>
-                                
-                                <div formArrayName="creneaux" class="space-y-3">
-                                    @for (creneau of getCreneaux(i).controls; track creneau; let j = $index) {
-                                        <div [formGroupName]="j" class="flex flex-wrap items-center gap-3">
-                                            <input type="time" aria-label="Heure de début du créneau" (change)="tache.updateValueAndValidity()" formControlName="heure_debut" class="w-24 px-2 py-1.5 border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-xs focus:border-[var(--primary-green)] outline-none">
-                                            <span class="text-[var(--text-secondary)]">-</span>
-                                            <input type="time" aria-label="Heure de fin du créneau" (change)="tache.updateValueAndValidity()" formControlName="heure_fin" class="w-24 px-2 py-1.5 border-[1.5px] border-[var(--border-light)] rounded-[2px] font-dm text-xs focus:border-[var(--primary-green)] outline-none">
-                                            
-                                            <div class="flex items-center gap-2 ml-2 bg-[var(--bg-creme)] px-3 py-1.5 rounded-[2px] border-[1.5px] border-[var(--border-light)]">
-                                                <span class="font-josefin text-[9px] uppercase font-bold text-[var(--text-secondary)]">Places</span>
-                                                <input type="number" aria-label="Nombre de places" formControlName="quota" min="1" class="w-12 bg-transparent border-none p-0 text-center font-bold text-[var(--primary-green)] focus:ring-0 text-sm outline-none">
-                                            </div>
-
-                                            <button type="button" (click)="removeCreneau(i, j)" class="ml-auto w-6 h-6 flex items-center justify-center text-red-300 hover:text-red-600 hover:bg-red-50 rounded transition-colors"><i class="fa-solid fa-xmark text-sm"></i></button>
-
-                                            @if (creneau.errors?.['timeRangeInvalid'] && (creneau.touched || creneau.dirty)) {
-                                                <div class="w-full text-[10px] font-bold text-red-600 mt-1">L'heure de fin doit être après l'heure de début.</div>
-                                            }
-                                        </div>
-                                    }
-                                </div>
-                                <button type="button" (click)="addCreneau(i)" class="mt-4 font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] font-bold hover:text-[var(--primary-green)] transition-colors flex items-center gap-1">
-                                    <i class="fa-solid fa-plus"></i> Ajouter un créneau
-                                </button>
-                            </div>
+                          }
                         </div>
-                    }
-                    <button type="button" (click)="addTache()" class="w-full py-4 border-[1.5px] border-dashed border-[var(--border-light)] rounded-[4px] font-josefin text-[11px] uppercase tracking-widest text-[var(--text-secondary)] font-bold hover:border-[var(--primary-green)] hover:text-[var(--primary-green)] hover:bg-[var(--primary-green)]/5 transition-all flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-plus-circle text-sm"></i> Ajouter une nouvelle tâche
+                      }
+                    </div>
+                    <button
+                      type="button"
+                      (click)="addCreneau(i)"
+                      class="mt-4 font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] font-bold hover:text-[var(--primary-green)] transition-colors flex items-center gap-1"
+                    >
+                      <i class="fa-solid fa-plus"></i> Ajouter un créneau
                     </button>
+                  </div>
                 </div>
-            }
+              }
+              <button
+                type="button"
+                (click)="addTache()"
+                class="w-full py-4 border-[1.5px] border-dashed border-[var(--border-light)] rounded-[4px] font-josefin text-[11px] uppercase tracking-widest text-[var(--text-secondary)] font-bold hover:border-[var(--primary-green)] hover:text-[var(--primary-green)] hover:bg-[var(--primary-green)]/5 transition-all flex justify-center items-center gap-2"
+              >
+                <i class="fa-solid fa-plus-circle text-sm"></i> Ajouter une
+                nouvelle tâche
+              </button>
+            </div>
+          }
         </div>
       </div>
 
       <div class="flex justify-end pt-4">
-        <button type="submit" [disabled]="evenementForm.invalid || saving" class="btn-primary w-full sm:w-auto !py-3 px-8 text-center disabled:opacity-50 disabled:cursor-not-allowed">
-            @if (saving) {
-              <i class="fa-solid fa-spinner fa-spin mr-2"></i> Enregistrement...
-            } @else {
-              <i class="fa-solid fa-check mr-2"></i> {{ isEditMode ? 'Enregistrer les modifications' : 'Créer l\'événement' }}
-            }
+        <button
+          type="submit"
+          [disabled]="evenementForm.invalid || saving"
+          class="btn-primary w-full sm:w-auto !py-3 px-8 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          @if (saving) {
+            <i class="fa-solid fa-spinner fa-spin mr-2"></i> Enregistrement...
+          } @else {
+            <i class="fa-solid fa-check mr-2"></i>
+            {{
+              isEditMode ? "Enregistrer les modifications" : "Créer l'événement"
+            }}
+          }
         </button>
       </div>
-
     </form>
   }
 </div>

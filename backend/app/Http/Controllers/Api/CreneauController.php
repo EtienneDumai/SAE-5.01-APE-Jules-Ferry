@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/CreneauController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere les operations API liees aux creneau.
+ */
+
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Tache;

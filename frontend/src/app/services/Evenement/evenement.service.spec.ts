@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Evenement/evenement.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Evenement.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -61,14 +67,24 @@ describe('EvenementService', () => {
     httpMock.verify();
   });
 
-  it('devrait être créé', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
   describe('getAllEvenements', () => {
-    it('devrait récupérer tous les événements', () => {
+    it('should_fetch_all_events', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllEvenements().subscribe({
         next: (response) => {
+
+    // THEN
           expect(response.data).toEqual(mockEvenements);
           expect(response.total).toBe(2);
         },
@@ -80,9 +96,14 @@ describe('EvenementService', () => {
       req.flush({ data: mockEvenements, current_page: 1, last_page: 1, total: 2 });
     });
 
-    it('devrait retourner un tableau vide quand aucun événement n\'existe', () => {
+    it('should_return_tableau_empty_when_no_event_n_existe', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllEvenements().subscribe({
         next: (response) => {
+
+    // THEN
           expect(response.data).toEqual([]);
           expect(response.total).toBe(0);
         },
@@ -94,12 +115,16 @@ describe('EvenementService', () => {
       req.flush({ data: [], current_page: 1, last_page: 1, total: 0 });
     });
 
-    it('devrait gérer les erreurs lors de la récupération des événements', () => {
+    it('should_handle_errors_when_recuperation_events', () => {
+    // GIVEN
       const errorMessage = 'Server error';
 
+    // WHEN
       service.getAllEvenements().subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
           expect(error.error).toBe(errorMessage);
         }
@@ -108,14 +133,54 @@ describe('EvenementService', () => {
       const req = httpMock.expectOne(`${apiUrl}/evenements?page=1`);
       req.flush(errorMessage, { status: 500, statusText: 'Server Error' });
     });
+
+    it('should_add_filtre_statut_limite_when_fournis', () => {
+    // GIVEN
+
+    // WHEN
+      service.getAllEvenements('publie', 3, 12).subscribe({
+        next: (response) => {
+
+    // THEN
+          expect(response.current_page).toBe(3);
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=3&statut=publie&limit=12`);
+      expect(req.request.method).toBe('GET');
+      req.flush({ data: mockEvenements, current_page: 3, last_page: 4, total: 20 });
+    });
+
+    it('should_n_add_pas_filtre_statut_when_value_all', () => {
+    // GIVEN
+
+    // WHEN
+      service.getAllEvenements('tous', 2).subscribe({
+        next: (response) => {
+
+    // THEN
+          expect(response.current_page).toBe(2);
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements?page=2`);
+      expect(req.request.method).toBe('GET');
+      req.flush({ data: mockEvenements, current_page: 2, last_page: 3, total: 10 });
+    });
   });
 
   describe('getEvenementById', () => {
-    it('devrait récupérer un événement spécifique par son id', () => {
+    it('should_fetch_event_specifique_par_id', () => {
+    // GIVEN
       const evenementId = 1;
 
+    // WHEN
       service.getEvenementById(evenementId).subscribe({
         next: (evenement) => {
+
+    // THEN
           expect(evenement).toEqual(mockEvenement);
           expect(evenement.id_evenement).toBe(evenementId);
         },
@@ -127,12 +192,16 @@ describe('EvenementService', () => {
       req.flush(mockEvenement);
     });
 
-    it('devrait gérer l\'erreur 404 quand l\'événement n\'est pas trouvé', () => {
+    it('should_handle_erreur_404_quand_l_evenement_n_est_pas_trouve', () => {
+    // GIVEN
       const evenementId = 999;
 
+    // WHEN
       service.getEvenementById(evenementId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -143,7 +212,8 @@ describe('EvenementService', () => {
   });
 
   describe('createEvenement', () => {
-    it('devrait créer un nouvel événement avec un objet Evenement', () => {
+    it('should_create_nouvel_event_objet_event', () => {
+    // GIVEN
       const newEvenement: Evenement = {
         id_evenement: 0,
         titre: 'New Event',
@@ -160,8 +230,11 @@ describe('EvenementService', () => {
 
       const createdEvenement = { ...newEvenement, id_evenement: 3 };
 
+    // WHEN
       service.createEvenement(newEvenement).subscribe({
         next: (evenement) => {
+
+    // THEN
           expect(evenement).toEqual(createdEvenement);
           expect(evenement.id_evenement).toBe(3);
         },
@@ -174,15 +247,20 @@ describe('EvenementService', () => {
       req.flush(createdEvenement);
     });
 
-    it('devrait créer un nouvel événement avec FormData', () => {
+    it('should_create_nouvel_event_formdata', () => {
+    // GIVEN
       const formData = new FormData();
       formData.append('titre', 'New Event');
+
       formData.append('description', 'New Description');
 
       const createdEvenement = { ...mockEvenement, id_evenement: 4 };
 
+    // WHEN
       service.createEvenement(formData).subscribe({
         next: (evenement) => {
+
+    // THEN
           expect(evenement).toEqual(createdEvenement);
         },
         error: () => fail('Expected successful response')
@@ -194,12 +272,16 @@ describe('EvenementService', () => {
       req.flush(createdEvenement);
     });
 
-    it('devrait gérer les erreurs de validation lors de la création d\'un événement', () => {
+    it('should_handle_errors_validation_when_creation_un_evenement', () => {
+    // GIVEN
       const invalidEvenement = { ...mockEvenement };
 
+    // WHEN
       service.createEvenement(invalidEvenement).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(422);
         }
       });
@@ -209,16 +291,40 @@ describe('EvenementService', () => {
     });
   });
 
+  describe('getEvenementDetails', () => {
+    it('should_fetch_detail_event', () => {
+    // GIVEN
+
+    // WHEN
+      service.getEvenementDetails(1).subscribe({
+        next: (evenement) => {
+
+    // THEN
+          expect(evenement).toEqual(mockEvenement);
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements/1/details`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockEvenement);
+    });
+  });
+
   describe('updateEvenement', () => {
-    it('devrait mettre à jour un événement existant avec un objet Evenement', () => {
+    it('should_update_event_existant_objet_event', () => {
+    // GIVEN
       const updatedEvenement: Evenement = {
         ...mockEvenement,
         titre: 'Updated Event'
       };
       const evenementId = 1;
 
+    // WHEN
       service.updateEvenement(updatedEvenement, evenementId).subscribe({
         next: (evenement) => {
+
+    // THEN
           expect(evenement).toEqual(updatedEvenement);
           expect(evenement.titre).toBe('Updated Event');
         },
@@ -231,14 +337,19 @@ describe('EvenementService', () => {
       req.flush(updatedEvenement);
     });
 
-    it('devrait mettre à jour un événement existant avec FormData', () => {
+    it('should_update_event_existant_formdata', () => {
+    // GIVEN
       const formData = new FormData();
+
       formData.append('titre', 'Updated Event');
       const evenementId = 1;
       const updatedEvenement = { ...mockEvenement, titre: 'Updated Event' };
 
+    // WHEN
       service.updateEvenement(formData, evenementId).subscribe({
         next: (evenement) => {
+
+    // THEN
           expect(evenement).toEqual(updatedEvenement);
         },
         error: () => fail('Expected successful response')
@@ -250,12 +361,16 @@ describe('EvenementService', () => {
       req.flush(updatedEvenement);
     });
 
-    it('devrait gérer l\'erreur lors de la mise à jour d\'un événement inexistant', () => {
+    it('should_handle_erreur_lors_de_la_mise_a_jour_d_un_evenement_inexistant', () => {
+    // GIVEN
       const evenementId = 999;
 
+    // WHEN
       service.updateEvenement(mockEvenement, evenementId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -266,11 +381,15 @@ describe('EvenementService', () => {
   });
 
   describe('deleteEvenement', () => {
-    it('devrait supprimer un événement par son id', () => {
+    it('should_delete_event_par_id', () => {
+    // GIVEN
       const evenementId = 1;
 
+    // WHEN
       service.deleteEvenement(evenementId).subscribe({
         next: () => {
+
+    // THEN
           expect(true).toBe(true);
         },
         error: () => fail('Expected successful response')
@@ -281,12 +400,16 @@ describe('EvenementService', () => {
       req.flush({ message: 'Deleted successfully' });
     });
 
-    it('devrait gérer l\'erreur lors de la suppression d\'un événement inexistant', () => {
+    it('should_handle_erreur_lors_de_la_suppression_d_un_evenement_inexistant', () => {
+    // GIVEN
       const evenementId = 999;
 
+    // WHEN
       service.deleteEvenement(evenementId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -295,18 +418,41 @@ describe('EvenementService', () => {
       req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
 
-    it('devrait gérer les erreurs serveur lors de la suppression d\'un événement', () => {
+    it('should_handle_errors_serveur_when_suppression_un_evenement', () => {
+    // GIVEN
       const evenementId = 1;
 
+    // WHEN
       service.deleteEvenement(evenementId).subscribe({
         next: () => fail('Expected an error'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
         }
       });
 
       const req = httpMock.expectOne(`${apiUrl}/evenements/${evenementId}`);
       req.flush('Server Error', { status: 500, statusText: 'Internal Server Error' });
+    });
+
+    it('should_transmettre_password_password_admin_when_suppression', () => {
+    // GIVEN
+
+    // WHEN
+      service.deleteEvenement(1, 'secret').subscribe({
+        next: (response) => {
+
+    // THEN
+          expect(response.message).toBe('Deleted successfully');
+        },
+        error: () => fail('Expected successful response')
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/evenements/1`);
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.body).toEqual({ admin_password: 'secret' });
+      req.flush({ message: 'Deleted successfully' });
     });
   });
 });

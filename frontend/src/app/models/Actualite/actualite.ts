@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Actualite/actualite.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele actualite utilise dans le frontend.
+ */
+
 import { StatutActualite } from "../../enums/StatutActualite/statut-actualite";
 
 export interface Actualite {

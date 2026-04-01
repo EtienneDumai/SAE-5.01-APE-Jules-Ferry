@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Evenement/evenement.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele evenement utilise dans le frontend.
+ */
+
 import { StatutEvenement } from "../../enums/StatutEvenement/statut-evenement";
 
 import { Formulaire } from "../Formulaire/formulaire";

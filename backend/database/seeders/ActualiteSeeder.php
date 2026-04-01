@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/seeders/ActualiteSeeder.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier insere des donnees initiales pour ActualiteSeeder.
+ */
+
 namespace Database\Seeders;
 
 use App\Services\Image\ImageConverterService;

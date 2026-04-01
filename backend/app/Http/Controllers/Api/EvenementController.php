@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/app/Http/Controllers/Api/EvenementController.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce controleur gere les operations API liees aux evenement.
+ */
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -183,8 +189,21 @@ class EvenementController extends Controller
     {
         try {
             $evenement = Evenement::find($id);
-            if (!$evenement)
+            if (!$evenement) {
                 return response()->json(['message' => 'Non trouvé'], 404);
+            }
+
+            $user = Auth::user();
+            
+            if (!$user) {
+                return response()->json(['message' => 'Non autorisé. Vous devez être connecté.'], 401);
+            }
+
+            $password = $request->input('admin_password');
+
+            if (!$password || !\Illuminate\Support\Facades\Hash::check($password, $user->mot_de_passe)) {
+                return response()->json(['message' => 'Mot de passe administrateur incorrect.'], 403);
+            }
 
             if ($evenement->id_formulaire) {
                 $formulaire = Formulaire::find($evenement->id_formulaire);

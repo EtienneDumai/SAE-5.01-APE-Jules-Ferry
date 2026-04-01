@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fichier : backend/routes/api.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier declare les routes API du backend.
+ * Il relie les endpoints utilises par le frontend aux controleurs correspondants.
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\LoginController;
@@ -47,9 +54,6 @@ Route::get('/evenements/{id}/details', [EvenementController::class, 'getDetails'
 // Actualités
 Route::get('/actualites', [ActualiteController::class, 'index']);
 Route::get('/actualites/{id}', [ActualiteController::class, 'show']);
-Route::post('/actualites', [ActualiteController::class, 'store']);
-Route::put('/actualites/{id}', [ActualiteController::class, 'update']);
-Route::delete('/actualites/{id}', [ActualiteController::class, 'destroy']);
 
 // Formulaires
 Route::get('/formulaires/{id}', [FormulaireController::class, 'show']);
@@ -84,6 +88,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/inscriptions', [InscriptionController::class, 'updateAdmin']);
     Route::delete('/admin/inscriptions', [InscriptionController::class, 'destroyAdmin']);
 
+    Route::post('/actualites', [ActualiteController::class, 'store']);
+    Route::put('/actualites/{id}', [ActualiteController::class, 'update']);
+    Route::delete('/actualites/{id}', [ActualiteController::class, 'destroy']);
 
     Route::post('/evenements', [EvenementController::class, 'store']);
     Route::put('/evenements/{evenement}', [EvenementController::class, 'update']);

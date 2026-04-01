@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/services/Tache/tache.service.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le service Tache.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -48,13 +54,23 @@ describe('TacheService', () => {
     httpMock.verify();
   });
 
-  it('devrait être créé', () => {
+  it('should_be_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(service).toBeTruthy();
   });
 
   describe('getAllTaches', () => {
-    it('devrait retourner un tableau de tâches', () => {
+    it('should_return_tableau_taches', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllTaches().subscribe(taches => {
+
+    // THEN
         expect(taches).toEqual(mockTaches);
         expect(taches.length).toBe(2);
       });
@@ -64,8 +80,13 @@ describe('TacheService', () => {
       req.flush(mockTaches);
     });
 
-    it('devrait retourner un tableau vide quand aucune tâche', () => {
+    it('should_return_tableau_empty_when_no_tache', () => {
+    // GIVEN
+
+    // WHEN
       service.getAllTaches().subscribe(taches => {
+
+    // THEN
         expect(taches).toEqual([]);
         expect(taches.length).toBe(0);
       });
@@ -74,12 +95,16 @@ describe('TacheService', () => {
       req.flush([]);
     });
 
-    it('devrait gérer l\'erreur quand getAllTaches échoue', () => {
+    it('should_handle_erreur_quand_getalltaches_echoue', () => {
+    // GIVEN
       const errorMessage = 'Server error';
 
+    // WHEN
       service.getAllTaches().subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(500);
         }
       });
@@ -90,10 +115,14 @@ describe('TacheService', () => {
   });
 
   describe('getTacheById', () => {
-    it('devrait retourner une tâche unique par son id', () => {
+    it('should_return_tache_unique_par_id', () => {
+    // GIVEN
       const tacheId = 1;
 
+    // WHEN
       service.getTacheById(tacheId).subscribe(tache => {
+
+    // THEN
         expect(tache).toEqual(mockTache);
         expect(tache.id_tache).toBe(tacheId);
       });
@@ -103,12 +132,16 @@ describe('TacheService', () => {
       req.flush(mockTache);
     });
 
-    it('devrait gérer l\'erreur quand la tâche n\'est pas trouvée', () => {
+    it('should_handle_erreur_quand_la_tache_n_est_pas_trouvee', () => {
+    // GIVEN
       const tacheId = 999;
 
+    // WHEN
       service.getTacheById(tacheId).subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -119,7 +152,8 @@ describe('TacheService', () => {
   });
 
   describe('createTache', () => {
-    it('devrait créer une nouvelle tâche', () => {
+    it('should_create_nouvelle_tache', () => {
+    // GIVEN
       const newTache: Tache = {
         id_tache: 0,
         nom_tache: 'Nouvelle tâche',
@@ -132,7 +166,10 @@ describe('TacheService', () => {
 
       const createdTache = { ...newTache, id_tache: 3 };
 
+    // WHEN
       service.createTache(newTache).subscribe(tache => {
+
+    // THEN
         expect(tache).toEqual(createdTache);
         expect(tache.id_tache).toBe(3);
       });
@@ -143,7 +180,8 @@ describe('TacheService', () => {
       req.flush(createdTache);
     });
 
-    it('devrait gérer l\'erreur quand la création échoue', () => {
+    it('should_handle_erreur_quand_la_creation_echoue', () => {
+    // GIVEN
       const newTache: Tache = {
         id_tache: 0,
         nom_tache: 'Nouvelle tâche',
@@ -154,9 +192,12 @@ describe('TacheService', () => {
         creneaux: []
       };
 
+    // WHEN
       service.createTache(newTache).subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(400);
         }
       });
@@ -167,14 +208,18 @@ describe('TacheService', () => {
   });
 
   describe('updateTache', () => {
-    it('devrait mettre à jour une tâche existante', () => {
+    it('should_update_tache_existante', () => {
+    // GIVEN
       const tacheId = 1;
       const updatedTache: Tache = {
         ...mockTache,
         nom_tache: 'Tâche modifiée'
       };
 
+    // WHEN
       service.updateTache(updatedTache, tacheId).subscribe(tache => {
+
+    // THEN
         expect(tache).toEqual(updatedTache);
         expect(tache.nom_tache).toBe('Tâche modifiée');
       });
@@ -185,12 +230,16 @@ describe('TacheService', () => {
       req.flush(updatedTache);
     });
 
-    it('devrait gérer l\'erreur quand la mise à jour échoue', () => {
+    it('should_handle_erreur_quand_la_mise_a_jour_echoue', () => {
+    // GIVEN
       const tacheId = 999;
 
+    // WHEN
       service.updateTache(mockTache, tacheId).subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -201,10 +250,14 @@ describe('TacheService', () => {
   });
 
   describe('deleteTache', () => {
-    it('devrait supprimer une tâche par son id', () => {
+    it('should_delete_tache_par_id', () => {
+    // GIVEN
       const tacheId = 1;
 
+    // WHEN
       service.deleteTache(tacheId).subscribe(response => {
+
+    // THEN
         expect(response).toBeNull();
       });
 
@@ -213,12 +266,16 @@ describe('TacheService', () => {
       req.flush(null);
     });
 
-    it('devrait gérer l\'erreur quand la suppression échoue', () => {
+    it('should_handle_erreur_quand_la_suppression_echoue', () => {
+    // GIVEN
       const tacheId = 999;
 
+    // WHEN
       service.deleteTache(tacheId).subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });
@@ -229,10 +286,14 @@ describe('TacheService', () => {
   });
 
   describe('getAlltachesByIdEvennement', () => {
-    it('devrait retourner toutes les tâches pour un événement spécifique', () => {
+    it('should_return_all_taches_event_specifique', () => {
+    // GIVEN
       const evenementId = 1;
 
+    // WHEN
       service.getAlltachesByIdEvennement(evenementId).subscribe(taches => {
+
+    // THEN
         expect(taches).toEqual(mockTaches);
         expect(taches.length).toBe(2);
       });
@@ -242,10 +303,14 @@ describe('TacheService', () => {
       req.flush(mockTaches);
     });
 
-    it('devrait retourner un tableau vide quand l\'événement n\'a pas de tâches', () => {
+    it('should_return_tableau_empty_when_evenement_n_a_pas_de_taches', () => {
+    // GIVEN
       const evenementId = 2;
 
+    // WHEN
       service.getAlltachesByIdEvennement(evenementId).subscribe(taches => {
+
+    // THEN
         expect(taches).toEqual([]);
         expect(taches.length).toBe(0);
       });
@@ -254,12 +319,16 @@ describe('TacheService', () => {
       req.flush([]);
     });
 
-    it('devrait gérer l\'erreur quand l\'événement n\'est pas trouvé', () => {
+    it('should_handle_erreur_quand_l_evenement_n_est_pas_trouve', () => {
+    // GIVEN
       const evenementId = 999;
 
+    // WHEN
       service.getAlltachesByIdEvennement(evenementId).subscribe({
         next: () => fail('should have failed'),
         error: (error) => {
+
+    // THEN
           expect(error.status).toBe(404);
         }
       });

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/forms/form-inscription-evenement/form-inscription-evenement.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste le composant form inscription evenement.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormInscriptionEvenementComponent } from './form-inscription-evenement.component';
@@ -35,7 +41,12 @@ describe('FormInscriptionEvenementComponent', () => {
     fixture.detectChanges();
   });
 
-  it('devrait créer', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
+
+  // THEN
     expect(component).toBeTruthy();
   });
 });

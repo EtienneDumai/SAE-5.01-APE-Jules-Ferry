@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Newsletter/newsletter.model.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele newsletter.model utilise dans le frontend.
+ */
+
 /* Représentantion des données envoyées par l'utilisateur pendant l'inscription */
 export interface NewsletterSubscription {
     email: string;

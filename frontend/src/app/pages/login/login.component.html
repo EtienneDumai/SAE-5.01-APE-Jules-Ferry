@@ -1,3 +1,9 @@
+<!--
+Fichier : frontend/src/app/pages/login/login.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page login.
+-->
+
 <div class="min-h-screen flex items-center justify-center bg-[var(--bg-creme)] px-4 py-12 relative overflow-hidden">
   
   <div class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full border-[1px] border-[var(--primary-green)] opacity-5 pointer-events-none"></div>
@@ -29,7 +35,7 @@
     }
 
     @if (!successMessage) {
-      <form [formGroup]="loginForm" class="space-y-6">
+      <form [formGroup]="loginForm" (ngSubmit)="!loginMdp ? verifierEmail() : onSubmit()" class="space-y-6">
         
         <div>
           <label for="email" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Adresse Email</label>
@@ -92,8 +98,7 @@
         }
 
         <button 
-          type="button" 
-          (click)="!loginMdp ? verifierEmail() : onSubmit()"
+          type="submit" 
           [disabled]="(!loginMdp && email?.invalid) || (loginMdp && loginForm.invalid) || isLoading"
           class="w-full btn-primary !py-3 mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[var(--primary-green)]"
         >

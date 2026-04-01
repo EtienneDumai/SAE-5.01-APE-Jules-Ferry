@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/actualite-page/actualite-page.component.spec.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier teste la page actualite page.
+ */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActualitePageComponent } from './actualite-page.component';
 import { provideHttpClient } from '@angular/common/http';
@@ -64,15 +70,24 @@ describe('ActualitePageComponent', () => {
     spyOn(routerSpy, 'navigate');
   });
 
-  it('should create', () => {
+  it('should_create', () => {
+  // GIVEN
+
+  // WHEN
     fixture.detectChanges();
+
+  // THEN
     expect(component).toBeTruthy();
   });
 
   describe('Initialisation et Chargement', () => {
-    it('devrait charger et trier les actualités par date décroissante au démarrage', () => {
+    it('should_load_trier_actualites_par_date_decroissante_startup', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(actualiteServiceSpy.getAllActualites).toHaveBeenCalled();
       expect(component.loadingActualites).toBeFalse();
       expect(component.errorActualites).toBeFalse();
@@ -81,83 +96,125 @@ describe('ActualitePageComponent', () => {
       expect(component.listeActualites[1].id_actualite).toBe(1);
     });
 
-    it('devrait gérer une erreur lors du chargement des actualités', () => {
+    it('should_handle_error_lors_chargement_actualites', () => {
+    // GIVEN
       const error = new Error('Erreur API');
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => error));
       
       spyOn(console, 'error');
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(component.loadingActualites).toBeFalse();
       expect(component.errorActualites).toBeTrue();
       expect(console.error).toHaveBeenCalledWith(error);
-      expect(component.listeActualites).toBeUndefined();
+      expect(component.listeActualites).toEqual([]);
     });
   });
 
   describe('Affichage (Template)', () => {
-    it('devrait afficher le spinner pendant le chargement', () => {
+    it('should_display_spinner_pendant_chargement', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       component.loadingActualites = true;
+
       fixture.detectChanges();
 
       const spinner = fixture.debugElement.query(By.directive(SpinnerComponent));
+
+    // THEN
       expect(spinner).toBeTruthy();
     });
 
-    it('devrait afficher un message d\'erreur si le chargement échoue', () => {
+    it('should_display_message_erreur_si_le_chargement_echoue', () => {
+    // GIVEN
+      spyOn(console, 'error');
       actualiteServiceSpy.getAllActualites.and.returnValue(throwError(() => new Error('Oups')));
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(fixture.nativeElement.textContent).toContain('Erreur');
     });
 
-    it('devrait afficher un message si aucune actualité n\'est disponible', () => {
+    it('should_display_message_no_actualite_n_est_disponible', () => {
+    // GIVEN
       actualiteServiceSpy.getAllActualites.and.returnValue(of([]));
+
+    // WHEN
       fixture.detectChanges();
 
+    // THEN
       expect(fixture.nativeElement.textContent).toContain('Aucune actualité');
     });
 
-    it('devrait afficher la liste des cartes d\'actualité quand les données sont là', () => {
+    it('should_display_liste_cartes_actualite_quand_les_donnees_sont_la', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
 
       const cards = fixture.debugElement.queryAll(By.directive(ActualiteCardComponent));
+
+    // THEN
       expect(cards.length).toBe(2);
       const firstCardInstance = cards[0].componentInstance as ActualiteCardComponent;
       expect(firstCardInstance.titre).toBe('Recent News');
     });
 
-    it('devrait avoir un lien de retour vers l\'accueil', () => {
+    it('should_avoir_lien_retour_vers_accueil', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
       const elements = fixture.debugElement.queryAll(By.css('button, a'));
       const homeLink = elements.find(el => el.nativeElement.getAttribute('ng-reflect-router-link') === '/');
+
+    // THEN
       expect(homeLink).toBeTruthy();
     });
   });
 
   describe('Bouton de création d\'actualité', () => {
     
-    it('ne devrait pas afficher le bouton "Créer" pour les non-admins', () => {
+    it('should_not_display_bouton_create_non_admins', () => {
+    // GIVEN
       authServiceSpy.hasRole.and.returnValue(false);
+
+    // WHEN
       fixture.detectChanges();
 
       const elements = fixture.debugElement.queryAll(By.css('button, a'));
       const createButton = elements.find(el => el.nativeElement.textContent.includes('Créer'));
+
+    // THEN
       expect(createButton).toBeUndefined();
     });
 
-    it('devrait afficher le bouton "Créer" pour les administrateurs', () => {
+    it('should_display_bouton_create_administrateurs', () => {
+    // GIVEN
       authServiceSpy.hasRole.and.returnValue(true);
+
+    // WHEN
       fixture.detectChanges();
 
       const elements = fixture.debugElement.queryAll(By.css('button, a'));
       const createButton = elements.find(el => el.nativeElement.textContent.includes('Créer'));
+
+    // THEN
       expect(createButton).toBeTruthy();
     });
 
-    it('devrait avoir le bon routerLink pour le bouton de création', () => {
+    it('should_avoir_bon_routerlink_bouton_creation', () => {
+    // GIVEN
       authServiceSpy.hasRole.and.returnValue(true);
+
+    // WHEN
       fixture.detectChanges();
 
       const elements = fixture.debugElement.queryAll(By.css('button, a'));
@@ -165,12 +222,19 @@ describe('ActualitePageComponent', () => {
       
       if (createButton) {
         const routerLinkAttr = createButton.nativeElement.getAttribute('ng-reflect-router-link');
+
+    // THEN
         expect(routerLinkAttr).toBe('/actualites/creer');
       }
     });
 
-    it('devrait appeler hasRole avec "administrateur"', () => {
+    it('should_call_hasrole_administrator', () => {
+    // GIVEN
+
+    // WHEN
       fixture.detectChanges();
+
+    // THEN
       expect(authServiceSpy.hasRole).toHaveBeenCalledWith('administrateur');
     });
   });

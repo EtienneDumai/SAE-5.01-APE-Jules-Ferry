@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/seeders/TacheSeeder.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier insere des donnees initiales pour TacheSeeder.
+ */
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;

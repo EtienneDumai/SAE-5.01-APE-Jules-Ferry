@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/evenement-detail/evenement-detail.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page evenement detail.
+ */
+
 import {
   Component,
   ElementRef,
@@ -42,7 +48,6 @@ import { environment } from '../../environments/environment';
   templateUrl: './evenement-detail.component.html',
   styleUrl: './evenement-detail.component.css',
 })
-
 export class EvenementDetailComponent implements OnInit {
   @ViewChild('inscriptionFormContainer') inscriptionFormContainer!: ElementRef;
   //Données pour le formulaire d'inscription
@@ -63,6 +68,7 @@ export class EvenementDetailComponent implements OnInit {
 
   showDeleteModal = false;
   isDeleting = false;
+  deletePassword = '';
 
   currentUser$: Observable<Utilisateur | null> | undefined;
 
@@ -80,7 +86,7 @@ export class EvenementDetailComponent implements OnInit {
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const ID = Number(params.get('id'));
       if (ID) {
         this.loadEvenement(ID);
@@ -176,52 +182,36 @@ export class EvenementDetailComponent implements OnInit {
 
   openDeleteModal() {
     this.showDeleteModal = true;
+    this.deletePassword = '';
   }
 
   closeDeleteModal() {
     this.showDeleteModal = false;
+    this.deletePassword = '';
   }
 
   confirmDelete() {
-    if (!this.evenement) return;
+    if (!this.evenement || !this.deletePassword) return;
     
     this.isDeleting = true;
-    this.evenementService.deleteEvenement(this.evenement.id_evenement).subscribe({
+    // On envoie bien le mot de passe au backend !
+    this.evenementService.deleteEvenement(this.evenement.id_evenement, this.deletePassword).subscribe({
       next: () => {
         this.isDeleting = false;
         this.showDeleteModal = false;
-        this.toastService.show("Événement supprimé avec succès", TypeErreurToast.SUCCESS);
+        this.toastService.showWithTimeout("Événement supprimé avec succès", TypeErreurToast.SUCCESS);
         this.router.navigate(['/evenements']);
       },
       error: (err) => {
         console.error(err);
         this.isDeleting = false;
-        this.toastService.show("Erreur lors de la suppression de l'événement.", TypeErreurToast.ERROR);
+        if (err.status === 403 || err.status === 422) {
+          this.toastService.showWithTimeout("Mot de passe administrateur incorrect.", TypeErreurToast.ERROR);
+        } else {
+          this.toastService.showWithTimeout("Erreur lors de la suppression de l'événement.", TypeErreurToast.ERROR);
+        }
       },
     });
-  }
-
-  onDeleteEvent() {
-    this.showDeleteModal = true;
-  }
-
-  confirmerSuppression() {
-    if (!this.evenement) return;
-    this.evenementService.deleteEvenement(this.evenement.id_evenement).subscribe({
-      next: () => {
-        this.toastService.showWithTimeout('Événement supprimé avec succès.', TypeErreurToast.SUCCESS);
-        this.router.navigate(['/evenements']);
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastService.showWithTimeout('Erreur lors de la suppression de l\'événement.', TypeErreurToast.ERROR);
-      }
-    });
-    this.showDeleteModal = false;
-  }
-
-  annulerSuppression() {
-    this.showDeleteModal = false;
   }
 
   isEvenementTermine(): boolean {
@@ -395,10 +385,12 @@ export class EvenementDetailComponent implements OnInit {
   getImageUrl(image_url: string | null | undefined): string {
     if (!image_url) return '';
     if (image_url.startsWith('http')) return image_url;
-    const baseUrl = environment?.apiUrl ? environment.apiUrl.replace(/\/api$/, '') : 'http://localhost:8000';
+    const baseUrl = environment?.apiUrl
+      ? environment.apiUrl.replace(/\/api$/, '')
+      : 'http://localhost:8000';
     const cleanBase = baseUrl.replace(/\/$/, '');
     const cleanPath = image_url.replace(/^\//, '');
-    
+
     return `${cleanBase}/${cleanPath}`;
   }
 }

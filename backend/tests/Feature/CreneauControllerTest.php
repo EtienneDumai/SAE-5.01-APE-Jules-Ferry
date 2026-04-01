@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/tests/Feature/CreneauControllerTest.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier contient un test feature (incrémentaux) pour CreneauControllerTest.
+ */
+
 namespace Tests\Feature;
 
 use App\Models\Creneau;
@@ -132,5 +138,50 @@ class CreneauControllerTest extends TestCase
         // THEN
         $response->assertStatus(200)
             ->assertJsonCount(2);
+    }
+
+    #[Test]
+    public function should_return_not_found_for_show_endpoint_when_creneau_does_not_exist(): void
+    {
+        // GIVEN
+        $user = Utilisateur::factory()->create();
+        $this->actingAs($user, 'sanctum');
+
+        // WHEN
+        $response = $this->getJson('/api/creneaux/999999');
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Créneau non trouvé']);
+    }
+
+    #[Test]
+    public function should_return_not_found_for_destroy_endpoint_when_creneau_does_not_exist(): void
+    {
+        // GIVEN
+        $user = Utilisateur::factory()->create();
+        $this->actingAs($user, 'sanctum');
+
+        // WHEN
+        $response = $this->deleteJson('/api/creneaux/999999');
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Créneau non trouvé']);
+    }
+
+    #[Test]
+    public function should_return_not_found_for_get_creneaux_by_tache_id_endpoint_when_tache_does_not_exist(): void
+    {
+        // GIVEN
+        $user = Utilisateur::factory()->create();
+        $this->actingAs($user, 'sanctum');
+
+        // WHEN
+        $response = $this->getJson('/api/creneaux/tache/999999');
+
+        // THEN
+        $response->assertStatus(404)
+            ->assertJson(['message' => 'Tâche inexistante']);
     }
 }

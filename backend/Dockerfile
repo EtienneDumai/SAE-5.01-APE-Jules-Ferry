@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libwebp-dev \
  && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
  && docker-php-ext-install -j$(nproc) pdo pdo_pgsql gd zip \
+ && pecl install pcov \
+ && docker-php-ext-enable pcov \
  && rm -rf /var/lib/apt/lists/*
 
 # Composer

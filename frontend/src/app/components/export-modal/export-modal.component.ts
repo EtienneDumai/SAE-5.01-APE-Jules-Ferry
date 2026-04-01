@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/export-modal/export-modal.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant export modal.
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

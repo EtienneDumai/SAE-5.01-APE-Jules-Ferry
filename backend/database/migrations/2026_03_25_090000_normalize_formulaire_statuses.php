@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Fichier : backend/database/migrations/2026_03_25_090000_normalize_formulaire_statuses.php
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit une evolution de la base de donnees.
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

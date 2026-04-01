@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/administration-page/admin-evenements/admin-evenements.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page admin evenements.
+ */
+
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +27,8 @@ import { StatutFormulaire } from '../../../enums/StatutFormulaire/statut-formula
 import { PasswordConfirmModalComponent } from '../../../components/password-confirm-modal/password-confirm-modal.component';
 import { ExportModalComponent } from '../../../components/export-modal/export-modal.component';
 import { ExportCsvService } from '../../../services/ExportCsv/export-csv.service';
+import { SpinnerComponent } from '../../../components/spinner/spinner.component';
+import { ConfirmationModalComponent } from '../../../components/confirmation-modal/confirmation-modal.component';
 
 interface ExtendedCreneau extends Creneau {
   filledInscriptions?: ExtendedInscription[];
@@ -47,7 +55,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-admin-evenements',
   standalone: true,
-  imports: [CommonModule, FormsModule, PasswordConfirmModalComponent, RouterLink, ExportModalComponent],
+  imports: [CommonModule, FormsModule, PasswordConfirmModalComponent, RouterLink, ExportModalComponent, SpinnerComponent, ConfirmationModalComponent],
   templateUrl: './admin-evenements.component.html',
   styleUrl: './admin-evenements.component.css'
 })
@@ -83,6 +91,8 @@ export class AdminEvenementsComponent implements OnInit {
 
   templates: Formulaire[] = [];
   loadingTemplates = false;
+  showDeleteTemplateModal = false;
+  templateIdToDelete: number | null = null;
 
   allUsers: Utilisateur[] = [];
   showAddModal = false;
@@ -151,18 +161,32 @@ export class AdminEvenementsComponent implements OnInit {
   }
 
   deleteTemplate(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce modèle de formulaire ?')) {
-      this.formulaireService.deleteFormulaire(id).subscribe({
-        next: () => {
-          this.toastService.show('Modèle supprimé avec succès', TypeErreurToast.SUCCESS);
-          this.loadTemplates();
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastService.show('Erreur lors de la suppression du modèle', TypeErreurToast.ERROR);
-        }
-      });
-    }
+    this.templateIdToDelete = id;
+    this.showDeleteTemplateModal = true;
+  }
+
+  confirmDeleteTemplate(): void {
+    if (this.templateIdToDelete === null) return;
+
+    this.formulaireService.deleteFormulaire(this.templateIdToDelete).subscribe({
+      next: () => {
+        this.toastService.show('Modèle supprimé avec succès', TypeErreurToast.SUCCESS);
+        this.templateIdToDelete = null;
+        this.showDeleteTemplateModal = false;
+        this.loadTemplates();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.show('Erreur lors de la suppression du modèle', TypeErreurToast.ERROR);
+        this.templateIdToDelete = null;
+        this.showDeleteTemplateModal = false;
+      }
+    });
+  }
+
+  cancelDeleteTemplate(): void {
+    this.templateIdToDelete = null;
+    this.showDeleteTemplateModal = false;
   }
 
   loadInitialEvents(): void {

@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/Auth/magic-link-verify/magic-link-verify.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant magic link verify.
+ */
+
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';

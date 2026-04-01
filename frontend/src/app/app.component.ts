@@ -1,3 +1,10 @@
+/**
+ * Fichier : frontend/src/app/app.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier porte la logique du composant racine du frontend.
+ * Il sert de point d'entree a l'interface generale de l'application.
+ */
+
 import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -9,6 +16,7 @@ import { AuthService } from './services/Auth/auth.service';
 import { SidebarWidgetComponent } from './components/sidebar-widget/sidebar-widget.component';
 import { CalendrierComponent } from './components/calendrier/calendrier.component';
 import { InstagramViewComponent } from './components/instagram-view/instagram-view.component';
+import { HelloAssoWidgetComponent } from './components/hello-asso-widget/hello-asso-widget.component';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +29,7 @@ import { InstagramViewComponent } from './components/instagram-view/instagram-vi
     SidebarWidgetComponent,
     CalendrierComponent,
     InstagramViewComponent,
+    HelloAssoWidgetComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

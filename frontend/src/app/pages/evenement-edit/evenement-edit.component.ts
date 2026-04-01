@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/evenement-edit/evenement-edit.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page evenement edit.
+ */
+
 import { Component, inject, OnInit } from '@angular/core';
 import { ToastService } from '../../services/Toast/toast.service';
 import { TypeErreurToast } from '../../enums/TypeErreurToast/type-erreur-toast';
@@ -12,7 +18,7 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router'; // RouterLink retiré si inutilisé
+import { ActivatedRoute, Router } from '@angular/router';
 import { EvenementService } from '../../services/Evenement/evenement.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
@@ -97,6 +103,18 @@ export class EvenementEditComponent implements OnInit {
     return null;
   };
 
+  isTaskOutsideEventBounds(tache: AbstractControl): boolean {
+    const taskDebut = tache.get('heure_debut_globale')?.value;
+    const taskFin = tache.get('heure_fin_globale')?.value;
+    const eventDebut = this.evenementForm?.get('heure_debut')?.value;
+    const eventFin = this.evenementForm?.get('heure_fin')?.value;
+
+    if (taskDebut && eventDebut && taskDebut < eventDebut) return true;
+    if (taskFin && eventFin && taskFin > eventFin) return true;
+
+    return false;
+  }
+
   ngOnInit(): void {
     this.initForm();
     this.loadData();
@@ -126,6 +144,9 @@ export class EvenementEditComponent implements OnInit {
         // Conversion explicite en number ou null pour éviter les soucis de type
         this.applyTemplate(id ? Number(id) : null);
       });
+
+    this.evenementForm.get('heure_debut')?.valueChanges.subscribe(() => this.refreshTaskValidations());
+    this.evenementForm.get('heure_fin')?.valueChanges.subscribe(() => this.refreshTaskValidations());
   }
 
   get taches(): FormArray {
@@ -186,6 +207,10 @@ export class EvenementEditComponent implements OnInit {
 
   removeCreneau(tacheIndex: number, creneauIndex: number) {
     this.getCreneaux(tacheIndex).removeAt(creneauIndex);
+  }
+
+  private refreshTaskValidations(): void {
+    this.taches.controls.forEach((tache) => tache.updateValueAndValidity());
   }
 
   // Typage strict de l'ID

@@ -1,85 +1,52 @@
+<!--
+Fichier : frontend/src/app/components/card/actualite-card/actualite-card.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template du composant actualite card.
+-->
+
 <div
   class="group h-full flex flex-col bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--primary-green)] hover:shadow-[4px_4px_0_var(--primary-green)] overflow-hidden relative"
 >
   <div class="h-[168px] w-full relative overflow-hidden bg-[var(--bg-creme)]">
     @if (image_url) {
-      <img
-        [src]="getImageUrl(image_url)"
-        [alt]="titre"
-        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-        loading="lazy"
-      />
+      <img [src]="getImageUrl(image_url)" [alt]="titre" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" loading="lazy" />
     } @else {
-      <img
-        src="/imageDefaut/imageDefaut.png"
-        [alt]="titre"
-        class="w-full h-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-[1.04]"
-        loading="lazy"
-      />
+      <img src="/imageDefaut/imageDefaut.png" [alt]="titre" class="w-full h-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-[1.04]" />
     }
 
     @if (canManage) {
-      <div class="absolute top-3 right-3 flex gap-1 z-10">
-        <button
-          (click)="onEdit($event)"
-          class="w-7 h-7 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--primary-green)] hover:bg-[var(--primary-green)] hover:text-white transition-colors"
-          title="Modifier"
-        >
-          <i class="fa-regular fa-pen-to-square text-xs"></i>
+      <div class="absolute top-3 right-3 flex gap-2 z-10">
+        <button (click)="onEdit($event)" class="w-8 h-8 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--primary-green)] hover:bg-[var(--primary-green)] hover:text-white transition-colors shadow-sm" title="Modifier">
+          <i class="fa-regular fa-pen-to-square"></i>
         </button>
-        <button
-          (click)="onDelete($event)"
-          class="w-7 h-7 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--accent-orange)] hover:bg-[var(--accent-orange)] hover:text-white transition-colors"
-          title="Supprimer"
-        >
-          <i class="fa-regular fa-trash-can text-xs"></i>
+        <button (click)="onDelete($event)" class="w-8 h-8 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded border border-[var(--border-light)] text-[var(--accent-orange)] hover:bg-[var(--accent-orange)] hover:text-white transition-colors shadow-sm" title="Supprimer">
+          <i class="fa-regular fa-trash-can"></i>
         </button>
       </div>
     }
   </div>
 
-  <div class="p-4 flex flex-col flex-grow bg-[var(--white-cards)]">
-    <div
-      class="font-josefin text-[10px] uppercase text-[var(--accent-orange)] tracking-[0.08em] mb-2"
-    >
-      {{ datePublication | date: "dd/MM/yyyy" }}
+  <div class="p-5 flex flex-col flex-grow bg-[var(--white-cards)]">
+    <div class="font-josefin text-[11px] uppercase text-[var(--accent-orange)] tracking-widest mb-3 flex items-end gap-2">
+      <i class="fa-regular fa-calendar block self-end leading-none"></i>
+      <span class="block self-end leading-none relative top-[2px]">{{ datePublication | date: "d MMMM yyyy" }}</span>
     </div>
 
-    <h3
-      class="font-abril text-[15px] text-[var(--primary-green)] mb-2 line-clamp-1"
-      [title]="titre"
-    >
+    <h3 class="font-abril text-lg text-[var(--primary-green)] leading-tight mb-3 line-clamp-2" [title]="titre">
       {{ titre }}
     </h3>
 
-    <p
-      class="font-dm text-[12px] text-[var(--text-secondary)] line-clamp-3 mb-4 flex-grow leading-relaxed"
-    >
+    <p class="font-dm text-[13px] text-[var(--text-secondary)] line-clamp-3 mb-5 flex-grow leading-relaxed">
       {{ contenu }}
     </p>
 
     <div class="mt-auto pt-4 border-t border-[var(--border-light)]">
-      <button
-        [routerLink]="['/actualites', id_actualite]"
-        class="w-full btn-secondary !py-2"
-      >
+      <button [routerLink]="['/actualites', id_actualite]" class="w-full btn-secondary !py-2.5 text-xs tracking-wide">
         Lire l'article
       </button>
     </div>
   </div>
 
   @if (showDeleteAlert) {
-    <div
-      class="absolute inset-0 z-20 flex items-center justify-center p-2 bg-white/90 backdrop-blur-sm"
-    >
-      <app-alert
-        message="Supprimer cette actualité ?"
-        texteBoutonValider="Supprimer"
-        texteBoutonAnnuler="Annuler"
-        (valider)="confirmerSuppression()"
-        (annuler)="annulerSuppression()"
-      >
-      </app-alert>
-    </div>
-  }
+    }
 </div>

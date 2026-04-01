@@ -1,8 +1,14 @@
+/**
+ * Fichier : frontend/src/app/services/Formulaire/formulaire.service.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier centralise la logique du service Formulaire.
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StatutFormulaire } from '../../enums/StatutFormulaire/statut-formulaire';
-import { environment } from '../../environments/environment.dev'
+import { environment } from '../../environments/environment'
 import { Formulaire } from '../../models/Formulaire/formulaire';
 @Injectable({
   providedIn: 'root'

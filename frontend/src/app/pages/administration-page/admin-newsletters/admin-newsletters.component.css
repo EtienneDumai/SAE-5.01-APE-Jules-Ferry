@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/administration-page/admin-newsletters/admin-newsletters.component.css
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit le style de la page admin newsletters.
+ */
+
 :host {
   display: block;
 }

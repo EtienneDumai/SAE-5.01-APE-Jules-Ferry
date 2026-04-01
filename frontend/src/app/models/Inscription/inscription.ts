@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/models/Inscription/inscription.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier decrit le modele inscription utilise dans le frontend.
+ */
+
 import { Creneau } from '../Creneau/creneau';
 
 import { Utilisateur } from '../Utilisateur/utilisateur';

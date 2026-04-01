@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/components/instagram-view/instagram-view.component.css
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier definit les styles du composant instagram view.
+ */
+
 .igwrapper {
   display: flex;
   justify-content: center;

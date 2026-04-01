@@ -1,3 +1,9 @@
+<!--
+Fichier : frontend/src/app/pages/accueil/accueil.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template de la page accueil.
+-->
+
 <section class="w-full bg-[var(--primary-green)] pt-24 pb-16 border-b-[5px] border-[var(--accent-orange)] relative overflow-hidden">
         
     <div class="absolute top-[-40%] left-[-10%] w-[800px] h-[800px] rounded-full border-[1px] border-[var(--bg-creme)] opacity-5 pointer-events-none"></div>
@@ -6,22 +12,23 @@
     <div class="relative z-10 max-w-5xl mx-auto px-4 flex flex-col items-center text-center">
         
         <div class="animate-fade-up">
-            <span class="font-josefin text-[10px] uppercase tracking-[0.12em] text-[var(--accent-orange)] border border-[var(--accent-orange)]/40 bg-[var(--accent-orange)]/10 px-4 py-1.5 rounded mb-6 backdrop-blur-sm inline-block">
-                Association des parents d'élèves
-            </span>
 
-            <h1 class="font-abril text-5xl md:text-6xl text-[var(--bg-creme)] mb-4">
+            <p class="font-josefin text-[13px] uppercase tracking-[0.3em] text-[var(--bg-creme)] opacity-60 mb-6">
                 Bienvenue
-            </h1>
-
-            <p class="font-josefin text-[11px] uppercase tracking-[0.1em] text-[var(--bg-creme)] opacity-70 mb-8">
-                École Jules Ferry · Anglet · Fondée en 1899
             </p>
 
-            <a href="#" target="_blank" 
-               class="inline-block font-josefin text-[10px] uppercase tracking-widest text-[var(--accent-orange)] border-b border-[var(--accent-orange)] pb-1 mb-12 hover:text-[var(--bg-creme)] hover:border-[var(--bg-creme)] transition-colors">
-                <i class="fa-solid fa-store mr-1"></i> Accéder à notre boutique
-            </a>
+            <h1 class="font-abril text-4xl sm:text-5xl md:text-6xl text-[var(--bg-creme)] leading-tight mb-2">
+                Association des<br><span class="text-[var(--accent-orange)]">parents d'élèves</span>
+            </h1>
+
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <div class="w-8 h-px bg-[var(--bg-creme)] opacity-30"></div>
+                <p class="font-josefin text-[11px] uppercase tracking-[0.2em] text-[var(--bg-creme)] opacity-50">
+                    École Jules Ferry · Anglet · Fondée en 1899
+                </p>
+                <div class="w-8 h-px bg-[var(--bg-creme)] opacity-30"></div>
+            </div>
+
         </div>
     </div>
 </section>

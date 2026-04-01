@@ -1,3 +1,9 @@
+<!--
+Fichier : frontend/src/app/components/sidebar-widget/sidebar-widget.component.html
+Auteur : cf ~/docs/general/participants.md
+Description : Ce fichier contient le template du composant sidebar widget.
+-->
+
 @if (isOpen) {
     <div class="fixed inset-0 z-[90] bg-[var(--primary-green)]/20 backdrop-blur-sm transition-opacity outline-none" 
          role="button"
@@ -49,7 +55,7 @@
             </div>
             
             <div class="flex items-center gap-2">
-                <button (click)="toggleSize()" class="w-8 h-8 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] bg-white text-[var(--text-secondary)] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-colors" [title]="isExpanded ? 'Réduire' : 'Agrandir'">
+                <button (click)="toggleSize()" class="hidden md:flex w-8 h-8 items-center justify-center rounded border-[1.5px] border-[var(--border-light)] bg-white text-[var(--text-secondary)] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-colors" [title]="isExpanded ? 'Réduire' : 'Agrandir'">
                     <i [class]="isExpanded ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
                 </button>
                 <button (click)="toggleWidget()" class="w-8 h-8 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] bg-white text-[var(--text-secondary)] hover:text-red-500 hover:border-red-500 hover:bg-red-50 transition-colors" title="Fermer">

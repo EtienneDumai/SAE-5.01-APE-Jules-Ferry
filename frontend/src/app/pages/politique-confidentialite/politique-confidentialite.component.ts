@@ -1,3 +1,9 @@
+/**
+ * Fichier : frontend/src/app/pages/politique-confidentialite/politique-confidentialite.component.ts
+ * Auteur : cf ~/docs/general/participants.md
+ * Description : Ce fichier gere la logique de la page politique confidentialite.
+ */
+
 import { Component } from '@angular/core';
 
 @Component({
