@@ -19,27 +19,51 @@
   animation: fade-in 0.3s ease-out;
 }
 
+/* --- TITRE DU MOIS --- */
 .main-calendar .fc-toolbar-title {
+  font-family: 'Abril Fatface', serif;
   font-size: 1.5rem;
-  color: #1f2937;
+  color: var(--primary-green);
 }
 
+/* --- BOUTONS PREV/NEXT --- */
 .main-calendar .fc-button-primary {
-  background-color: var(--primary-blue) !important;
-  border-color: var(--primary-blue) !important;
+  background-color: var(--primary-green) !important;
+  border-color: var(--primary-green) !important;
+  color: var(--bg-creme) !important;
+  font-family: 'Josefin Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 4px !important;
+  transition: all 0.3s ease !important;
 }
 
+/* Effet au survol et état actif */
+.main-calendar .fc-button-primary:hover,
+.main-calendar .fc-button-primary:active,
+.main-calendar .fc-button-primary:focus,
 .main-calendar .fc-button-primary:not(:disabled).fc-button-active {
-  background-color: var(--primary-dark-blue) !important;
-  border-color: var(--primary-dark-blue) !important;
+  background-color: var(--accent-orange) !important;
+  border-color: var(--accent-orange) !important;
+  box-shadow: none !important;
 }
 
+/* Boutons désactivés */
+.main-calendar .fc-button-primary:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background-color: var(--primary-green) !important;
+  border-color: var(--primary-green) !important;
+}
+
+/* --- ÉVÉNEMENTS --- */
 .main-calendar .fc-event {
   cursor: pointer;
   border-radius: 0.25rem;
   padding: 0.125rem 0.375rem;
   font-size: 0.875rem;
   transition: all 0.2s;
+  border: none;
 }
 
 .main-calendar .fc-event:hover {
@@ -55,6 +79,7 @@
   width: 100%;
 }
 
+/* --- SCOPE WIDGET --- */
 :host-context(.widget-body) h1 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
@@ -97,6 +122,7 @@
   font-size: 1.125rem;
 }
 
+/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 768px) {
   .main-calendar,
   .main-calendar .fc,
