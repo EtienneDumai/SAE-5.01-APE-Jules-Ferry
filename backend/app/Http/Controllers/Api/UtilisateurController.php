@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SetPasswordEmail;
+use App\Mail\RoleChangedEmail;
 
 class UtilisateurController extends Controller
 {
@@ -76,8 +77,13 @@ class UtilisateurController extends Controller
             Mail::to($utilisateur->email)->send(new SetPasswordEmail($url, $utilisateur->prenom));
         }
 
+        if ($nouveauRole === 'administrateur' && $ancienRole === 'membre_bureau') {
+            Mail::to($utilisateur->email)->send(new RoleChangedEmail($utilisateur->prenom, 'Administrateur'));
+        }
+
         return response()->json($utilisateur);
     }
+
     public function destroy(Request $request, $id)
     {
         $utilisateur = Utilisateur::find($id);
@@ -86,7 +92,7 @@ class UtilisateurController extends Controller
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
         }
 
-        $currentUser = auth()->user();
+        $currentUser = $request->user();
 
         if ($currentUser && $currentUser->id_utilisateur == $id) {
             

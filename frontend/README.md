@@ -66,7 +66,7 @@ Installez les packages node :
 ```
 
 Lancer le serveur : 
-[documentation du repo](https://github.com/EtienneDumai/SAE-5.01-APE-Jules-Ferry/blob/master/README.md) 
+[documentation du repo](https://github.com/ApeJulesFerryAnglet/SAE-5.01-APE-Jules-Ferry/blob/master/README.md) 
 
 
 L'application devrait s'ouvrir dans votre navigateur par défaut à l'adresse http://localhost:4200.

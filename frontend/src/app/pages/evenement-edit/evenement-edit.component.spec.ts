@@ -74,7 +74,7 @@ describe('EvenementEditComponent', () => {
     expect(component.loading).toBeFalse();
   });
 
-  it('should mark a task invalid when it starts before the event', () => {
+  it('should flag a warning when a task starts before the event without making it invalid', () => {
     component.evenementForm.patchValue({
       heure_debut: '09:00',
       heure_fin: '18:00'
@@ -89,10 +89,11 @@ describe('EvenementEditComponent', () => {
 
     const tache = component.taches.at(0);
 
-    expect(tache.errors?.['taskOutsideEventBounds']).toBeTrue();
+    expect(tache.errors?.['taskOutsideEventBounds']).toBeFalsy();
+    expect(component.isTaskOutsideEventBounds(tache)).toBeTrue();
   });
 
-  it('should mark a task invalid when it ends after the event', () => {
+  it('should flag a warning when a task ends after the event without making it invalid', () => {
     component.evenementForm.patchValue({
       heure_debut: '09:00',
       heure_fin: '18:00'
@@ -107,10 +108,11 @@ describe('EvenementEditComponent', () => {
 
     const tache = component.taches.at(0);
 
-    expect(tache.errors?.['taskOutsideEventBounds']).toBeTrue();
+    expect(tache.errors?.['taskOutsideEventBounds']).toBeFalsy();
+    expect(component.isTaskOutsideEventBounds(tache)).toBeTrue();
   });
 
-  it('should refresh task validation when event hours change', () => {
+  it('should refresh task bounds warning when event hours change', () => {
     component.evenementForm.patchValue({
       heure_debut: '09:00',
       heure_fin: '18:00'
@@ -124,10 +126,9 @@ describe('EvenementEditComponent', () => {
     });
 
     const tache = component.taches.at(0);
-    expect(tache.errors).toBeNull();
-
+    
+    expect(component.isTaskOutsideEventBounds(tache)).toBeFalse();
     component.evenementForm.patchValue({ heure_fin: '10:00' });
-
-    expect(tache.errors?.['taskOutsideEventBounds']).toBeTrue();
+    expect(component.isTaskOutsideEventBounds(tache)).toBeTrue();
   });
 });

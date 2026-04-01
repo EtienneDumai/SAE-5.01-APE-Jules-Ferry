@@ -4,16 +4,25 @@ Auteur : cf ~/docs/general/participants.md
 Description : Ce fichier contient le template du composant calendrier.
 -->
 
-<div class="w-full h-full flex flex-col relative transition-all duration-500 ease-in-out font-dm" #calendarContainer>
-  
+<div
+  class="w-full h-full flex flex-col relative transition-all duration-500 ease-in-out font-dm"
+  #calendarContainer
+>
   @if (isLoading) {
-    <div class="flex justify-center items-center p-12"><app-spinner></app-spinner></div>
+    <div class="flex justify-center items-center p-12">
+      <app-spinner></app-spinner>
+    </div>
   }
 
   @if (errorMessage) {
-    <div class="bg-[var(--white-cards)] border-[1.5px] border-red-200 rounded-[8px] p-4 text-center text-red-600 shadow-sm mx-auto w-full mt-4">
+    <div
+      class="bg-[var(--white-cards)] border-[1.5px] border-red-200 rounded-[8px] p-4 text-center text-red-600 shadow-sm mx-auto w-full mt-4"
+    >
       <p class="text-sm font-bold">{{ errorMessage }}</p>
-      <button (click)="loadEvenements()" class="mt-3 btn-secondary !border-red-200 !text-red-600 mx-auto">
+      <button
+        (click)="loadEvenements()"
+        class="mt-3 btn-secondary !border-red-200 !text-red-600 mx-auto"
+      >
         Réessayer
       </button>
     </div>
@@ -26,52 +35,92 @@ Description : Ce fichier contient le template du composant calendrier.
   }
 
   @if (selectedEvent) {
-    <div #eventDetails class="absolute inset-0 z-[100] flex items-center justify-center bg-[var(--white-cards)]/95 backdrop-blur-sm p-3 animate-fade-in text-left">
-      
-      <div class="bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-5 relative w-full max-w-[340px] animate-fade-up">
-        
-        <button (click)="closeEventDetails()" class="absolute top-3 right-3 text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-50 transition-colors w-7 h-7 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] hover:border-red-500">
+    <div
+      #eventDetails
+      class="fixed inset-0 z-[1000] flex items-center justify-center bg-white/95 p-3 animate-fade-in text-left"
+    >
+      <div
+        class="bg-white rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--accent-orange)] p-5 relative w-full max-w-[340px] animate-fade-up"
+      >
+        <button
+          (click)="closeEventDetails()"
+          class="absolute top-3 right-3 text-[var(--text-secondary)] hover:text-red-500 hover:bg-red-50 transition-colors w-7 h-7 flex items-center justify-center rounded border-[1.5px] border-[var(--border-light)] hover:border-red-500"
+        >
           <i class="fa-solid fa-xmark text-sm"></i>
         </button>
 
         <div class="flex flex-col items-start gap-3 pr-6">
-          <h3 class="font-abril text-xl text-[var(--primary-green)] leading-tight m-0 line-clamp-2">
+          <h3
+            class="font-abril text-xl text-[var(--primary-green)] leading-tight m-0 line-clamp-2"
+          >
             {{ selectedEvent.titre }}
           </h3>
 
-          <div class="flex flex-col gap-2 font-josefin text-[10px] uppercase tracking-widest text-[var(--text-secondary)] mt-1 w-full">
-            <div class="flex items-center gap-3 bg-[var(--bg-creme)] p-2.5 rounded-[4px] border-[1.5px] border-[var(--border-light)]">
-              <i class="fa-regular fa-clock text-[var(--accent-orange)] text-base"></i>
-              <span>{{ selectedEvent.heure_debut }} - {{ selectedEvent.heure_fin }}</span>
+          <div
+            class="flex flex-col gap-2 font-josefin text-[10px] uppercase tracking-widest text-[var(--text-secondary)] mt-1 w-full"
+          >
+            <div
+              class="flex items-center gap-3 bg-[var(--bg-creme)] p-2.5 rounded-[4px] border-[1.5px] border-[var(--border-light)]"
+            >
+              <i
+                class="fa-regular fa-clock text-[var(--accent-orange)] text-base"
+              ></i>
+              <span
+                >{{ selectedEvent.heure_debut }} -
+                {{ selectedEvent.heure_fin }}</span
+              >
             </div>
 
             @if (selectedEvent.lieu) {
-              <div class="flex items-center gap-3 bg-[var(--bg-creme)] p-2.5 rounded-[4px] border-[1.5px] border-[var(--border-light)]">
-                <i class="fa-solid fa-location-dot text-[var(--accent-orange)] text-base"></i>
-                <span class="line-clamp-1" [title]="selectedEvent.lieu">{{ selectedEvent.lieu }}</span>
+              <div
+                class="flex items-center gap-3 bg-[var(--bg-creme)] p-2.5 rounded-[4px] border-[1.5px] border-[var(--border-light)]"
+              >
+                <i
+                  class="fa-solid fa-location-dot text-[var(--accent-orange)] text-base"
+                ></i>
+                <span class="line-clamp-1" [title]="selectedEvent.lieu">{{
+                  selectedEvent.lieu
+                }}</span>
               </div>
             }
           </div>
 
-          <div class="flex flex-col gap-2 mt-2 w-full pt-4 border-t-[1.5px] border-[var(--border-light)]">
-            <a [routerLink]="['/evenements', selectedEvent.id_evenement]" (click)="closeEventDetails()" class="w-full btn-secondary text-center !py-2.5">
+          <div
+            class="flex flex-col gap-2 mt-2 w-full pt-4 border-t-[1.5px] border-[var(--border-light)]"
+          >
+            <a
+              [routerLink]="['/evenements', selectedEvent.id_evenement]"
+              (click)="closeEventDetails()"
+              class="w-full btn-secondary text-center !py-2.5"
+            >
               Voir la fiche
             </a>
-            
+
             @if (isInscriptionOuverte(selectedEvent)) {
               @if (isAuthenticated) {
-                <a [routerLink]="['/evenements', selectedEvent.id_evenement]" [queryParams]="{ openForm: 'true' }" (click)="closeEventDetails()" class="w-full btn-primary text-center !py-2.5">
+                <a
+                  [routerLink]="['/evenements', selectedEvent.id_evenement]"
+                  [queryParams]="{ openForm: 'true' }"
+                  (click)="closeEventDetails()"
+                  class="w-full btn-primary text-center !py-2.5"
+                >
                   S'inscrire
                 </a>
               } @else {
-                <a [routerLink]="['/login']" [queryParams]="{ returnUrl: '/evenements/' + selectedEvent.id_evenement }" (click)="closeEventDetails()" class="w-full btn-primary text-center !py-2.5">
+                <a
+                  [routerLink]="['/login']"
+                  [queryParams]="{
+                    returnUrl: '/evenements/' + selectedEvent.id_evenement,
+                  }"
+                  (click)="closeEventDetails()"
+                  class="w-full btn-primary text-center !py-2.5"
+                >
                   Se connecter
                 </a>
               }
             }
           </div>
         </div>
-
       </div>
     </div>
   }
