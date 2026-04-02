@@ -68,6 +68,28 @@ class NewsletterController extends Controller
         return response()->json($abonnes);
     }
 
+    public function unsubscribe(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email'
+        ], [
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'Le format de l\'email n\'est pas valide.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $abonne = AbonneNewsletter::where('email', $request->email)->first();
+
+        if (!$abonne) {
+            return response()->json(['message' => 'Cet e-mail ne fait pas partie de notre liste d\'abonnés.'], 404);
+        }
+        $abonne->delete();
+
+        return response()->json(['message' => 'Vous avez été désinscrit avec succès.']);
+    }
+
     public function destroy(Request $request, int $id): JsonResponse
     {
         if ($response = $this->ensureAdmin($request)) {

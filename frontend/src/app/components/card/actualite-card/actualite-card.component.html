@@ -48,5 +48,38 @@ Description : Ce fichier contient le template du composant actualite card.
   </div>
 
   @if (showDeleteAlert) {
-    }
+    <div 
+      class="fixed inset-0 bg-[var(--primary-green)]/40 backdrop-blur-sm z-40 flex items-center justify-center p-4" 
+      (click)="annulerSuppression()"
+      (keydown.enter)="annulerSuppression()"
+      tabindex="0"
+      role="button"
+    >
+      
+      <div 
+        class="bg-white rounded-[8px] p-6 max-w-sm w-full shadow-[8px_8px_0_var(--accent-orange)] border-[1.5px] border-[var(--border-light)] animate-fade-up relative z-50 cursor-default" 
+        (click)="$event.stopPropagation()"
+        (keydown.enter)="$event.stopPropagation()"
+        tabindex="0"
+        role="dialog"
+      >
+        
+        <h3 class="font-abril text-2xl text-[var(--primary-green)] mb-3">Supprimer l'actualité</h3>
+        
+        <p class="font-dm text-sm text-[var(--text-secondary)] mb-6">
+          Êtes-vous sûr de vouloir supprimer "<span class="font-bold">{{ titre }}</span>" ? Cette action est irréversible.
+        </p>
+        
+        <div class="flex justify-end gap-3">
+          <button (click)="annulerSuppression()" class="px-5 py-2.5 rounded-[4px] font-josefin text-[10px] uppercase tracking-widest font-bold border-[1.5px] border-[var(--border-light)] text-[var(--text-secondary)] hover:bg-gray-50 transition-colors">
+            Annuler
+          </button>
+          
+          <button (click)="confirmerSuppression()" class="px-5 py-2.5 rounded-[4px] font-josefin text-[10px] uppercase tracking-widest font-bold border-[1.5px] border-red-500 bg-red-500 text-white hover:bg-red-600 hover:border-red-600 transition-colors shadow-[2px_2px_0_rgba(239,68,68,0.3)]">
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

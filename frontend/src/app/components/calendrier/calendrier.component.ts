@@ -17,6 +17,7 @@ import { EvenementService, PaginatedEvenements } from '../../services/Evenement/
 import { Evenement } from '../../models/Evenement/evenement';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { AuthService } from '../../services/Auth/auth.service';
+import frLocale from '@fullcalendar/core/locales/fr';
 
 @Component({
   selector: 'app-calendrier',
@@ -88,6 +89,7 @@ export class CalendrierComponent implements OnInit, AfterViewInit, OnDestroy {
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+    locale: frLocale,
     initialView: 'dayGridMonth',
     height: 'auto',
     allDaySlot: false,

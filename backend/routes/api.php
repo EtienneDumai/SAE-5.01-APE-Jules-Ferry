@@ -45,6 +45,7 @@ Route::get('/verify-link/{id_utilisateur}', [PasswordlessController::class, 'ver
 
 
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store']);
+Route::post('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe']);
 
 // Événements
 Route::get('/evenements', [EvenementController::class, 'index']);

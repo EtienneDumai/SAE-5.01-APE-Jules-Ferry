@@ -43,7 +43,7 @@ Description : Ce fichier contient le template de la page evenement page.
 
     @if(canManage) {
         <div class="flex flex-wrap gap-3">
-            <button (click)="loadEvenements('tous')" 
+            <button (click)="setFilter('tous')" 
                     [class.bg-[var(--primary-green)]]="currentFilter === 'tous'"
                     [class.text-[var(--bg-creme)]]="currentFilter === 'tous'"
                     [class.bg-transparent]="currentFilter !== 'tous'"
@@ -52,7 +52,7 @@ Description : Ce fichier contient le template de la page evenement page.
                 Tous
             </button>
             
-            <button (click)="loadEvenements('publie')" 
+            <button (click)="setFilter('publie')" 
                     [class.bg-[var(--primary-green)]]="currentFilter === 'publie'"
                     [class.text-[var(--bg-creme)]]="currentFilter === 'publie'"
                     [class.bg-transparent]="currentFilter !== 'publie'"
@@ -61,16 +61,7 @@ Description : Ce fichier contient le template de la page evenement page.
                 Publiés
             </button>
             
-            <button (click)="loadEvenements('brouillon')" 
-                    [class.bg-[var(--text-secondary)]]="currentFilter === 'brouillon'"
-                    [class.text-[var(--bg-creme)]]="currentFilter === 'brouillon'"
-                    [class.bg-transparent]="currentFilter !== 'brouillon'"
-                    [class.text-[var(--text-secondary)]]="currentFilter !== 'brouillon'"
-                    class="font-josefin text-[10px] uppercase font-bold tracking-widest px-5 py-2 rounded-[4px] border-[1.5px] border-[var(--text-secondary)] transition-colors hover:bg-[var(--text-secondary)] hover:text-[var(--bg-creme)]">
-                Brouillons
-            </button>
-            
-            <button (click)="loadEvenements('termine')" 
+            <button (click)="setFilter('termine')" 
                     [class.bg-[var(--accent-orange)]]="currentFilter === 'termine'"
                     [class.text-[var(--bg-creme)]]="currentFilter === 'termine'"
                     [class.bg-transparent]="currentFilter !== 'termine'"

@@ -17,6 +17,7 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 
 @Component({
   selector: 'app-evenement-page',
@@ -46,18 +47,14 @@ export class EvenementPageComponent implements OnInit {
   ngOnInit() {
     this.currentUser$ = this.authService.currentUser$;
     // On charge tous les événements par défaut
-    this.loadEvenements('tous');
+    this.fetchEvenements();
   }
 
-  // AJOUT : Méthode pour charger selon le filtre
-  loadEvenements(statut: string) {
-    this.currentFilter = statut;
+  fetchEvenements() {
     this.loadingEvenements = true;
-
-    this.evenementService.getAllEvenements(statut).subscribe({
+    this.evenementService.getAllEvenements('tous').subscribe({
       next: (response: PaginatedEvenements | Evenement[]) => {
         this.listeEvenements = Array.isArray(response) ? response : (response?.data || []);
-        this.sortEvenementByDate();
         this.loadingEvenements = false;
       },
       error: (err) => {
@@ -66,6 +63,10 @@ export class EvenementPageComponent implements OnInit {
         this.errorEvenements = true;
       }
     });
+  }
+
+  setFilter(statut: string) {
+    this.currentFilter = statut;
   }
 
   handleEventDeleted(id: number): void {
@@ -80,23 +81,34 @@ export class EvenementPageComponent implements OnInit {
     this.currentSort = this.currentSort === 'recent' ? 'oldest' : 'recent';
   }
 
-  public sortEvenementByDate(): void {
-    const sortedList = [...this.listeEvenements];
-    sortedList.sort((a, b) => {
-      return this.getEventTimestamp(b) - this.getEventTimestamp(a);
-    });
-    this.listeEvenements = sortedList;
-  }
-
   getAsDate(date: string | Date): Date {
     return new Date(date);
   }
 
   get displayedEvenements(): Evenement[] {
     const search = this.searchText.trim().toLowerCase();
+    const now = new Date().getTime();
 
-    return [...this.listeEvenements]
-      .filter((evenement) => evenement.titre.toLowerCase().includes(search))
+    return this.listeEvenements
+      .filter((evenement) => {
+        if (!evenement.titre.toLowerCase().includes(search)) return false;
+
+        const eventEndTime = this.getEventEndTimestamp(evenement);
+        const isPassed = eventEndTime < now;
+
+        if (this.currentFilter === 'tous') return true;
+        
+        if (this.currentFilter === 'termine') {
+          return evenement.statut === StatutEvenement.publie && isPassed;
+        }
+        
+        if (this.currentFilter === 'publie') {
+          return evenement.statut === StatutEvenement.publie && !isPassed;
+        }
+
+        return true;
+
+      })
       .sort((a, b) => {
         const delta = this.getEventTimestamp(b) - this.getEventTimestamp(a);
         return this.currentSort === 'recent' ? delta : -delta;
@@ -106,7 +118,16 @@ export class EvenementPageComponent implements OnInit {
   private getEventTimestamp(evenement: Evenement): number {
     const date = evenement.date_evenement;
     const time = evenement.heure_debut || '00:00';
+    return this.calculateTimestamp(date, time);
+  }
 
+  private getEventEndTimestamp(evenement: Evenement): number {
+    const date = evenement.date_evenement;
+    const time = evenement.heure_fin || evenement.heure_debut || '23:59';
+    return this.calculateTimestamp(date, time);
+  }
+
+  private calculateTimestamp(date: string | Date, time: string): number {
     if (date instanceof Date) {
       const [hours, minutes] = time.split(':').map(Number);
       const localDate = new Date(date);
