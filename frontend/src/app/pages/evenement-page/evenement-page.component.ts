@@ -17,6 +17,7 @@ import { Utilisateur } from '../../models/Utilisateur/utilisateur';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { StatutEvenement } from '../../enums/StatutEvenement/statut-evenement';
 
 @Component({
   selector: 'app-evenement-page',
@@ -95,18 +96,18 @@ export class EvenementPageComponent implements OnInit {
         const eventEndTime = this.getEventEndTimestamp(evenement);
         const isPassed = eventEndTime < now;
 
-        // 3. Filtre par onglet cliqué
         if (this.currentFilter === 'tous') return true;
         
         if (this.currentFilter === 'termine') {
-          return evenement.statut === 'publie' && isPassed;
+          return evenement.statut === StatutEvenement.publie && isPassed;
         }
         
         if (this.currentFilter === 'publie') {
-          return evenement.statut === 'publie' && !isPassed;
+          return evenement.statut === StatutEvenement.publie && !isPassed;
         }
 
         return true;
+
       })
       .sort((a, b) => {
         const delta = this.getEventTimestamp(b) - this.getEventTimestamp(a);

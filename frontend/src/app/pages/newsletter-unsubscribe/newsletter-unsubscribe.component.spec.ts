@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NewsletterUnsubscribeComponent } from './newsletter-unsubscribe.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('NewsletterUnsubscribeComponent', () => {
   let component: NewsletterUnsubscribeComponent;
@@ -8,7 +9,8 @@ describe('NewsletterUnsubscribeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewsletterUnsubscribeComponent]
+      imports: [NewsletterUnsubscribeComponent],
+      providers: [provideHttpClient(), provideRouter([])]
     })
     .compileComponents();
 
