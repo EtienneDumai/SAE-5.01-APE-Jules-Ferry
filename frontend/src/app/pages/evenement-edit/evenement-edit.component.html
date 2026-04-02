@@ -95,6 +95,11 @@ Description : Ce fichier contient le template de la page evenement edit.
                 formControlName="date_evenement"
                 class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--primary-green)]"
               />
+              @if (evenementForm.get('date_evenement')?.errors?.['pastDateInvalid'] && (evenementForm.get('date_evenement')?.touched || evenementForm.get('date_evenement')?.dirty)) {
+                <div class="text-[10px] font-bold text-red-600 mt-2">
+                  La date ne peut pas être dans le passé.
+                </div>
+              }
             </div>
             <div>
               <label

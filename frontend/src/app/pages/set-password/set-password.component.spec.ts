@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SetPasswordComponent } from './set-password.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, ActivatedRoute } from '@angular/router';
 
 describe('SetPasswordComponent', () => {
   let component: SetPasswordComponent;
@@ -21,6 +21,14 @@ describe('SetPasswordComponent', () => {
         provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParams: { token: 'un-faux-token-de-test', id: '99' }
+            }
+          }
+        }
       ]
     }).compileComponents();
 
@@ -36,5 +44,6 @@ describe('SetPasswordComponent', () => {
 
   // THEN
     expect(component).toBeTruthy();
+    expect(component.form).toBeDefined(); 
   });
 });

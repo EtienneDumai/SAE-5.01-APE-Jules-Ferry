@@ -39,6 +39,12 @@ export const routes: Routes = [
     { path: 'mentions-legales', loadComponent: () => import('./pages/mentions-legales/mentions-legales.component').then(m => m.MentionsLegalesComponent) },
     { path: 'politique-confidentialite', loadComponent: () => import('./pages/politique-confidentialite/politique-confidentialite.component').then(m => m.PolitiqueConfidentialiteComponent) },
 
+    { 
+        path: 'newsletter/desinscription', 
+        loadComponent: () => import('./pages/newsletter-unsubscribe/newsletter-unsubscribe.component').then(m => m.NewsletterUnsubscribeComponent),
+        title: 'Désinscription Newsletter - APE Jules Ferry'
+    },
+
     { path: 'actualites', loadComponent: () => import('./pages/actualite-page/actualite-page.component').then(m => m.ActualitePageComponent) },
     {
         path: 'actualites/creer',
@@ -75,5 +81,11 @@ export const routes: Routes = [
         path: 'admin/utilisateurs',
         loadComponent: () => import('./pages/administration-page/administration-page.component').then(m => m.AdministrationPageComponent),
         canActivate: [adminGuard]
+    },
+
+    {
+        path: '**',
+        loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
+        title: 'Page introuvable - APE Jules Ferry'
     },
 ];

@@ -103,6 +103,20 @@ export class EvenementEditComponent implements OnInit {
     return null;
   };
 
+  futureDateValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(control.value);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      return { pastDateInvalid: true };
+    }
+    return null;
+  };
+
   isTaskOutsideEventBounds(tache: AbstractControl): boolean {
     const taskDebut = tache.get('heure_debut_globale')?.value;
     const taskFin = tache.get('heure_fin_globale')?.value;
@@ -125,7 +139,7 @@ export class EvenementEditComponent implements OnInit {
       {
         titre: ['', [Validators.required, Validators.maxLength(255)]],
         description: ['', [Validators.required]],
-        date_evenement: ['', [Validators.required]],
+        date_evenement: ['', [Validators.required, this.futureDateValidator]],
         heure_debut: ['', [Validators.required]],
         heure_fin: ['', [Validators.required]],
         lieu: ['', [Validators.required, Validators.maxLength(255)]],

@@ -14,10 +14,15 @@ import { AdminNewsletterSubscription, NewsletterSubscription, NewsletterResponse
 export class NewsletterService {
   private readonly http = inject(HttpClient);
   private readonly subscribeApiUrl = `${environment.apiUrl}/newsletter/subscribe`;
+  private readonly unsubscribeApiUrl = `${environment.apiUrl}/newsletter/unsubscribe`;
   private readonly adminApiUrl = `${environment.apiUrl}/newsletters`;
 
   subscribe(data: NewsletterSubscription): Observable<NewsletterResponse> {
     return this.http.post<NewsletterResponse>(this.subscribeApiUrl, data);
+  }
+
+  unsubscribe(email: string): Observable<NewsletterResponse> {
+    return this.http.post<NewsletterResponse>(this.unsubscribeApiUrl, { email });
   }
 
   getAllSubscribers(): Observable<NewsletterSubscriber[]> {

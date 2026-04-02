@@ -16,7 +16,6 @@ import { environment }  from '../../environments/environment';
 export class ActualiteService {
   private readonly http = inject(HttpClient);
   getAllActualites(): Observable<Actualite[]> {
-    console.log('environnement'+ environment.apiUrl + 'prod : '+environment.production);
     return this.http.get<Actualite[]>(`${environment.apiUrl}/actualites`);
   }
   getActualiteById(id: number): Observable<Actualite> {

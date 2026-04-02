@@ -1,0 +1,64 @@
+<div class="min-h-[70vh] flex items-center justify-center bg-[var(--bg-creme)] px-4 py-12">
+  <div class="bg-[var(--white-cards)] rounded-[8px] border-[1.5px] border-[var(--border-light)] shadow-[4px_4px_0_var(--primary-green)] p-8 sm:p-10 w-full max-w-md animate-fade-up text-center">
+    
+    <div class="mb-8 flex flex-col items-center">
+        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center text-red-500 mb-4 border border-red-100">
+            <i class="fa-regular fa-envelope-open text-2xl"></i>
+        </div>
+        <h1 class="font-abril text-3xl text-[var(--primary-green)] mb-2">Désinscription</h1>
+        <p class="font-dm text-sm text-[var(--text-secondary)]">Saisissez votre adresse e-mail pour ne plus recevoir nos actualités.</p>
+    </div>
+
+    @if (successMessage) {
+      <div class="bg-green-50 border-[1.5px] border-green-200 text-green-700 px-4 py-6 rounded-[4px] font-dm text-sm flex flex-col items-center gap-3 animate-fade-in">
+        <i class="fa-regular fa-circle-check text-4xl"></i>
+        <span>{{ successMessage }}</span>
+      </div>
+      <a routerLink="/" class="mt-6 inline-block font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--primary-green)] hover:text-[var(--accent-orange)] transition-colors">
+        <i class="fa-solid fa-arrow-left mr-1"></i> Retour à l'accueil
+      </a>
+    } @else {
+      
+      @if (errorMessage) {
+        <div class="bg-[#FFF5F5] border-[1.5px] border-red-200 text-red-700 px-4 py-3 rounded-[4px] mb-6 font-dm text-sm flex items-center gap-3 text-left animate-fade-in">
+          <i class="fa-solid fa-circle-exclamation shrink-0"></i>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <form (ngSubmit)="desinscrire()" class="space-y-4 text-left">
+        <div>
+          <label for="email_unsubscribe" class="font-josefin text-[10px] uppercase tracking-widest text-[var(--primary-green)] font-bold mb-2 block">Votre e-mail</label>
+          <input 
+            type="email" 
+            id="email_unsubscribe"
+            name="email"
+            [(ngModel)]="email" 
+            placeholder="votre.email@exemple.fr"
+            class="w-full px-4 py-3 bg-[var(--bg-creme)] border-[1.5px] border-[var(--border-light)] rounded-[4px] font-dm text-sm focus:outline-none focus:border-[var(--accent-orange)] transition-colors"
+            required
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          [disabled]="!email || isLoading"
+          class="w-full btn-primary !py-3 !bg-red-500 !border-red-500 hover:!bg-red-600 hover:!border-red-600 shadow-[2px_2px_0_rgba(239,68,68,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-4"
+        >
+          @if (isLoading) {
+            <i class="fa-solid fa-spinner fa-spin mr-2"></i> Désinscription...
+          } @else {
+            <i class="fa-solid fa-user-minus mr-2"></i> Me désabonner
+          }
+        </button>
+      </form>
+      
+      <div class="mt-6">
+        <a routerLink="/" class="font-josefin text-[10px] uppercase tracking-widest font-bold text-[var(--text-secondary)] hover:text-[var(--primary-green)] transition-colors">
+          Annuler
+        </a>
+      </div>
+    }
+
+  </div>
+</div>
