@@ -24,3 +24,4 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /storage/debugbar/
+/coverage

@@ -1,43 +1,48 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 animate-fade-up">
-    <!-- Header Section -->
     <div class="text-center mb-16">
         <h1 class="font-abril text-4xl sm:text-5xl uppercase tracking-wide mb-6">À Propos de ce Projet</h1>
         <div class="w-24 h-1 bg-[var(--accent-orange)] mx-auto mb-8"></div>
         <p class="max-w-2xl mx-auto font-dm text-lg opacity-80 leading-relaxed italic">
-            "Cette application a été conçue dans le cadre d'un projet universitaire à l'IUT de Bayonne et du Pays Basque, en collaboration avec l'APE Jules Ferry."
+            "Cette application a été initialement conçue dans le cadre d'un projet universitaire à l'IUT de Bayonne et du Pays Basque, en collaboration avec l'APE Jules Ferry."
         </p>
     </div>
 
-    <!-- The Team Section -->
     <div class="mb-20">
         <h2 class="font-abril text-3xl mb-12 text-center text-[var(--primary-green)]">L'Équipe du Projet</h2>
         <p class="max-w-2xl mx-auto font-dm text-lg opacity-80 leading-relaxed italic mb-12 text-center">
-            "L'équipe du projet est issus de la promotion de 3e année 2025-2026 du BUT Informatique de l'IUT de Bayonne et du Pays Basque."
+            "L'équipe du projet est issue de la promotion de 3e année 2025-2026 du BUT Informatique de l'IUT de Bayonne et du Pays Basque."
         </p>
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div *ngFor="let member of teamMembers" class="bg-white p-8 rounded-lg shadow-sm border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition-colors group">
-                <div class="w-12 h-12 bg-[var(--bg-creme)] rounded-full flex items-center justify-center mb-6 group-hover:bg-[var(--accent-orange)] transition-colors">
-                    <i class="fa-solid fa-user text-[var(--primary-green)] group-hover:text-white"></i>
-                </div>
-                <div class="flex items-center justify-between mb-2">
-                    <h4 class="font-abril text-xl text-[var(--primary-green)]">{{ member.name }}</h4>
-                    <div class="flex gap-3">
-                        <a *ngIf="member.linkedin" [href]="member.linkedin" target="_blank" class="text-[var(--accent-orange)] opacity-50 hover:opacity-100 transition-opacity">
-                            <i class="fa-brands fa-linkedin text-sm"></i>
-                        </a>
-                        <a *ngIf="member.website" [href]="member.website" target="_blank" class="text-[var(--accent-orange)] opacity-50 hover:opacity-100 transition-opacity">
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                        </a>
+            @for (member of teamMembers; track $index) {
+                <div class="bg-white p-8 rounded-lg shadow-sm border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition-colors group">
+                    <div class="w-12 h-12 bg-[var(--bg-creme)] rounded-full flex items-center justify-center mb-6 group-hover:bg-[var(--accent-orange)] transition-colors">
+                        <i class="fa-solid fa-user text-[var(--primary-green)] group-hover:text-white" aria-hidden="true"></i>
                     </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-abril text-xl text-[var(--primary-green)]">{{ member.name }}</h4>
+                        <div class="flex gap-4 items-center">
+                            @if (member.linkedin) {
+                                <a [href]="member.linkedin" target="_blank" rel="noopener noreferrer" aria-label="Profil LinkedIn" class="text-[var(--accent-orange)] opacity-50 hover:opacity-100 transition-opacity">
+                                    <i class="fa-brands fa-linkedin text-xl" aria-hidden="true"></i>
+                                </a>
+                            }
+                            
+                            @if (member.website) {
+                                <a [href]="member.website" target="_blank" rel="noopener noreferrer" aria-label="Site web personnel" class="text-[var(--accent-orange)] opacity-50 hover:opacity-100 transition-opacity">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-lg" aria-hidden="true"></i>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    <p class="font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--accent-orange)]">
+                        {{ member.role }}
+                    </p>
                 </div>
-                <p class="font-josefin text-[10px] uppercase font-bold tracking-widest text-[var(--accent-orange)]">
-                    {{ member.role }}
-                </p>
-            </div>
+            }
         </div>
     </div>
 
-    <!-- Academic Context Section -->
     <div class="bg-[var(--primary-green)] text-[var(--bg-creme)] p-12 rounded-lg shadow-lg relative overflow-hidden">
         <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="md:w-2/3">
@@ -47,12 +52,12 @@
                     Nous avons eu l'honneur de travailler en collaboration avec l'APE Jules Ferry pour offrir un outil moderne facilitant 
                     la gestion des événements et la communication entre les parents.
                 </p>
-                <a href="https://www.iutbayonne.univ-pau.fr/" target="_blank" class="inline-flex items-center gap-2 font-josefin text-[10px] uppercase font-bold tracking-widest bg-[var(--accent-orange)] text-white px-6 py-3 rounded hover:bg-[#d96a36] transition-colors">
-                    Découvrir l'IUT <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <a href="https://www.iutbayonne.univ-pau.fr/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-josefin text-[10px] uppercase font-bold tracking-widest bg-[var(--accent-orange)] text-white px-6 py-3 rounded hover:bg-[#d96a36] transition-colors">
+                    Découvrir l'IUT <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
                 </a>
             </div>
             <div class="md:w-1/3 text-center opacity-20 hidden md:block">
-                <i class="fa-solid fa-graduation-cap text-9xl"></i>
+                <i class="fa-solid fa-graduation-cap text-9xl" aria-hidden="true"></i>
             </div>
         </div>
     </div>
