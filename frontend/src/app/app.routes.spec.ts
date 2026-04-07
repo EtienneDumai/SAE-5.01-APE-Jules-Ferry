@@ -39,6 +39,6 @@ describe('app routes', () => {
   // WHEN
 
   // THEN
-    expect(routes.length).toBe(20);
+    expect(routes.length).toBe(21);
   });
 });

@@ -84,6 +84,12 @@ Description : Ce fichier contient le template du composant footer.
     <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left mt-8">
       <div class="flex flex-wrap justify-center md:justify-start gap-6 font-josefin text-[9px] uppercase font-bold tracking-widest opacity-70">
         <a
+          routerLink="/a-propos"
+          class="hover:text-[var(--accent-orange)] hover:opacity-100 transition-colors"
+        >
+          À propos
+        </a>
+        <a
           href="mailto:apejf.anglet@gmail.com"
           class="hover:text-[var(--accent-orange)] hover:opacity-100 transition-colors"
         >
@@ -103,9 +109,14 @@ Description : Ce fichier contient le template du composant footer.
         </a>
       </div>
 
-      <p class="font-josefin text-[9px] uppercase tracking-[0.1em] opacity-40 m-0">
-        © 2026 – A.P.E. École Jules Ferry
-      </p>
+      <div class="flex flex-col items-center md:items-end gap-1">
+        <p class="font-josefin text-[9px] uppercase tracking-[0.1em] opacity-40 m-0">
+          © 2026 – A.P.E. École Jules Ferry
+        </p>
+        <p class="font-josefin text-[8px] uppercase tracking-[0.1em] opacity-30 m-0">
+          Projet universitaire <a href="https://www.iutbayonne.univ-pau.fr/" target="_blank" class="underline hover:text-[var(--accent-orange)]">BUT3 Informatique - IUT de Bayonne</a>
+        </p>
+      </div>
     </div>
   </div>
 </footer>
