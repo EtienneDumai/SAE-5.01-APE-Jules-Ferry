@@ -36,6 +36,7 @@ export const routes: Routes = [
     
     { path: '', loadComponent: () => import('./pages/accueil/accueil.component').then(m => m.AccueilComponent) },
 
+    { path: 'a-propos', loadComponent: () => import('./pages/a-propos/a-propos.component').then(m => m.AProposComponent) },
     { path: 'mentions-legales', loadComponent: () => import('./pages/mentions-legales/mentions-legales.component').then(m => m.MentionsLegalesComponent) },
     { path: 'politique-confidentialite', loadComponent: () => import('./pages/politique-confidentialite/politique-confidentialite.component').then(m => m.PolitiqueConfidentialiteComponent) },
 
